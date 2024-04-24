@@ -12,20 +12,7 @@
           "package_name": "com.notetakingapp"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "630539047377-hcvr7mfbueucdmcp99jcsl0ke2o59cgo.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.notetakingapp",
-            "certificate_hash": "71c5f8a8ce1431204cdec4437fee4e9bef1740a1"
-          }
-        },
-        {
-          "client_id": "630539047377-kfbbhc2l502b6gh679v5v7el4b618vou.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
           "current_key": "AIzaSyADhCbSFK2cHVD7NsGNltVux76BeA-gKt0"
