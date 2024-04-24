@@ -14,7 +14,7 @@
 		1CACD2E8F489272D0E208975 /* Pods_NoteTakingApp_NoteTakingAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 870927D3B36ED483819CC5FA /* Pods_NoteTakingApp_NoteTakingAppTests.framework */; };
 		534BD7EBBFE61E14EAB563C2 /* Pods_NoteTakingApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 561DE109F4CA54401248D03A /* Pods_NoteTakingApp.framework */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		9352AE762BD7CC10009EB4CE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9352AE752BD7CC10009EB4CE /* GoogleService-Info.plist */; };
+		935F0C822BD8D8F9001EE84B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 935F0C812BD8D8F9001EE84B /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,7 +45,7 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = NoteTakingApp/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		870927D3B36ED483819CC5FA /* Pods_NoteTakingApp_NoteTakingAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NoteTakingApp_NoteTakingAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-NoteTakingApp-NoteTakingAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NoteTakingApp-NoteTakingAppTests.release.xcconfig"; path = "Target Support Files/Pods-NoteTakingApp-NoteTakingAppTests/Pods-NoteTakingApp-NoteTakingAppTests.release.xcconfig"; sourceTree = "<group>"; };
-		9352AE752BD7CC10009EB4CE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		935F0C812BD8D8F9001EE84B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -89,7 +89,7 @@
 		13B07FAE1A68108700A75B9A /* NoteTakingApp */ = {
 			isa = PBXGroup;
 			children = (
-				9352AE752BD7CC10009EB4CE /* GoogleService-Info.plist */,
+				935F0C812BD8D8F9001EE84B /* GoogleService-Info.plist */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -247,9 +247,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9352AE762BD7CC10009EB4CE /* GoogleService-Info.plist in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				935F0C822BD8D8F9001EE84B /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -615,10 +615,7 @@
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
@@ -701,10 +698,7 @@
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;

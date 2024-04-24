@@ -1,116 +1,86 @@
 import React, { useEffect, useState } from "react";
-import { Alert, SafeAreaView, ScrollView, StatusBar, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { NAVIGATION } from "../../Constants/navConstants";
+import { Alert, Image, SafeAreaView, ScrollView, StatusBar, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { GoogleSignin, GoogleSigninButton, statusCodes } from "@react-native-google-signin/google-signin";
+import { NAVIGATION } from "../../Constants/navConstants";
 
-// import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-// import { RootStackParamList } from "../../Navigation/routeTypes";
-// import { LoginScreenProps } from "../../Navigation/routeTypes";
-
-
-// type LoginScreenProps = {
-//     navigation: NativeStackNavigationProp<RootStackParamList, "LOGIN">;
-//     // route: RouteProp<RootStackParamList, "Profile">;
-//   };
-  
-
-
-// function Login({ navigation }: LoginScreenProps) {
     function Login({navigation}) {
-        const [email, setEmail]= useState("");
-        const [loggedIn, setloggedIn] = useState(false);
-const [userInfo, setuserInfo] = useState([]);
+      const [userInfo, setuserInfo] = useState(null);
 
 useEffect(() => {
     GoogleSignin.configure({
-      scopes: ['email'], 
       webClientId:
-        '630539047377-i4h0t8ampr79c34ohkh57niu1ljb4re9.apps.googleusercontent.com',
-      offlineAccess: true, 
-    });
+      '630539047377-kfbbhc2l502b6gh679v5v7el4b618vou.apps.googleusercontent.com',
+    }
+    );
   }, []);
 
-    const handlePress = () =>  {
-        navigation.navigate(NAVIGATION.HOMESCREEN)
-    }
-
-   const _signIn = async () => {
-        try {
-          await GoogleSignin.hasPlayServices();
-          const {accessToken, idToken} = await GoogleSignin.signIn();
-          setloggedIn(true);
-        } catch (error) {
-          if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-            Alert.alert('Cancel');
-          } else if (error.code === statusCodes.IN_PROGRESS) {
-            Alert.alert('Signin in progress');
-          } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-            Alert.alert('PLAY_SERVICES_NOT_AVAILABLE');
-          } else {
-           
-          }
-        }
-      };
+  const signInBTNPress = async () => {
+            try {
+              await GoogleSignin.hasPlayServices();
+              const usrInfo = await GoogleSignin.signIn();
+              setuserInfo(usrInfo);
+            } catch (error) {
+              if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+                Alert.alert('Cancel');
+              } else if (error.code === statusCodes.IN_PROGRESS) {
+                Alert.alert('Signin in progress');
+              } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+                Alert.alert('PLAY_SERVICES_NOT_AVAILABLE');
+              } 
+              else if (error.code === 10) {
+                Alert.alert('dev err');
+              } else {
+               console.log(error, "hell");
+              }
+            }
+          };
 
       const signOut = async () => {
         try {
           await GoogleSignin.revokeAccess();
           await GoogleSignin.signOut();
-          setloggedIn(false);
-          setuserInfo([]);
+          setuserInfo(null);
         } catch (error) {
           console.error(error);
         }
       };
 
+      const handleHome = () => {
+        navigation.navigate(NAVIGATION.HOMESCREEN)
+      }
+
+
     return (
-        // <View>
-        //     <Text>
-        //         hello.
-        //     </Text>
-        //     <TextInput onChangeText={(input)=>setEmail(input)}>
-        //     </TextInput>
-        //     <TouchableOpacity onPress={handlePress} style={{borderWidth:2}}>
-        //         <Text> press me </Text>
-        //     </TouchableOpacity>
-
-        // </View>
         <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-        //   style={styles.scrollView}
-          >
+      {/* <StatusBar barStyle="dark-content" /> */}
+      <SafeAreaView style={{flex:1, alignItems:"center"}}>
+        {/* <ScrollView> */}
+          <Text style={{textAlign:"center"}}> hello </Text>
+          { userInfo!=null && 
+          <>
+          <Text>{userInfo.user.name}</Text>
+          <Text>{userInfo.user.email}</Text>
+          <Image source={{uri:userInfo.user.photo}} style={{width:100, height:100, borderRadius:50}} />
+          </>}
 
-          <View 
-        //   style={styles.body}
-          >
-            <View 
-            // style={styles.sectionContainer}
-            >
-              <GoogleSigninButton
-                style={{width: 192, height: 48}}
-                size={GoogleSigninButton.Size.Wide}
-                color={GoogleSigninButton.Color.Dark}
-                onPress={_signIn}
-              />
-            </View>
-            <View 
-            // style={styles.buttonContainer}
-            >
-              {!loggedIn && <Text>You are currently logged out</Text>}
-              {loggedIn && (
-                <TouchableOpacity
-                  onPress={signOut}>
-                    <Text style={{color:"red"}}>
-                        LogOut
-                    </Text>
-                  </TouchableOpacity>
-              )}
-            </View>
-          </View>
-        </ScrollView>
+          {
+            userInfo==null ? (
+              <TouchableOpacity onPress={signInBTNPress} style={{borderWidth:2, paddingHorizontal:20, marginTop:20}}>
+            <Text style={{textAlign:"center", color:"black"}}> Sign in </Text>
+          </TouchableOpacity>
+            ) :
+            (
+              <TouchableOpacity onPress={signOut} style={{borderWidth:2, paddingHorizontal:20, marginTop:20}}>
+            <Text style={{textAlign:"center"}}> Sign out </Text>
+          </TouchableOpacity>
+            )
+          }          
+
+          <TouchableOpacity onPress={handleHome} style={{borderWidth:2, paddingHorizontal:20, marginTop:20}}>
+            <Text style={{textAlign:"center"}}> go to home page </Text>
+          </TouchableOpacity>
+          
+        {/* </ScrollView> */}
       </SafeAreaView>
     </>
     )
