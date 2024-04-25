@@ -7,10 +7,11 @@ import { NAVIGATION } from "../../Constants/navConstants";
       const [userInfo, setuserInfo] = useState(null);
 
 useEffect(() => {
-    GoogleSignin.configure({
-      webClientId:
-      '630539047377-kfbbhc2l502b6gh679v5v7el4b618vou.apps.googleusercontent.com',
-    }
+    GoogleSignin.configure(
+    //   {
+    //   webClientId:
+    //   '630539047377-kfbbhc2l502b6gh679v5v7el4b618vou.apps.googleusercontent.com',
+    // }
     );
   }, []);
 
@@ -21,7 +22,7 @@ useEffect(() => {
               setuserInfo(usrInfo);
             } catch (error) {
               if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-                Alert.alert('Cancel');
+                Alert.alert('Sign in with google Cancelled');
               } else if (error.code === statusCodes.IN_PROGRESS) {
                 Alert.alert('Signin in progress');
               } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
