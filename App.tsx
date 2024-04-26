@@ -8,6 +8,7 @@ import {
   View,
 } from 'react-native';
 import StackNavigation from './src/Navigation';
+import BottomNavigation from './src/Navigation/bottomTab';
 
 function App(): React.JSX.Element {
   
@@ -15,6 +16,7 @@ function App(): React.JSX.Element {
     <SafeAreaView style={styles.container} >
       <NavigationContainer>
         <StackNavigation />
+        {/* <BottomNavigation /> */}
       </NavigationContainer>
     </SafeAreaView>
   );

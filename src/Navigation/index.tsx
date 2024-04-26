@@ -13,7 +13,7 @@ function StackNavigation() {
   return (
     <Stack.Navigator initialRouteName={NAVIGATION.LOGIN} screenOptions={{headerShown:false}}>    
       <Stack.Screen name={NAVIGATION.LOGIN} component={Login} />
-      <Stack.Screen name={NAVIGATION.HOMESCREEN} component={Home} />
+      <Stack.Screen name={NAVIGATION.HOMESCREEN} component={Home} options={{headerShown:true}}/>
       <Stack.Screen name={NAVIGATION.ADDNOTE} component={AddNote} options={{headerShown:true}} />
     </Stack.Navigator>
   );

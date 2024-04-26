@@ -72,9 +72,8 @@
 
 
 import React, { useRef, useState } from "react";
-import { Dimensions, KeyboardAvoidingView, SafeAreaView, ScrollView, Text, TextInput, View,Keyboard, Alert } from "react-native";
-import { RichEditor, RichToolbar, actions } from "react-native-pell-rich-editor";
-import HTMLView from "react-native-htmlview";
+import { Dimensions, KeyboardAvoidingView, SafeAreaView, ScrollView, Text, TextInput, View,Keyboard, Alert, Linking } from "react-native";
+import { RichEditor, RichToolbar, actions } from "react-native-pell-rich-editor"; 
 
 const width = Dimensions.get("window").width ;
 const height = Dimensions.get("window").height;
@@ -88,20 +87,21 @@ function AddNote () {
     console.log(desc, "THIS IS DESC")
     // console.log(scrollText.current)
 
+    // const handleHead = ({tintColor}) => <Text style={{color: tintColor}}>H1</Text>
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
             <KeyboardAvoidingView behavior="height" style={{ flex: 1 }}>
                     <TextInput
                     value={title}
-                    style={{ fontSize: 35, marginHorizontal: 20, marginTop: 20, borderWidth:5}} 
-                    numberOfLines={1}
+                    style={{ fontSize: 35, marginHorizontal: 20, marginTop: 20}} 
                     placeholder="Title" 
                     multiline={true}
                     maxLength={60}
                     onChangeText={(text)=>setTitle(text)} />
 
-            <ScrollView ref={scrollText}
-            style={{ flex:1, borderWidth:5,borderColor:"red"}}>
+            {/* <ScrollView ref={scrollText}
+            style={{ flex:1, borderWidth:5,borderColor:"red"}}> */}
 
                 <RichEditor
                     ref={richText}
@@ -110,17 +110,28 @@ function AddNote () {
                     androidHardwareAccelerationDisabled={true}
                     initialHeight={80}
                     scrollEnabled
-                    // editorStyle={{backgroundColor:'red'}}
-                    style={{borderWidth:2, borderColor:"pink", flex:1, overflow:"scroll"
+                    // onLink={
+                    //      async (url)=> await Linking.openURL(url) 
+                    // }
+                    onLink={async (url) => {
+                        try {
+                            const result = await Linking.openURL(url);
+                            console.log(result); // Log the result of the await statement
+                        } catch (error) {
+                            console.error("Error occurred while opening URL:", error);
+                        }
+                    }}
+                    // editorStyle={}
+                    style={{ flex:1, paddingHorizontal:20
                 }}
                 containerStyle={{overflow:"scroll"}}
                 />
 
 
-            </ScrollView>
+            {/* </ScrollView> */}
 
             <View 
-            style={{borderWidth:2,borderColor:"green"}}
+            style={{}}
             >
                 <RichToolbar
                     editor={richText}
@@ -141,6 +152,80 @@ function AddNote () {
             </View>
             </KeyboardAvoidingView>
         </SafeAreaView>
+
+
+
+
+
+    //     <SafeAreaView style={{ backgroundColor:"white"}}>
+    //   <ScrollView>
+    //     <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}	style={{ flex: 1 }}>
+    //       <Text>Description:</Text>
+    //       <RichEditor
+    //           ref={richText}
+    //           placeholder="Note"
+    //           onChange={ descriptionText => {
+    //               console.log("descriptionText:", descriptionText);
+    //           }}
+    //       />
+    //     </KeyboardAvoidingView>
+    //   </ScrollView>
+
+    //   <View style={{position:"absolute", right:0, left:0, bottom:0}}>
+
+    //   <RichToolbar
+    //     editor={richText}
+    //     iconTint="pink"
+    //     actions={[
+    //                         // actions.insertImage,
+    //                         actions.setBold,
+    //                         actions.setItalic,
+    //                         actions.setUnderline,
+    //                         actions.setStrikethrough,
+    //                         actions.insertBulletsList,
+    //                         actions.insertOrderedList,
+    //                         actions.insertLink,
+    //                         actions.checkboxList,
+    //                     ]}
+    //     // iconMap={{ [actions.heading1]: handleHead }}
+    //   />
+    //   </View>
+    // </SafeAreaView>
+
+
+
+
+    // <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+    //   <ScrollView>
+    //     <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{ flex: 1 }}>
+    //       <Text>Description:</Text>
+    //       <RichEditor
+    //         ref={richText}
+    //         placeholder="Note"
+    //         onChange={(descriptionText) => {
+    //           console.log("descriptionText:", descriptionText);
+    //         }}
+    //       />
+    //     </KeyboardAvoidingView>
+    //   </ScrollView>
+
+    //   <View style={{ position: "absolute", right: 0, left: 0, bottom: 0 }}>
+    //     <RichToolbar
+    //       editor={richText}
+    //       iconTint="pink"
+    //       actions={[
+    //         actions.setBold,
+    //         actions.setItalic,
+    //         actions.setUnderline,
+    //         actions.setStrikethrough,
+    //         actions.insertBulletsList,
+    //         actions.insertOrderedList,
+    //         actions.insertLink,
+    //         actions.checkboxList,
+    //       ]}
+    //     />
+    //   </View>
+    // </SafeAreaView>
     )
 }
 
