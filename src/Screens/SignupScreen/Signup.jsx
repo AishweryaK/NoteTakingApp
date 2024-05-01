@@ -1,9 +1,12 @@
 import React from "react";
-import { View, Text, TextInput, TouchableOpacity, Alert , ScrollView} from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Alert , KeyboardAvoidingView} from "react-native";
 import { styles } from "./styles";
 import { SIGNING } from "../../Constants/signingConstants";
 import { Formik } from "formik";
 import * as Yup from 'yup';
+import { firebase } from "@react-native-firebase/auth";
+import { NAVIGATION } from "../../Constants/navConstants";
+import database from '@react-native-firebase/database';
 
 const SignupSchema = Yup.object().shape({
     firstName: Yup.string()
@@ -27,7 +30,51 @@ const SignupSchema = Yup.object().shape({
   });
 
 
-function Signup () {
+function Signup ({navigation}) {
+
+    handleSignUp = (values) => {
+        firebase
+          .auth()
+          .createUserWithEmailAndPassword(values.email, values.password)
+          .then(() => navigation.navigate(NAVIGATION.LOGIN))
+          .catch(error =>{if (error.message.includes('[auth/email-already-in-use]')) {
+            Alert.alert("Error", "The email address is already in use.");
+        }
+        else 
+        Alert.alert("Error", error) 
+    })
+      }
+      
+    //   const handleSignUp = (values) => {
+    //     firebase
+    //       .auth()
+    //       .createUserWithEmailAndPassword(values.email, values.password)
+    //       .then((userCredential) => {
+    //         const user = userCredential.user;
+    //         console.log(JSON.stringify(user), "HELLOO  USERRR")
+    //         const userData = {
+    //           firstName:  values.firstName,
+    //           lastName : values.lastName,
+             
+    //         };
+    //         database().ref('users/' + user.uid).set(userData)
+    //           .then(() => {
+    //             navigation.navigate(NAVIGATION.LOGIN);
+    //           })
+    //           .catch((error) => {
+    //             console.error("Error writing user data to database: ", error);
+    //           });
+    //       })
+
+    //       .catch((error) => {
+    //         // console.error("Error creating user: ", error);
+    //         Alert.alert("Error creating user: ", error)
+    //       });
+    //   }
+
+     
+      
+
     return (
     
         <Formik initialValues={{
@@ -40,14 +87,17 @@ function Signup () {
             confirmPassword:"",   
         }}
         validationSchema={SignupSchema}
-        onSubmit={values => Alert.alert("User Details", JSON.stringify(values))}
+        onSubmit={values => handleSignUp(values)}
         > 
 
         {({values,errors,touched, handleChange, setFieldTouched, isValid, handleSubmit})=> (
 
 
       
-        <View style={styles.wrapper}>
+        <KeyboardAvoidingView
+    //   keyboardVerticalOffset={30}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={styles.wrapper}>
             <View style={styles.formContainer}>
             <Text style={styles.title}>
                 Sign Up
@@ -164,7 +214,7 @@ function Signup () {
             value={values.confirmPassword}
             onChangeText={handleChange("confirmPassword")}  />
 
-            {
+            { touched.confirmPassword &&
                 errors.confirmPassword && (
                     <Text style={styles.errorTxt}>
                         {errors.confirmPassword}
@@ -194,7 +244,7 @@ function Signup () {
             </TouchableOpacity>
 
             </View>
-        </View>
+        </KeyboardAvoidingView>
          )} 
 
         </Formik>

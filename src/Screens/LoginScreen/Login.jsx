@@ -2,17 +2,15 @@ import React, {useEffect, useState} from 'react';
 import {
   Alert,
   Image,
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
   Text,
   TextInput,
   TouchableOpacity,
   View,
+  KeyboardAvoidingView,
+  Platform
 } from 'react-native';
 import {
   GoogleSignin,
-  GoogleSigninButton,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
 import {NAVIGATION} from '../../Constants/navConstants';
@@ -23,10 +21,10 @@ import { loginStyles } from './loginStyles';
 
 function Login({navigation}) {
   const [userInfo, setuserInfo] = useState(null);
-  const [email, setEmail] = useState(null);
-  const [pass, setPass] = useState(null);
+  const [email, setEmail] = useState("");
+  const [pass, setPass] = useState("");
 
-
+console.log(email, pass)
   useEffect(() => {
     GoogleSignin
       .configure(
@@ -71,14 +69,36 @@ function Login({navigation}) {
     }
   };
 
-  const handleHome = () => {
-    navigation.navigate(NAVIGATION.HOMESCREEN);
+  const handleLogin = async () => {
+    try {
+      const userCredential = await auth().signInWithEmailAndPassword(email, pass);
+      const user = userCredential.user;
+      console.log('Logged in user:', user);
+      
+      if(user!=null)
+    {
+      navigation.navigate(NAVIGATION.HOMESCREEN)
+    }
+    else 
+    Alert.alert("Wrong credentials", "Please Sign up")
+    } catch (error) {
+      console.error('Login error:', error);
+    }
+
+    
   };
+
+  // const handleHome = () => {
+  //   navigation.navigate(NAVIGATION.HOMESCREEN);
+  // };
 
   return (
     <>
       {/* <StatusBar barStyle="dark-content" /> */}
-      <View style={styles.wrapper}>
+      <KeyboardAvoidingView
+      keyboardVerticalOffset={-100}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={styles.wrapper}>
         {/* <ScrollView> */}
         <View style={styles.formContainer}>
         <Text style={styles.title}>
@@ -113,10 +133,16 @@ function Login({navigation}) {
             onChangeText={(text)=>setPass(text)}  />
             </View>
 
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={handleHome}
           style={[styles.submitBtn, {backgroundColor:"#3A1B6B"} ]}>
           <Text style={styles.submitBtnTxt}> go to home page </Text>
+        </TouchableOpacity> */}
+
+        <TouchableOpacity
+          onPress={handleLogin}
+          style={[styles.submitBtn, {backgroundColor:"#3A1B6B"} ]}>
+          <Text style={styles.submitBtnTxt}> Login </Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -142,7 +168,7 @@ function Login({navigation}) {
 
         {/* </ScrollView> */}
         </View>
-      </View>
+      </KeyboardAvoidingView>
     </>
   );
 }

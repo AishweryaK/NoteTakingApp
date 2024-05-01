@@ -13,6 +13,7 @@ export const styles = StyleSheet.create({
         padding: 20,
     borderRadius: 30,
     width: '100%',
+    // paddingBottom:0,
     },
     title: {
         color: "#3A1B6B",
