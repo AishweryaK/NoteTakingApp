@@ -75,9 +75,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "com.notetakingapp"
+    namespace "com.chicmic.notetaking"
     defaultConfig {
-        applicationId "com.notetakingapp"
+        applicationId "com.chicmic.notetaking"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
