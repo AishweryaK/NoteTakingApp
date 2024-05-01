@@ -8,13 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* NoteTakingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* NoteTakingTests.m */; };
+		0F24825D642020A6AF71430F /* Pods_NoteTaking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0F9B54673E2BF873E0AEA45 /* Pods_NoteTaking.framework */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		1CACD2E8F489272D0E208975 /* Pods_NoteTakingApp_NoteTakingAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 870927D3B36ED483819CC5FA /* Pods_NoteTakingApp_NoteTakingAppTests.framework */; };
-		534BD7EBBFE61E14EAB563C2 /* Pods_NoteTakingApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 561DE109F4CA54401248D03A /* Pods_NoteTakingApp.framework */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		935F0C822BD8D8F9001EE84B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 935F0C812BD8D8F9001EE84B /* GoogleService-Info.plist */; };
+		E9882792E7108E2C2C3445A6 /* Pods_NoteTaking_NoteTakingTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C3B0983DBE92ECA31A9B2BF /* Pods_NoteTaking_NoteTakingTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -23,29 +23,29 @@
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
-			remoteInfo = "NoteTaking";
+			remoteInfo = NoteTaking;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		00E356EE1AD99517003FC87E /* NoteTakingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "NoteTakingTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		00E356EE1AD99517003FC87E /* NoteTakingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NoteTakingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		00E356F21AD99517003FC87E /* NoteTakingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NoteTakingTests.m"; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* NoteTaking.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "NoteTaking.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = "NoteTaking/AppDelegate.h"; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = "NoteTaking/AppDelegate.mm"; sourceTree = "<group>"; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "NoteTaking/Images.xcassets"; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "NoteTaking/Info.plist"; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = "NoteTaking/main.m"; sourceTree = "<group>"; };
+		00E356F21AD99517003FC87E /* NoteTakingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NoteTakingTests.m; sourceTree = "<group>"; };
+		13B07F961A680F5B00A75B9A /* NoteTaking.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NoteTaking.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = NoteTaking/AppDelegate.h; sourceTree = "<group>"; };
+		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = NoteTaking/AppDelegate.mm; sourceTree = "<group>"; };
+		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = NoteTaking/Images.xcassets; sourceTree = "<group>"; };
+		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = NoteTaking/Info.plist; sourceTree = "<group>"; };
+		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = NoteTaking/main.m; sourceTree = "<group>"; };
 		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = NoteTaking/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-NoteTaking.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NoteTaking.debug.xcconfig"; path = "Target Support Files/Pods-NoteTaking/Pods-NoteTaking.debug.xcconfig"; sourceTree = "<group>"; };
-		561DE109F4CA54401248D03A /* Pods_NoteTakingApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NoteTakingApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5709B34CF0A7D63546082F79 /* Pods-NoteTaking.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NoteTaking.release.xcconfig"; path = "Target Support Files/Pods-NoteTaking/Pods-NoteTaking.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-NoteTaking-NoteTakingTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NoteTaking-NoteTakingTests.debug.xcconfig"; path = "Target Support Files/Pods-NoteTaking-NoteTakingTests/Pods-NoteTaking-NoteTakingTests.debug.xcconfig"; sourceTree = "<group>"; };
-		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = "NoteTaking/LaunchScreen.storyboard"; sourceTree = "<group>"; };
-		870927D3B36ED483819CC5FA /* Pods_NoteTakingApp_NoteTakingAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NoteTakingApp_NoteTakingAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = NoteTaking/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-NoteTaking-NoteTakingTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NoteTaking-NoteTakingTests.release.xcconfig"; path = "Target Support Files/Pods-NoteTaking-NoteTakingTests/Pods-NoteTaking-NoteTakingTests.release.xcconfig"; sourceTree = "<group>"; };
 		935F0C812BD8D8F9001EE84B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		9C3B0983DBE92ECA31A9B2BF /* Pods_NoteTaking_NoteTakingTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NoteTaking_NoteTakingTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B0F9B54673E2BF873E0AEA45 /* Pods_NoteTaking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NoteTaking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -54,7 +54,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1CACD2E8F489272D0E208975 /* Pods_NoteTakingApp_NoteTakingAppTests.framework in Frameworks */,
+				E9882792E7108E2C2C3445A6 /* Pods_NoteTaking_NoteTakingTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -62,7 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				534BD7EBBFE61E14EAB563C2 /* Pods_NoteTakingApp.framework in Frameworks */,
+				0F24825D642020A6AF71430F /* Pods_NoteTaking.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,7 +75,7 @@
 				00E356F21AD99517003FC87E /* NoteTakingTests.m */,
 				00E356F01AD99517003FC87E /* Supporting Files */,
 			);
-			path = "NoteTakingTests";
+			path = NoteTakingTests;
 			sourceTree = "<group>";
 		};
 		00E356F01AD99517003FC87E /* Supporting Files */ = {
@@ -98,15 +98,15 @@
 				13B07FB71A68108700A75B9A /* main.m */,
 				13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */,
 			);
-			name = "NoteTaking";
+			name = NoteTaking;
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				561DE109F4CA54401248D03A /* Pods_NoteTakingApp.framework */,
-				870927D3B36ED483819CC5FA /* Pods_NoteTakingApp_NoteTakingAppTests.framework */,
+				B0F9B54673E2BF873E0AEA45 /* Pods_NoteTaking.framework */,
+				9C3B0983DBE92ECA31A9B2BF /* Pods_NoteTaking_NoteTakingTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -194,8 +194,8 @@
 			);
 			dependencies = (
 			);
-			name = "NoteTaking";
-			productName = "NoteTaking";
+			name = NoteTaking;
+			productName = NoteTaking;
 			productReference = 13B07F961A680F5B00A75B9A /* NoteTaking.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -437,7 +437,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "NoteTakingTests/Info.plist";
+				INFOPLIST_FILE = NoteTakingTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -449,7 +449,7 @@
 					"-lc++",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.chicmic.notetaking";
+				PRODUCT_BUNDLE_IDENTIFIER = com.chicmic.notetaking;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NoteTaking.app/NoteTaking";
 			};
@@ -461,7 +461,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
-				INFOPLIST_FILE = "NoteTakingTests/Info.plist";
+				INFOPLIST_FILE = NoteTakingTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -473,7 +473,7 @@
 					"-lc++",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.chicmic.notetaking";
+				PRODUCT_BUNDLE_IDENTIFIER = com.chicmic.notetaking;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NoteTaking.app/NoteTaking";
 			};
@@ -487,8 +487,8 @@
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
-				INFOPLIST_FILE = "NoteTaking/Info.plist";
-             INFOPLIST_KEY_CFBundleDisplayName = "Note Taking";
+				INFOPLIST_FILE = NoteTaking/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Note Taking";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -499,8 +499,8 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.chicmic.notetaking";
-				PRODUCT_NAME = "NoteTaking";
+				PRODUCT_BUNDLE_IDENTIFIER = com.chicmic.notetaking;
+				PRODUCT_NAME = NoteTaking;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -514,8 +514,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				INFOPLIST_FILE = "NoteTaking/Info.plist";
-             INFOPLIST_KEY_CFBundleDisplayName = "Note Taking";
+				INFOPLIST_FILE = NoteTaking/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Note Taking";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -526,8 +526,8 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.chicmic.notetaking";
-				PRODUCT_NAME = "NoteTaking";
+				PRODUCT_BUNDLE_IDENTIFIER = com.chicmic.notetaking;
+				PRODUCT_NAME = NoteTaking;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

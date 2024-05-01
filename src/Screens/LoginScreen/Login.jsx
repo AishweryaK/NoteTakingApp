@@ -17,26 +17,33 @@ import {
 } from '@react-native-google-signin/google-signin';
 import {NAVIGATION} from '../../Constants/navConstants';
 import auth from '@react-native-firebase/auth';
+import { styles } from '../SignupScreen/styles';
+import { SIGNING } from '../../Constants/signingConstants';
+import { loginStyles } from './loginStyles';
 
 function Login({navigation}) {
   const [userInfo, setuserInfo] = useState(null);
+  const [email, setEmail] = useState(null);
+  const [pass, setPass] = useState(null);
+
 
   useEffect(() => {
     GoogleSignin
-      .configure
-      //   {
-      //   webClientId:
-      //   '630539047377-kfbbhc2l502b6gh679v5v7el4b618vou.apps.googleusercontent.com',
-      // }
-      ();
+      .configure(
+        {
+        webClientId:
+        '630539047377-kfbbhc2l502b6gh679v5v7el4b618vou.apps.googleusercontent.com',
+      }
+      );
   }, []);
 
   const signInBTNPress = async () => {
     try {
       await GoogleSignin.hasPlayServices();
       const usrInfo = await GoogleSignin.signIn();
+      console.log(usrInfo)
       setuserInfo(usrInfo);
-      // console.log(usrInfo)
+      
       const credential = auth.GoogleAuthProvider.credential(usrInfo.idToken);
       await auth().signInWithCredential(credential);
     } catch (error) {
@@ -71,42 +78,71 @@ function Login({navigation}) {
   return (
     <>
       {/* <StatusBar barStyle="dark-content" /> */}
-      <SafeAreaView style={{flex: 1, alignItems: 'center'}}>
+      <View style={styles.wrapper}>
         {/* <ScrollView> */}
-        <Text style={{textAlign: 'center'}}> hello </Text>
+        <View style={styles.formContainer}>
+        <Text style={styles.title}>
+                Log In
+            </Text>
+            <View style={loginStyles.usrInfo}>
         {userInfo != null && (
           <>
             <Text>{userInfo.user.name}</Text>
             <Text>{userInfo.user.email}</Text>
             <Image
               source={{uri: userInfo.user.photo}}
-              style={{width: 100, height: 100, borderRadius: 50}}
+              style={loginStyles.imgStyle}
             />
           </>
         )}
+        </View>
 
+        <View style={styles.inputWrapper} >
+
+            <TextInput style={styles.inputStyle}
+            placeholder= {SIGNING.EMAIL} 
+            value={email}
+            onChangeText={(text)=>setEmail(text)}  />
+            </View>
+
+            <View style={styles.inputWrapper} >
+
+            <TextInput style={styles.inputStyle}
+            placeholder= {SIGNING.SETPASSWORD} 
+            value={pass}
+            onChangeText={(text)=>setPass(text)}  />
+            </View>
+
+        <TouchableOpacity
+          onPress={handleHome}
+          style={[styles.submitBtn, {backgroundColor:"#3A1B6B"} ]}>
+          <Text style={styles.submitBtnTxt}> go to home page </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={()=>navigation.navigate(NAVIGATION.SIGNUP)}
+          style={[styles.submitBtn, {backgroundColor:"#3A1B6B"} ]}>
+          <Text style={styles.submitBtnTxt}> Sign up </Text>
+        </TouchableOpacity>
+
+        
         {userInfo == null ? (
           <TouchableOpacity
             onPress={signInBTNPress}
-            style={{borderWidth: 2, paddingHorizontal: 20, marginTop: 20}}>
-            <Text style={{textAlign: 'center', color: 'black'}}> Sign in </Text>
+            style={[styles.submitBtn, {backgroundColor:"#3A1B6B"} ]}>
+            <Text style={styles.submitBtnTxt}> Sign in using google </Text>
           </TouchableOpacity>
         ) : (
           <TouchableOpacity
             onPress={signOut}
-            style={{borderWidth: 2, paddingHorizontal: 20, marginTop: 20}}>
-            <Text style={{textAlign: 'center'}}> Sign out </Text>
+            style={[styles.submitBtn, {backgroundColor:"#3A1B6B"} ]}>
+            <Text style={styles.submitBtnTxt}> Sign out </Text>
           </TouchableOpacity>
         )}
 
-        <TouchableOpacity
-          onPress={handleHome}
-          style={{borderWidth: 2, paddingHorizontal: 20, marginTop: 20}}>
-          <Text style={{textAlign: 'center'}}> go to home page </Text>
-        </TouchableOpacity>
-
         {/* </ScrollView> */}
-      </SafeAreaView>
+        </View>
+      </View>
     </>
   );
 }

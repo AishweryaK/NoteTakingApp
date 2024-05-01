@@ -4,6 +4,7 @@ import { NAVIGATION } from "../Constants/navConstants";
 import Login from "../Screens/LoginScreen/Login";
 import Home from "../Screens/HomeScreen/Home";
 import AddNote from "../Screens/AddNoteScreen.tsx/AddNote";
+import Signup from "../Screens/SignupScreen/Signup";
 // import { RootStackParamList } from "./routeTypes";
 
 
@@ -13,6 +14,7 @@ function StackNavigation() {
   return (
     <Stack.Navigator initialRouteName={NAVIGATION.LOGIN} screenOptions={{headerShown:false}}>    
       <Stack.Screen name={NAVIGATION.LOGIN} component={Login} />
+      <Stack.Screen name={NAVIGATION.SIGNUP} component={Signup} options={{headerShown:true}} />
       <Stack.Screen name={NAVIGATION.HOMESCREEN} component={Home} options={{headerShown:true}}/>
       <Stack.Screen name={NAVIGATION.ADDNOTE} component={AddNote} options={{headerShown:true}} />
     </Stack.Navigator>

@@ -7,18 +7,19 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
-import StackNavigation from './src/Navigation';
+// import StackNavigation from './src/Navigation';
+import StackNavigation from './src/Navigation/authNav';
 import BottomNavigation from './src/Navigation/bottomTab';
 
 function App(): React.JSX.Element {
   
   return (
-    <SafeAreaView style={styles.container} >
+    <View style={styles.container} >
       <NavigationContainer>
         <StackNavigation />
         {/* <BottomNavigation /> */}
       </NavigationContainer>
-    </SafeAreaView>
+    </View>
   );
 }
 
