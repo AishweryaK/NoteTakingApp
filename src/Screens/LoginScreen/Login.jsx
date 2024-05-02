@@ -18,6 +18,8 @@ import auth from '@react-native-firebase/auth';
 import { styles } from '../SignupScreen/styles';
 import { SIGNING } from '../../Constants/signingConstants';
 import { loginStyles } from './loginStyles';
+import CustomButton from '../../Components/CustomButton';
+import { buttonStyles } from '../../Common/styles';
 
 function Login({navigation}) {
   const [userInfo, setuserInfo] = useState(null);
@@ -39,7 +41,7 @@ console.log(email, pass)
     try {
       await GoogleSignin.hasPlayServices();
       const usrInfo = await GoogleSignin.signIn();
-      console.log(usrInfo)
+      console.log(usrInfo, "google info")
       setuserInfo(usrInfo);
       
       const credential = auth.GoogleAuthProvider.credential(usrInfo.idToken);
@@ -78,15 +80,30 @@ console.log(email, pass)
       if(user!=null)
     {
       navigation.navigate(NAVIGATION.HOMESCREEN)
+      setEmail("");
+      setPass("");
     }
     else 
     Alert.alert("Wrong credentials", "Please Sign up")
     } catch (error) {
-      console.error('Login error:', error);
+      Alert.alert('Login error:', error.message);
     }
 
     
   };
+
+  const handleUser = () => {
+    const user = auth().currentUser;
+    console.log(user, "THIS IS CURR USER")
+  }
+
+  const handleLogout = () => {
+    auth().signOut().then(() => {
+     console.log("user signed out!")
+      }).catch((error) => {
+        console.log("some err", error)
+      });
+  }
 
   // const handleHome = () => {
   //   navigation.navigate(NAVIGATION.HOMESCREEN);
@@ -100,8 +117,8 @@ console.log(email, pass)
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={styles.wrapper}>
         {/* <ScrollView> */}
-        <View style={styles.formContainer}>
-        <Text style={styles.title}>
+        {/* <View style={styles.formContainer}> */}
+        <Text style={[styles.title, {fontFamily: "Nunito-Regular"} ]}>
                 Log In
             </Text>
             <View style={loginStyles.usrInfo}>
@@ -139,18 +156,35 @@ console.log(email, pass)
           <Text style={styles.submitBtnTxt}> go to home page </Text>
         </TouchableOpacity> */}
 
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={handleLogin}
           style={[styles.submitBtn, {backgroundColor:"#3A1B6B"} ]}>
           <Text style={styles.submitBtnTxt}> Login </Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
+        <CustomButton
+        handleButton={handleLogin}
+        text={'Log in'}
+        disable={false}
+        // style={buttonStyles.customButton} 
+        />
 
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={()=>navigation.navigate(NAVIGATION.SIGNUP)}
           style={[styles.submitBtn, {backgroundColor:"#3A1B6B"} ]}>
           <Text style={styles.submitBtnTxt}> Sign up </Text>
         </TouchableOpacity>
 
+        <TouchableOpacity
+          onPress={handleUser}
+          style={[styles.submitBtn, {backgroundColor:"#3A1B6B"} ]}>
+          <Text style={styles.submitBtnTxt}> get current user </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={handleLogout}
+          style={[styles.submitBtn, {backgroundColor:"#3A1B6B"} ]}>
+          <Text style={styles.submitBtnTxt}> Logout </Text>
+        </TouchableOpacity>
         
         {userInfo == null ? (
           <TouchableOpacity
@@ -164,10 +198,10 @@ console.log(email, pass)
             style={[styles.submitBtn, {backgroundColor:"#3A1B6B"} ]}>
             <Text style={styles.submitBtnTxt}> Sign out </Text>
           </TouchableOpacity>
-        )}
+        )} */}
 
         {/* </ScrollView> */}
-        </View>
+        {/* </View> */}
       </KeyboardAvoidingView>
     </>
   );

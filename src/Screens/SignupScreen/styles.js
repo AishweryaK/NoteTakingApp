@@ -1,11 +1,12 @@
 import { StyleSheet } from "react-native";
+import { APPCOLOR } from "../../Assets/Colors/appColors";
 
 export const styles = StyleSheet.create({
     wrapper: { flex: 1,
     justifyContent: 'center', alignItems: 'center',
     // backgroundColor: '#2C3333', 
     // backgroundColor:"#DEBDE2",
-    backgroundColor:"#BCA0DC",
+    backgroundColor:APPCOLOR.BACKGROUND,
     paddingHorizontal: 15,
     },
     formContainer: {

@@ -1,0 +1,10 @@
+export const APPCOLOR= {
+    DARK_BLUE: "#292150",
+    GREEN: "#72777A",
+    BLUE:"#6B4EFF",
+    LIGHT_BLUE:"#9990FF",
+    SKY:"#E7E7FF",
+    GRAY:"#F2F4F5",
+    WHITE:"#FFFFFF",
+    BACKGROUND:'#F9F8FD'
+}

@@ -82,7 +82,7 @@ function AddNote () {
     const [title, setTitle]= useState("");
     const [desc, setDesc]= useState("");
     const richText = useRef();
-    const scrollText = useRef();
+    // const scrollText = useRef();
 
     console.log(desc, "THIS IS DESC")
     // console.log(scrollText.current)

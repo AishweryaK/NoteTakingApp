@@ -3,7 +3,7 @@ import React from "react";
 import { NAVIGATION } from "../Constants/navConstants";
 import Login from "../Screens/LoginScreen/Login";
 import Home from "../Screens/HomeScreen/Home";
-import AddNote from "../Screens/AddNoteScreen.tsx/AddNote";
+import AddNote from "../Screens/AddNoteScreen/AddNote";
 // import { RootStackParamList } from "./routeTypes";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 

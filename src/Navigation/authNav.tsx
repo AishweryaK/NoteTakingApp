@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NAVIGATION } from "../Constants/navConstants";
 import Login from "../Screens/LoginScreen/Login";
 import Home from "../Screens/HomeScreen/Home";
-import AddNote from "../Screens/AddNoteScreen.tsx/AddNote";
+import AddNote from "../Screens/AddNoteScreen/AddNote";
 import Signup from "../Screens/SignupScreen/Signup";
 // import { RootStackParamList } from "./routeTypes";
 

@@ -6,7 +6,7 @@ import { Formik } from "formik";
 import * as Yup from 'yup';
 import { firebase } from "@react-native-firebase/auth";
 import { NAVIGATION } from "../../Constants/navConstants";
-import database from '@react-native-firebase/database';
+import firestore from "@react-native-firebase/firestore"
 
 const SignupSchema = Yup.object().shape({
     firstName: Yup.string()
@@ -32,18 +32,70 @@ const SignupSchema = Yup.object().shape({
 
 function Signup ({navigation}) {
 
-    handleSignUp = (values) => {
-        firebase
-          .auth()
-          .createUserWithEmailAndPassword(values.email, values.password)
-          .then(() => navigation.navigate(NAVIGATION.LOGIN))
-          .catch(error =>{if (error.message.includes('[auth/email-already-in-use]')) {
-            Alert.alert("Error", "The email address is already in use.");
-        }
-        else 
-        Alert.alert("Error", error) 
-    })
-      }
+//     handleSignUp = (values) => {
+//         firebase
+//           .auth()
+//           .createUserWithEmailAndPassword(values.email, values.password)
+//           .then(() => navigation.navigate(NAVIGATION.LOGIN))
+//           .catch(error =>{if (error.message.includes('[auth/email-already-in-use]')) {
+//             Alert.alert("Error", "The email address is already in use.");
+//         }
+//         else 
+//         Alert.alert("Error", error) 
+//     })
+//       }
+
+
+
+// const  handleSignUp = async (values) => {
+//     try {
+//   let userCredentials = await firebase.auth().createUserWithEmailAndPassword(
+//     values.email,
+//     values.password,
+//   );
+//   await userCredentials.user.updateProfile({
+//     displayName: values.firstName + ' ' + values.lastName,
+//   });
+//       console.log('User account created & signed in!', userCredentials);
+//     } catch (error) {
+//       console.error('Error creating account:', error.code, error.message);
+//     }
+//   };
+
+const handleSignUp = async (values) => {
+    try {
+      let userCredentials = await firebase.auth().createUserWithEmailAndPassword(
+        values.email,
+        values.password,
+      );
+      
+
+          const user = userCredentials.user;
+          await firestore().collection('users').doc(user.uid).collection('notes').add({
+            title:"",
+            desc:"",
+          });
+
+        console.log('User account created & signed in!', userCredentials.user);
+
+      navigation.navigate(NAVIGATION.LOGIN);
+  
+    //   // Ensure user is successfully created
+    //   if (userCredentials && userCredentials.user) {
+    //     // Update user profile
+    //     await firebase.auth().userCredentials.user.updateProfile({
+    //     //   displayName: values.firstName + ' ' + values.lastName,
+    //     displayName:"hi"
+    //     });
+    //   } else {
+    //     console.error('User creation failed, no user returned.');
+    //   }
+    } catch (error) {
+      console.error('Error creating account:', error.code, error.message);
+    }
+  };
+  
+
       
     //   const handleSignUp = (values) => {
     //     firebase
@@ -99,9 +151,13 @@ function Signup ({navigation}) {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={styles.wrapper}>
             <View style={styles.formContainer}>
+
+
             <Text style={styles.title}>
                 Sign Up
             </Text>
+
+            
 
             <View style={styles.inputWrapper} >
 
