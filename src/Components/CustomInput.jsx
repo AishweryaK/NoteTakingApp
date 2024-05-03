@@ -1,7 +1,7 @@
 import React from "react";
-import { View } from "react-native";
+import { View, TextInput } from "react-native";
 import { inputStyles } from "../Common/styles";
-import { TextInput } from "react-native-gesture-handler";
+// import { TextInput } from "react-native-gesture-handler";
 
 
 export default function CustomInput ({placeHolder,value,handleChange,handleBlur}) {

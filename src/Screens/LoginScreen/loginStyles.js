@@ -1,4 +1,7 @@
 import { StyleSheet } from "react-native";
+import { FONT } from "../../Constants/fontConstants";
+import { APPCOLOR } from "../../Assets/Colors/appColors";
+import { dimensions } from "../../Constants/utility";
 
 export const loginStyles = StyleSheet.create({
     usrInfo:{
@@ -10,5 +13,19 @@ export const loginStyles = StyleSheet.create({
     height: 100, 
     borderRadius: 50,
 },
-
+forgotTxt:{
+    fontFamily:FONT.EXTRA_BOLD,
+    fontSize:16,
+    lineHeight:16,
+    color:APPCOLOR.BLUE,
+    textAlign:"left",
+},
+button:{
+    width:dimensions.width*0.9
+},
+bottom:{
+    flex: 1,
+    justifyContent: 'flex-end',
+    marginBottom: 60
+}
 });

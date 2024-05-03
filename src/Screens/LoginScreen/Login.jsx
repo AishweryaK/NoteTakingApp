@@ -19,7 +19,7 @@ import { styles } from '../SignupScreen/styles';
 import { SIGNING } from '../../Constants/signingConstants';
 import { loginStyles } from './loginStyles';
 import CustomButton from '../../Components/CustomButton';
-import { buttonStyles } from '../../Common/styles';
+import CustomInput from '../../Components/CustomInput';
 
 function Login({navigation}) {
   const [userInfo, setuserInfo] = useState(null);
@@ -113,14 +113,14 @@ console.log(email, pass)
     <>
       {/* <StatusBar barStyle="dark-content" /> */}
       <KeyboardAvoidingView
-      keyboardVerticalOffset={-100}
+      keyboardVerticalOffset={65}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={styles.wrapper}>
         {/* <ScrollView> */}
         {/* <View style={styles.formContainer}> */}
-        <Text style={[styles.title, {fontFamily: "Nunito-Regular"} ]}>
+        {/* <Text style={[styles.title, {fontFamily: "Nunito-Regular"} ]}>
                 Log In
-            </Text>
+            </Text> */}
             <View style={loginStyles.usrInfo}>
         {userInfo != null && (
           <>
@@ -134,21 +134,43 @@ console.log(email, pass)
         )}
         </View>
 
-        <View style={styles.inputWrapper} >
+        {/* <View style={styles.inputWrapper} > */}
 
-            <TextInput style={styles.inputStyle}
+            {/* <TextInput style={styles.inputStyle}
             placeholder= {SIGNING.EMAIL} 
             value={email}
-            onChangeText={(text)=>setEmail(text)}  />
-            </View>
+            onChangeText={(text)=>setEmail(text)}  /> */}
 
-            <View style={styles.inputWrapper} >
+            <CustomInput 
+            placeHolder={SIGNING.EMAIL}
+            value={email}
+            handleChange={(text)=>setEmail(text)}
+            />
 
-            <TextInput style={styles.inputStyle}
+
+            {/* </View> */}
+
+            {/* <TextInput style={styles.inputStyle}
             placeholder= {SIGNING.SETPASSWORD} 
             value={pass}
-            onChangeText={(text)=>setPass(text)}  />
+            onChangeText={(text)=>setPass(text)}  /> */}
+
+            <CustomInput 
+            placeHolder={SIGNING.SETPASSWORD}
+            value={pass}
+            handleChange={(text)=>setPass(text)}
+            />
+
+            <View style={loginStyles.button}>
+
+            <TouchableOpacity >
+            <Text style={loginStyles.forgotTxt}>
+              Forgot Password?
+            </Text>
+            </TouchableOpacity>
+
             </View>
+  
 
         {/* <TouchableOpacity
           onPress={handleHome}
@@ -161,26 +183,28 @@ console.log(email, pass)
           style={[styles.submitBtn, {backgroundColor:"#3A1B6B"} ]}>
           <Text style={styles.submitBtnTxt}> Login </Text>
         </TouchableOpacity> */}
+
+        <View style={loginStyles.bottom}>
         <CustomButton
         handleButton={handleLogin}
         text={'Log in'}
-        disable={false}
-        // style={buttonStyles.customButton} 
+        disable={false} 
         />
+        </View>
 
         {/* <TouchableOpacity
           onPress={()=>navigation.navigate(NAVIGATION.SIGNUP)}
           style={[styles.submitBtn, {backgroundColor:"#3A1B6B"} ]}>
           <Text style={styles.submitBtnTxt}> Sign up </Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={handleUser}
           style={[styles.submitBtn, {backgroundColor:"#3A1B6B"} ]}>
           <Text style={styles.submitBtnTxt}> get current user </Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={handleLogout}
           style={[styles.submitBtn, {backgroundColor:"#3A1B6B"} ]}>
           <Text style={styles.submitBtnTxt}> Logout </Text>

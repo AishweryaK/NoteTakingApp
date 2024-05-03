@@ -2,6 +2,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
 import {
   SafeAreaView,
+  StatusBar,
   StyleSheet,
   Text,
   useColorScheme,
@@ -10,10 +11,12 @@ import {
 // import StackNavigation from './src/Navigation';
 import StackNavigation from './src/Navigation/authNav';
 import BottomNavigation from './src/Navigation/bottomTab';
+import { APPCOLOR } from './src/Assets/Colors/appColors';
 
 function App(): React.JSX.Element {
   
   return (
+    
     <View style={styles.container} >
       <NavigationContainer>
         <StackNavigation />
@@ -25,7 +28,8 @@ function App(): React.JSX.Element {
 
 const styles = StyleSheet.create({
   container: {
-    flex:1
+    flex:1,
+    backgroundColor:APPCOLOR.BACKGROUND,
   },
 });
 
