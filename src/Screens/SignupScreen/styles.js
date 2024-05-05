@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
     // backgroundColor:"#DEBDE2",
     backgroundColor:APPCOLOR.BACKGROUND,
     // paddingHorizontal: 15,
-    paddingTop:50
+    paddingTop:30
     },
     formContainer: {
         backgroundColor: '#9F6FCF', 
@@ -38,6 +38,9 @@ export const styles = StyleSheet.create({
         fontSize: 12,
         color: '#FF0D10',
         paddingHorizontal:20,
+        paddingBottom:10,
+        textAlign:"left",
+        paddingTop:5
     },
     submitBtn: {
         // backgroundColor: '#395B64',
@@ -52,5 +55,10 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 18,
     // fontWeight:700,
+    },
+    bottom:{
+        flex: 1,
+        justifyContent: 'flex-end',
+        marginBottom: 60
     }
 } )

@@ -42,14 +42,25 @@ function Home({navigation}) {
               Notes App
             </Text>
         </View>
-        <Image 
+        {/* <Image 
         style={homeStyles.userImg}
-        source={{uri:auth().currentUser.photoURL}} />
+        source={{uri:auth().currentUser.photoURL}} /> */}
+        {currentUser && currentUser.photoURL ? (
+                <Image
+                    style={homeStyles.userImg}
+                    source={{ uri: auth().currentUser.photoURL }}
+                />
+            ) : (
+                <Image
+                    style={homeStyles.userImg}
+                    source={require('../../Assets/Images/user.jpg')}
+                />
+            )}
         </View>
 
         <View
         style={{alignItems:"center", paddingTop:40}}>
-        <Image source={require("/Users/chicmic/659_ReactNative/NoteTakingApp/src/Assets/Images/AvailableSpace.png")} 
+        <Image source={require("../../Assets/Images/AvailableSpace.png")} 
         resizeMode="stretch"
          style={[homeStyles.img]} /> 
         </View>

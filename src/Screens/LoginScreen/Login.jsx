@@ -198,11 +198,11 @@ console.log(email, pass)
           <Text style={styles.submitBtnTxt}> Sign up </Text>
         </TouchableOpacity> */}
 
-        {/* <TouchableOpacity
+        <TouchableOpacity
           onPress={handleUser}
           style={[styles.submitBtn, {backgroundColor:"#3A1B6B"} ]}>
           <Text style={styles.submitBtnTxt}> get current user </Text>
-        </TouchableOpacity> */}
+        </TouchableOpacity>
 
         {/* <TouchableOpacity
           onPress={handleLogout}

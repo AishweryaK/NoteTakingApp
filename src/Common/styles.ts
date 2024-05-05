@@ -37,6 +37,7 @@ export const buttonStyles= StyleSheet.create(
           textAlign:"center",
           lineHeight:16,
           color: APPCOLOR.WHITE,
+          paddingTop:1,
         },
        
     }
@@ -53,13 +54,13 @@ export const inputStyles= StyleSheet.create(
         paddingLeft:16,
         paddingVertical:8,
         fontFamily:FONT.REGULAR,
-        marginBottom:20,
+        marginTop:20,
 
         shadowColor: APPCOLOR.BLUE,
         shadowOffset: {width: -2, height: 4},
         shadowOpacity: 0.07,
         shadowRadius: 10,
-        elevation:15,
+        elevation:7,
 
     },  
   }

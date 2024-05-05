@@ -14,7 +14,7 @@ export default function Walkthrough ({navigation}) {
             Notes App
         </Text>
 
-        <Image source={require("/Users/chicmic/659_ReactNative/NoteTakingApp/src/Assets/Images/Diary.png")} 
+        <Image source={require("../../Assets/Images/Diary.png")} 
         style={wlkStyles.img} />
 
         <Text style={wlkStyles.txt}>
@@ -35,6 +35,7 @@ export default function Walkthrough ({navigation}) {
         style={wlkStyles.loginTxt}
         >
            Have an account? <TouchableOpacity
+           style={wlkStyles.touchable}
            onPress={()=>navigation.navigate(NAVIGATION.LOGIN)}
            >
             <Text

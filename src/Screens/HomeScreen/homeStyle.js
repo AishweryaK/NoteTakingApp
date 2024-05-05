@@ -31,8 +31,6 @@ export const homeStyles = StyleSheet.create({
        userImg:{
         width:dimensions.width*0.14,
         height:dimensions.width*0.14,
-        // width:50,
-        // height:50,
         borderRadius:11,
         borderWidth:1,
         borderColor: APPCOLOR.BORDER,
@@ -40,7 +38,6 @@ export const homeStyles = StyleSheet.create({
        img:{
         justifyContent:"center",
         width:dimensions.width*0.9,
-        
        }
 
 });

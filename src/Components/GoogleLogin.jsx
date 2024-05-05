@@ -1,13 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {
   Alert,
-  Image,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
-  KeyboardAvoidingView,
-  Platform
 } from 'react-native';
 import {
   GoogleSignin,
@@ -15,9 +11,9 @@ import {
 } from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
 import { buttonStyles } from '../Common/styles';
-import { APPCOLOR } from '../Assets/Colors/appColors';
 import GoogleIcon from '../Assets/Svgs/GoogleIcon';
 import { NAVIGATION } from '../Constants/navConstants';
+import firestore from "@react-native-firebase/firestore"
 
 
 function GoogleLogin ({navigation}) {
@@ -43,7 +39,16 @@ function GoogleLogin ({navigation}) {
           setuserInfo(usrInfo);
           
           const credential = auth.GoogleAuthProvider.credential(usrInfo.idToken);
-          await auth().signInWithCredential(credential);
+          const userData = await auth().signInWithCredential(credential);
+          // console.log(credential, "Credential");
+          console.log(userData, "after signin");
+
+          
+          await firestore().collection('users').doc(userData.user.uid).collection('notes').add({
+            title:"",
+            desc:"",
+          });
+          console.log('User account created & signed in!', userData.user);
 
           navigation.navigate(NAVIGATION.HOMESCREEN);
 

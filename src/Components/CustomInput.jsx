@@ -18,24 +18,4 @@ export default function CustomInput ({placeHolder,value,handleChange,handleBlur}
 }
 
 
-
-{/* <TextInput style={styles.inputStyle}
-            placeholder= {SIGNING.EMAIL} 
-            value={email}
-            onChangeText={(text)=>setEmail(text)}  /> */}
-
-
-            // <TextInput style={styles.inputStyle}
-            // placeholder= {SIGNING.CONFIRMPASSWORD} 
-            // value={values.confirmPassword}
-            // onChangeText={handleChange("confirmPassword")}  />
-
-
-            // <TextInput style={styles.inputStyle}
-            // placeholder= {SIGNING.FIRSTNAME} 
-            // value={values.firstName}
-            // onChangeText={handleChange("firstName")}
-            // onBlur={()=>setFieldTouched("firstName")}  />
-
-
             

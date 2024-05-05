@@ -19,6 +19,8 @@ forgotTxt:{
     lineHeight:16,
     color:APPCOLOR.BLUE,
     textAlign:"left",
+    marginTop:20,
+    lineHeight:16,
 },
 button:{
     width:dimensions.width*0.9

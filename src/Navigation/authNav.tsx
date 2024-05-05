@@ -20,15 +20,15 @@ function StackNavigation() {
     },
     headerShadowVisible:false,
     headerTintColor:APPCOLOR.HEADERTITLE,
+    headerTitleAlign:"center",
     headerTitleStyle: {
-      fontFamily:FONT.EXTRA_BOLD,
-      // fontFamily:FONT.REGULAR,
+      fontFamily:FONT.BOLD,
       fontSize:18,
     },}}> 
       <Stack.Screen name={NAVIGATION.WALKTHROUGH} component={Walkthrough} options={{headerShown:false}} />  
       <Stack.Screen name={NAVIGATION.LOGIN} component={Login} options={{headerShown:true, title:"Log in", headerBackTitleVisible:false
       }}/>
-      <Stack.Screen name={NAVIGATION.SIGNUP} component={Signup} options={{headerShown:true}} />
+      <Stack.Screen name={NAVIGATION.SIGNUP} component={Signup} options={{headerShown:true, title:"Sign up"}} />
       <Stack.Screen name={NAVIGATION.HOMESCREEN} component={Home}/>
       <Stack.Screen name={NAVIGATION.ADDNOTE} component={AddNote} options={{headerShown:true}} />
     </Stack.Navigator>

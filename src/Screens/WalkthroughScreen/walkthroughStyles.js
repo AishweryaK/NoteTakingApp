@@ -33,12 +33,14 @@ export const wlkStyles = StyleSheet.create({
     },
     loginButton: {
         paddingTop:10,
+        alignItems:"center"
     },
     loginTxt:{
         textAlign:"center",
         fontFamily:FONT.REGULAR,
         fontSize:16,
-        lineHeight:24
+        lineHeight:24,
+        color: APPCOLOR.TITLECOLOR,
     },
     login : {
         textAlign:"center",
@@ -46,6 +48,9 @@ export const wlkStyles = StyleSheet.create({
         fontSize:16,
         lineHeight:24,
         color: APPCOLOR.BLUE,
-        paddingTop:2
+        paddingTop:2,
+        textAlignVertical:"center"
     },
+    touchable: {
+    }
 })
