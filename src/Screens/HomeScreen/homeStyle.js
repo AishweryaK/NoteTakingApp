@@ -5,18 +5,30 @@ import { dimensions } from "../../Constants/utility";
 
 export const homeStyles = StyleSheet.create({
     buttonShadow: {
-        shadowColor: '#171717',
+        // shadowColor: '#171717',
+        // shadowOffset: {width: -2, height: 4},
+        // shadowOpacity: 0.4,
+        // shadowRadius: 4,
+        shadowColor: APPCOLOR.BLUE,
         shadowOffset: {width: -2, height: 4},
-        shadowOpacity: 0.4,
-        shadowRadius: 4,
-        position:"absolute", right:40, bottom:40, height:60, width:60, 
-              borderRadius:30, backgroundColor:"#3A1B6B", justifyContent:"center",
-              elevation:15,
+        shadowOpacity: 0.3,
+        shadowRadius: 10,
+        position:"absolute", 
+        right:dimensions.width*0.43, 
+        bottom:80, 
+        height:dimensions.width*0.14, 
+        width:dimensions.width*0.14, 
+        borderRadius:11, 
+        backgroundColor:APPCOLOR.BLUE, 
+        justifyContent:"center", 
+        elevation:7,
+        // alignItems:"center"
       },
       buttonText: {
-        color:"white",
+        color:APPCOLOR.WHITE,
+        fontFamily:FONT.BOLD,
        textAlign:"center", 
-       fontSize:25},
+       fontSize:40},
        welcome: {
         color:APPCOLOR.WELCOME,
         fontFamily:FONT.REGULAR,
@@ -34,10 +46,12 @@ export const homeStyles = StyleSheet.create({
         borderRadius:11,
         borderWidth:1,
         borderColor: APPCOLOR.BORDER,
+        backgroundColor:APPCOLOR.BACKGROUND
        },
        img:{
         justifyContent:"center",
-        width:dimensions.width*0.9,
+        width:dimensions.width*0.92,
+        marginBottom:20,
        }
 
 });

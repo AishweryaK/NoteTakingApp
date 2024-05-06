@@ -65,3 +65,40 @@ export const inputStyles= StyleSheet.create(
     },  
   }
 )
+
+export const labelStyles= StyleSheet.create(
+  {
+      container:{
+        height:dimensions.width*0.44, 
+        width:dimensions.width*0.43 ,
+        marginLeft:16,
+        marginRight:10
+      },
+        bg:{
+          width:"100%", 
+        height:"100%"},
+        icon:{ 
+        position: 'absolute', 
+        top: 35, 
+        left: 35
+      },
+        txtView:{
+          position:"absolute", 
+          top:105, 
+          left:35,
+          flexDirection:"column"
+        },
+        title: {
+          fontFamily:FONT.BOLD,
+          // lineHeight:12.8,
+          fontSize:16,
+          color:APPCOLOR.TITLECOLOR,
+        },
+        txt:{
+          fontFamily:FONT.REGULAR,
+          // lineHeight:12.8,
+          fontSize:16,
+          color:APPCOLOR.TITLECOLOR,
+        }
+  }
+)

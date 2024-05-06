@@ -14,7 +14,7 @@ export const loginStyles = StyleSheet.create({
     borderRadius: 50,
 },
 forgotTxt:{
-    fontFamily:FONT.EXTRA_BOLD,
+    fontFamily:FONT.BOLD,
     fontSize:16,
     lineHeight:16,
     color:APPCOLOR.BLUE,

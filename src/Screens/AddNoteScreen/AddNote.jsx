@@ -72,29 +72,58 @@
 
 
 import React, { useRef, useState } from "react";
-import { Dimensions, KeyboardAvoidingView, SafeAreaView, ScrollView, Text, TextInput, View,Keyboard, Alert, Linking } from "react-native";
+import { Dimensions, KeyboardAvoidingView, SafeAreaView, ScrollView, Text, TextInput, View,Keyboard, Alert, Linking, TouchableOpacity } from "react-native";
 import { RichEditor, RichToolbar, actions } from "react-native-pell-rich-editor"; 
+import { APPCOLOR } from "../../Assets/Colors/appColors";
+import { homeStyles } from "../HomeScreen/homeStyle";
+import { FONT } from "../../Constants/fontConstants";
+import { NAVIGATION } from "../../Constants/navConstants";
+import firestore from '@react-native-firebase/firestore';
 
-const width = Dimensions.get("window").width ;
-const height = Dimensions.get("window").height;
+// const width = Dimensions.get("window").width ;
+// const height = Dimensions.get("window").height;
 
-function AddNote () {
+function AddNote ({route, navigation}) {
     const [title, setTitle]= useState("");
     const [desc, setDesc]= useState("");
     const richText = useRef();
     // const scrollText = useRef();
+    const {uid} = route.params;
+    console.log(uid)
 
     console.log(desc, "THIS IS DESC")
     // console.log(scrollText.current)
 
     // const handleHead = ({tintColor}) => <Text style={{color: tintColor}}>H1</Text>
 
+    const saveNote = async () => {
+        try {
+            await firestore()
+        .collection('users')
+        .doc(uid)
+        .collection('notes')
+        .add({
+          title: title,
+          desc: desc,
+        });
+            setTitle("");
+            setDesc("");
+            console.log("Note saved successfully!");
+            navigation.navigate(NAVIGATION.HOMESCREEN);
+        } catch (error) {
+            console.error("Error saving note:", error);
+        }
+    };
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
-            <KeyboardAvoidingView behavior="height" style={{ flex: 1 }}>
+            <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} 
+            style={{ flex: 1, backgroundColor:APPCOLOR.BACKGROUND }}
+            keyboardVerticalOffset={97}
+            >
                     <TextInput
                     value={title}
-                    style={{ fontSize: 35, marginHorizontal: 20, marginTop: 20}} 
+                    style={{ fontSize: 35, marginHorizontal: 20, marginTop: 20, color:APPCOLOR.HEADERTITLE}} 
                     placeholder="Title" 
                     multiline={true}
                     maxLength={60}
@@ -121,12 +150,23 @@ function AddNote () {
                             console.error("Error occurred while opening URL:", error);
                         }
                     }}
-                    // editorStyle={}
-                    style={{ flex:1, paddingHorizontal:20
+                    editorStyle={{backgroundColor:APPCOLOR.BACKGROUND, color:APPCOLOR.DARK_BLUE}}
+                    style={{ flex:1, paddingHorizontal:16, backgroundColor:APPCOLOR.BACKGROUND
                 }}
                 containerStyle={{overflow:"scroll"}}
                 />
 
+            <View style={homeStyles.buttonShadow}>
+            <TouchableOpacity 
+          onPress={saveNote}>
+            <Text style={{color:APPCOLOR.WHITE,
+        fontFamily:FONT.BOLD,
+       textAlign:"center", 
+       fontSize:20}}>
+              Save
+            </Text>
+          </TouchableOpacity>
+            </View>
 
             {/* </ScrollView> */}
 
@@ -134,9 +174,10 @@ function AddNote () {
             style={{}}
             >
                 <RichToolbar
+                style={{backgroundColor:APPCOLOR.BLUE}}
                     editor={richText}
-                    iconTint="pink"
-                    selectedIconTint="purple"
+                    iconTint={APPCOLOR.GRAY}
+                    selectedIconTint={APPCOLOR.DARK_BLUE}
                     actions={[
                         // actions.insertImage,
                         actions.setBold,
@@ -152,9 +193,10 @@ function AddNote () {
             </View>
             </KeyboardAvoidingView>
         </SafeAreaView>
+)
+}
 
-
-
+export default AddNote;
 
 
     //     <SafeAreaView style={{ backgroundColor:"white"}}>
@@ -226,10 +268,9 @@ function AddNote () {
     //     />
     //   </View>
     // </SafeAreaView>
-    )
-}
+  
 
-export default AddNote;
+
 
 
 

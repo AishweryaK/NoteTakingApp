@@ -163,7 +163,8 @@ console.log(email, pass)
 
             <View style={loginStyles.button}>
 
-            <TouchableOpacity >
+            <TouchableOpacity onPress={()=>navigation.navigate(NAVIGATION.FORGOTPASS)} 
+            >
             <Text style={loginStyles.forgotTxt}>
               Forgot Password?
             </Text>
@@ -198,11 +199,11 @@ console.log(email, pass)
           <Text style={styles.submitBtnTxt}> Sign up </Text>
         </TouchableOpacity> */}
 
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={handleUser}
           style={[styles.submitBtn, {backgroundColor:"#3A1B6B"} ]}>
           <Text style={styles.submitBtnTxt}> get current user </Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         {/* <TouchableOpacity
           onPress={handleLogout}

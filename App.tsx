@@ -17,12 +17,14 @@ function App(): React.JSX.Element {
   
   return (
     
-    <View style={styles.container} >
+    <SafeAreaView style={styles.container} >
+      {/* <View style={styles.container} > */}
       <NavigationContainer>
         <StackNavigation />
         {/* <BottomNavigation /> */}
       </NavigationContainer>
-    </View>
+    {/* </View> */}
+    </SafeAreaView>
   );
 }
 
