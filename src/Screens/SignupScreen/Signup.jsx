@@ -61,6 +61,14 @@ function Signup({navigation}) {
           desc: '',
         });
 
+        
+      // await firestore()
+      // .collection('users')
+      // .doc(user.uid)
+      // .collection('notes')
+      // .add({})
+      // ;
+
       //  await firestore()
       //   .collection('users')
       //   .doc(user.uid)

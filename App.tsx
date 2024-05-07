@@ -1,4 +1,4 @@
-import { NavigationContainer } from '@react-navigation/native';
+import 'react-native-gesture-handler';
 import React from 'react';
 import {
   SafeAreaView,
@@ -8,6 +8,7 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
 // import StackNavigation from './src/Navigation';
 import StackNavigation from './src/Navigation/authNav';
 import BottomNavigation from './src/Navigation/bottomTab';

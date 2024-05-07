@@ -6,6 +6,8 @@ export const NAVIGATION = {
     HOMESCREEN : "HOMESCREEN",
     ADDNOTE : "ADDNOTE",
     NOTESCREEN:"NOTESCREEN",
+    SETTINGS : "SETTINGS",
+    HOME:"HOME",
 }
 
 

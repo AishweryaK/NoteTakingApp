@@ -1,10 +1,10 @@
 import React ,{useState, useEffect} from "react";
-import { Text, TouchableOpacity, View, Image } from "react-native";
+import { Text, TouchableOpacity, View, Image, ImageBackground } from "react-native";
 import { NAVIGATION } from "../../Constants/navConstants";
-import { useNavigation } from "@react-navigation/native";
+// import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MenuIcon from "../../Assets/Svgs/MenuIcon";
-import BottomNavigation from "../../Navigation/bottomTab";
+// import BottomNavigation from "../../Navigation/bottomTab";
 import { styles } from "../SignupScreen/styles";
 import { homeStyles } from "./homeStyle";
 import auth from '@react-native-firebase/auth';
@@ -12,6 +12,8 @@ import { APPCOLOR } from "../../Assets/Colors/appColors";
 import CircleIcon from "../../Assets/Svgs/CircleIcon";
 import PersonalIcon from "../../Assets/Svgs/PersonalIcon";
 import CustomLabel from "../../Components/CustomLabel";
+import { dimensions } from "../../Constants/utility";
+import AvailSpace from "./AvailSpace";
 
 function Home({navigation}) {
   const [currentUser, setCurrentUser] = useState(null);
@@ -44,7 +46,7 @@ function Home({navigation}) {
 
     return (
         <SafeAreaView 
-        style={{flex:1, paddingTop:30, backgroundColor:APPCOLOR.BACKGROUND}}
+        style={homeStyles.safeArea}
         >
           {/* <TouchableOpacity
           onPress={handleUser}
@@ -52,9 +54,8 @@ function Home({navigation}) {
           <Text style={styles.submitBtnTxt}> get current user </Text>
         </TouchableOpacity> */}
 
-        <View style={{paddingHorizontal:16, flexDirection:"row", justifyContent:"space-between"}}>
-          <View style={{flex:1, flexDirection:"column"}
-          }>
+        <View style={homeStyles.outer}>
+          <View style={homeStyles.inner}>
           <Text 
           style={homeStyles.welcome}>
             Welcome, {currentUser ? currentUser.displayName : ""}! 
@@ -81,11 +82,10 @@ function Home({navigation}) {
             )}
         </View>
 
-        <View
-        style={{alignItems:"center", paddingTop:40}}>
-        <Image source={require("../../Assets/Images/AvailableSpace.png")} 
-        resizeMode="stretch"
-         style={[homeStyles.img]} /> 
+        <View style={{alignItems:"center"}}>
+        
+        <AvailSpace />
+       
         </View>
         <View style={{flexDirection:"row"}}>
 

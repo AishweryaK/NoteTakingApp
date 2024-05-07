@@ -50,8 +50,34 @@ export const homeStyles = StyleSheet.create({
        },
        img:{
         justifyContent:"center",
-        width:dimensions.width*0.92,
+        // width:dimensions.width*0.92,
         marginBottom:20,
-       }
+        height:"100%",
+        width:"100%",
+        alignItems:"center"
+       },
+       safeArea: {flex:1, 
+        paddingTop:30, 
+        backgroundColor:APPCOLOR.BACKGROUND,
+      },
+        outer : {paddingHorizontal:16, 
+          flexDirection:"row", 
+          justifyContent:"space-between"
+        },
+        inner: {
+          flex:1, 
+          flexDirection:"column"
+      },
+        imgView:
+        {justifyContent:"center" ,
+        alignItems:"center", 
+        alignContent:"center", 
+        paddingTop:40,
+        width:dimensions.width*0.92, 
+        height:dimensions.height*0.22, 
+        position:"relative", 
+        marginBottom:30,
+      },
+        
 
 });
