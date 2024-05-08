@@ -18,7 +18,7 @@ import HomeNavigation from "./bottomTab";
 function StackNavigation() {
   const Stack = createNativeStackNavigator();
   return (
-    <Stack.Navigator initialRouteName={NAVIGATION.HOMESCREEN} screenOptions={{headerShown:false, headerStyle: {
+    <Stack.Navigator initialRouteName={NAVIGATION.WALKTHROUGH} screenOptions={{headerShown:false, headerStyle: {
       backgroundColor: APPCOLOR.BACKGROUND,
     },
     headerShadowVisible:false,

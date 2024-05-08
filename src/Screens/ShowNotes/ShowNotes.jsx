@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, SafeAreaView, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, SafeAreaView, TouchableOpacity, TextInput } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import HTML from  "react-native-render-html"
 import { styles } from './styles';
 import { NAVIGATION } from '../../Constants/navConstants';
 import { dimensions } from '../../Constants/utility';
+import CustomInput from '../../Components/CustomInput';
+import { inputStyles } from '../../Common/styles';
+import filter from "lodash.filter";
 
 
 const NotesScreen = ({ route, navigation}) => {
   const [notes, setNotes] = useState([]);
+  const [fullNotes, setFullNotes] =useState([]);
+  const [searchQuery, setSearchQuery]= useState("");
   const {uid, itemText} = route.params;
 
   useEffect(() => {
@@ -25,15 +30,34 @@ const NotesScreen = ({ route, navigation}) => {
         })
         });
         setNotes(notesData);
+        setFullNotes(notesData)
         console.log(notesData, "notesData");
       });
 
     return () => unsubscribe();
   }, [uid]);
 
-  // useEffect(() => {
-  //   console.log(notes, "notes");
-  // }, [notes]);
+  useEffect(() => {
+    console.log(notes, "notes");
+  }, [notes]);
+
+  const handleSearch =(query) => {
+    setSearchQuery(query);
+    const formattedQuery = query.toLowerCase();
+    const filteredNotes = filter(fullNotes, (note) => {
+      return contains(note, formattedQuery);
+    } );
+    setNotes(filteredNotes);
+  }
+
+  const contains = ({title, desc}, query) => {
+    if(title.toLowerCase()?.includes(query) || desc.toLowerCase()?.includes(query))
+      {
+        return true;
+      }
+
+      return false;
+  }
 
   const renderItem = ({ item }) => (
     
@@ -55,6 +79,18 @@ const NotesScreen = ({ route, navigation}) => {
 
   return (
     <SafeAreaView style={styles.wrapper}>
+      <View style={{ alignItems:"center"}}>
+
+        <TextInput
+        style={inputStyles.customInput}
+        placeholder='Search'
+        value={searchQuery}
+        onChangeText={handleSearch} 
+        clearButtonMode='always'
+        autoCapitalize='none'
+        autoCorrect={false}
+        />
+      </View>
     <FlatList
     style={styles.list}
       data={notes}
