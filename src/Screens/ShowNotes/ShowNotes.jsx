@@ -1,52 +1,53 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, SafeAreaView, TouchableOpacity } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
-// import { styles } from '../SignupScreen/styles';
 import HTML from  "react-native-render-html"
-import { dimensions } from '../../Constants/utility';
-import { APPCOLOR } from '../../Assets/Colors/appColors';
-import { FONT } from '../../Constants/fontConstants';
 import { styles } from './styles';
+import { NAVIGATION } from '../../Constants/navConstants';
+import { dimensions } from '../../Constants/utility';
 
 
-const NotesScreen = ({ route}) => {
+const NotesScreen = ({ route, navigation}) => {
   const [notes, setNotes] = useState([]);
-  const {uid} = route.params;
+  const {uid, itemText} = route.params;
 
   useEffect(() => {
     const unsubscribe = firestore()
       .collection('users')
       .doc(uid)
-      .collection('notes')
+      .collection(itemText)
       .onSnapshot((snapshot) => {
         const notesData = [];
         snapshot.forEach((docSnapshot) => {
-        //   const note = docSnapshot.data();
-        //   note.id = docSnapshot.uid; 
-        //   notesData.push(note);
         notesData.push({
             ...docSnapshot.data(),
             id:docSnapshot.id
         })
         });
         setNotes(notesData);
-        console.log(notes);
+        console.log(notesData, "notesData");
       });
 
     return () => unsubscribe();
   }, [uid]);
 
+  // useEffect(() => {
+  //   console.log(notes, "notes");
+  // }, [notes]);
+
   const renderItem = ({ item }) => (
     
     <View style={styles.container}>
-      <TouchableOpacity style={{flex:1}}>
+      <TouchableOpacity style={{flex:1}}
+      onPress={()=> navigation.navigate(NAVIGATION.ADDNOTE, {uid: uid ,itemTitle: item.title, itemDesc : item.desc, itemID: item.id})}
+      >
       <Text style={styles.txt}
       >{item.title}</Text>
-      {/* <HTML tagsStyles={{}} 
+      <HTML tagsStyles={{}} 
       source={{ html: item.desc }} 
-      contentWidth={dimensions.width} /> */}
-      <Text style={styles.txt}
-      >{item.desc}</Text>
+      contentWidth={dimensions.width} />
+      {/* <Text style={styles.txt}
+      >{item.desc}</Text> */}
       </TouchableOpacity>
     </View>
     

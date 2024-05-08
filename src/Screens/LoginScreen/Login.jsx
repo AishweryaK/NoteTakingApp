@@ -26,7 +26,7 @@ function Login({navigation}) {
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
 
-console.log(email, pass)
+// console.log(email, pass)
   useEffect(() => {
     GoogleSignin
       .configure(

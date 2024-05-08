@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Dimensions, KeyboardAvoidingView, SafeAreaView, ScrollView, Text, TextInput, View,Keyboard, Alert, Linking, TouchableOpacity } from "react-native";
 import { RichEditor, RichToolbar, actions } from "react-native-pell-rich-editor"; 
 import { APPCOLOR } from "../../Assets/Colors/appColors";
@@ -8,32 +8,63 @@ import { NAVIGATION } from "../../Constants/navConstants";
 import firestore from '@react-native-firebase/firestore';
 import { styles } from "./styles";
 
-// const width = Dimensions.get("window").width ;
-// const height = Dimensions.get("window").height;
 
 function AddNote ({route, navigation}) {
     const [title, setTitle]= useState("");
     const [desc, setDesc]= useState("");
     const richText = useRef();
-    // const scrollText = useRef();
-    const {uid} = route.params;
-    console.log(uid)
+    const descRef = useRef("")
 
-    console.log(desc, "THIS IS DESC")
+    const {uid, itemTitle, itemDesc, itemID} = route.params;
+
+    useEffect(() => {
+        if (itemTitle && itemDesc) {
+            setTitle(itemTitle);
+            setDesc(itemDesc);
+        }
+    }, [itemTitle, itemDesc]);
+
+    useEffect(() => {
+    console.log(title, "title");
+    console.log(desc,"desc")
+  }, [title, desc]);
+
+    // console.log(uid, "UID")
+
+    // console.log(desc, "THIS IS DESC")
     // console.log(scrollText.current)
 
     // const handleHead = ({tintColor}) => <Text style={{color: tintColor}}>H1</Text>
 
+    const handleDesc = (text) => {
+     setDesc(text);
+     descRef.current= desc;
+    }
+
     const saveNote = async () => {
         try {
-            await firestore()
+            if(itemID) 
+            {
+                await firestore().collection('users')
+                .doc(uid).collection('Personal')
+                .doc(itemID)
+                .update(
+                    {
+                        title: title,
+                        desc: desc,
+                    }
+                )
+            }
+         else
+         {   await firestore()
         .collection('users')
         .doc(uid)
-        .collection('notes')
+        .collection('Personal')
         .add({
           title: title,
           desc: desc,
-        });
+        }); 
+    }
             setTitle("");
             setDesc("");
             console.log("Note saved successfully!");
@@ -61,13 +92,11 @@ function AddNote ({route, navigation}) {
                 <RichEditor
                     ref={richText}
                     placeholder="Note"
-                    onChange={(text) => setDesc(text)}
+                    initialContentHTML={desc}
+                    onChange={handleDesc}
                     androidHardwareAccelerationDisabled={true}
                     initialHeight={80}
                     scrollEnabled
-                    // onLink={
-                    //      async (url)=> await Linking.openURL(url) 
-                    // }
                     onLink={async (url) => {
                         try {
                             const result = await Linking.openURL(url);

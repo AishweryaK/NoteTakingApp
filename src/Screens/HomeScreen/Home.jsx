@@ -1,5 +1,5 @@
 import React ,{useState, useEffect} from "react";
-import { Text, TouchableOpacity, View, Image, ImageBackground } from "react-native";
+import { Text, TouchableOpacity, View, Image, ImageBackground, ScrollView } from "react-native";
 import { NAVIGATION } from "../../Constants/navConstants";
 // import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -14,6 +14,7 @@ import PersonalIcon from "../../Assets/Svgs/PersonalIcon";
 import CustomLabel from "../../Components/CustomLabel";
 import { dimensions } from "../../Constants/utility";
 import AvailSpace from "./AvailSpace";
+import CustomList from "../../Components/CustomList";
 
 function Home({navigation}) {
   const [currentUser, setCurrentUser] = useState(null);
@@ -32,7 +33,7 @@ function Home({navigation}) {
 
     const handleAddNote =() =>{
       // console.log(currentUser.uid, "UIDd")
-        navigation.navigate(NAVIGATION.ADDNOTE, {uid:currentUser.uid})
+        navigation.navigate(NAVIGATION.ADDNOTE, {uid:currentUser.uid, itemTitle:"", itemDesc:""})
     }
 
     const handleUser = () => {
@@ -40,9 +41,9 @@ function Home({navigation}) {
       console.log(user, "THIS IS CURR USER")
     }
 
-    const handlePress = () => {
-      navigation.navigate(NAVIGATION.NOTESCREEN,{uid:currentUser.uid})
-    }
+    // const handlePress = () => {
+    //   navigation.navigate(NAVIGATION.NOTESCREEN,{uid:currentUser.uid})
+    // }
 
     return (
         <SafeAreaView 
@@ -87,10 +88,29 @@ function Home({navigation}) {
         <AvailSpace />
        
         </View>
-        <View style={{flexDirection:"row"}}>
 
-        <CustomLabel handlePress={handlePress}/>
-        </View >
+        { currentUser ? 
+        <View style={{flexDirection:"row", height: dimensions.height*0.50}}>
+
+        {/* <CustomLabel handlePress={handlePress}
+        text={"Personal"}
+        number={1}
+        /> */}
+        
+        <CustomList 
+        userUid={currentUser.uid}
+        navigation={navigation}
+        // handlePress={handlePress}
+        />
+        
+        </View > 
+        :
+        <View>
+          <Text>
+            Loading
+          </Text>
+        </View>
+}
         {/* <View
         style={{alignItems:"center"}}
         > */}

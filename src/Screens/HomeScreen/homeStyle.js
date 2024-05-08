@@ -15,7 +15,7 @@ export const homeStyles = StyleSheet.create({
         shadowRadius: 10,
         position:"absolute", 
         right:dimensions.width*0.43, 
-        bottom:80, 
+        bottom:40, 
         height:dimensions.width*0.14, 
         width:dimensions.width*0.14, 
         borderRadius:11, 

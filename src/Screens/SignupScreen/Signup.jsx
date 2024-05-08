@@ -18,6 +18,7 @@ import CustomInput from '../../Components/CustomInput';
 import CustomButton from '../../Components/CustomButton';
 import {loginStyles} from '../LoginScreen/loginStyles';
 import {APPCOLOR} from '../../Assets/Colors/appColors';
+import { addDocumentsForUser } from '../../Common/firebaseUtils';
 
 const SignupSchema = Yup.object().shape({
   firstName: Yup.string()
@@ -44,6 +45,7 @@ const SignupSchema = Yup.object().shape({
 });
 
 function Signup({navigation}) {
+
   const handleSignUp = async values => {
     try {
       let userCredentials = await firebase
@@ -52,15 +54,19 @@ function Signup({navigation}) {
 
       const user = userCredentials.user;
 
-      await firestore()
-        .collection('users')
-        .doc(user.uid)
-        .collection('notes')
-        .add({
-          title: '',
-          desc: '',
-        });
+      // await firestore()
+      //   .collection('users')
+      //   .doc(user.uid)
+      //   .collection('Personal')
+      //   .add({
+      //     title: '',
+      //     desc: '',
+      //   });
 
+     
+    
+    // Call the function with the user's UID
+    await addDocumentsForUser(user.uid);    
         
       // await firestore()
       // .collection('users')

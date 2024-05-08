@@ -14,6 +14,7 @@ import { buttonStyles } from '../Common/styles';
 import GoogleIcon from '../Assets/Svgs/GoogleIcon';
 import { NAVIGATION } from '../Constants/navConstants';
 import firestore from "@react-native-firebase/firestore"
+import { addDocumentsForUser } from '../Common/firebaseUtils';
 
 
 function GoogleLogin ({navigation}) {
@@ -35,19 +36,40 @@ function GoogleLogin ({navigation}) {
         try {
           await GoogleSignin.hasPlayServices();
           const usrInfo = await GoogleSignin.signIn();
-          console.log(usrInfo, "google info")
+          // console.log(usrInfo, "google info")
           setuserInfo(usrInfo);
           
           const credential = auth.GoogleAuthProvider.credential(usrInfo.idToken);
           const userData = await auth().signInWithCredential(credential);
           // console.log(credential, "Credential");
-          console.log(userData, "after signin");
+
+          // console.log(userData, "after signin");
+
+      //   const userDoc = await firestore().collection('users').doc(userData.user.uid).get();
+      //   console.log(userDoc, "userDoc")
+      // if (!userDoc.exists) {
+      //   // User doesn't exist, so add a new note
+      //   console.log("inside If")
+      //   await firestore().collection('users').doc(userData.user.uid).collection('notes').add({
+      //     title: "",
+      //     desc: "",
+      //   });
+      // }
+
+      // if(userData.additionalUserInfo.isNewUser) {
+      //   console.log("inside iff")
+      // await firestore().collection('users').doc(userData.user.uid).collection('notes').add({
+      //   title:"",
+      //   desc:"",
+      // }); }
+
+      if(userData.additionalUserInfo.isNewUser) {
+        console.log("inside if");
+
+        await addDocumentsForUser(userData.user.uid);
+       }
 
           
-          await firestore().collection('users').doc(userData.user.uid).collection('notes').add({
-            title:"",
-            desc:"",
-          });
           console.log('User account created & signed in!', userData.user);
 
           navigation.navigate(NAVIGATION.HOMESCREEN);

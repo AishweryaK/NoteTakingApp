@@ -9,7 +9,7 @@ import FrameIcon from "../Assets/Svgs/FrameIcon";
 import { labelStyles } from "../Common/styles";
 
 
-function CustomLabel ({handlePress}) {
+function CustomLabel ({handlePress, text, number}) {
 
     return (
         <TouchableOpacity
@@ -25,10 +25,10 @@ function CustomLabel ({handlePress}) {
                 </View>
                 <View style={labelStyles.txtView}>
                 <Text style={labelStyles.title}>
-                    Personal
+                    {text}
                 </Text>
                 <Text style={labelStyles.txt}>
-                    Files
+                   {number} Files
                 </Text>
                 </View>
         {/* </View> */}

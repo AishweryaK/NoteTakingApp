@@ -1,6 +1,8 @@
 import React from "react";
 import { View, Text } from "react-native";
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import { ICONS } from "../../Constants/iconConstants";
+// import { ICONS } from "../../Constants/iconConstants";
+// import HOME from ""
 
 function Settings () {
     return (
@@ -8,9 +10,8 @@ function Settings () {
             <Text>
                 Settings
             </Text>
-            <View>
-            <Ionicons name="settings" size={24} color="black" />
-            </View>
+            {/* {ICONS.HOME(20,20)} */}
+            <View>{ICONS.HOME(20,20)}</View>
         </View>
     )
 }
