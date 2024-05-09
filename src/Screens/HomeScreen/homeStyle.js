@@ -13,16 +13,25 @@ export const homeStyles = StyleSheet.create({
         shadowOffset: {width: -2, height: 4},
         shadowOpacity: 0.3,
         shadowRadius: 10,
-        position:"absolute", 
-        right:dimensions.width*0.43, 
-        bottom:40, 
+        // position:"absolute",
+
+        // right:dimensions.width*0.43, 
+        bottom:30,
+        // marginLeft:"auto",
+        // marginRight:"auto",
+        // left:0,
+        // right:0,
+
+        // left: "50%", 
+        // transform: [{translateX: -30}],
+        textAlign:"center", 
         height:dimensions.width*0.14, 
         width:dimensions.width*0.14, 
         borderRadius:11, 
         backgroundColor:APPCOLOR.BLUE, 
         justifyContent:"center", 
         elevation:7,
-        // alignItems:"center"
+        
       },
       buttonText: {
         color:APPCOLOR.WHITE,
@@ -38,7 +47,8 @@ export const homeStyles = StyleSheet.create({
        title:{
         fontFamily:FONT.EXTRA_BOLD,
         fontSize:22,
-        lineHeight:30.01
+        lineHeight:30.01,
+        color:APPCOLOR.DARK_BLUE
        },
        userImg:{
         width:dimensions.width*0.14,

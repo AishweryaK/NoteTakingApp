@@ -53,7 +53,7 @@ export const inputStyles= StyleSheet.create(
         borderRadius:8,
         paddingLeft:16,
         paddingVertical:8,
-        fontFamily:FONT.REGULAR,
+        fontFamily:FONT.BOLD,
         marginTop:20,
 
         shadowColor: APPCOLOR.BLUE,
@@ -61,6 +61,7 @@ export const inputStyles= StyleSheet.create(
         shadowOpacity: 0.07,
         shadowRadius: 10,
         elevation:7,
+        color:APPCOLOR.HEADERTITLE,
 
     },  
   }

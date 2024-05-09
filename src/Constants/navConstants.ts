@@ -8,6 +8,8 @@ export const NAVIGATION = {
     NOTESCREEN:"NOTESCREEN",
     SETTINGS : "SETTINGS",
     HOME:"HOME",
+    CHECKLIST:"CHECKLIST",
+    LAMP:"LAMP",
 }
 
 

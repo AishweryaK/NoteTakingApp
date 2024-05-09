@@ -16,11 +16,10 @@ export const loginStyles = StyleSheet.create({
 forgotTxt:{
     fontFamily:FONT.BOLD,
     fontSize:16,
-    lineHeight:16,
     color:APPCOLOR.BLUE,
     textAlign:"left",
     marginTop:20,
-    lineHeight:16,
+    lineHeight:18,
 },
 button:{
     width:dimensions.width*0.9

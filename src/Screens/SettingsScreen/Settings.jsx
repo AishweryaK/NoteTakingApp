@@ -11,7 +11,9 @@ function Settings () {
                 Settings
             </Text>
             {/* {ICONS.HOME(20,20)} */}
-            <View>{ICONS.HOME(20,20)}</View>
+            <View>{ICONS.HOME(50,50)}</View>
+            <View>{ICONS.NOTE(40,40)}</View>
+            <View>{ICONS.NOTEFD(50,50)}</View>
         </View>
     )
 }

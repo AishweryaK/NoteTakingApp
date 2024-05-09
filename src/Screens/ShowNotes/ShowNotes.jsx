@@ -5,10 +5,10 @@ import HTML from  "react-native-render-html"
 import { styles } from './styles';
 import { NAVIGATION } from '../../Constants/navConstants';
 import { dimensions } from '../../Constants/utility';
-import CustomInput from '../../Components/CustomInput';
 import { inputStyles } from '../../Common/styles';
 import filter from "lodash.filter";
-
+import { APPCOLOR } from '../../Assets/Colors/appColors';
+import { FONT } from '../../Constants/fontConstants';
 
 const NotesScreen = ({ route, navigation}) => {
   const [notes, setNotes] = useState([]);
@@ -31,15 +31,16 @@ const NotesScreen = ({ route, navigation}) => {
         });
         setNotes(notesData);
         setFullNotes(notesData)
-        console.log(notesData, "notesData");
+        // console.log(notesData, "notesData");
+        console.log("Triggered")
       });
 
     return () => unsubscribe();
   }, [uid]);
 
-  useEffect(() => {
-    console.log(notes, "notes");
-  }, [notes]);
+  // useEffect(() => {
+  //   console.log(notes, "notes");
+  // }, [notes]);
 
   const handleSearch =(query) => {
     setSearchQuery(query);
@@ -59,7 +60,10 @@ const NotesScreen = ({ route, navigation}) => {
       return false;
   }
 
+  const MemoizedHTML = React.memo(HTML);
+
   const renderItem = ({ item }) => (
+    
     
     <View style={styles.container}>
       <TouchableOpacity style={{flex:1}}
@@ -67,10 +71,17 @@ const NotesScreen = ({ route, navigation}) => {
       >
       <Text style={styles.txt}
       >{item.title}</Text>
-      <HTML tagsStyles={{}} 
+      <MemoizedHTML 
+      baseStyle={{fontFamily:FONT.BOLD,
+            fontSize:14,
+            lineHeight:18.2,
+            opacity: 0.67,
+            color:APPCOLOR.HEADERTITLE}}
+            // defaultTextProps={styles.content}
       source={{ html: item.desc }} 
-      contentWidth={dimensions.width} />
-      {/* <Text style={styles.txt}
+      contentWidth={dimensions.width} 
+      />
+      {/* <Text style={styles.content}
       >{item.desc}</Text> */}
       </TouchableOpacity>
     </View>
@@ -89,6 +100,7 @@ const NotesScreen = ({ route, navigation}) => {
         clearButtonMode='always'
         autoCapitalize='none'
         autoCorrect={false}
+        placeholderTextColor={APPCOLOR.PLACEHOLDER}
         />
       </View>
     <FlatList

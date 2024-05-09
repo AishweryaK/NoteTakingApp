@@ -1,17 +1,9 @@
 import React ,{useState, useEffect} from "react";
 import { Text, TouchableOpacity, View, Image, ImageBackground, ScrollView } from "react-native";
 import { NAVIGATION } from "../../Constants/navConstants";
-// import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import MenuIcon from "../../Assets/Svgs/MenuIcon";
-// import BottomNavigation from "../../Navigation/bottomTab";
-import { styles } from "../SignupScreen/styles";
 import { homeStyles } from "./homeStyle";
 import auth from '@react-native-firebase/auth';
-import { APPCOLOR } from "../../Assets/Colors/appColors";
-import CircleIcon from "../../Assets/Svgs/CircleIcon";
-import PersonalIcon from "../../Assets/Svgs/PersonalIcon";
-import CustomLabel from "../../Components/CustomLabel";
 import { dimensions } from "../../Constants/utility";
 import AvailSpace from "./AvailSpace";
 import CustomList from "../../Components/CustomList";
@@ -114,14 +106,14 @@ function Home({navigation}) {
         {/* <View
         style={{alignItems:"center"}}
         > */}
-          <View style={homeStyles.buttonShadow}>
+          {/* <View style={homeStyles.buttonShadow}>
             <TouchableOpacity 
           onPress={handleAddNote}>
             <Text style={homeStyles.buttonText}>
               +
             </Text>
           </TouchableOpacity>
-            </View>
+            </View> */}
             {/* </View> */}
 
         </SafeAreaView>

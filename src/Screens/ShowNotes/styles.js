@@ -30,8 +30,16 @@ export const styles= StyleSheet.create(
             fontFamily:FONT.EXTRA_BOLD,
             fontSize:16,
             lineHeight:22,
+            color:APPCOLOR.HEADERTITLE
           },
           list: {paddingHorizontal:8,
         },
+        content:{
+            fontFamily:FONT.BOLD,
+            fontSize:14,
+            lineHeight:18.2,
+            opacity: 0.67,
+            color:APPCOLOR.HEADERTITLE
+        }
     }
 )

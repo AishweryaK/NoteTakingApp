@@ -54,6 +54,7 @@ function AddNote ({route, navigation}) {
                         desc: desc,
                     }
                 )
+                // navigation.navigate(NAVIGATION.NOTESCREEN);
             }
          else
          {   await firestore()
@@ -64,11 +65,19 @@ function AddNote ({route, navigation}) {
           title: title,
           desc: desc,
         }); 
+
+        // navigation.navigate(NAVIGATION.HOMESCREEN);
+
     }
             setTitle("");
             setDesc("");
+            
             console.log("Note saved successfully!");
-            navigation.navigate(NAVIGATION.HOMESCREEN);
+            if(itemID) {
+            navigation.goBack(); }
+            else
+            navigation.navigate(NAVIGATION.HOMESCREEN)
+            
         } catch (error) {
             console.error("Error saving note:", error);
         }
@@ -86,7 +95,9 @@ function AddNote ({route, navigation}) {
                     placeholder="Title" 
                     multiline={true}
                     maxLength={60}
-                    onChangeText={(text)=>setTitle(text)} />
+                    onChangeText={(text)=>setTitle(text)}
+                    placeholderTextColor={APPCOLOR.HEADERTITLE}
+                    />
 
 
                 <RichEditor

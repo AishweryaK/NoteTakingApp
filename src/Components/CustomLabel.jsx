@@ -1,10 +1,5 @@
 import React from "react";
 import { View, TouchableOpacity, Text, ImageBackground } from "react-native";
-import LabelIcon from "../Assets/Svgs/LabelIcon";
-import CircleIcon from "../Assets/Svgs/CircleIcon";
-import WorkIcon from "../Assets/Svgs/WorkIcon";
-import PersonalIcon from "../Assets/Svgs/PersonalIcon";
-import { dimensions } from "../Constants/utility";
 import FrameIcon from "../Assets/Svgs/FrameIcon";
 import { labelStyles } from "../Common/styles";
 
