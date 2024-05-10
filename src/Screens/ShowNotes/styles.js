@@ -6,14 +6,14 @@ export const styles= StyleSheet.create(
     {
         wrapper: { 
             flex: 1, 
-            backgroundColor: APPCOLOR.BACKGROUND 
+            backgroundColor: APPCOLOR.BACKGROUND,
         },
         container: {flex: 1,
             // alignItems: 'center',
             backgroundColor:APPCOLOR.BACKGROUND,
             // paddingTop:30, 
             // borderWidth:2,
-            marginTop:10,
+            marginBottom:10,
             marginHorizontal:8,
             borderRadius:20,
             // paddingVertical:20,
@@ -40,6 +40,10 @@ export const styles= StyleSheet.create(
             lineHeight:18.2,
             opacity: 0.67,
             color:APPCOLOR.HEADERTITLE
-        }
+        },
+        input :{ 
+        alignItems:"center", 
+        paddingBottom:15
+    }
     }
 )

@@ -32,7 +32,7 @@ const NotesScreen = ({ route, navigation}) => {
         setNotes(notesData);
         setFullNotes(notesData)
         // console.log(notesData, "notesData");
-        console.log("Triggered")
+        // console.log("Triggered")
       });
 
     return () => unsubscribe();
@@ -90,7 +90,7 @@ const NotesScreen = ({ route, navigation}) => {
 
   return (
     <SafeAreaView style={styles.wrapper}>
-      <View style={{ alignItems:"center"}}>
+      <View style={styles.input}>
 
         <TextInput
         style={inputStyles.customInput}

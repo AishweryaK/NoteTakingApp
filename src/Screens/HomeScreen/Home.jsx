@@ -51,7 +51,7 @@ function Home({navigation}) {
           <View style={homeStyles.inner}>
           <Text 
           style={homeStyles.welcome}>
-            Welcome, {currentUser ? currentUser.displayName : ""}! 
+            Welcome, {currentUser ? currentUser.displayName : ""} ! 
             {/* {auth().currentUser.displayName} !  */}
             </Text>
             <Text
@@ -70,7 +70,7 @@ function Home({navigation}) {
             ) : (
                 <Image
                     style={homeStyles.userImg}
-                    source={require('../../Assets/Images/user.jpg')}
+                    source={require('../../Assets/Images/userImg.jpeg')}
                 />
             )}
         </View>

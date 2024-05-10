@@ -48,6 +48,9 @@ function HomeNavigation({navigation}) {
   }
    
   return (
+    <View style={{flex:1,backgroundColor:APPCOLOR.BACKGROUND,}}>
+
+    
     <Tab.Navigator initialRouteName={NAVIGATION.HOME}
 
     screenOptions={({ route }) => ({
@@ -76,7 +79,8 @@ function HomeNavigation({navigation}) {
       tabBarShowLabel:false, 
       tabBarStyle:{
       backgroundColor: APPCOLOR.WHITE, borderRadius:20, 
-      justifyContent:"center", marginHorizontal:16, 
+      justifyContent:"center", 
+      marginHorizontal:16, 
       height: dimensions.height*0.075,
     }
     })}
@@ -103,6 +107,7 @@ function HomeNavigation({navigation}) {
        <Tab.Screen name={NAVIGATION.LAMP} component={Lamp}  />
       <Tab.Screen name={NAVIGATION.SETTINGS} component={Settings}  />
     </Tab.Navigator>
+    </View>
   );
 }
 
