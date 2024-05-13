@@ -1,16 +1,65 @@
-import React, {useMemo} from "react";
+import React, {useMemo, useState, useEffect} from "react";
 import { View, TouchableOpacity, Text, ImageBackground, FlatList } from "react-native";
-import FrameIcon from "../Assets/Svgs/FrameIcon";
-import { labelStyles } from "../Common/styles";
+import firestore from "@react-native-firebase/firestore";
 import CustomLabel from "./CustomLabel";
 import { NAVIGATION } from "../Constants/navConstants";
 
-const data = [
-    { id: 1, text: "Personal", number: 4 },
-    { id: 2, text: "Academic", number: 1 },
-    { id: 3, text: "Work", number: 1 },
-    { id: 4, text: "Others", number: 1 },
-];
+
+function CustomList({navigation, userUid}) {
+  const [collections, setCollections] = useState([]);
+    
+
+    useEffect(() => {
+      const userDocRef = firestore().collection('users').doc(userUid);
+  
+      const unsubscribe = userDocRef.onSnapshot((snapshot) => {
+        if (snapshot.exists) {
+          const userData = snapshot.data();
+          if (userData.collections) {
+            setCollections(userData.collections);
+          }
+        }
+      });
+
+      return () => unsubscribe();
+    }, [userUid]);
+
+    const renderItem = useMemo(() => {
+        return ({ item }) => (
+            <View style={{marginBottom:30}}>
+          <CustomLabel
+            handlePress={() =>
+              navigation.navigate(NAVIGATION.NOTESCREEN, { uid: userUid, itemText: item.text })
+            }
+            text={item.text}
+            number={item.number}
+          />
+          </View>
+        );
+      }, [navigation, userUid]);
+
+
+    return (
+        <FlatList
+            data={collections}
+            renderItem={renderItem}
+            keyExtractor={(item, index) => index.toString()}
+            numColumns={2}
+        />
+    );
+}
+
+export default CustomList;
+
+
+
+// const renderItem = ({ item }) => (
+    //     <View style={{marginBottom:30}}>
+    //     <CustomLabel handlePress={() => navigation.navigate(NAVIGATION.NOTESCREEN, {uid:userUid, itemText :item.text})} text={item.text} number={item.number} />
+    //     </View>
+    // );
+
+
 
 // function CustomLabel ({handlePress, text, number}) {
 
@@ -39,37 +88,3 @@ const data = [
 //     )
 // }
 
-function CustomList({navigation, userUid}) {
-
-    // const renderItem = ({ item }) => (
-    //     <View style={{marginBottom:30}}>
-    //     <CustomLabel handlePress={() => navigation.navigate(NAVIGATION.NOTESCREEN, {uid:userUid, itemText :item.text})} text={item.text} number={item.number} />
-    //     </View>
-    // );
-
-    const renderItem = useMemo(() => {
-        return ({ item }) => (
-            <View style={{marginBottom:30}}>
-          <CustomLabel
-            handlePress={() =>
-              navigation.navigate(NAVIGATION.NOTESCREEN, { uid: userUid, itemText: item.text })
-            }
-            text={item.text}
-            number={item.number}
-          />
-          </View>
-        );
-      }, [navigation, userUid]);
-
-
-    return (
-        <FlatList
-            data={data}
-            renderItem={renderItem}
-            keyExtractor={(item) => item.id.toString()}
-            numColumns={2}
-        />
-    );
-}
-
-export default CustomList;

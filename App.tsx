@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   SafeAreaView,
   StatusBar,
@@ -11,10 +11,30 @@ import {
 import { NavigationContainer } from '@react-navigation/native';
 // import StackNavigation from './src/Navigation';
 import StackNavigation from './src/Navigation/authNav';
-import BottomNavigation from './src/Navigation/bottomTab';
 import { APPCOLOR } from './src/Assets/Colors/appColors';
+import messaging from '@react-native-firebase/messaging';
 
 function App(): React.JSX.Element {
+  async function requestUserPermission() {
+    const authStatus = await messaging().requestPermission();
+    const enabled =
+      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+  
+    if (enabled) {
+      console.log('Authorization status:', authStatus);
+    }
+  }
+
+  const getToken = async () => {
+    const token = await messaging().getToken();
+    console.log(token, "token")
+  }
+
+  useEffect (()=> {
+    requestUserPermission();
+    getToken();
+  },[])
   
   return (
     

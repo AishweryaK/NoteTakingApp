@@ -9,7 +9,7 @@ export const styles = StyleSheet.create(
         },
         title : { fontSize: 35,
              marginHorizontal: 20, 
-            marginTop: 20, 
+            // marginTop: 5, 
             color:APPCOLOR.HEADERTITLE,
             opacity:0.67,
         },

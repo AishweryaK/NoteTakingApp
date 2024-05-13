@@ -8,7 +8,20 @@ export async function addDocumentsForUser(userUid) {
     );
 
     await Promise.all(addDocumentPromises);
+
+    await firestore()
+    .collection('users')
+    .doc(userUid)
+    .set({
+        collections: data
+    });
 }
+const data = [
+    { text: "Personal", number: 1 },
+    { text: "Academic", number: 1 },
+    { text: "Work", number: 1 },
+    { text: "Others", number: 1 },
+];
 
 async function addDocumentToCollection(userUid, collectionName) {
     await firestore()
