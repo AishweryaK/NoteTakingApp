@@ -23,6 +23,10 @@ function Home({navigation}) {
       return () => unsubscribe();
   }, []);
 
+  useEffect( ()=>{
+    console.log("HOME")
+  },[])
+
     const handleAddNote =() =>{
       // console.log(currentUser.uid, "UIDd")
         navigation.navigate(NAVIGATION.ADDNOTE, {uid:currentUser.uid, itemTitle:"", itemDesc:""})

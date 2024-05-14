@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 // import StackNavigation from './src/Navigation';
-import StackNavigation from './src/Navigation/authNav';
+import StackNavigation from './src/Navigation/rootNav';
 import { APPCOLOR } from './src/Assets/Colors/appColors';
 import messaging from '@react-native-firebase/messaging';
 

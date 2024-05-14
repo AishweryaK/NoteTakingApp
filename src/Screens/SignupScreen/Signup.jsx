@@ -6,6 +6,7 @@ import {
   Alert,
   KeyboardAvoidingView,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 import {styles} from './styles';
 import {SIGNING} from '../../Constants/signingConstants';
@@ -18,16 +19,19 @@ import CustomInput from '../../Components/CustomInput';
 import CustomButton from '../../Components/CustomButton';
 import { addDocumentsForUser } from '../../Common/firebaseUtils';
 import ProfileImage from '../../Components/ProfileImage';
+import { APPCOLOR } from '../../Assets/Colors/appColors';
 
 const SignupSchema = Yup.object().shape({
   firstName: Yup.string()
     .min(3, 'Too Short!')
     .max(50, 'Too Long!')
-    .required('Please enter your first name'),
+    .required('Please enter your first name')
+    .matches(/^[A-Za-z]+$/gi, "First Name should only contain alphabets") ,
   lastName: Yup.string()
     .min(2, 'Too Short!')
     .max(50, 'Too Long!')
-    .required('Please enter your surname'),
+    .required('Please enter your surname')
+    .matches(/^[A-Za-z]+$/gi, "Last Name should only contain alphabets") ,
   email: Yup.string()
     .email('Invalid email')
     .required('Please enter your Email'),
@@ -45,6 +49,7 @@ const SignupSchema = Yup.object().shape({
 
 function Signup({navigation}) {
   const [imageUri, setImageUri]=  useState(""); //
+  const [loading, setLoading] = useState(false);
 
   const handleImageChange = (uri) => { //
     setImageUri(uri);
@@ -53,6 +58,7 @@ function Signup({navigation}) {
   // console.log(imageUri);
 
   const handleSignUp = async values => {
+    setLoading(true);
     try {
       let userCredentials = await firebase
         .auth()
@@ -70,8 +76,7 @@ function Signup({navigation}) {
       //   });
 
      
-    
-    // Call the function with the user's UID
+  
     await addDocumentsForUser(user.uid);    
         
       // await firestore()
@@ -101,7 +106,10 @@ function Signup({navigation}) {
       }
       navigation.navigate(NAVIGATION.LOGIN);
     } catch (error) {
+      setLoading(false);
       console.error('Error creating account:', error.code, error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -198,12 +206,16 @@ function Signup({navigation}) {
                         </TouchableOpacity> */}
           </ScrollView>
           <View style={styles.bottom}>
+          {loading ? (
+              <ActivityIndicator size="large" color={APPCOLOR.BLUE} />
+            ) : (
             <CustomButton
               // style={{backgroundColor: isValid ? APPCOLOR.BLUE : APPCOLOR.LIGHT_BLUE}}
               handleButton={handleSubmit}
               disable={!isValid}
               text="Submit"
-            />
+            />)}
+
           </View>
 
         </KeyboardAvoidingView>

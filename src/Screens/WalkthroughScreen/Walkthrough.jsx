@@ -10,15 +10,15 @@ import auth from '@react-native-firebase/auth';
 
 export default function Walkthrough ({navigation}) {
 
-    useEffect(()=>{
-        const unsubscribe = auth().onAuthStateChanged(user => {
-          console.log(user,'kaefjwuefhwkebfejwbfwae')
-          if (user) {
-            navigation.navigate(NAVIGATION.HOMESCREEN)
-          }
-      });
-      return () => unsubscribe();
-      },[])
+    // useEffect(()=>{
+    //     const unsubscribe = auth().onAuthStateChanged(user => {
+    //       console.log(user,'kaefjwuefhwkebfejwbfwae')
+    //       if (user) {
+    //         navigation.navigate(NAVIGATION.HOMESCREEN)
+    //       }
+    //   });
+    //   return () => unsubscribe();
+    //   },[])
 
     return (
     <View style={styles.wrapper}>
