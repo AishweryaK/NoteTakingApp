@@ -1,4 +1,4 @@
-import React from 'react';
+import React , {useState} from 'react';
 import {
   View,
   Text,
@@ -16,9 +16,8 @@ import {NAVIGATION} from '../../Constants/navConstants';
 import firestore from '@react-native-firebase/firestore';
 import CustomInput from '../../Components/CustomInput';
 import CustomButton from '../../Components/CustomButton';
-import {loginStyles} from '../LoginScreen/loginStyles';
-import {APPCOLOR} from '../../Assets/Colors/appColors';
 import { addDocumentsForUser } from '../../Common/firebaseUtils';
+import ProfileImage from '../../Components/ProfileImage';
 
 const SignupSchema = Yup.object().shape({
   firstName: Yup.string()
@@ -45,6 +44,13 @@ const SignupSchema = Yup.object().shape({
 });
 
 function Signup({navigation}) {
+  const [imageUri, setImageUri]=  useState(""); //
+
+  const handleImageChange = (uri) => { //
+    setImageUri(uri);
+  };
+
+  // console.log(imageUri);
 
   const handleSignUp = async values => {
     try {
@@ -88,6 +94,7 @@ function Signup({navigation}) {
         console.log(userCredentials, 'userrrr');
         await userCredentials.user.updateProfile({
             displayName: values.firstName + ' ' + values.lastName,
+            photoURL: imageUri,   //
         });
       } else {
         console.error('User creation failed, no user returned.');
@@ -123,9 +130,12 @@ function Signup({navigation}) {
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={styles.wrapper}
-          keyboardVerticalOffset={65}>
+          keyboardVerticalOffset={100}>  
           <ScrollView style={{marginBottom: 10}}>
 
+            {/* <ProfileImage /> */}
+            <ProfileImage onImageChange={handleImageChange} />  
+            
             <CustomInput
               placeHolder={SIGNING.FIRSTNAME}
               value={values.firstName}

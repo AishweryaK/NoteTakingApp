@@ -8,6 +8,11 @@ import SETTINGS from "../Assets/Svgs/Settings.svg"
 import SETTINGSFD from "../Assets/Svgs/SettingsFocused.svg"
 import CHECKLIST from "../Assets/Svgs/Checklist.svg"
 import CHECKLISTFD from "../Assets/Svgs/ChecklistFocused.svg"
+import ACCOUNT from "../Assets/Svgs/person-outline.svg"
+import CHANGEP from "../Assets/Svgs/lock-closed-outline.svg"
+import THEME from "../Assets/Svgs/eyedrop-outline.svg"
+import LOGOUT from "../Assets/Svgs/log-out-outline.svg"
+import CAMERA from "../Assets/Svgs/camera-outline.svg"
 
 
 const iconStyle = (
@@ -32,4 +37,9 @@ export const ICONS = {
   SETTINGSFD: (...params) =><SETTINGSFD {...iconStyle(...params)} />,
   CHECKLIST: (...params) =><CHECKLIST {...iconStyle(...params)} />,
   CHECKLISTFD: (...params) =><CHECKLISTFD {...iconStyle(...params)} />,
+  ACCOUNT: (...params) =><ACCOUNT {...iconStyle(...params)} />,
+  CHANGEP: (...params) =><CHANGEP {...iconStyle(...params)} />,
+  THEME: (...params) =><THEME {...iconStyle(...params)} />,
+  LOGOUT: (...params) =><LOGOUT {...iconStyle(...params)} />,
+  CAMERA: (...params) =><CAMERA {...iconStyle(...params)} />,
 }

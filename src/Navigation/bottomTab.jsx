@@ -1,10 +1,7 @@
 import React, { useState, useEffect  } from "react";
 import {View, Text, TouchableOpacity} from "react-native"
 import { NAVIGATION } from "../Constants/navConstants";
-import Login from "../Screens/LoginScreen/Login";
 import Home from "../Screens/HomeScreen/Home";
-import AddNote from "../Screens/AddNoteScreen/AddNote";
-// import { RootStackParamList } from "./routeTypes";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Settings from "../Screens/SettingsScreen/Settings";
 import { APPCOLOR } from "../Assets/Colors/appColors";
@@ -89,7 +86,9 @@ function HomeNavigation({navigation}) {
 
 
 
-      <Tab.Screen name={NAVIGATION.HOME} component={Home}  />
+      <Tab.Screen name={NAVIGATION.HOME} component={Home}  
+      // initialParams={{userData:route.params.userData}}
+      />
       <Tab.Screen name={NAVIGATION.CHECKLIST} component={CheckList}  />
      
       <Tab.Screen name="Something" component={DummyAddNote} options={{

@@ -1,13 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import { styles } from "../SignupScreen/styles";
 import { wlkStyles } from "./walkthroughStyles";
 import CustomButton from "../../Components/CustomButton";
 import { NAVIGATION } from "../../Constants/navConstants";
 import GoogleLogin from "../../Components/GoogleLogin";
+import auth from '@react-native-firebase/auth';
 
 
 export default function Walkthrough ({navigation}) {
+
+    useEffect(()=>{
+        const unsubscribe = auth().onAuthStateChanged(user => {
+          console.log(user,'kaefjwuefhwkebfejwbfwae')
+          if (user) {
+            navigation.navigate(NAVIGATION.HOMESCREEN)
+          }
+      });
+      return () => unsubscribe();
+      },[])
+
     return (
     <View style={styles.wrapper}>
         <Text style={wlkStyles.title}>

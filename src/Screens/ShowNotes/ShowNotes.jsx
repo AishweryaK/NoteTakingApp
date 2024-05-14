@@ -9,6 +9,7 @@ import { inputStyles } from '../../Common/styles';
 import filter from "lodash.filter";
 import { APPCOLOR } from '../../Assets/Colors/appColors';
 import { FONT } from '../../Constants/fontConstants';
+import { homeStyles } from '../HomeScreen/homeStyle';
 
 const NotesScreen = ({ route, navigation}) => {
   const [notes, setNotes] = useState([]);
@@ -60,6 +61,10 @@ const NotesScreen = ({ route, navigation}) => {
       return false;
   }
 
+  const handleAddNote = () => {
+    navigation.navigate(NAVIGATION.ADDNOTE, {uid: uid , label:itemText})
+  }
+
   const MemoizedHTML = React.memo(HTML);
 
   const renderItem = ({ item }) => (
@@ -67,7 +72,8 @@ const NotesScreen = ({ route, navigation}) => {
     
     <View style={styles.container}>
       <TouchableOpacity style={{flex:1}}
-      onPress={()=> navigation.navigate(NAVIGATION.ADDNOTE, {uid: uid ,itemTitle: item.title, itemDesc : item.desc, itemID: item.id})}
+      onPress={()=> navigation.navigate(NAVIGATION.ADDNOTE, {uid: uid ,itemTitle: item.title, 
+        itemDesc : item.desc, itemID: item.id, label:itemText})}
       >
       <Text style={styles.txt}
       >{item.title}</Text>
@@ -110,6 +116,23 @@ const NotesScreen = ({ route, navigation}) => {
       keyExtractor={(item) => item.id}
       numColumns={2}
     />
+    <View style={{alignItems:"center"}}>
+    <View style={[homeStyles.buttonShadow, {borderRadius:1000, 
+      width:dimensions.width*0.5, justifyContent:"flex-end",}]}>
+            <TouchableOpacity style={{flex:1, flexDirection:"row", justifyContent:"space-evenly",  
+              width:dimensions.width*0.45, paddingHorizontal:10
+            }}
+          onPress={handleAddNote}
+          >
+            <Text style={[homeStyles.buttonText, {fontSize:30, paddingVertical:10}]}>
+              +
+            </Text>
+            <Text style={[homeStyles.buttonText, {fontSize:14,paddingVertical:20}]}>
+              Add New Notes
+            </Text>
+          </TouchableOpacity>
+            </View>
+            </View>
     </SafeAreaView>
   );
 };

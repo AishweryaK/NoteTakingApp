@@ -13,6 +13,7 @@ function CustomList({navigation, userUid}) {
       const userDocRef = firestore().collection('users').doc(userUid);
   
       const unsubscribe = userDocRef.onSnapshot((snapshot) => {
+        console.log('snapshot',snapshot)
         if (snapshot.exists) {
           const userData = snapshot.data();
           if (userData.collections) {

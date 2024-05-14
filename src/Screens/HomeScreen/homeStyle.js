@@ -5,25 +5,11 @@ import { dimensions } from "../../Constants/utility";
 
 export const homeStyles = StyleSheet.create({
     buttonShadow: {
-        // shadowColor: '#171717',
-        // shadowOffset: {width: -2, height: 4},
-        // shadowOpacity: 0.4,
-        // shadowRadius: 4,
         shadowColor: APPCOLOR.BLUE,
         shadowOffset: {width: -2, height: 4},
         shadowOpacity: 0.3,
         shadowRadius: 10,
-        // position:"absolute",
-
-        // right:dimensions.width*0.43, 
         bottom:30,
-        // marginLeft:"auto",
-        // marginRight:"auto",
-        // left:0,
-        // right:0,
-
-        // left: "50%", 
-        // transform: [{translateX: -30}],
         textAlign:"center", 
         height:dimensions.width*0.14, 
         width:dimensions.width*0.14, 
@@ -31,6 +17,7 @@ export const homeStyles = StyleSheet.create({
         backgroundColor:APPCOLOR.BLUE, 
         justifyContent:"center", 
         elevation:7,
+        alignItems:"center"
         
       },
       buttonText: {

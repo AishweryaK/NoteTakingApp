@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import { Dimensions, KeyboardAvoidingView, Modal, Text, TextInput, View, FlatList, Linking, TouchableOpacity } from "react-native";
+import { Dimensions, KeyboardAvoidingView, Modal, Text, TextInput, View, FlatList, Linking, TouchableOpacity, SafeAreaView, Alert } from "react-native";
 import { RichEditor, RichToolbar, actions } from "react-native-pell-rich-editor"; 
 import { APPCOLOR } from "../../Assets/Colors/appColors";
 import { homeStyles } from "../HomeScreen/homeStyle";
@@ -15,11 +15,11 @@ function AddNote ({route, navigation}) {
     const [modalVisible, setModalVisible] = useState(false);
     const [collections, setCollections] = useState([]);
     const [newCollection, setNewCollection] = useState("");
-    const [selectedCollection, setSelectedCollection] = useState(null);
+    const [selectedCollection, setSelectedCollection] = useState({number: 1, text: "Others"});
     const richText = useRef();
-    const descRef = useRef("")
+    // const descRef = useRef("");
 
-    const {uid, itemTitle, itemDesc, itemID} = route.params;
+    const {uid, itemTitle, itemDesc, itemID, label} = route.params;
 
     useEffect(() => {
         if (itemTitle && itemDesc) {
@@ -43,11 +43,18 @@ function AddNote ({route, navigation}) {
         return () => unsubscribe();
     }, [uid]); 
     
+    // console.log(label, "THIS IS LABEL")
 
 //     useEffect(() => {
 //     console.log(title, "title");
 //     console.log(desc,"desc")
 //   }, [title, desc]);
+  
+
+//   useEffect(() => {
+//     // console.log(selectedCollection, "SELECTEDDDD");
+//     // console.log(desc,"desc")
+//   }, [selectedCollection]);
 
     // console.log(uid, "UID")
 
@@ -58,15 +65,27 @@ function AddNote ({route, navigation}) {
 
     const handleDesc = (text) => {
      setDesc(text);
-     descRef.current= desc;
+    //  descRef.current= desc;
     }
+    // console.log(itemID,"ITEMID")
+    // console.log(itemTitle,"TITLe")
+    // console.log(itemDesc,"DESC")
+    // console.log(label,"label")
+
 
     const saveNote = async () => {
-        try {
-            if(itemID) 
+        
+        if (title === "" && desc === "") {
+            Alert.alert("Empty note", "It will be discarded");
+            navigation.goBack();
+            return; 
+        }
+            try {
+            if(itemID && label) 
             {
+                // console.log("inside itemid")
                 await firestore().collection('users')
-                .doc(uid).collection('Personal')
+                .doc(uid).collection(label)
                 .doc(itemID)
                 .update(
                     {
@@ -76,24 +95,92 @@ function AddNote ({route, navigation}) {
                 )
                 // navigation.navigate(NAVIGATION.NOTESCREEN);
             }
-         else
-         {   await firestore()
+            else if(label) 
+                {
+                    // console.log("inside itemid")
+                    await firestore()
+                    .collection('users')
+                    .doc(uid)
+                    .collection(label)
+                    .add(
+                        {
+                            title: title,
+                            desc: desc,
+                        }
+                    )
+                    // navigation.navigate(NAVIGATION.NOTESCREEN);
+
+                    const collectionRef = firestore()
+                .collection('users')
+                .doc(uid);
+            const doc = await collectionRef.get();
+            if (doc.exists) {
+                const userData = doc.data();
+                // console.log(userData, "USERDATA")
+                const updatedCollections = userData.collections.map(collection => {
+                    // console.log(collection, "COLLECTTT")
+                    if (collection.text === label) {
+                        return {
+                            ...collection,
+                            number: collection.number + 1,
+                        };
+                    }
+                    return collection;
+                });
+                await collectionRef.set({ collections: updatedCollections }, { merge: true });
+            }
+                }
+         else 
+         {
+    //         if( selectedCollection==null )
+    //      {   
+    //         await firestore()
+    //     .collection('users')
+    //     .doc(uid)
+    //     .collection('Others')
+    //     .add({
+    //       title: title,
+    //       desc: desc,
+    //     }); 
+    // }
+
+            await firestore()
         .collection('users')
         .doc(uid)
-        .collection('Personal')
+        .collection(selectedCollection.text)
         .add({
           title: title,
           desc: desc,
         }); 
+        
 
-        // navigation.navigate(NAVIGATION.HOMESCREEN);
-
-    }
+        const collectionRef = firestore()
+                .collection('users')
+                .doc(uid);
+            const doc = await collectionRef.get();
+            if (doc.exists) {
+                const userData = doc.data();
+                // console.log(userData, "USERDATA")
+                const updatedCollections = userData.collections.map(collection => {
+                    // console.log(collection, "COLLECTTT")
+                    if (collection.text === selectedCollection.text) {
+                        return {
+                            ...collection,
+                            number: collection.number + 1,
+                        };
+                    }
+                    return collection;
+                });
+                await collectionRef.set({ collections: updatedCollections }, { merge: true });
+            }
+        
+        }
+    
             setTitle("");
             setDesc("");
             
             console.log("Note saved successfully!");
-            if(itemID) {
+            if(itemID || label) {
             navigation.goBack(); }
             else
             navigation.navigate(NAVIGATION.HOMESCREEN)
@@ -101,15 +188,19 @@ function AddNote ({route, navigation}) {
         } catch (error) {
             console.error("Error saving note:", error);
         }
+    
     };
 
     const addCollection = async () => {
         if (newCollection.trim() === "") return;
         try {
-            const updatedCollections = [...collections, { text: newCollection, number: 1 }];
+            const updatedCollections = [...collections, { text: newCollection, number: 0 }];
             await firestore().collection('users').doc(uid).set({
                 collections: updatedCollections
             }, { merge: true });
+
+            setSelectedCollection({ text: newCollection, number: 1 });
+
             setModalVisible(false);
             setNewCollection("");
         } catch (error) {
@@ -124,6 +215,7 @@ function AddNote ({route, navigation}) {
     );
     const handleCollectionSelection = (collection) => {
         setSelectedCollection(collection);
+        // console.log(selectedCollection.text, "TEXT")
         setModalVisible(false); 
     };
     
@@ -136,12 +228,27 @@ function AddNote ({route, navigation}) {
             style={styles.container}
             keyboardVerticalOffset={97}
             >
-                <View style={styles.header}>
-        <TouchableOpacity onPress={() => setModalVisible(true)}>
-            <Text style={styles.headerText}>Collections</Text>
-        </TouchableOpacity>
-    </View>
+                <View style={{ marginTop:10, flexDirection:"row",
+                    justifyContent:"space-between", marginHorizontal:20 }}>
+ <View>
+
+ </View>
+               <View>
+                {itemID || label ? null :  <TouchableOpacity 
+                style={{borderWidth:2, borderRadius:8, padding:3, borderColor:APPCOLOR.BORDER,
+        }}
+        onPress={() => setModalVisible(true)}>
+             <Text style={{color:APPCOLOR.HEADERTITLE}}> {selectedCollection.text} </Text> 
+           
+
+        </TouchableOpacity> 
+        
+                }
+                
+       
+    
     <Modal
+    // style={{backgroundColor:"red", margin:200}}
         animationType="slide"
         // transparent={true}
         visible={modalVisible}
@@ -149,9 +256,13 @@ function AddNote ({route, navigation}) {
             setModalVisible(!modalVisible);
         }}
     >
-        <View style={styles.modalContainer}>
-            <View style={styles.modalContent}>
-                <Text style={styles.modalTitle}>Collections</Text>
+        <SafeAreaView 
+        // style={{backgroundColor:'red', marginTop:20}}
+        >
+            <View 
+            // style={{backgroundColor:'red'}}
+            >
+                <Text style={{fontFamily:FONT.EXTRA_BOLD}}>Collections</Text>
                 <FlatList
                     data={collections}
                     renderItem={renderCollectionItem}
@@ -167,8 +278,10 @@ function AddNote ({route, navigation}) {
                     <Text style={{}}>Add</Text>
                 </TouchableOpacity>
             </View>
-        </View>
+        </SafeAreaView>
     </Modal>
+    </View>
+    </View>
                 {/* <View style={{backgroundColor:"blue", marginTop:10, flexDirection:"row",
                     justifyContent:"space-between"
                 }}>
@@ -200,7 +313,7 @@ function AddNote ({route, navigation}) {
                     onLink={async (url) => {
                         try {
                             const result = await Linking.openURL(url);
-                            console.log(result);
+                            // console.log(result);
                         } catch (error) {
                             console.error("Error occurred while opening URL:", error);
                         }
@@ -246,185 +359,4 @@ function AddNote ({route, navigation}) {
 )
 }
 
-export default AddNote;
-
-
-
-
-
-
-
-
-// import React, { useRef, useState, useEffect } from "react";
-// import { Dimensions, KeyboardAvoidingView, SafeAreaView, ScrollView, Text, TextInput, View,Keyboard, Alert, Linking, TouchableOpacity } from "react-native";
-// import { RichEditor, RichToolbar, actions } from "react-native-pell-rich-editor"; 
-// import { APPCOLOR } from "../../Assets/Colors/appColors";
-// import { homeStyles } from "../HomeScreen/homeStyle";
-// import { FONT } from "../../Constants/fontConstants";
-// import { NAVIGATION } from "../../Constants/navConstants";
-// import firestore from '@react-native-firebase/firestore';
-// import { styles } from "./styles";
-
-
-// function AddNote ({route, navigation}) {
-//     const [title, setTitle]= useState("");
-//     const [desc, setDesc]= useState("");
-//     const richText = useRef();
-//     const descRef = useRef("")
-
-//     const {uid, itemTitle, itemDesc, itemID} = route.params;
-
-//     useEffect(() => {
-//         if (itemTitle && itemDesc) {
-//             setTitle(itemTitle);
-//             setDesc(itemDesc);
-//         }
-//     }, [itemTitle, itemDesc]);
-
-//     useEffect(() => {
-//     console.log(title, "title");
-//     console.log(desc,"desc")
-//   }, [title, desc]);
-
-//     // console.log(uid, "UID")
-
-//     // console.log(desc, "THIS IS DESC")
-//     // console.log(scrollText.current)
-
-//     // const handleHead = ({tintColor}) => <Text style={{color: tintColor}}>H1</Text>
-
-//     const handleDesc = (text) => {
-//      setDesc(text);
-//      descRef.current= desc;
-//     }
-
-//     const saveNote = async () => {
-//         try {
-//             if(itemID) 
-//             {
-//                 await firestore().collection('users')
-//                 .doc(uid).collection('Personal')
-//                 .doc(itemID)
-//                 .update(
-//                     {
-//                         title: title,
-//                         desc: desc,
-//                     }
-//                 )
-//                 // navigation.navigate(NAVIGATION.NOTESCREEN);
-//             }
-//          else
-//          {   await firestore()
-//         .collection('users')
-//         .doc(uid)
-//         .collection('Personal')
-//         .add({
-//           title: title,
-//           desc: desc,
-//         }); 
-
-//         // navigation.navigate(NAVIGATION.HOMESCREEN);
-
-//     }
-//             setTitle("");
-//             setDesc("");
-            
-//             console.log("Note saved successfully!");
-//             if(itemID) {
-//             navigation.goBack(); }
-//             else
-//             navigation.navigate(NAVIGATION.HOMESCREEN)
-            
-//         } catch (error) {
-//             console.error("Error saving note:", error);
-//         }
-//     };
-
-//     return (
-//         // <SafeAreaView style={{ flex: 1, backgroundColor: "red" }}>
-//             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} 
-//             style={styles.container}
-//             keyboardVerticalOffset={97}
-//             >
-//                 <View style={{backgroundColor:"blue", marginTop:10, flexDirection:"row",
-//                     justifyContent:"space-between"
-//                 }}>
-//                     <View></View>
-//                     <Text>
-//                         Hello
-//                     </Text>
-
-//                 </View>
-//                     <TextInput
-//                     value={title}
-//                     style={styles.title} 
-//                     placeholder="Title" 
-//                     multiline={true}
-//                     maxLength={60}
-//                     onChangeText={(text)=>setTitle(text)}
-//                     placeholderTextColor={APPCOLOR.HEADERTITLE}
-//                     />
-
-
-//                 <RichEditor
-//                     ref={richText}
-//                     placeholder="Note"
-//                     initialContentHTML={desc}
-//                     onChange={handleDesc}
-//                     androidHardwareAccelerationDisabled={true}
-//                     initialHeight={80}
-//                     scrollEnabled
-//                     onLink={async (url) => {
-//                         try {
-//                             const result = await Linking.openURL(url);
-//                             console.log(result);
-//                         } catch (error) {
-//                             console.error("Error occurred while opening URL:", error);
-//                         }
-//                     }}
-//                     editorStyle={styles.editor}
-//                     style={styles.desc}
-//                 containerStyle={{overflow:"scroll"}}
-//                 />
-
-//             <View style={homeStyles.buttonShadow}>
-//             <TouchableOpacity 
-//           onPress={saveNote}>
-//             <Text style={styles.buttonTxt}>
-//               Save
-//             </Text>
-//           </TouchableOpacity>
-//             </View>
-
-
-//             {/* <View 
-//             style={{}}
-//             > */}
-//                 <RichToolbar
-//                 style={styles.toolbar}
-//                     editor={richText}
-//                     iconTint={APPCOLOR.GRAY}
-//                     selectedIconTint={APPCOLOR.DARK_BLUE}
-//                     actions={[
-//                         // actions.insertImage,
-//                         actions.setBold,
-//                         actions.setItalic,
-//                         actions.setUnderline,
-//                         actions.setStrikethrough,
-//                         actions.insertBulletsList,
-//                         actions.insertOrderedList,
-//                         actions.insertLink,
-//                         actions.checkboxList,
-//                     ]}
-//                 />
-//             {/* </View> */}
-//             </KeyboardAvoidingView>
-//         // </SafeAreaView>
-// )
-// }
-
-// export default AddNote;
-
-
-
-   
+export default AddNote;   

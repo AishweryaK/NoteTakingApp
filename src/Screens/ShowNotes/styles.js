@@ -44,6 +44,6 @@ export const styles= StyleSheet.create(
         input :{ 
         alignItems:"center", 
         paddingBottom:15
-    }
+    },
     }
 )

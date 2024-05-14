@@ -8509,6 +8509,7 @@ __metadata:
     react-native-date-picker: ^5.0.2
     react-native-gesture-handler: ^2.16.1
     react-native-htmlview: ^0.17.0
+    react-native-image-picker: ^7.1.2
     react-native-pell-rich-editor: ^1.9.0
     react-native-reanimated: ^3.11.0
     react-native-render-html: ^6.3.4
@@ -9219,6 +9220,16 @@ __metadata:
     entities: ^1.1.1
     htmlparser2-without-node-native: ^3.9.2
   checksum: 07d5b495bb0f2028951a0bbfab3cc10ab314f9773a9dee4ceeaac6a05837a948ff6b7a435b57e52b81ec2ab5d0503e16fc0fbd1f09345cd758023a76d1b6427e
+  languageName: node
+  linkType: hard
+
+"react-native-image-picker@npm:^7.1.2":
+  version: 7.1.2
+  resolution: "react-native-image-picker@npm:7.1.2"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: af52328b7cb06c28549442f0d923cfa92dde8d5a968a642336df4c882f81adbf0e5e606a14de27f96883a76fa1e03230061c4080011c9107942edebc8e09c478
   languageName: node
   linkType: hard
 
