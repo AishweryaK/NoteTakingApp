@@ -21,7 +21,7 @@ import { addDocumentsForUser } from '../../Common/firebaseUtils';
 import ProfileImage from '../../Components/ProfileImage';
 import { APPCOLOR } from '../../Assets/Colors/appColors';
 
-const SignupSchema = Yup.object().shape({
+export const SignupSchema = Yup.object().shape({
   firstName: Yup.string()
     .min(3, 'Too Short!')
     .max(50, 'Too Long!')
@@ -48,10 +48,10 @@ const SignupSchema = Yup.object().shape({
 });
 
 function Signup({navigation}) {
-  const [imageUri, setImageUri]=  useState(""); //
+  const [imageUri, setImageUri]=  useState(""); 
   const [loading, setLoading] = useState(false);
 
-  const handleImageChange = (uri) => { //
+  const handleImageChange = (uri) => { 
     setImageUri(uri);
   };
 
@@ -104,7 +104,7 @@ function Signup({navigation}) {
       } else {
         console.error('User creation failed, no user returned.');
       }
-      navigation.navigate(NAVIGATION.LOGIN);
+      // navigation.navigate(NAVIGATION.LOGIN);
     } catch (error) {
       setLoading(false);
       console.error('Error creating account:', error.code, error.message);

@@ -19,11 +19,20 @@ export const styles = StyleSheet.create({
     option: {
       flexDirection: 'row',
       alignItems: 'center',
-      marginBottom: 30,
+      marginBottom: 20,
+      borderBottomColor:APPCOLOR.BORDER,
+      borderBottomWidth:1,
+      paddingBottom:15,
     },
     optionText: {
       marginLeft: 40,
       fontSize: 18,
-    fontFamily:FONT.REGULAR
+    fontFamily:FONT.REGULAR,
+    color:APPCOLOR.HEADERTITLE
     },
+    view: { flex:1, 
+      flexDirection:"row", 
+      justifyContent:"space-between", 
+      paddingRight:5
+    }
   });

@@ -103,3 +103,40 @@ export const labelStyles= StyleSheet.create(
         }
   }
 )
+
+export const profileImgStyles= StyleSheet.create(
+  {
+    container: {
+      alignItems: "center",
+    },
+    img: {
+      height: 100,
+      width: 100,
+      borderRadius: 50,
+      marginBottom: 3,
+    },
+    text: {
+      paddingTop: 5,
+      fontSize: 14,
+      color: "white",
+      textDecorationLine: "underline",
+    },
+    modalBackground: {
+      flex: 1,
+      backgroundColor: "rgba(0, 0, 0, 0.5)",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    modalContainer: {
+      backgroundColor: APPCOLOR.BACKGROUND,
+      padding: 20,
+      borderRadius: 10,
+      alignItems: "center",
+    },
+    modalOption: {
+      fontSize: 16,
+      paddingVertical: 10,
+      fontFamily:FONT.REGULAR
+    },
+  }
+)

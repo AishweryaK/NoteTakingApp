@@ -13,6 +13,7 @@ import CHANGEP from "../Assets/Svgs/lock-closed-outline.svg"
 import THEME from "../Assets/Svgs/eyedrop-outline.svg"
 import LOGOUT from "../Assets/Svgs/log-out-outline.svg"
 import CAMERA from "../Assets/Svgs/camera-outline.svg"
+import ARROW from "../Assets/Svgs/chevron-forward-outline.svg"
 
 
 const iconStyle = (
@@ -42,4 +43,5 @@ export const ICONS = {
   THEME: (...params) =><THEME {...iconStyle(...params)} />,
   LOGOUT: (...params) =><LOGOUT {...iconStyle(...params)} />,
   CAMERA: (...params) =><CAMERA {...iconStyle(...params)} />,
+  ARROW: (...params) =><ARROW {...iconStyle(...params)} />,
 }

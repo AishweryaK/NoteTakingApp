@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useFocusEffect } from "react";
 import { Dimensions, KeyboardAvoidingView, Modal, Text, TextInput, View, FlatList, Linking, TouchableOpacity, SafeAreaView, Alert } from "react-native";
 import { RichEditor, RichToolbar, actions } from "react-native-pell-rich-editor"; 
 import { APPCOLOR } from "../../Assets/Colors/appColors";
@@ -7,6 +7,8 @@ import { FONT } from "../../Constants/fontConstants";
 import { NAVIGATION } from "../../Constants/navConstants";
 import firestore from '@react-native-firebase/firestore';
 import { styles } from "./styles";
+import { profileImgStyles } from "../../Common/styles";
+import { dimensions } from "../../Constants/utility";
 
 
 function AddNote ({route, navigation}) {
@@ -42,6 +44,12 @@ function AddNote ({route, navigation}) {
     
         return () => unsubscribe();
     }, [uid]); 
+
+    // useEffect(() => {
+    //     return () => {
+    //         saveNote();
+    //     };
+    // }, []);
     
     // console.log(label, "THIS IS LABEL")
 
@@ -228,17 +236,15 @@ function AddNote ({route, navigation}) {
             style={styles.container}
             keyboardVerticalOffset={97}
             >
-                <View style={{ marginTop:10, flexDirection:"row",
-                    justifyContent:"space-between", marginHorizontal:20 }}>
+                <View style={styles.view}>
  <View>
 
  </View>
                <View>
                 {itemID || label ? null :  <TouchableOpacity 
-                style={{borderWidth:2, borderRadius:8, padding:3, borderColor:APPCOLOR.BORDER,
-        }}
+                style={styles.collButton}
         onPress={() => setModalVisible(true)}>
-             <Text style={{color:APPCOLOR.HEADERTITLE}}> {selectedCollection.text} </Text> 
+             <Text style={styles.collText}> {selectedCollection.text} </Text> 
            
 
         </TouchableOpacity> 
@@ -250,19 +256,34 @@ function AddNote ({route, navigation}) {
     <Modal
     // style={{backgroundColor:"red", margin:200}}
         animationType="slide"
-        // transparent={true}
+        transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-            setModalVisible(!modalVisible);
+            // setModalVisible(!modalVisible);
+            setModalVisible(false)
         }}
     >
-        <SafeAreaView 
-        // style={{backgroundColor:'red', marginTop:20}}
-        >
-            <View 
-            // style={{backgroundColor:'red'}}
+        {/* <SafeAreaView 
+        style={profileImgStyles.modalBackground}
+        > */}
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} 
+            style={profileImgStyles.modalBackground}
+            keyboardVerticalOffset={0}
             >
-                <Text style={{fontFamily:FONT.EXTRA_BOLD}}>Collections</Text>
+            <View 
+            style={[profileImgStyles.modalContainer, {height:dimensions.height*0.4, width:dimensions.width*0.55}]}
+            >
+                <View style={styles.closeButtonView}>
+                <View style={styles.inner}>
+                <Text style={styles.heading}>Collections</Text>
+                </View>
+                <TouchableOpacity style={styles.xButton}
+                    onPress={()=> setModalVisible(false)}> 
+                    <Text >
+                        X
+                    </Text>
+                </TouchableOpacity>
+                </View>
                 <FlatList
                     data={collections}
                     renderItem={renderCollectionItem}
@@ -275,10 +296,11 @@ function AddNote ({route, navigation}) {
                     onChangeText={setNewCollection}
                 />
                 <TouchableOpacity style={styles.addButton} onPress={addCollection}>
-                    <Text style={{}}>Add</Text>
+                    <Text style={styles.addTxt}>Add</Text>
                 </TouchableOpacity>
             </View>
-        </SafeAreaView>
+        {/* </SafeAreaView> */}
+        </KeyboardAvoidingView>
     </Modal>
     </View>
     </View>
@@ -323,6 +345,7 @@ function AddNote ({route, navigation}) {
                 containerStyle={{overflow:"scroll"}}
                 />
 
+                <View style={{alignItems:"center"}}>
             <View style={homeStyles.buttonShadow}>
             <TouchableOpacity 
           onPress={saveNote}>
@@ -330,6 +353,7 @@ function AddNote ({route, navigation}) {
               Save
             </Text>
           </TouchableOpacity>
+            </View>
             </View>
 
 

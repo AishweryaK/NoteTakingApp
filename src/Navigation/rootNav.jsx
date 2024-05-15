@@ -19,31 +19,17 @@ import Login from "../Screens/LoginScreen/Login";
 
 function StackNavigation() {
   const Stack = createNativeStackNavigator();
-  // const [user, setUser] = useState(null);
+  const [user, setUser] = useState(null);
 
-  // useEffect(() => {
-  //   const unsubscribe = auth().onAuthStateChanged((user) => {
-  //     setUser(user);
-  //   });
-  //   return unsubscribe;
-  // }, []);
+  useEffect(() => {
+    const unsubscribe = auth().onAuthStateChanged((user) => {
+      setUser(user);
+    });
+    return () => unsubscribe();
+  }, []);
 
   return (
-    // <Stack.Navigator initialRouteName={user ? NAVIGATION.HOMESCREEN : NAVIGATION.WALKTHROUGH} screenOptions={{headerShown:false, headerStyle: {
-    //   backgroundColor: APPCOLOR.BACKGROUND,
-    // },
-    // headerShadowVisible:false,
-    // headerTintColor:APPCOLOR.HEADERTITLE,
-    // headerTitleAlign:"center",
-    // headerTitleStyle: {
-    //   fontFamily:FONT.BOLD,
-    //   fontSize:18,
-    // },}}> 
-    //   {user? <AppNavigation/> : <AuthNavigation />}
-    //   {/* <Stack.Screen name="App" component={user ? AppNavigation : AuthNavigation} /> */}
-    // </Stack.Navigator>
-
-    <Stack.Navigator initialRouteName={NAVIGATION.WALKTHROUGH} screenOptions={{headerShown:false, headerStyle: {
+    <Stack.Navigator initialRouteName={user ? NAVIGATION.HOMESCREEN : NAVIGATION.WALKTHROUGH} screenOptions={{headerShown:false, headerStyle: {
       backgroundColor: APPCOLOR.BACKGROUND,
     },
     headerShadowVisible:false,
@@ -53,16 +39,30 @@ function StackNavigation() {
       fontFamily:FONT.BOLD,
       fontSize:18,
     },}}> 
-      <Stack.Screen name={NAVIGATION.WALKTHROUGH} component={Walkthrough} options={{headerShown:false}} />  
-      <Stack.Screen name={NAVIGATION.LOGIN} component={Login} options={{headerShown:true, title:"Log in", headerBackTitleVisible:false
-      }}/>
-      <Stack.Screen name={NAVIGATION.SIGNUP} component={Signup} options={{headerShown:true, title:"Sign up", headerBackTitleVisible:false}} />
-      {/* <Stack.Screen name={NAVIGATION.HOMESCREEN} component={Home}/> */}
-      <Stack.Screen name={NAVIGATION.HOMESCREEN} component={HomeNavigation} />
-      <Stack.Screen name={NAVIGATION.ADDNOTE} component={AddNote} options={{headerShown:true, title:"Add Note", headerBackTitleVisible:false}} />
-      <Stack.Screen name={NAVIGATION.NOTESCREEN} component={NotesScreen} options={{headerShown:true, title:"Notes", headerBackTitle:"BACK"}} />
-      <Stack.Screen name={NAVIGATION.FORGOTPASS} component={ForgotPassScreen} options={{headerShown:true, title:"Forgot Password", headerBackTitleVisible:false}} />
+      {/* {user? <AppNavigation/> : <AuthNavigation />} */}
+      <Stack.Screen name="App" component={user ? AppNavigation : AuthNavigation} />
     </Stack.Navigator>
+
+    // <Stack.Navigator initialRouteName={NAVIGATION.WALKTHROUGH} screenOptions={{headerShown:false, headerStyle: {
+    //   backgroundColor: APPCOLOR.BACKGROUND,
+    // },
+    // headerShadowVisible:false,
+    // headerTintColor:APPCOLOR.HEADERTITLE,
+    // headerTitleAlign:"center",
+    // headerTitleStyle: {
+    //   fontFamily:FONT.BOLD,
+    //   fontSize:18,
+    // },}}> 
+    //   <Stack.Screen name={NAVIGATION.WALKTHROUGH} component={Walkthrough} options={{headerShown:false}} />  
+    //   <Stack.Screen name={NAVIGATION.LOGIN} component={Login} options={{headerShown:true, title:"Log in", headerBackTitleVisible:false
+    //   }}/>
+    //   <Stack.Screen name={NAVIGATION.SIGNUP} component={Signup} options={{headerShown:true, title:"Sign up", headerBackTitleVisible:false}} />
+    //   {/* <Stack.Screen name={NAVIGATION.HOMESCREEN} component={Home}/> */}
+    //   <Stack.Screen name={NAVIGATION.HOMESCREEN} component={HomeNavigation} />
+    //   <Stack.Screen name={NAVIGATION.ADDNOTE} component={AddNote} options={{headerShown:true, title:"Add Note", headerBackTitleVisible:false}} />
+    //   <Stack.Screen name={NAVIGATION.NOTESCREEN} component={NotesScreen} options={{headerShown:true, title:"Notes", headerBackTitle:"BACK"}} />
+    //   <Stack.Screen name={NAVIGATION.FORGOTPASS} component={ForgotPassScreen} options={{headerShown:true, title:"Forgot Password", headerBackTitleVisible:false}} />
+    // </Stack.Navigator>
 
   );
 }
