@@ -14,6 +14,7 @@ import NotesScreen from "../Screens/ShowNotes/ShowNotes";
 import ForgotPassScreen from "../Screens/ForgotPassScreen/ForgotPass";
 import Signup from "../Screens/SignupScreen/Signup";
 import Login from "../Screens/LoginScreen/Login";
+import NetInfo from "@react-native-community/netinfo";
 
 
 
@@ -24,9 +25,18 @@ function StackNavigation() {
   useEffect(() => {
     const unsubscribe = auth().onAuthStateChanged((user) => {
       setUser(user);
+      console.log("YE HAI INSIDE ON AUT CHANGED", user)
     });
     return () => unsubscribe();
   }, []);
+
+  useEffect(()=>{
+    NetInfo.addEventListener(
+      ({ isConnected, isInternetReachable, type, detail }) => {
+        console.log('update the previous note internet status',isConnected,isInternetReachable)
+      }
+    );
+  },[])
 
   return (
     <Stack.Navigator initialRouteName={user ? NAVIGATION.HOMESCREEN : NAVIGATION.WALKTHROUGH} screenOptions={{headerShown:false, headerStyle: {

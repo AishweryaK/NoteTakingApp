@@ -130,18 +130,37 @@ function Home({ navigation }) {
   const [photoUrl, setPhotoUrl] = useState();
   const [loading, setLoading] = useState(true);
 
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     const unsubscribe = auth().onAuthStateChanged(user => {
+  //       console.log("inside effect",user)
+  //       if (user) {
+  //         setCurrentUser(user);
+  //         setDisplayName(user.displayName);
+  //         setPhotoUrl(user.photoURL);
+  //       } else {
+  //         setCurrentUser(null);
+  //       }
+  //       setLoading(false);
+  //     });
+  //   }, 3000);
+
+  //   // return () => unsubscribe();
+  // }, []);
+
   useEffect(() => {
-    const unsubscribe = auth().onAuthStateChanged(user => {
-      // console.log("inside effect")
-      if (user) {
-        setCurrentUser(user);
-        setDisplayName(user.displayName);
-        setPhotoUrl(user.photoURL);
-      } else {
-        setCurrentUser(null);
-      }
-      setLoading(false);
-    });
+    
+      const unsubscribe = auth().onAuthStateChanged(user => {
+        // console.log("inside effect",user)
+        if (user) {
+          setCurrentUser(user);
+          setDisplayName(user.displayName);
+          setPhotoUrl(user.photoURL);
+        } else {
+          setCurrentUser(null);
+        }
+        setLoading(false);
+      });
 
     return () => unsubscribe();
   }, []);
@@ -157,11 +176,11 @@ function Home({ navigation }) {
     // }
   }, [currentUser]);
 
-  useEffect(()=> {
-    console.log(currentUser, "CURRRRRRRRRRRRRRRRR")
-    console.log(photoUrl)
-    console.log(displayName)
-  },[currentUser, photoUrl, displayName])
+  // useEffect(()=> {
+  //   console.log(currentUser, "CURRRRRRRRRRRRRRRRR")
+  //   console.log(photoUrl)
+  //   console.log(displayName)
+  // },[currentUser, photoUrl, displayName])
 
   return (
     <SafeAreaView style={homeStyles.safeArea}>
@@ -204,7 +223,7 @@ function Home({ navigation }) {
         </View>
       ) : (
         <View>
-          <Text>Loading</Text>
+          
         </View>
       )}
     </SafeAreaView>

@@ -2,28 +2,30 @@
 //  * @format
 //  */
 
-import {AppRegistry} from 'react-native';
-import App from './App';
-import {name as appName} from './app.json';
+// import {AppRegistry} from 'react-native';
+// import App from './App';
+// import {name as appName} from './app.json';
 
-AppRegistry.registerComponent(appName, () => App);
-
-
-// import { AppRegistry } from 'react-native';
-// import { name as appName } from './app.json';
-// import { App } from './App';
-// import { initializeApp } from '@react-native-firebase/app';
-
-// const firebaseConfig = {
-//   apiKey: 'AIzaSyAGp4846wukGlfR_NygIPGPpjIxCjRUp7s',
-//   authDomain: 'notetakingapp-2cff4.firebaseapp.com',
-//   projectId: 'notetakingapp-2cff4',
-//   storageBucket: 'YOUR_STORAGE_BUCKET',
-//   appId: 'YOUR_APP_ID',
-// };
-
-// // Initialize Firebase
-// initializeApp(firebaseConfig);
-
-// // Register your app component
 // AppRegistry.registerComponent(appName, () => App);
+
+import React from 'react';
+import { AppRegistry } from 'react-native';
+import { Provider } from 'react-redux';
+import App from './App';
+import { name as appName } from './app.json';
+import { store, persistor } from './src/Redux/Store/store';
+import { PersistGate } from 'redux-persist/integration/react';
+
+
+
+const NoteApp = () => (
+  <Provider store={store}>
+    <PersistGate loading={null} persistor={persistor} >
+    <App />
+    </PersistGate>
+  </Provider>
+);
+
+AppRegistry.registerComponent(appName, () => NoteApp);
+
+

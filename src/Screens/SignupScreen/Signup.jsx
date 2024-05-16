@@ -104,7 +104,7 @@ function Signup({navigation}) {
       } else {
         console.error('User creation failed, no user returned.');
       }
-      // navigation.navigate(NAVIGATION.LOGIN);
+      navigation.navigate(NAVIGATION.LOGIN);
     } catch (error) {
       setLoading(false);
       console.error('Error creating account:', error.code, error.message);
