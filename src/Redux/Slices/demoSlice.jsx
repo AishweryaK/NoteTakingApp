@@ -18,9 +18,15 @@ export const userInfo = createSlice({
         state.email = email || "";
         state.photoURL = photoURL || "";
         },
+        clearUserData: (state, action) => {
+          state.displayName =  "";
+          state.uid =  "";
+          state.email =  "";
+          state.photoURL ="";
+          },
     },
     
 })
 
-export const {saveUser} = userInfo.actions;
+export const {saveUser, clearUserData} = userInfo.actions;
 export default userInfo.reducer;

@@ -12,7 +12,7 @@ import {styles} from './styles';
 import {SIGNING} from '../../Constants/signingConstants';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
-import {firebase} from '@react-native-firebase/auth';
+import auth from '@react-native-firebase/auth';
 import {NAVIGATION} from '../../Constants/navConstants';
 import firestore from '@react-native-firebase/firestore';
 import CustomInput from '../../Components/CustomInput';
@@ -20,6 +20,7 @@ import CustomButton from '../../Components/CustomButton';
 import { addDocumentsForUser } from '../../Common/firebaseUtils';
 import ProfileImage from '../../Components/ProfileImage';
 import { APPCOLOR } from '../../Assets/Colors/appColors';
+import useAuthentication from '../../Components/CustomHook';
 
 export const SignupSchema = Yup.object().shape({
   firstName: Yup.string()
@@ -49,7 +50,8 @@ export const SignupSchema = Yup.object().shape({
 
 function Signup({navigation}) {
   const [imageUri, setImageUri]=  useState(""); 
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
+  const {isLoading, signUpCall} = useAuthentication();
 
   const handleImageChange = (uri) => { 
     setImageUri(uri);
@@ -58,59 +60,42 @@ function Signup({navigation}) {
   // console.log(imageUri);
 
   const handleSignUp = async values => {
-    setLoading(true);
-    try {
-      let userCredentials = await firebase
-        .auth()
-        .createUserWithEmailAndPassword(values.email, values.password);
+    // setLoading(true);
+    // try {
+    //   let userCredentials = await
+    //     auth()
+    //     .createUserWithEmailAndPassword(values.email, values.password);
 
-      const user = userCredentials.user;
+    //   const user = userCredentials.user;
 
-      // await firestore()
-      //   .collection('users')
-      //   .doc(user.uid)
-      //   .collection('Personal')
-      //   .add({
-      //     title: '',
-      //     desc: '',
-      //   });
-
-     
   
-    await addDocumentsForUser(user.uid);    
+    // await addDocumentsForUser(user.uid);    
         
-      // await firestore()
-      // .collection('users')
-      // .doc(user.uid)
-      // .collection('notes')
-      // .add({})
-      // ;
 
-      //  await firestore()
-      //   .collection('users')
-      //   .doc(user.uid)
-      //   .collection('labels')
-      //   .add({
-      //   });
+    //   console.log('User account created & signed in!', userCredentials.user);
 
-      console.log('User account created & signed in!', userCredentials.user);
+    //   if (userCredentials && userCredentials.user) {
+    //     console.log(userCredentials, 'userrrr');
+    //     await userCredentials.user.updateProfile({
+    //         displayName: values.firstName + ' ' + values.lastName,
+    //         photoURL: imageUri,   //
+    //     });
+    //   } else {
+    //     console.error('User creation failed, no user returned.');
+    //   }
+    //   navigation.navigate(NAVIGATION.LOGIN);
+    // } catch (error) {
+    //   setLoading(false);
+    //   console.error('Error creating account:', error.code, error.message);
+    // } finally {
+    //   setLoading(false);
+    // }
 
-      if (userCredentials && userCredentials.user) {
-        console.log(userCredentials, 'userrrr');
-        await userCredentials.user.updateProfile({
-            displayName: values.firstName + ' ' + values.lastName,
-            photoURL: imageUri,   //
-        });
-      } else {
-        console.error('User creation failed, no user returned.');
-      }
-      navigation.navigate(NAVIGATION.LOGIN);
-    } catch (error) {
-      setLoading(false);
-      console.error('Error creating account:', error.code, error.message);
-    } finally {
-      setLoading(false);
-    }
+    await signUpCall({email:values.email, 
+      password: values.password,
+      firstName: values.firstName,
+      lastName: values.lastName,
+      imageUri: imageUri});
   };
 
   return (
@@ -206,7 +191,7 @@ function Signup({navigation}) {
                         </TouchableOpacity> */}
           </ScrollView>
           <View style={styles.bottom}>
-          {loading ? (
+          {isLoading ? (
               <ActivityIndicator size="large" color={APPCOLOR.BLUE} />
             ) : (
             <CustomButton

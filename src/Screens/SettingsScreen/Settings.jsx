@@ -5,20 +5,21 @@ import { FONT } from '../../Constants/fontConstants';
 import auth from '@react-native-firebase/auth';
 import { styles } from './styles';
 import { NAVIGATION } from '../../Constants/navConstants';
-// import { ScrollView } from 'react-native-gesture-handler';
-
-
-// ICONS.NOTEFD(24, 24, color)
+import useAuthentication from '../../Components/CustomHook';
 
 const SettingsPage = ({navigation}) => {
+  const {isLoading, signOutCall} = useAuthentication();
     
-    const handleLogout = () => {
-        auth().signOut().then(() => {
-            navigation.navigate(NAVIGATION.WALKTHROUGH)
-            console.log("user signed out!")
-             }).catch((error) => {
-               console.log("some err", error)
-             });
+    const handleLogout =async () => {
+        // auth().signOut().then(() => {
+        //     navigation.navigate(NAVIGATION.WALKTHROUGH)
+        //     console.log("user signed out!")
+        //      }).catch((error) => {
+        //        console.log("some err", error)
+        //      });
+        await signOutCall();
+
+
     }
 
     // const handleAccount = () => {

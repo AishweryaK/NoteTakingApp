@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Alert, Image, Text, TextInput, TouchableOpacity, View, KeyboardAvoidingView, Platform } from 'react-native';
+import { Alert, Image, Text, TextInput, TouchableOpacity, View, KeyboardAvoidingView, Platform, ActivityIndicator } from 'react-native';
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 import { NAVIGATION } from '../../Constants/navConstants';
 import auth from '@react-native-firebase/auth';
@@ -11,6 +11,8 @@ import CustomInput from '../../Components/CustomInput';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { SignupSchema } from '../SignupScreen/Signup';
+import useAuthentication from '../../Components/CustomHook';
+import { APPCOLOR } from '../../Assets/Colors/appColors';
 
 
 const LoginSchema = Yup.object().shape({
@@ -19,23 +21,26 @@ const LoginSchema = Yup.object().shape({
 });
 
 function Login({ navigation }) {
+  const {isLoading, signInCall} = useAuthentication();
 
   const handleLogin = async (values) => {
-    try {
-      const userCredential = await auth().signInWithEmailAndPassword(values.email, values.password);
-      const user = userCredential.user;
-      console.log('Logged in user:', user);
+    // try {
+    //   const userCredential = await auth().signInWithEmailAndPassword(values.email, values.password);
+    //   const user = userCredential.user;
+    //   console.log('Logged in user:', user);
 
-      if (user != null) {
-        navigation.navigate(NAVIGATION.HOMESCREEN)
-        // setEmail("");
-        // setPass("");
-      } else {
-        Alert.alert("Wrong credentials", "Please Sign up")
-      }
-    } catch (error) {
-      Alert.alert('Login error:', error.message);
-    }
+    //   if (user != null) {
+    //     navigation.navigate(NAVIGATION.HOMESCREEN)
+    //     // setEmail("");
+    //     // setPass("");
+    //   } else {
+    //     Alert.alert("Wrong credentials", "Please Sign up")
+    //   }
+    // } catch (error) {
+    //   Alert.alert('Login error:', error.message);
+    // }
+
+    await signInCall({email: values.email, password: values.password})
   };
 
   return (
@@ -93,11 +98,14 @@ function Login({ navigation }) {
             </View>
 
             <View style={loginStyles.bottom}>
+            {isLoading ? (
+              <ActivityIndicator size="large" color={APPCOLOR.BLUE} />
+            ) : (
               <CustomButton
                 handleButton={handleSubmit}
                 text={'Log in'}
                 disable={!isValid}
-              />
+              /> )}
             </View>
 
             
