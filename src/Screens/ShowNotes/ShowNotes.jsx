@@ -119,9 +119,7 @@ const NotesScreen = ({ route, navigation}) => {
     <View style={{alignItems:"center"}}>
     <View style={[homeStyles.buttonShadow, {borderRadius:1000, 
       width:dimensions.width*0.5, justifyContent:"flex-end",}]}>
-            <TouchableOpacity style={{flex:1, flexDirection:"row", justifyContent:"space-evenly",  
-              width:dimensions.width*0.45, paddingHorizontal:10
-            }}
+            <TouchableOpacity style={styles.button}
           onPress={handleAddNote}
           >
             <Text style={[homeStyles.buttonText, {fontSize:30, paddingVertical:10}]}>

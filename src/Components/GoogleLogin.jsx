@@ -15,10 +15,12 @@ import GoogleIcon from '../Assets/Svgs/GoogleIcon';
 import { NAVIGATION } from '../Constants/navConstants';
 import firestore from "@react-native-firebase/firestore"
 import { addDocumentsForUser } from '../Common/firebaseUtils';
+import useAuthentication from './CustomHook';
 
 
 function GoogleLogin ({navigation}) {
     const [userInfo, setuserInfo] = useState(null);
+    const {googleLoginCall} = useAuthentication();
 
 
     useEffect(() => {
@@ -33,61 +35,45 @@ function GoogleLogin ({navigation}) {
 
 
       const signInBTNPress = async () => {
-        try {
-          await GoogleSignin.hasPlayServices();
-          const usrInfo = await GoogleSignin.signIn();
-          // console.log(usrInfo, "google info")
-          setuserInfo(usrInfo);
+
+        await googleLoginCall();
+      //   try {
+      //     await GoogleSignin.hasPlayServices();
+      //     const usrInfo = await GoogleSignin.signIn();
+      //     console.log(usrInfo, "usrInfo")
+      //     setuserInfo(usrInfo);
           
-          const credential = auth.GoogleAuthProvider.credential(usrInfo.idToken);
-          const userData = await auth().signInWithCredential(credential);
-          // console.log(credential, "Credential");
+      //     const credential = auth.GoogleAuthProvider.credential(usrInfo.idToken);
+      //     console.log("Credential", credential)
+      //     const userData = await auth().signInWithCredential(credential);
 
-          // console.log(userData, "after signin");
-
-      //   const userDoc = await firestore().collection('users').doc(userData.user.uid).get();
-      //   console.log(userDoc, "userDoc")
-      // if (!userDoc.exists) {
-      //   // User doesn't exist, so add a new note
-      //   console.log("inside If")
-      //   await firestore().collection('users').doc(userData.user.uid).collection('notes').add({
-      //     title: "",
-      //     desc: "",
-      //   });
-      // }
+      //     console.log("userData", userData);
+      
 
       // if(userData.additionalUserInfo.isNewUser) {
-      //   console.log("inside iff")
-      // await firestore().collection('users').doc(userData.user.uid).collection('notes').add({
-      //   title:"",
-      //   desc:"",
-      // }); }
+      //   console.log("inside if");
 
-      if(userData.additionalUserInfo.isNewUser) {
-        console.log("inside if");
-
-        await addDocumentsForUser(userData.user.uid);
-       }
+      //   await addDocumentsForUser(userData.user.uid);
+      //  }
 
           
-          console.log('User account created & signed in!', userData.user);
+      //     console.log('User account created & signed in!', userData.user);
 
-          navigation.navigate(NAVIGATION.HOMESCREEN);
+      //     navigation.navigate(NAVIGATION.HOMESCREEN);
 
-        } catch (error) {
-          if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-            Alert.alert('Signin with Cancelled');
-          } else if (error.code === statusCodes.IN_PROGRESS) {
-            Alert.alert('Signin in progress');
-          } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-            Alert.alert('PLAY_SERVICES_NOT_AVAILABLE');
-          } else if (error.code === 10) {
-            Alert.alert('dev err');
-          } else {
-            console.log(error, 'hell');
-          }
-        }
-
+      //   } catch (error) {
+      //     if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+      //       Alert.alert('Signin with Cancelled');
+      //     } else if (error.code === statusCodes.IN_PROGRESS) {
+      //       Alert.alert('Signin in progress');
+      //     } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+      //       Alert.alert('PLAY_SERVICES_NOT_AVAILABLE');
+      //     } else if (error.code === 10) {
+      //       Alert.alert('dev err');
+      //     } else {
+      //       console.log(error, 'hell');
+      //     }
+      //   }
         
       };
 
@@ -108,4 +94,27 @@ function GoogleLogin ({navigation}) {
 
 
 export default GoogleLogin;
+
+
+    // console.log(credential, "Credential");
+
+          // console.log(userData, "after signin");
+
+      //   const userDoc = await firestore().collection('users').doc(userData.user.uid).get();
+      //   console.log(userDoc, "userDoc")
+      // if (!userDoc.exists) {
+      //   // User doesn't exist, so add a new note
+      //   console.log("inside If")
+      //   await firestore().collection('users').doc(userData.user.uid).collection('notes').add({
+      //     title: "",
+      //     desc: "",
+      //   });
+      // }
+
+      // if(userData.additionalUserInfo.isNewUser) {
+      //   console.log("inside iff")
+      // await firestore().collection('users').doc(userData.user.uid).collection('notes').add({
+      //   title:"",
+      //   desc:"",
+      // }); }
 

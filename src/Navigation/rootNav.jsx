@@ -15,20 +15,24 @@ import ForgotPassScreen from "../Screens/ForgotPassScreen/ForgotPass";
 import Signup from "../Screens/SignupScreen/Signup";
 import Login from "../Screens/LoginScreen/Login";
 import NetInfo from "@react-native-community/netinfo";
+import { useSelector } from "react-redux";
 
 
 
 function StackNavigation() {
   const Stack = createNativeStackNavigator();
-  const [user, setUser] = useState(null);
+  // const [user, setUser] = useState(null);
+  const user = useSelector((state) => state.user)
 
-  useEffect(() => {
-    const unsubscribe = auth().onAuthStateChanged((user) => {
-      setUser(user);
-      console.log("YE HAI INSIDE ON AUT CHANGED", user)
-    });
-    return () => unsubscribe();
-  }, []);
+  // console.log(user, "USERR")
+
+  // useEffect(() => {
+  //   const unsubscribe = auth().onAuthStateChanged((user) => {
+  //     setUser(user);
+  //     console.log("YE HAI INSIDE ON AUT CHANGED", user)
+  //   });
+  //   return () => unsubscribe();
+  // }, []);
 
   useEffect(()=>{
     NetInfo.addEventListener(
@@ -50,7 +54,7 @@ function StackNavigation() {
       fontSize:18,
     },}}> 
       {/* {user? <AppNavigation/> : <AuthNavigation />} */}
-      <Stack.Screen name="App" component={user ? AppNavigation : AuthNavigation} />
+      <Stack.Screen name="App" component={user.uid ? AppNavigation : AuthNavigation} />
     </Stack.Navigator>
 
     // <Stack.Navigator initialRouteName={NAVIGATION.WALKTHROUGH} screenOptions={{headerShown:false, headerStyle: {

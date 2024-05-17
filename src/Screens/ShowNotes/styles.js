@@ -1,6 +1,7 @@
 import { StyleSheet } from "react-native";
 import { APPCOLOR } from "../../Assets/Colors/appColors";
 import { FONT } from "../../Constants/fontConstants";
+import { dimensions } from "../../Constants/utility";
 
 export const styles= StyleSheet.create(
     {
@@ -45,5 +46,8 @@ export const styles= StyleSheet.create(
         alignItems:"center", 
         paddingBottom:15
     },
+    button: {flex:1, flexDirection:"row", justifyContent:"space-evenly",  
+    width:dimensions.width*0.45, paddingHorizontal:10
+  }
     }
 )

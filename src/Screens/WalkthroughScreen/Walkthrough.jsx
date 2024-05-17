@@ -6,19 +6,16 @@ import CustomButton from "../../Components/CustomButton";
 import { NAVIGATION } from "../../Constants/navConstants";
 import GoogleLogin from "../../Components/GoogleLogin";
 import auth from '@react-native-firebase/auth';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 export default function Walkthrough ({navigation}) {
 
-    // useEffect(()=>{
-    //     const unsubscribe = auth().onAuthStateChanged(user => {
-    //       console.log(user,'kaefjwuefhwkebfejwbfwae')
-    //       if (user) {
-    //         navigation.navigate(NAVIGATION.HOMESCREEN)
-    //       }
-    //   });
-    //   return () => unsubscribe();
-    //   },[])
+    
+//   useEffect (() => {
+//     AsyncStorage.clear();
+//     console.log("HEHEHEHEHEHEH");
+//   },[])
 
     return (
     <View style={styles.wrapper}>

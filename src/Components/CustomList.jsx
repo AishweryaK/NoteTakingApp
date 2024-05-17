@@ -3,14 +3,16 @@ import { View, TouchableOpacity, Text, ImageBackground, FlatList } from "react-n
 import firestore from "@react-native-firebase/firestore";
 import CustomLabel from "./CustomLabel";
 import { NAVIGATION } from "../Constants/navConstants";
+import { useSelector } from "react-redux";
 
 
-function CustomList({navigation, userUid}) {
+function CustomList({navigation}) {
   const [collections, setCollections] = useState([]);
+  const user = useSelector((state) => state.user);
     
 
     useEffect(() => {
-      const userDocRef = firestore().collection('users').doc(userUid);
+      const userDocRef = firestore().collection('users').doc(user.uid);
   
       const unsubscribe = userDocRef.onSnapshot((snapshot) => {
         // console.log('snapshot',snapshot)
@@ -24,21 +26,21 @@ function CustomList({navigation, userUid}) {
       });
 
       return () => unsubscribe();
-    }, [userUid]);
+    }, [user.uid]);
 
     const renderItem = useMemo(() => {
         return ({ item }) => (
             <View style={{marginBottom:30}}>
           <CustomLabel
             handlePress={() =>
-              navigation.navigate(NAVIGATION.NOTESCREEN, { uid: userUid, itemText: item.text })
+              navigation.navigate(NAVIGATION.NOTESCREEN, { uid: user.uid, itemText: item.text })
             }
             text={item.text}
             number={item.number}
           />
           </View>
         );
-      }, [navigation, userUid]);
+      }, [navigation, user.uid]);
 
 
     return (
@@ -57,7 +59,7 @@ export default CustomList;
 
 // const renderItem = ({ item }) => (
     //     <View style={{marginBottom:30}}>
-    //     <CustomLabel handlePress={() => navigation.navigate(NAVIGATION.NOTESCREEN, {uid:userUid, itemText :item.text})} text={item.text} number={item.number} />
+    //     <CustomLabel handlePress={() => navigation.navigate(NAVIGATION.NOTESCREEN, {uid:user.uid, itemText :item.text})} text={item.text} number={item.number} />
     //     </View>
     // );
 

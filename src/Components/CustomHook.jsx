@@ -1,10 +1,10 @@
 import {useState} from "react";
 import {useDispatch} from "react-redux";
-// import {
-//     createUserWithEmailAndPassword, 
-//     signInWithEmailAndPassword,
-//     signOut,} from "firebase/auth";
 import auth from '@react-native-firebase/auth';
+import {
+    GoogleSignin,
+    statusCodes,
+  } from '@react-native-google-signin/google-signin';
 import { clearUserData, saveUser } from "../Redux/Slices/demoSlice"; 
 import { addDocumentsForUser } from "../Common/firebaseUtils";
 
@@ -20,8 +20,13 @@ const {user} = await auth().signInWithEmailAndPassword(
  email,
 password
 );
-console.log(user, "THIS IS CUSTOMHOOK LOGIN")
-dispatch(saveUser(user));
+console.log(user.displayName, "THIS IS CUSTOMHOOK LOGIN")
+dispatch(saveUser({
+    displayName: user.displayName,
+    uid: user.uid,
+    email: user.email,
+    photoURL: user.photoURL
+}));
 } catch (err) {
 console.log(err);
 } finally {
@@ -31,16 +36,23 @@ setIsLoading(false);
 
 const signUpCall = async ({email, password, firstName, lastName, imageUri}) => {
 setIsLoading (true);
+console.log(firstName, lastName, email, password, imageUri)
 try {
 const {user} = await auth().createUserWithEmailAndPassword(
  email, password
 );
-console.log("THIS IS SIGNUP" ,user, "THIS IS SIGNUP")
-dispatch(saveUser(user));
+console.log("THIS IS SIGNUP" ,user)
+dispatch(saveUser({
+    displayName: `${firstName} ${lastName}`,
+    uid: user.uid,
+    email: user.email,
+    photoURL: imageUri
+}));
+
 
 await addDocumentsForUser(user.uid);
 
-await userCredentials.user.updateProfile({
+await user.updateProfile({
             displayName: `${firstName} ${lastName}`,
             photoURL: imageUri,  
         });
@@ -67,5 +79,44 @@ setIsLoading (false);
 }
 };
 
-return {isLoading, signInCall, signUpCall, signOutCall};
+const googleLoginCall = async () => {
+    try {
+        await GoogleSignin.hasPlayServices();
+        const userInfo = await GoogleSignin.signIn();
+        
+        const credential = auth.GoogleAuthProvider.credential(userInfo.idToken);
+        const { user, additionalUserInfo } = await auth().signInWithCredential(credential);
+            dispatch(saveUser({
+                displayName: user.displayName,
+                uid: user.uid,
+                email: user.email,
+                photoURL: user.photoURL
+            }));
+
+        if(additionalUserInfo.isNewUser) {
+            console.log("inside if");
+            await addDocumentsForUser(user.uid);
+           }
+    
+              
+              console.log('User account created & signed in!', user);
+    
+            //   navigation.navigate(NAVIGATION.HOMESCREEN);
+    
+            } catch (error) {
+              if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+                Alert.alert('Signin with Cancelled');
+              } else if (error.code === statusCodes.IN_PROGRESS) {
+                Alert.alert('Signin in progress');
+              } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+                Alert.alert('PLAY_SERVICES_NOT_AVAILABLE');
+              } else if (error.code === 10) {
+                Alert.alert('dev err');
+              } else {
+                console.log(error, 'hell');
+              }
+            }
+};
+
+return {isLoading, signInCall, signUpCall, signOutCall, googleLoginCall};
 }

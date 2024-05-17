@@ -40,21 +40,21 @@ function App(){
   // },[])
 
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  useEffect(() => {
-    const unsubscribe = auth().onAuthStateChanged((userInfo) => {
-      if (userInfo) {
-        console.log("YE HAI USERINFOOO", userInfo)
-        const { displayName, uid, email, photoURL } = userInfo;
-      dispatch(saveUser({ displayName, uid, email, photoURL }));
-        // dispatch(saveUser(userInfo));
-      } else {
-        dispatch(saveUser({}));
-      }
-    });
-    return unsubscribe;
-  }, [dispatch]);
+  // useEffect(() => {
+  //   const unsubscribe = auth().onAuthStateChanged((userInfo) => {
+  //     if (userInfo) {
+  //       console.log("YE HAI USERINFOOO", userInfo)
+  //       // const { displayName, uid, email, photoURL } = userInfo;
+  //     // dispatch(saveUser({ displayName, uid, email, photoURL }));
+  //       // dispatch(saveUser(userInfo));
+  //     } else {
+  //       // dispatch(saveUser({}));
+  //     }
+  //   });
+  //   return unsubscribe;
+  // }, [dispatch]);
   
   return (
     

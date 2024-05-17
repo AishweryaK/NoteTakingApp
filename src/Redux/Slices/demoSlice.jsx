@@ -13,10 +13,13 @@ export const userInfo = createSlice({
     reducers : {
        saveUser: (state, action) => {
         const { displayName, uid, email, photoURL } = action.payload;
-        state.displayName = displayName || "";
-        state.uid = uid || "";
-        state.email = email || "";
-        state.photoURL = photoURL || "";
+        // state.curr_user =  action.payload;
+        state.displayName = displayName;
+        state.uid = uid ;
+        state.email = email ;
+        state.photoURL = photoURL ;
+        console.log(action.payload,2324534636)
+        // return state.curr_user
         },
         clearUserData: (state, action) => {
           state.displayName =  "";

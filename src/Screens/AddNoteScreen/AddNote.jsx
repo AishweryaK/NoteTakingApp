@@ -60,35 +60,6 @@ function AddNote({ route, navigation }) {
     return () => unsubscribe();
   }, [uid]);
 
-  // useEffect(()=>{
-
-  //   return saveNote
-  // },[])
-
-  // useEffect(() => {
-  //     return () => {
-  //         saveNote();
-  //     };
-  // }, []);
-
-  // console.log(label, "THIS IS LABEL")
-
-  //     useEffect(() => {
-  //     console.log(title, "title");
-  //     console.log(desc,"desc")
-  //   }, [title, desc]);
-
-  //   useEffect(() => {
-  //     // console.log(selectedCollection, "SELECTEDDDD");
-  //     // console.log(desc,"desc")
-  //   }, [selectedCollection]);
-
-  // console.log(uid, "UID")
-
-  // console.log(desc, "THIS IS DESC")
-  // console.log(scrollText.current)
-
-  // const handleHead = ({tintColor}) => <Text style={{color: tintColor}}>H1</Text>
 
   const handleDesc = text => {
     setDesc(text);
@@ -99,86 +70,64 @@ function AddNote({ route, navigation }) {
   // console.log(itemDesc,"DESC")
   // console.log(label,"label")
 
-
-  const saveNoteInDB= async()=>{
-    await firestore().collection('users').doc(uid).collection(label).add({
+  const updateNote = async()=>{
+    await firestore()
+    .collection('users')
+    .doc(uid)
+    .collection(label)
+    .doc(itemID)
+    .update({
       title: title,
       desc: desc,
     });
   }
 
 
-  const saveNote = async () => {
-    if (title === '' && desc === '') {
-      Alert.alert('Empty note', 'It will be discarded');
-      navigation.goBack();
-      return;
-    }
-    try {
-      if (itemID && label) {
-        // console.log("inside itemid")
-        await firestore()
-          .collection('users')
-          .doc(uid)
-          .collection(label)
-          .doc(itemID)
-          .update({
-            title: title,
-            desc: desc,
-          });
-          console.log('update the previous note')
-        // navigation.navigate(NAVIGATION.NOTESCREEN);
-      } else if (label) {
-        // console.log("inside itemid")
-        saveNoteInDB()
-        // navigation.navigate(NAVIGATION.NOTESCREEN);
-        console.log('new note in label')
+  const saveNoteLabel= async()=>{
+    await firestore().collection('users').doc(uid).collection(label).add({
+      title: title,
+      desc: desc,
+    });
+  }
 
-        const collectionRef = firestore().collection('users').doc(uid);
-        const doc = await collectionRef.get();
-        console.log("will i get the doc")
-        if (doc.exists) {
-          const userData = doc.data();
-          // console.log(userData, "USERDATA")
-          const updatedCollections = userData.collections.map(collection => {
-            // console.log(collection, "COLLECTTT")
-            if (collection.text === label) {
-              return {
-                ...collection,
-                number: collection.number + 1,
-              };
-            }
-            return collection;
-          });
-          await collectionRef.set(
-            { collections: updatedCollections },
-            { merge: true },
-          );
-          console.log("inc end")
+  const incLabelCollection = async () => {
+    const collectionRef = firestore().collection('users').doc(uid);
+    const doc = await collectionRef.get();
+    console.log("will i get the doc")
+    if (doc.exists) {
+      const userData = doc.data();
+      // console.log(userData, "USERDATA")
+      const updatedCollections = userData.collections.map(collection => {
+        // console.log(collection, "COLLECTTT")
+        if (collection.text === label) {
+          return {
+            ...collection,
+            number: collection.number + 1,
+          };
         }
-      } else {
-        //         if( selectedCollection==null )
-        //      {
-        //         await firestore()
-        //     .collection('users')
-        //     .doc(uid)
-        //     .collection('Others')
-        //     .add({
-        //       title: title,
-        //       desc: desc,
-        //     });
-        // }
+        return collection;
+      });
+      await collectionRef.set(
+        { collections: updatedCollections },
+        { merge: true },
+      );
+      console.log("inc end")
+    }
+  };
 
-        await firestore()
-          .collection('users')
-          .doc(uid)
-          .collection(selectedCollection.text)
-          .add({
-            title: title,
-            desc: desc,
-          });
+  const saveNoteNew = async () => {
+    await firestore()
+    .collection('users')
+    .doc(uid)
+    .collection(selectedCollection.text)
+    .add({
+      title: title,
+      desc: desc,
+    });
+  }
 
-        const collectionRef = firestore().collection('users').doc(uid);
+  const incNewCollection = async () => {
+    const collectionRef = firestore().collection('users').doc(uid);
         const doc = await collectionRef.get();
         if (doc.exists) {
           const userData = doc.data();
@@ -198,6 +147,34 @@ function AddNote({ route, navigation }) {
             { merge: true },
           );
         }
+  }
+
+
+  const saveNote = async () => {
+    if (title === '' && desc === '') {
+      Alert.alert('Empty note', 'It will be discarded');
+      navigation.goBack();
+      return;
+    }
+    try {
+      if (itemID && label) {
+        updateNote();
+        console.log('update the previous note')
+  
+      } 
+      else if (label) {
+        saveNoteLabel();
+        console.log('new note in label')
+
+        incLabelCollection();
+
+      } 
+      
+      else {
+
+       saveNoteNew();
+       incNewCollection();
+        
       }
       console.log('update the previous note1111')
       setTitle('');
@@ -215,20 +192,23 @@ function AddNote({ route, navigation }) {
     }
   };
 
+  const setCollection = async () => {
+    const updatedCollections = [
+      ...collections,
+      { text: newCollection, number: 0 },
+    ];
+    await firestore().collection('users').doc(uid).set(
+      {
+        collections: updatedCollections,
+      },
+      { merge: true },
+    );
+  }
+
   const addCollection = async () => {
     if (newCollection.trim() === '') return;
     try {
-      const updatedCollections = [
-        ...collections,
-        { text: newCollection, number: 0 },
-      ];
-      await firestore().collection('users').doc(uid).set(
-        {
-          collections: updatedCollections,
-        },
-        { merge: true },
-      );
-
+      setCollection();
       setSelectedCollection({ text: newCollection, number: 1 });
 
       setModalVisible(false);

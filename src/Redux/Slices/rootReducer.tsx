@@ -3,5 +3,5 @@ import authReducer from "./demoSlice";
 
 
 export const rootReducer = combineReducers({
-    auth: authReducer,
+    user : authReducer,
 });

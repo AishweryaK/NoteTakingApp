@@ -8,7 +8,8 @@ export const styles = StyleSheet.create(
         container: { flex: 1, 
             backgroundColor:APPCOLOR.BACKGROUND 
         },
-        view: { marginTop:10, 
+        view: { 
+          marginTop:10, 
         flexDirection:"row",
         justifyContent:"space-between", 
         marginHorizontal:20 

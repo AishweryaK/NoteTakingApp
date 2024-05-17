@@ -5,26 +5,16 @@ import { FONT } from '../../Constants/fontConstants';
 import auth from '@react-native-firebase/auth';
 import { styles } from './styles';
 import { NAVIGATION } from '../../Constants/navConstants';
+import { useSelector } from 'react-redux';
 
 
 
 const AccountPage = ({navigation}) => {
-    const [user, setUser]= useState()
-
-    useEffect(()=> {
-        const unsubscribe = auth().onAuthStateChanged(user=>
-            setUser(user)
-        );
-        return ()=> unsubscribe()
-    },[])
-
-    useEffect(()=> {
-        console.log(user)
-    },[user])
+const user = useSelector((state)=> state.user)
   return (
     <ScrollView style={styles.container}>
       <Text>
-        hello
+        hello {user.displayName}
       </Text>
     </ScrollView>
   );

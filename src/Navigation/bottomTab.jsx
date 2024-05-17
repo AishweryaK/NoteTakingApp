@@ -8,30 +8,15 @@ import { APPCOLOR } from "../Assets/Colors/appColors";
 import { dimensions } from "../Constants/utility";
 import { homeStyles } from "../Screens/HomeScreen/homeStyle";
 import { ICONS } from "../Constants/iconConstants";
-import auth from '@react-native-firebase/auth';
 import Lamp from "../Screens/DummyScreens/Lamp";
 import CheckList from "../Screens/DummyScreens/CheckList";
+import { useSelector } from "react-redux";
 
 
 
 function HomeNavigation({navigation}) {
   const Tab = createBottomTabNavigator();
-  const [currentUser, setCurrentUser] = useState(null);
-
-  useEffect(() => {
-    
-    const unsubscribe = auth().onAuthStateChanged((user) => {
-      if (user) {
-        
-        setCurrentUser(user);
-      } else {
-        
-        setCurrentUser(null);
-      }
-    });
-
-    return () => unsubscribe();
-  }, []);
+  const uid = useSelector((state)=>state.user.uid)
 
   const DummyAddNote = () => {
     return null;
@@ -39,8 +24,8 @@ function HomeNavigation({navigation}) {
 
   const handleAddNote =() =>{
     // console.log(currentUser.uid, "UIDd")
-    if(currentUser)
-      navigation.navigate(NAVIGATION.ADDNOTE, {uid:currentUser.uid, itemTitle:"", itemDesc:""})
+    if(uid)
+      navigation.navigate(NAVIGATION.ADDNOTE, {uid:uid, itemTitle:"", itemDesc:""})
       // console.log("HELLO")
   }
    
