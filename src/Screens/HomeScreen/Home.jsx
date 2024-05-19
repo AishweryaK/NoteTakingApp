@@ -27,11 +27,11 @@ function Home({ navigation }) {
             <Text style={homeStyles.title}>Notes App</Text>
           </View>
           {/* {currentUser && currentUser.photoURL ? ( */}
-            {user.photoUrl ? (
+            {user.photoURL ? (
             
             <Image
               style={homeStyles.userImg}
-              source={{ uri: user.photoUrl }}
+              source={{ uri: user.photoURL }}
             />
           ) : (
             <Image

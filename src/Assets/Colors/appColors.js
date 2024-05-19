@@ -17,11 +17,7 @@ export const APPCOLOR= {
 }
 
 
-
-// const theme = "light";
-// APPCOLOR[theme].BACKGROUND;
-
-// export const APPCOLOR= {
+// export const themeColors= {
 //     LIGHT : {
 //     DARK_BLUE: "#292150",
 //     GREEN: "#72777A",
@@ -58,3 +54,7 @@ export const APPCOLOR= {
 //         ICONFOCUSED:"#2A2351",
 //         }
 // }
+
+// export const getThemeColors = (theme) => {
+//     return theme === "DARK" ? themeColors.DARK : themeColors.LIGHT;
+//   };

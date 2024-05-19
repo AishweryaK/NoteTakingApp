@@ -14,6 +14,9 @@ import THEME from "../Assets/Svgs/eyedrop-outline.svg"
 import LOGOUT from "../Assets/Svgs/log-out-outline.svg"
 import CAMERA from "../Assets/Svgs/camera-outline.svg"
 import ARROW from "../Assets/Svgs/chevron-forward-outline.svg"
+import EYEON from "../Assets/Svgs/eye-outline.svg"
+import EYEOFF from "../Assets/Svgs/eye-off-outline.svg"
+import EYE from "../Assets/Svgs/eye-off-outline.svg"
 
 
 const iconStyle = (
@@ -44,4 +47,7 @@ export const ICONS = {
   LOGOUT: (...params) =><LOGOUT {...iconStyle(...params)} />,
   CAMERA: (...params) =><CAMERA {...iconStyle(...params)} />,
   ARROW: (...params) =><ARROW {...iconStyle(...params)} />,
+  EYEON: (...params) =><EYEON {...iconStyle(...params)} />,
+  EYEOFF: (...params) =><EYEOFF {...iconStyle(...params)} />,
+  EYE: (...params) =><EYE {...iconStyle(...params)} />,
 }
