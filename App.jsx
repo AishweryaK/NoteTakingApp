@@ -14,10 +14,15 @@ import StackNavigation from './src/Navigation/rootNav';
 import { APPCOLOR } from './src/Assets/Colors/appColors';
 import messaging from '@react-native-firebase/messaging';
 import auth from '@react-native-firebase/auth';
-import { UseSelector, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { saveUser } from './src/Redux/Slices/demoSlice';
+import { getThemeColors } from './src/Assets/Colors/themeColors';
 
 function App(){
+  const theme = useSelector((state)=> state.user.theme)
+  const colors = getThemeColors(theme);
+
+
   // async function requestUserPermission() {
   //   const authStatus = await messaging().requestPermission();
   //   const enabled =
@@ -55,10 +60,11 @@ function App(){
   //   });
   //   return unsubscribe;
   // }, [dispatch]);
+
   
   return (
     
-    <SafeAreaView style={styles.container} >
+    <SafeAreaView style={styles.container(colors)} >
       <NavigationContainer>
         <StackNavigation />
       </NavigationContainer>
@@ -68,10 +74,14 @@ function App(){
 }
 
 const styles = StyleSheet.create({
-  container: {
+  // container: {
+  //   flex:1,
+  //   backgroundColor:APPCOLOR.BACKGROUND,
+  // },
+  container: (colors) => ({
     flex:1,
-    backgroundColor:APPCOLOR.BACKGROUND,
-  },
+    backgroundColor:colors.BACKGROUND,
+  }),
 });
 
 export default App;

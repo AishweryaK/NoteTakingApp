@@ -3,33 +3,33 @@ import { APPCOLOR } from "../../Assets/Colors/appColors";
 import { FONT } from "../../Constants/fontConstants";
 
 export const styles = StyleSheet.create({
-    container: {
+    container: (colors) => ({
       flex: 1,
-      backgroundColor:APPCOLOR.BACKGROUND,
+      backgroundColor:colors.BACKGROUND,
       paddingTop:30, 
       paddingHorizontal:16
-    },
-    heading: {
+    }),
+    heading: (colors)=> ({
       fontSize: 24,
       marginBottom: 50,
       fontFamily:FONT.BOLD,
-      color:APPCOLOR.HEADERTITLE, 
+      color:colors.HEADERTITLE, 
       alignItems:"center",
-    },
-    option: {
+    }),
+    option:(colors)=>({
       flexDirection: 'row',
       alignItems: 'center',
       marginBottom: 20,
-      borderBottomColor:APPCOLOR.BORDER,
+      borderBottomColor:colors.BORDER,
       borderBottomWidth:1,
       paddingBottom:15,
-    },
-    optionText: {
+    }),
+    optionText: (colors)=>({
       marginLeft: 40,
       fontSize: 18,
     fontFamily:FONT.REGULAR,
-    color:APPCOLOR.HEADERTITLE
-    },
+    color:colors.HEADERTITLE,
+    }),
     view: { flex:1, 
       flexDirection:"row", 
       justifyContent:"space-between", 

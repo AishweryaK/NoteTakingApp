@@ -11,12 +11,15 @@ import { ICONS } from "../Constants/iconConstants";
 import Lamp from "../Screens/DummyScreens/Lamp";
 import CheckList from "../Screens/DummyScreens/CheckList";
 import { useSelector } from "react-redux";
+import { getThemeColors, themeColors } from "../Assets/Colors/themeColors";
 
 
 
 function HomeNavigation({navigation}) {
   const Tab = createBottomTabNavigator();
   const uid = useSelector((state)=>state.user.uid)
+  const theme = useSelector((state)=> state.user.theme)
+  const colors = getThemeColors(theme);
 
   const DummyAddNote = () => {
     return null;
@@ -30,7 +33,7 @@ function HomeNavigation({navigation}) {
   }
    
   return (
-    <View style={{flex:1,backgroundColor:APPCOLOR.BACKGROUND,}}>
+    <View style={{flex:1,backgroundColor:colors.BACKGROUND, height: dimensions.height*0.073,}}>
 
     
     <Tab.Navigator initialRouteName={NAVIGATION.HOME}
@@ -60,10 +63,10 @@ function HomeNavigation({navigation}) {
       headerShown:false,
       tabBarShowLabel:false, 
       tabBarStyle:{
-      backgroundColor: APPCOLOR.WHITE, borderRadius:20, 
+      backgroundColor: colors.BOTTOM, borderRadius:20, 
       justifyContent:"center", 
       marginHorizontal:16, 
-      height: dimensions.height*0.075,
+      height: dimensions.height*0.073,
     }
     })}
 
@@ -78,10 +81,10 @@ function HomeNavigation({navigation}) {
      
       <Tab.Screen name="Something" component={DummyAddNote} options={{
         tabBarButton:() => (
-          <View style={homeStyles.buttonShadow}>
+          <View style={homeStyles.buttonShadow(colors)}>
             <TouchableOpacity 
           onPress={handleAddNote}>
-            <Text style={homeStyles.buttonText}>
+            <Text style={homeStyles.buttonText(colors)}>
               +
             </Text>
           </TouchableOpacity>
@@ -91,7 +94,7 @@ function HomeNavigation({navigation}) {
        <Tab.Screen name={NAVIGATION.LAMP} component={Lamp}  />
       <Tab.Screen name={NAVIGATION.SETTINGS} component={Settings}  />
     </Tab.Navigator>
-    </View>
+     </View>
   );
 }
 

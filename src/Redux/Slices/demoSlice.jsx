@@ -5,7 +5,8 @@ const initialState = {
   uid: "",
   email: "",
   photoURL: "",
-  theme: "LIGHT"
+  theme: "LIGHT",
+  provider:""
 };
 
 export const userInfo = createSlice({
@@ -13,12 +14,13 @@ export const userInfo = createSlice({
   initialState,
   reducers: {
     saveUser: (state, action) => {
-      const { displayName, uid, email, photoURL } = action.payload;
+      const { displayName, uid, email, photoURL, provider } = action.payload;
       state.displayName = displayName;
       state.uid = uid;
       state.email = email;
       state.photoURL = photoURL;
-      console.log(action.payload, 2324534636);
+      state.provider = provider;
+      console.log(state, 2324534636);
     },
     clearUserData: (state) => {
       state.displayName = "";
@@ -26,11 +28,12 @@ export const userInfo = createSlice({
       state.email = "";
       state.photoURL = "";
       state.theme = "LIGHT";
+      state.provider="";
     },
     toggleTheme: (state) => {
       state.theme = state.theme === "LIGHT" ? "DARK" : "LIGHT";
       console.log(state.theme,63637284)
-    }
+    },
   },
 });
 

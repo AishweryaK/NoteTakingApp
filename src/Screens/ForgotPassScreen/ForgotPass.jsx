@@ -7,9 +7,13 @@ import auth from '@react-native-firebase/auth';
 import { passStyles } from "./passStyles";
 import { SIGNING } from "../../Constants/signingConstants";
 import { NAVIGATION } from "../../Constants/navConstants";
+import { useSelector } from "react-redux";
+import { getThemeColors } from "../../Assets/Colors/themeColors";
 
 function ForgotPassScreen ({navigation}) {
     const [email, setEmail] = useState("");
+    const theme = useSelector((state)=>state.user.theme)
+    const colors= getThemeColors(theme);
 
     const handleEmail= () => {
         // console.log(email)
@@ -32,7 +36,7 @@ function ForgotPassScreen ({navigation}) {
         <KeyboardAvoidingView
       keyboardVerticalOffset={65}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.wrapper}>
+      style={styles.wrapper(colors)}>
             <CustomInput 
             placeHolder={SIGNING.EMAIL}
             value={email}

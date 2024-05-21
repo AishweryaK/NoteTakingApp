@@ -21,6 +21,8 @@ import firestore from '@react-native-firebase/firestore';
 import { styles } from './styles';
 import { profileImgStyles } from '../../Common/styles';
 import { dimensions } from '../../Constants/utility';
+import { useSelector } from 'react-redux';
+import { getThemeColors, themeColors } from '../../Assets/Colors/themeColors';
 
 
 function AddNote({ route, navigation }) {
@@ -34,6 +36,8 @@ function AddNote({ route, navigation }) {
     text: 'Others',
   });
   const richText = useRef();
+  const theme = useSelector((state)=> state.user.theme)
+  const colors = getThemeColors(theme);
   // const descRef = useRef("");
 
   const { uid, itemTitle, itemDesc, itemID, label } = route.params;
@@ -63,12 +67,7 @@ function AddNote({ route, navigation }) {
 
   const handleDesc = text => {
     setDesc(text);
-    //  descRef.current= desc;
   };
-  // console.log(itemID,"ITEMID")
-  // console.log(itemTitle,"TITLe")
-  // console.log(itemDesc,"DESC")
-  // console.log(label,"label")
 
   const updateNote = async()=>{
     await firestore()
@@ -93,7 +92,6 @@ function AddNote({ route, navigation }) {
   const incLabelCollection = async () => {
     const collectionRef = firestore().collection('users').doc(uid);
     const doc = await collectionRef.get();
-    console.log("will i get the doc")
     if (doc.exists) {
       const userData = doc.data();
       // console.log(userData, "USERDATA")
@@ -111,7 +109,6 @@ function AddNote({ route, navigation }) {
         { collections: updatedCollections },
         { merge: true },
       );
-      console.log("inc end")
     }
   };
 
@@ -222,7 +219,7 @@ function AddNote({ route, navigation }) {
     <TouchableOpacity
       style={styles.collectionItem}
       onPress={() => handleCollectionSelection(item)}>
-      <Text style={styles.collectionText}>{item.text}</Text>
+      <Text style={styles.collectionText(colors)}>{item.text}</Text>
     </TouchableOpacity>
   );
   const handleCollectionSelection = collection => {
@@ -235,16 +232,16 @@ function AddNote({ route, navigation }) {
     // <SafeAreaView style={{ flex: 1, backgroundColor: "red" }}>
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.container}
+      style={styles.container(colors)}
       keyboardVerticalOffset={97}>
       <View style={styles.view}>
         <View></View>
         <View>
           {itemID || label ? null : (
             <TouchableOpacity
-              style={styles.collButton}
+              style={styles.collButton(colors)}
               onPress={() => setModalVisible(true)}>
-              <Text style={styles.collText}> {selectedCollection.text} </Text>
+              <Text style={styles.collText(colors)}> {selectedCollection.text} </Text>
             </TouchableOpacity>
           )}
 
@@ -266,7 +263,7 @@ function AddNote({ route, navigation }) {
               keyboardVerticalOffset={0}>
               <View
                 style={[
-                  profileImgStyles.modalContainer,
+                  profileImgStyles.modalContainer(colors),
                   {
                     height: dimensions.height * 0.4,
                     width: dimensions.width * 0.55,
@@ -274,12 +271,12 @@ function AddNote({ route, navigation }) {
                 ]}>
                 <View style={styles.closeButtonView}>
                   <View style={styles.inner}>
-                    <Text style={styles.heading}>Collections</Text>
+                    <Text style={styles.heading(colors)}>Collections</Text>
                   </View>
                   <TouchableOpacity
-                    style={styles.xButton}
+                    style={styles.xButton(colors)}
                     onPress={() => setModalVisible(false)}>
-                    <Text>X</Text>
+                    <Text style={{color:colors.HEADERTITLE}}>X</Text>
                   </TouchableOpacity>
                 </View>
                 <FlatList
@@ -288,15 +285,17 @@ function AddNote({ route, navigation }) {
                   keyExtractor={(item, index) => index.toString()}
                 />
                 <TextInput
-                  style={styles.newCollectionInput}
+                  style={styles.newCollectionInput(colors)}
                   placeholder="Add New Collection"
                   value={newCollection}
                   onChangeText={setNewCollection}
+                  placeholderTextColor={colors.GRAY}
+                  maxLength={20}
                 />
                 <TouchableOpacity
-                  style={styles.addButton}
+                  style={styles.addButton(colors)}
                   onPress={addCollection}>
-                  <Text style={styles.addTxt}>Add</Text>
+                  <Text style={styles.addTxt(colors)}>Add</Text>
                 </TouchableOpacity>
               </View>
               {/* </SafeAreaView> */}
@@ -315,12 +314,12 @@ function AddNote({ route, navigation }) {
                 </View> */}
       <TextInput
         value={title}
-        style={styles.title}
+        style={styles.title(colors)}
         placeholder="Title"
         multiline={true}
         maxLength={60}
         onChangeText={text => setTitle(text)}
-        placeholderTextColor={APPCOLOR.HEADERTITLE}
+        placeholderTextColor={colors.HEADERTITLE}
       />
 
       <RichEditor
@@ -339,15 +338,15 @@ function AddNote({ route, navigation }) {
             console.error('Error occurred while opening URL:', error);
           }
         }}
-        editorStyle={styles.editor}
-        style={styles.desc}
+        editorStyle={styles.editor(colors)}
+        style={styles.desc(colors)}
         containerStyle={{ overflow: 'scroll' }}
       />
 
       <View style={{ alignItems: 'center' }}>
-        <View style={homeStyles.buttonShadow}>
+        <View style={homeStyles.buttonShadow(colors)}>
           <TouchableOpacity onPress={saveNote}>
-            <Text style={styles.buttonTxt}>Save</Text>
+            <Text style={styles.buttonTxt(colors)}>Save</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -356,10 +355,10 @@ function AddNote({ route, navigation }) {
             style={{}}
             > */}
       <RichToolbar
-        style={styles.toolbar}
+        style={styles.toolbar(colors)}
         editor={richText}
-        iconTint={APPCOLOR.GRAY}
-        selectedIconTint={APPCOLOR.DARK_BLUE}
+        iconTint={themeColors.LIGHT.GRAY}
+        selectedIconTint={themeColors.LIGHT.DARK_BLUE}
         actions={[
           // actions.insertImage,
           actions.setBold,

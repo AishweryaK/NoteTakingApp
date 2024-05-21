@@ -15,8 +15,10 @@ import LOGOUT from "../Assets/Svgs/log-out-outline.svg"
 import CAMERA from "../Assets/Svgs/camera-outline.svg"
 import ARROW from "../Assets/Svgs/chevron-forward-outline.svg"
 import EYEON from "../Assets/Svgs/eye-outline.svg"
-import EYEOFF from "../Assets/Svgs/eye-off-outline.svg"
-import EYE from "../Assets/Svgs/eye-off-outline.svg"
+import EYEOFF from "../Assets/Svgs/eye-off.svg"
+import NOTEWHITE from "../Assets/Svgs/white-note.svg"
+import NOTEBLUE from "../Assets/Svgs/blue-note.svg"
+import PIECHART from "../Assets/Svgs/pie-chart.svg"
 
 
 const iconStyle = (
@@ -49,5 +51,7 @@ export const ICONS = {
   ARROW: (...params) =><ARROW {...iconStyle(...params)} />,
   EYEON: (...params) =><EYEON {...iconStyle(...params)} />,
   EYEOFF: (...params) =><EYEOFF {...iconStyle(...params)} />,
-  EYE: (...params) =><EYE {...iconStyle(...params)} />,
+  NOTEWHITE: (...params) =><NOTEWHITE {...iconStyle(...params)} />,
+  NOTEBLUE: (...params) =><NOTEBLUE {...iconStyle(...params)} />,
+  PIECHART: (...params) =><PIECHART {...iconStyle(...params)} />,
 }

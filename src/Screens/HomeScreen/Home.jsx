@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, Image, SafeAreaView, ActivityIndicator } from "react-native";
+import { Text, View, Image, SafeAreaView, ActivityIndicator, ScrollView } from "react-native";
 import { NAVIGATION } from "../../Constants/navConstants";
 import { homeStyles } from "./homeStyle";
 import auth from '@react-native-firebase/auth';
@@ -8,54 +8,56 @@ import AvailSpace from "./AvailSpace";
 import CustomList from "../../Components/CustomList";
 import { APPCOLOR } from "../../Assets/Colors/appColors";
 import { useSelector } from "react-redux";
+import { getThemeColors, themeColors } from "../../Assets/Colors/themeColors";
 
 function Home({ navigation }) {
   const user = useSelector((state) => state.user);
+  const colors = getThemeColors(user.theme);
 
   // console.log(user.displayName,"THIS IS REDUX VALUE")
 
   return (
-    <SafeAreaView style={homeStyles.safeArea}>
+    <SafeAreaView style={homeStyles.safeArea(colors)}>
      
        
         <View style={homeStyles.outer}>
           <View style={homeStyles.inner}>
-            <Text style={homeStyles.welcome}>
-              {/* Welcome, {currentUser ? displayName : ""} !  */}
+            <Text style={homeStyles.welcome(colors)}>
               Welcome, {user.displayName} ! 
             </Text>
-            <Text style={homeStyles.title}>Notes App</Text>
+            <Text style={homeStyles.title(colors)}>Notes App</Text>
           </View>
-          {/* {currentUser && currentUser.photoURL ? ( */}
             {user.photoURL ? (
             
             <Image
-              style={homeStyles.userImg}
+              style={homeStyles.userImg(colors)}
               source={{ uri: user.photoURL }}
             />
           ) : (
             <Image
-              style={homeStyles.userImg}
+              style={homeStyles.userImg(colors)}
               source={require('../../Assets/Images/userImg.jpeg')}
             />
           )}
         </View>
       
-
-      <View style={{ alignItems: "center" }}>
-        <AvailSpace />
-      </View>
+      {/* <ScrollView>
+      <View style={{ alignItems: "center" ,}}>
+        <AvailSpace /> */}
+      
 
       {user.uid ? (
-        <View style={{ flexDirection: "row", height: dimensions.height * 0.50 }}>
+        // <View style={{ height: dimensions.height * 0.75,}}>
           <CustomList navigation={navigation} />
-        </View>
+        // </View>
       ) : (
           <View>
-          <ActivityIndicator size="large" color={APPCOLOR.BLUE} />
+          <ActivityIndicator size="large" color={themeColors.LIGHT.BLUE} />
         </View>
      
       )}
+      {/* </View>
+      </ScrollView> */}
     </SafeAreaView>
   )
 }

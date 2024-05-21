@@ -8,3 +8,8 @@ export const SIGNING = {
     CONFIRMPASSWORD : "Confirm Password",
 
 }
+
+export const PROVIDER = {
+    GOOGLE:"google",
+    EMAIL:"email",
+}

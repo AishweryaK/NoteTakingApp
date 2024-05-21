@@ -2,66 +2,46 @@ import React from "react";
 import { View, TouchableOpacity, Text, ImageBackground } from "react-native";
 import FrameIcon from "../Assets/Svgs/FrameIcon";
 import { labelStyles } from "../Common/styles";
+import { useSelector } from "react-redux";
+import { getThemeColors } from "../Assets/Colors/themeColors";
+import { ICONS } from "../Constants/iconConstants";
 
 
 function CustomLabel ({handlePress, text, number}) {
+    const theme = useSelector((state)=>state.user.theme)
+    const colors = getThemeColors(theme);
 
     return (
         <TouchableOpacity
         onPress={handlePress}
         style={labelStyles.container}
         >
-        {/* <View style={labelStyles.container}> */}
+        {theme==="LIGHT" ? 
         <ImageBackground source={require("../Assets/Images/LabelImg.png")} 
-        style={labelStyles.bg}
-        />
+        style={labelStyles.bg}/> 
+        :
+        <ImageBackground source={require("../Assets/Images/Label_dark.png")} 
+        style={labelStyles.bg}/>
+        }
+        
         <View style={labelStyles.icon}>
-                    <FrameIcon />
+        {/* <FrameIcon /> */}
+                   { theme==="LIGHT" ?   ICONS.NOTEBLUE(50,50)  :
+                    ICONS.NOTEWHITE(50,50)}
                 </View>
                 <View style={labelStyles.txtView}>
-                <Text style={labelStyles.title}>
+                <Text style={labelStyles.title(colors)}>
                     {text}
                 </Text>
-                <Text style={labelStyles.txt}>
+                <Text style={labelStyles.txt(colors)}>
                    {number} Files
                 </Text>
                 </View>
-        {/* </View> */}
         </TouchableOpacity>
     )
 }
 
 export default CustomLabel;
 
-{/* <TouchableOpacity>
-{/* <View style={{ position: "relative"
-// , height: dimensions.width*0.50, width:dimensions.width*0.50 
-}}> */}
-    {/* <View style={{ position: "absolute", top: 62.5, left: 52.5, zIndex: 2 }}>
-        <PersonalIcon />
-    </View> */}
-   
-    {/* <View style={{ position: "absolute", top: 50, left: 40, zIndex: 1 }}>
-        <FrameIcon />
-    </View>
-    
-    <View style={{ position: "absolute", top: 0, left: 0 }}>
-        <LabelIcon
-        />
-    </View>
-    <View style={{flex:1, flexDirection:"column"}} >
-        <Text>
-            hi
-        </Text>
-        <Text>
-
-        </Text>
-    </View> */}
-{/* </View>  */}
-
-
-
-
-// </TouchableOpacity> */}
 
 

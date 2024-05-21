@@ -9,10 +9,12 @@ import { NAVIGATION } from '../../Constants/navConstants';
 import useAuthentication from '../../Components/CustomHook';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleTheme } from '../../Redux/Slices/demoSlice';
+import { getThemeColors, themeColors } from '../../Assets/Colors/themeColors';
 
 const SettingsPage = ({ navigation }) => {
   const { isLoading, signOutCall } = useAuthentication();
   const theme = useSelector(state => state.user.theme);
+  const colors = getThemeColors(theme);
   const dispatch = useDispatch();
     
   const handleLogout = async () => {
@@ -24,49 +26,48 @@ const SettingsPage = ({ navigation }) => {
   };
 
   return (
-    <ScrollView style={styles.container}>
-      <Text style={styles.heading}>Settings</Text>
+    <ScrollView style={styles.container(colors)}>
+      <Text style={styles.heading(colors)}>Settings</Text>
 
-      <TouchableOpacity style={styles.option} onPress={() => navigation.navigate(NAVIGATION.ACCOUNT)}>
+      <TouchableOpacity style={styles.option(colors)} onPress={() => navigation.navigate(NAVIGATION.ACCOUNT)}>
         {ICONS.ACCOUNT(24, 24)}
         <View style={styles.view}>
-          <Text style={styles.optionText}>Account</Text>
+          <Text style={styles.optionText(colors)}>Account</Text>
           {ICONS.ARROW(24, 24)}
         </View>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.option}>
+      <TouchableOpacity style={styles.option(colors)}>
         {ICONS.CHANGEP(24, 24)}
         <View style={styles.view}>
-          <Text style={styles.optionText}>Change Password</Text>
+          <Text style={styles.optionText(colors)}>Change Password</Text>
           {ICONS.ARROW(24, 24)}
         </View>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.option}>
+      <View style={styles.option(colors)}>
         {ICONS.THEME(24, 24)}
         <View style={styles.view}>
-          <Text style={styles.optionText}>Theme</Text>
+          <Text style={styles.optionText(colors)}>Theme</Text>
           <Switch
             style={{ paddingRight: 0 }}
-            trackColor={{ false: APPCOLOR.ICON, true: APPCOLOR.BLUE }}
-            thumbColor={theme === "DARK" ? APPCOLOR.ICON : APPCOLOR.ICONFOCUSED}
+            trackColor={{ false: themeColors.LIGHT.ICON, true: themeColors.LIGHT.BLUE }}
+            thumbColor={theme === "DARK" ? themeColors.LIGHT.ICON : themeColors.LIGHT.ICONFOCUSED}
             onValueChange={toggleSwitch}
             value={theme === "DARK"}
           />
         </View>
-      </TouchableOpacity>
+      </View>
       
-      <TouchableOpacity style={[styles.option, { marginTop: 40 }]} onPress={handleLogout}>
+      <TouchableOpacity style={[styles.option(colors), { marginTop: 40 }]} onPress={handleLogout}>
         {ICONS.LOGOUT(24, 24)}
         <View style={styles.view}>
-          <Text style={[styles.optionText, { fontFamily: FONT.BOLD }]}>Logout</Text>
+          <Text style={[styles.optionText(colors), { fontFamily: FONT.BOLD }]}>Logout</Text>
           {ICONS.ARROW(24, 24)}
         </View>
       </TouchableOpacity>
-      {ICONS.EYEON(24,24)}
-      {ICONS.EYEOFF(24,24)}
-      {ICONS.EYE(24,24)}
+      {/* {ICONS.EYEON(24,24)} */}
+      {/* {ICONS.EYEOFF(24,24)} */}
     </ScrollView>
   );
 };

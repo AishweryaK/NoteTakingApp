@@ -16,11 +16,15 @@ import { NAVIGATION } from '../Constants/navConstants';
 import firestore from "@react-native-firebase/firestore"
 import { addDocumentsForUser } from '../Common/firebaseUtils';
 import useAuthentication from './CustomHook';
+import { useSelector } from 'react-redux';
+import { getThemeColors } from '../Assets/Colors/themeColors';
 
 
 function GoogleLogin ({navigation}) {
     const [userInfo, setuserInfo] = useState(null);
     const {googleLoginCall} = useAuthentication();
+    const theme = useSelector((state)=>state.user.theme)
+    const colors= getThemeColors(theme);
 
 
     useEffect(() => {
@@ -79,15 +83,16 @@ function GoogleLogin ({navigation}) {
 
       return (
        
-         <View style={[buttonStyles.customButton, buttonStyles.googleButton]}>
+         <TouchableOpacity style={[buttonStyles.customButton(colors), buttonStyles.googleButton(colors)]}
+         onPress={signInBTNPress}>
             <GoogleIcon width={25} height={25}
             />
-            <TouchableOpacity
+            {/* <TouchableOpacity
             onPress={signInBTNPress}
-            >
-            <Text style={[buttonStyles.buttonText,buttonStyles.googleTxt]}> Continue with Google </Text>
-            </TouchableOpacity>
-        </View>
+            > */}
+            <Text style={[buttonStyles.buttonText(colors),buttonStyles.googleTxt(colors)]}> Continue with Google </Text>
+            {/* </TouchableOpacity> */}
+        </TouchableOpacity>
       
       )
 }

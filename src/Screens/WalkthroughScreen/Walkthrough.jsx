@@ -7,9 +7,13 @@ import { NAVIGATION } from "../../Constants/navConstants";
 import GoogleLogin from "../../Components/GoogleLogin";
 import auth from '@react-native-firebase/auth';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useSelector } from "react-redux";
+import { getThemeColors } from "../../Assets/Colors/themeColors";
 
 
 export default function Walkthrough ({navigation}) {
+    const theme = useSelector((state)=>state.user.theme)
+    const colors= getThemeColors(theme);
 
     
 //   useEffect (() => {
@@ -18,15 +22,15 @@ export default function Walkthrough ({navigation}) {
 //   },[])
 
     return (
-    <View style={styles.wrapper}>
-        <Text style={wlkStyles.title}>
+    <View style={styles.wrapper(colors)}>
+        <Text style={wlkStyles.title(colors)}>
             Notes App
         </Text>
 
         <Image source={require("../../Assets/Images/Diary.png")} 
         style={wlkStyles.img} />
 
-        <Text style={wlkStyles.txt}>
+        <Text style={wlkStyles.txt(colors)}>
             Save and share notes
         </Text>
 
@@ -41,14 +45,14 @@ export default function Walkthrough ({navigation}) {
 
         <View style={wlkStyles.loginButton}>
         <Text
-        style={wlkStyles.loginTxt}
+        style={wlkStyles.loginTxt(colors)}
         >
            Have an account? <TouchableOpacity
            style={wlkStyles.touchable}
            onPress={()=>navigation.navigate(NAVIGATION.LOGIN)}
            >
             <Text
-            style={wlkStyles.login}
+            style={wlkStyles.login(colors)}
             >
                 Log in
             </Text>

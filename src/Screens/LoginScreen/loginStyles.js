@@ -2,6 +2,7 @@ import { StyleSheet } from "react-native";
 import { FONT } from "../../Constants/fontConstants";
 import { APPCOLOR } from "../../Assets/Colors/appColors";
 import { dimensions } from "../../Constants/utility";
+import { themeColors } from "../../Assets/Colors/themeColors";
 
 export const loginStyles = StyleSheet.create({
     usrInfo:{
@@ -16,7 +17,7 @@ export const loginStyles = StyleSheet.create({
 forgotTxt:{
     fontFamily:FONT.BOLD,
     fontSize:16,
-    color:APPCOLOR.BLUE,
+    color:themeColors.LIGHT.BLUE,
     textAlign:"left",
     marginTop:20,
     lineHeight:18,

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, SafeAreaView, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, FlatList, SafeAreaView, TouchableOpacity, TextInput, Modal } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import HTML from  "react-native-render-html"
 import { styles } from './styles';
@@ -10,12 +10,18 @@ import filter from "lodash.filter";
 import { APPCOLOR } from '../../Assets/Colors/appColors';
 import { FONT } from '../../Constants/fontConstants';
 import { homeStyles } from '../HomeScreen/homeStyle';
+import { useSelector } from 'react-redux';
+import { getThemeColors } from '../../Assets/Colors/themeColors';
 
 const NotesScreen = ({ route, navigation}) => {
   const [notes, setNotes] = useState([]);
   const [fullNotes, setFullNotes] =useState([]);
   const [searchQuery, setSearchQuery]= useState("");
   const {uid, itemText} = route.params;
+  const [modalVisible, setModalVisible] = useState(false);
+  const [itemUid, setItemUid] = useState(null)
+  const theme = useSelector((state)=>state.user.theme)
+  const colors= getThemeColors(theme);
 
   useEffect(() => {
     const unsubscribe = firestore()
@@ -39,9 +45,9 @@ const NotesScreen = ({ route, navigation}) => {
     return () => unsubscribe();
   }, [uid]);
 
-  // useEffect(() => {
-  //   console.log(notes, "notes");
-  // }, [notes]);
+  useEffect(() => {
+    console.log(itemText, "label");
+  }, [itemText]);
 
   const handleSearch =(query) => {
     setSearchQuery(query);
@@ -65,48 +71,98 @@ const NotesScreen = ({ route, navigation}) => {
     navigation.navigate(NAVIGATION.ADDNOTE, {uid: uid , label:itemText})
   }
 
+  const handleLongPress=(itemUid) => {
+    setItemUid(itemUid);
+    setModalVisible(true);
+    console.log(itemUid, 2734784544)
+  }
+
+  const decLabelCollection = async () => {
+    const collectionRef = firestore().collection('users').doc(uid);
+    const doc = await collectionRef.get();
+    if (doc.exists) {
+      const userData = doc.data();
+      // console.log(userData, "USERDATA")
+      const updatedCollections = userData.collections.map(collection => {
+        // console.log(collection, "COLLECTTT")
+        if (collection.text === itemText) {
+          return {
+            ...collection,
+            number: collection.number - 1,
+          };
+        }
+        return collection;
+      });
+      await collectionRef.set(
+        { collections: updatedCollections },
+        { merge: true },
+      );
+    }
+  };
+  const deleteNote = async() => {
+    await firestore()
+        .collection('users')
+        .doc(uid)
+        .collection(itemText)
+        .doc(itemUid)
+        .delete();
+  }
+
+
+  const handleDeleteNote = async () => {
+    try {
+      deleteNote();
+      setModalVisible(false);
+      setItemUid(null)
+  
+      decLabelCollection();
+    } catch (error) {
+      console.error("Error deleting note: ", error);
+    }
+  }
+
   const MemoizedHTML = React.memo(HTML);
 
   const renderItem = ({ item }) => (
     
     
-    <View style={styles.container}>
-      <TouchableOpacity style={{flex:1}}
+    <TouchableOpacity style={styles.container(colors)}
       onPress={()=> navigation.navigate(NAVIGATION.ADDNOTE, {uid: uid ,itemTitle: item.title, 
         itemDesc : item.desc, itemID: item.id, label:itemText})}
+        onLongPress={()=>handleLongPress(item.id)}
       >
-      <Text style={styles.txt}
+      <Text style={styles.txt(colors)}
       >{item.title}</Text>
       <MemoizedHTML 
       baseStyle={{fontFamily:FONT.BOLD,
             fontSize:14,
             lineHeight:18.2,
             opacity: 0.67,
-            color:APPCOLOR.HEADERTITLE}}
+            color:colors.HEADERTITLE}}
             // defaultTextProps={styles.content}
       source={{ html: item.desc }} 
       contentWidth={dimensions.width} 
       />
       {/* <Text style={styles.content}
       >{item.desc}</Text> */}
-      </TouchableOpacity>
-    </View>
+      {/* </TouchableOpacity> */}
+    </TouchableOpacity>
     
   );
 
   return (
-    <SafeAreaView style={styles.wrapper}>
+    <SafeAreaView style={styles.wrapper(colors)}>
       <View style={styles.input}>
 
         <TextInput
-        style={inputStyles.customInput}
+        style={inputStyles.customInput(colors)}
         placeholder='Search'
         value={searchQuery}
         onChangeText={handleSearch} 
         clearButtonMode='always'
         autoCapitalize='none'
         autoCorrect={false}
-        placeholderTextColor={APPCOLOR.PLACEHOLDER}
+        placeholderTextColor={colors.PLACEHOLDER}
         />
       </View>
     <FlatList
@@ -117,20 +173,40 @@ const NotesScreen = ({ route, navigation}) => {
       numColumns={2}
     />
     <View style={{alignItems:"center"}}>
-    <View style={[homeStyles.buttonShadow, {borderRadius:1000, 
+    <View style={[homeStyles.buttonShadow(colors), {borderRadius:1000, 
       width:dimensions.width*0.5, justifyContent:"flex-end",}]}>
             <TouchableOpacity style={styles.button}
           onPress={handleAddNote}
           >
-            <Text style={[homeStyles.buttonText, {fontSize:30, paddingVertical:10}]}>
+            <Text style={[homeStyles.buttonText(colors), {fontSize:30, paddingVertical:10}]}>
               +
             </Text>
-            <Text style={[homeStyles.buttonText, {fontSize:14,paddingVertical:20}]}>
+            <Text style={[homeStyles.buttonText(colors), {fontSize:14,paddingVertical:20}]}>
               Add New Notes
             </Text>
           </TouchableOpacity>
             </View>
             </View>
+        <Modal
+        visible={modalVisible}
+        transparent={true}
+        animationType="slide"
+      >
+        <View style={styles.modalBackground}>
+          <View style={styles.modalContainer(colors)}>
+            <Text style={styles.modalTitle(colors)}>Delete Note</Text>
+            <Text style={styles.modalMessage(colors)}>Are you sure you want to delete this note?</Text>
+            <View style={styles.modalButtons}>
+              <TouchableOpacity onPress={handleDeleteNote}>
+                <Text style={styles.modalText(colors)}>Yes</Text>
+                </TouchableOpacity>
+              <TouchableOpacity  onPress={() => setModalVisible(false)} >
+              <Text style={styles.modalText(colors)}>No</Text>
+                </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 };

@@ -1,17 +1,17 @@
 import { StyleSheet } from "react-native";
-import { APPCOLOR } from "../../Assets/Colors/appColors";
+import { APPCOL } from "../../Assets/Colors/appColors";
 import { FONT } from "../../Constants/fontConstants";
 import { dimensions } from "../../Constants/utility";
 
 export const styles= StyleSheet.create(
     {
-        wrapper: { 
+        wrapper: (colors)=>({ 
             flex: 1, 
-            backgroundColor: APPCOLOR.BACKGROUND,
-        },
-        container: {flex: 1,
+            backgroundColor: colors.BACKGROUND,
+        }),
+        container:(colors)=>( {flex: 1,
             // alignItems: 'center',
-            backgroundColor:APPCOLOR.BACKGROUND,
+            backgroundColor:colors.BACKGROUND,
             // paddingTop:30, 
             // borderWidth:2,
             marginBottom:10,
@@ -21,33 +21,81 @@ export const styles= StyleSheet.create(
             padding:20,
             fontFamily:FONT.REGULAR,
     
-            shadowColor: APPCOLOR.BLUE,
+            shadowColor: colors.SHADOW,
             shadowOffset: {width: -2, height: 4},
-            shadowOpacity: 0.1,
+            shadowOpacity: 0.15,
             shadowRadius: 10,
             elevation:7,
-        },
-        txt:{
+        }),
+        txt:(colors)=>({
             fontFamily:FONT.EXTRA_BOLD,
             fontSize:16,
             lineHeight:22,
-            color:APPCOLOR.HEADERTITLE
-          },
-          list: {paddingHorizontal:8,
+            color:colors.HEADERTITLE
+          }),
+          list: {
+            paddingHorizontal:8,
+            paddingTop:10
         },
-        content:{
+        content:(colors)=>({
             fontFamily:FONT.BOLD,
             fontSize:14,
             lineHeight:18.2,
             opacity: 0.67,
-            color:APPCOLOR.HEADERTITLE
-        },
+            color:colors.HEADERTITLE
+        }),
         input :{ 
         alignItems:"center", 
         paddingBottom:15
     },
-    button: {flex:1, flexDirection:"row", justifyContent:"space-evenly",  
-    width:dimensions.width*0.45, paddingHorizontal:10
-  }
+    button: {
+    flex:1, 
+    flexDirection:"row", 
+    justifyContent:"space-evenly",  
+    width:dimensions.width*0.45, 
+    paddingHorizontal:10
+  },
+  modalBackground: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContainer: colors=>({
+    width: 300,
+    padding: 20,
+    backgroundColor: colors.BACKGROUND,
+    borderRadius: 10,
+    alignItems: 'center',
+  }),
+  modalTitle: colors=>({
+    fontSize: 20,
+    fontFamily:FONT.BOLD,
+    color: colors.TITLECOLOR,
+    marginBottom: 10,
+  }),
+  modalMessage:(colors)=> ({
+    fontSize: 16,
+    marginBottom: 20,
+    fontFamily:FONT.REGULAR,
+    color:colors.TITLECOLOR
+  }),
+  modalButtons: {
+    flexDirection: 'row',
+    justifyContent: "space-around",
+    width: '100%',
+  },
+  modalText:(colors)=>({
+    fontFamily:FONT.BOLD,
+    color:colors.HEADERTITLE,
+    width:100,
+    textAlign:"center",
+    paddingVertical:10,
+    // borderRadius:5,
+    // borderColor:colors.BORDER,
+    // borderWidth:1,
+
+  }),
+
     }
 )

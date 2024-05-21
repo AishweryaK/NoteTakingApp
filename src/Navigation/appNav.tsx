@@ -8,17 +8,21 @@ import { RootStackParamsList } from "./routeTypes";
 import { APPCOLOR } from "../Assets/Colors/appColors";
 import { FONT } from "../Constants/fontConstants";
 import AccountPage from "../Screens/Account/AccountScreen";
+import { getThemeColors } from "../Assets/Colors/themeColors";
+import { useSelector } from "react-redux";
 
 
 
 function AppNavigation() : React.JSX.Element {
+  const theme = useSelector((state)=> state.user.theme)
+  const colors = getThemeColors(theme);
   const Stack = createNativeStackNavigator<RootStackParamsList>();
   return (
     <Stack.Navigator initialRouteName={NAVIGATION.HOMESCREEN} screenOptions={{headerShown:false, headerStyle: {
-      backgroundColor: APPCOLOR.BACKGROUND,
+      backgroundColor: colors.BACKGROUND,
     },
     headerShadowVisible:false,
-    headerTintColor:APPCOLOR.HEADERTITLE,
+    headerTintColor: colors.HEADERTITLE,
     headerTitleAlign:"center",
     headerTitleStyle: {
       fontFamily:FONT.BOLD,

@@ -4,6 +4,7 @@ import firestore from "@react-native-firebase/firestore";
 import CustomLabel from "./CustomLabel";
 import { NAVIGATION } from "../Constants/navConstants";
 import { useSelector } from "react-redux";
+import AvailSpace from "../Screens/HomeScreen/AvailSpace";
 
 
 function CustomList({navigation}) {
@@ -44,12 +45,17 @@ function CustomList({navigation}) {
 
 
     return (
+      
         <FlatList
+        style={{}}
             data={collections}
             renderItem={renderItem}
             keyExtractor={(item, index) => index.toString()}
             numColumns={2}
+            nestedScrollEnabled= {true}
+            ListHeaderComponent={<AvailSpace />}
         />
+
     );
 }
 

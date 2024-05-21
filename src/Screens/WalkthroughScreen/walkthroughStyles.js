@@ -4,26 +4,26 @@ import { APPCOLOR } from "../../Assets/Colors/appColors";
 import { dimensions } from "../../Constants/utility";
 
 export const wlkStyles = StyleSheet.create({
-    title : {
+    title : (colors)=>({
         fontFamily:FONT.EXTRA_BOLD,
         fontSize: 27,
         lineHeight: 32.74,
-        color:APPCOLOR.TITLECOLOR,
+        color:colors.TITLECOLOR,
         marginTop:44,
-    },
+    }),
     img:{
         width: dimensions.width*0.50,
         height: dimensions.width*0.50,
         marginTop:40
 
     },
-    txt:{
+    txt:(colors)=>({
         fontFamily:FONT.BOLD,
         fontSize: 24,
         lineHeight: 32.74,
-        color:APPCOLOR.TITLECOLOR,
+        color:colors.TITLECOLOR,
         marginTop:120,
-    },
+    }),
     button:{
         // marginTop:70,
         flex: 1,
@@ -36,22 +36,22 @@ export const wlkStyles = StyleSheet.create({
         alignItems:"center", 
         justifyContent:"center"
     },
-    loginTxt:{
+    loginTxt:(colors)=>({
         textAlign:"center",
         fontFamily:FONT.REGULAR,
         fontSize:16,
         lineHeight:24,
-        color: APPCOLOR.TITLECOLOR,
-    },
-    login : {
+        color: colors.TITLECOLOR,
+    }),
+    login : (colors)=>({
         textAlign:"center",
         fontFamily:FONT.REGULAR,
         fontSize:16,
         lineHeight:24,
-        color: APPCOLOR.BLUE,
+        color: colors.BLUE,
         paddingTop:3,
         textAlignVertical:"center",
-    },
+    }),
     touchable: {
         justifyContent:"center",
     }

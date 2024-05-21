@@ -5,50 +5,56 @@ import { dimensions } from "../../Constants/utility";
 
 export const styles = StyleSheet.create(
     {
-        container: { flex: 1, 
-            backgroundColor:APPCOLOR.BACKGROUND 
-        },
+        container: (colors)=> ({ 
+          flex: 1, 
+          backgroundColor:colors.BACKGROUND 
+        }),
         view: { 
           marginTop:10, 
         flexDirection:"row",
         justifyContent:"space-between", 
         marginHorizontal:20 
     },
-    collButton : {borderWidth:2, 
+    collButton : (colors) => ({
+      borderWidth:2, 
         borderRadius:8, 
         padding:3, 
-        borderColor:APPCOLOR.BORDER,
-    },
-    collText:{color:APPCOLOR.HEADERTITLE, 
+        borderColor:colors.BORDER,
+    }),
+    collText:(colors)=>({
+      color:colors.HEADERTITLE, 
         fontSize:14, 
         fontFamily:FONT.BOLD
 
-    },
-    heading:{
+    }),
+    heading:(colors) => ({
         fontFamily:FONT.EXTRA_BOLD, 
         fontSize:18, 
-        color:APPCOLOR.HEADERTITLE,
-    },
-        title : { fontSize: 35,
+        color:colors.HEADERTITLE,
+    }),
+        title : (colors) => ({ fontSize: 35,
              marginHorizontal: 20, 
+             fontFamily:FONT.REGULAR,
             // marginTop: 5, 
-            color:APPCOLOR.HEADERTITLE,
-            opacity:0.67,
-        },
-        editor: {backgroundColor:APPCOLOR.BACKGROUND, 
-            color:APPCOLOR.DARK_BLUE,
-        },
-        desc: { flex:1, 
+            color:colors.HEADERTITLE,
+            opacity:1,
+        }),
+        editor: (colors) => ({backgroundColor:colors.BACKGROUND, 
+            color:colors.DARK_BLUE,
+        }),
+        desc: (colors) => ( { flex:1, 
             paddingHorizontal:16, 
-            backgroundColor:APPCOLOR.BACKGROUND,
-            color: APPCOLOR.HEADERTITLE,
-        },
-        buttonTxt: {color:APPCOLOR.WHITE,
+            backgroundColor:colors.BACKGROUND,
+            color: colors.HEADERTITLE,
+        }),
+        buttonTxt: (colors) =>  ({color:colors.WHITE,
             fontFamily:FONT.BOLD,
            textAlign:"center", 
-           fontSize:20},
-           toolbar: {backgroundColor:APPCOLOR.BLUE
-           },
+           fontSize:20
+          }),
+        toolbar: (colors) => ({
+          backgroundColor:colors.BLUE
+           }),
   modalContainer: {
     flex: 1,
     justifyContent: 'flex-end',
@@ -64,34 +70,38 @@ export const styles = StyleSheet.create(
   },
   collectionItem: {
     paddingVertical: 10,
+    width:dimensions.width*0.35
   },
-  collectionText: {
+  collectionText: (colors) => ({
     fontFamily: FONT.REGULAR,
     fontSize: 16,
-  },
-  newCollectionInput: {
-    borderWidth: 1,
-    borderColor: APPCOLOR.BORDER,
+    color: colors.DARK_BLUE
+  }),
+  newCollectionInput: (colors)=> ({
+    borderWidth: 0.5,
+    borderColor: colors.BORDER,
     borderRadius: 8,
     padding: 10,
     marginBottom: 10,
-  },
-  addButton: {
-    backgroundColor: APPCOLOR.BLUE,
+    color:colors.TITLECOLOR,
+    width:dimensions.width*0.35
+  }),
+  addButton: (colors) =>  ({
+    backgroundColor: colors.BLUE,
     padding: 10,
     borderRadius: 8,
     alignItems: 'center',
-  },
+  }),
   buttonText: {
     fontFamily: FONT.REGULAR,
     fontSize: 16,
     color: 'white',
   },
-  addTxt:{
+  addTxt: (colors) => ({
     fontFamily:FONT.BOLD,
     fontSize:15,
-    color:APPCOLOR.WHITE,
-  }, 
+    color:colors.WHITE,
+  }), 
   closeButtonView :{flexDirection:"row", 
   width:dimensions.width*0.45, 
   alignItems:"center", 
@@ -100,13 +110,14 @@ export const styles = StyleSheet.create(
 inner : { flex: 1, 
   alignItems: "center" 
 },
-xButton:{borderColor:APPCOLOR.BORDER, 
+xButton: (colors)=> 
+({borderColor:colors.BORDER, 
   borderWidth:2, 
   borderRadius:100, 
   height:25, width:25, 
   alignItems:"center", 
   justifyContent:"center" 
-},
+}),
 });
 
 

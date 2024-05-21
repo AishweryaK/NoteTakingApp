@@ -7,17 +7,21 @@ import Walkthrough from "../Screens/WalkthroughScreen/Walkthrough";
 import ForgotPassScreen from "../Screens/ForgotPassScreen/ForgotPass";
 import { APPCOLOR } from "../Assets/Colors/appColors";
 import { FONT } from "../Constants/fontConstants";
+import { useSelector } from "react-redux";
+import { getThemeColors } from "../Assets/Colors/themeColors";
 
 
 
 function AuthNavigation() {
+  const theme = useSelector((state)=> state.user.theme)
+  const colors = getThemeColors(theme);
   const Stack = createNativeStackNavigator();
   return (
     <Stack.Navigator initialRouteName={NAVIGATION.WALKTHROUGH} screenOptions={{headerShown:false, headerStyle: {
-      backgroundColor: APPCOLOR.BACKGROUND,
+      backgroundColor: colors.BACKGROUND,
     },
     headerShadowVisible:false,
-    headerTintColor:APPCOLOR.HEADERTITLE,
+    headerTintColor:colors.HEADERTITLE,
     headerTitleAlign:"center",
     headerTitleStyle: {
       fontFamily:FONT.BOLD,

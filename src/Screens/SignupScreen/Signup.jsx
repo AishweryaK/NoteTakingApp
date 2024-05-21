@@ -21,6 +21,8 @@ import { addDocumentsForUser } from '../../Common/firebaseUtils';
 import ProfileImage from '../../Components/ProfileImage';
 import { APPCOLOR } from '../../Assets/Colors/appColors';
 import useAuthentication from '../../Components/CustomHook';
+import { useSelector } from 'react-redux';
+import { getThemeColors } from '../../Assets/Colors/themeColors';
 
 export const SignupSchema = Yup.object().shape({
   firstName: Yup.string()
@@ -52,6 +54,8 @@ function Signup({navigation}) {
   const [imageUri, setImageUri]=  useState(""); 
   // const [loading, setLoading] = useState(false);
   const {isLoading, signUpCall} = useAuthentication();
+  const theme = useSelector((state)=>state.user.theme)
+  const colors= getThemeColors(theme);
 
   const handleImageChange = (uri) => { 
     setImageUri(uri);
@@ -122,10 +126,11 @@ function Signup({navigation}) {
       }) => (
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          style={styles.wrapper}
-          keyboardVerticalOffset={100}>  
+          style={styles.wrapper(colors)}
+          keyboardVerticalOffset={100}
+          >  
           <ScrollView style={{marginBottom: 10}}>
-
+          <View style={{ paddingHorizontal:8, paddingBottom:20}}>
             {/* <ProfileImage /> */}
             <ProfileImage onImageChange={handleImageChange} />  
             
@@ -189,13 +194,13 @@ function Signup({navigation}) {
                             </Text>
 
                         </TouchableOpacity> */}
+                        </View>
           </ScrollView>
           <View style={styles.bottom}>
           {isLoading ? (
-              <ActivityIndicator size="large" color={APPCOLOR.BLUE} />
+              <ActivityIndicator size="large" color={colors.BLUE} />
             ) : (
             <CustomButton
-              // style={{backgroundColor: isValid ? APPCOLOR.BLUE : APPCOLOR.LIGHT_BLUE}}
               handleButton={handleSubmit}
               disable={!isValid}
               text="Submit"

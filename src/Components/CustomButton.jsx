@@ -5,19 +5,23 @@ import { TouchableOpacity, View, Text} from "react-native";
 // import { FONT } from "../Constants/fontConstants";
 // import { dimensions } from "../Constants/utility";
 import { buttonStyles } from "../Common/styles";
+import { getThemeColors } from "../Assets/Colors/themeColors";
+import { useSelector } from "react-redux";
 
 
 
 export default function CustomButton ({handleButton, text, disable}) {
+    // const theme = useSelector((state)=> state.user.theme)
+    const colors = getThemeColors("LIGHT");
     return (
         <View>
             <TouchableOpacity
-            style={buttonStyles.customButton}
+            style={buttonStyles.customButton(colors)}
             onPress={handleButton}
             disabled={disable}
             >
                 <Text
-                style={buttonStyles.buttonText}>
+                style={buttonStyles.buttonText(colors)}>
                     {text}
                 </Text>
             </TouchableOpacity>

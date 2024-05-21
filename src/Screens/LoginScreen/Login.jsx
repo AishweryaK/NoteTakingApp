@@ -13,6 +13,8 @@ import * as Yup from 'yup';
 import { SignupSchema } from '../SignupScreen/Signup';
 import useAuthentication from '../../Components/CustomHook';
 import { APPCOLOR } from '../../Assets/Colors/appColors';
+import { useSelector } from 'react-redux';
+import { getThemeColors, themeColors } from '../../Assets/Colors/themeColors';
 
 
 const LoginSchema = Yup.object().shape({
@@ -22,6 +24,8 @@ const LoginSchema = Yup.object().shape({
 
 function Login({ navigation }) {
   const {isLoading, signInCall} = useAuthentication();
+  const theme = useSelector((state)=> state.user.theme)
+  const colors = getThemeColors(theme);
 
   const handleLogin = async (values) => {
     // try {
@@ -47,7 +51,7 @@ function Login({ navigation }) {
     <KeyboardAvoidingView
       keyboardVerticalOffset={65}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.wrapper}>
+      style={styles.wrapper(colors)}>
       <Formik
         initialValues={{
           email: '',
@@ -99,7 +103,7 @@ function Login({ navigation }) {
 
             <View style={loginStyles.bottom}>
             {isLoading ? (
-              <ActivityIndicator size="large" color={APPCOLOR.BLUE} />
+              <ActivityIndicator size="large" color={themeColors.LIGHT.BLUE} />
             ) : (
               <CustomButton
                 handleButton={handleSubmit}
