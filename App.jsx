@@ -63,13 +63,16 @@ function App(){
 
   
   return (
-    
+
     <SafeAreaView style={styles.container(colors)} >
+      <StatusBar backgroundColor={colors.BACKGROUND}
+      barStyle= {theme === "LIGHT" ? "dark-content" : "light-content"}
+      />
       <NavigationContainer>
         <StackNavigation />
       </NavigationContainer>
       </SafeAreaView>
-
+      
   );
 }
 

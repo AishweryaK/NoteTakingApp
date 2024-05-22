@@ -308,3 +308,44 @@
 // }
 
 // export default Signup;
+
+
+
+// const handleSignUp = async values => {
+    // setLoading(true);
+    // try {
+    //   let userCredentials = await
+    //     auth()
+    //     .createUserWithEmailAndPassword(values.email, values.password);
+
+    //   const user = userCredentials.user;
+
+  
+    // await addDocumentsForUser(user.uid);    
+        
+
+    //   console.log('User account created & signed in!', userCredentials.user);
+
+    //   if (userCredentials && userCredentials.user) {
+    //     console.log(userCredentials, 'userrrr');
+    //     await userCredentials.user.updateProfile({
+    //         displayName: values.firstName + ' ' + values.lastName,
+    //         photoURL: imageUri,   //
+    //     });
+    //   } else {
+    //     console.error('User creation failed, no user returned.');
+    //   }
+    //   navigation.navigate(NAVIGATION.LOGIN);
+    // } catch (error) {
+    //   setLoading(false);
+    //   console.error('Error creating account:', error.code, error.message);
+    // } finally {
+    //   setLoading(false);
+    // }
+
+//     await signUpCall({email:values.email, 
+//       password: values.password,
+//       firstName: values.firstName,
+//       lastName: values.lastName,
+//       imageUri: imageUri});
+//   };

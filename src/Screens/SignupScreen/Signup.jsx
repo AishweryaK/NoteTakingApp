@@ -52,7 +52,6 @@ export const SignupSchema = Yup.object().shape({
 
 function Signup({navigation}) {
   const [imageUri, setImageUri]=  useState(""); 
-  // const [loading, setLoading] = useState(false);
   const {isLoading, signUpCall} = useAuthentication();
   const theme = useSelector((state)=>state.user.theme)
   const colors= getThemeColors(theme);
@@ -61,40 +60,8 @@ function Signup({navigation}) {
     setImageUri(uri);
   };
 
-  // console.log(imageUri);
 
   const handleSignUp = async values => {
-    // setLoading(true);
-    // try {
-    //   let userCredentials = await
-    //     auth()
-    //     .createUserWithEmailAndPassword(values.email, values.password);
-
-    //   const user = userCredentials.user;
-
-  
-    // await addDocumentsForUser(user.uid);    
-        
-
-    //   console.log('User account created & signed in!', userCredentials.user);
-
-    //   if (userCredentials && userCredentials.user) {
-    //     console.log(userCredentials, 'userrrr');
-    //     await userCredentials.user.updateProfile({
-    //         displayName: values.firstName + ' ' + values.lastName,
-    //         photoURL: imageUri,   //
-    //     });
-    //   } else {
-    //     console.error('User creation failed, no user returned.');
-    //   }
-    //   navigation.navigate(NAVIGATION.LOGIN);
-    // } catch (error) {
-    //   setLoading(false);
-    //   console.error('Error creating account:', error.code, error.message);
-    // } finally {
-    //   setLoading(false);
-    // }
-
     await signUpCall({email:values.email, 
       password: values.password,
       firstName: values.firstName,
@@ -125,7 +92,7 @@ function Signup({navigation}) {
         handleSubmit,
       }) => (
         <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          behavior={Platform.OS === 'ios' ? 'padding' : ''}
           style={styles.wrapper(colors)}
           keyboardVerticalOffset={100}
           >  
@@ -183,17 +150,6 @@ function Signup({navigation}) {
             {touched.confirmPassword && errors.confirmPassword && (
               <Text style={styles.errorTxt}>{errors.confirmPassword}</Text>
             )}
-
-            {/* <TouchableOpacity
-                            style={[styles.submitBtn, { backgroundColor: isValid ? "#3A1B6B" : "#BCA0DC" }]}
-                            onPress={handleSubmit}
-                            disabled={!isValid}
-                        >
-                            <Text style={styles.submitBtnTxt}>
-                                Submit
-                            </Text>
-
-                        </TouchableOpacity> */}
                         </View>
           </ScrollView>
           <View style={styles.bottom}>

@@ -33,7 +33,7 @@ function GoogleLogin ({navigation}) {
             {
             webClientId:
             '630539047377-kfbbhc2l502b6gh679v5v7el4b618vou.apps.googleusercontent.com',
-          }
+          } 
           );
       }, []);
 

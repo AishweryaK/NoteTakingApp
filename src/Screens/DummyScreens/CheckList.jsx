@@ -31,9 +31,10 @@ function CheckList () {
     //   }
 
       async function onCreateTriggerNotification() {
+        console.log("reminder set")
         const date = new Date(Date.now());
-        date.setHours(17);
-        date.setMinutes(7);
+        date.setHours(16);
+        date.setMinutes(55);
 
         await notifee.requestPermission()
 
@@ -42,7 +43,6 @@ function CheckList () {
             name: 'Default Channel',
           });
     
-        // Create a time-based trigger
         const trigger = {
           type: TriggerType.TIMESTAMP,
           timestamp: date.getTime(), 
@@ -51,7 +51,7 @@ function CheckList () {
         await notifee.createTriggerNotification(
           {
             title: 'Meeting',
-            body: 'Today at pm',
+            body: 'Today at 16:51 pm',
             android: {
               channelId: channelId,
             },

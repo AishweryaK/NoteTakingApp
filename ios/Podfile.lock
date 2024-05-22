@@ -2377,6 +2377,8 @@ PODS:
   - RecaptchaInterop (100.0.0)
   - RNCAsyncStorage (1.23.1):
     - React-Core
+  - RNDeviceInfo (11.1.0):
+    - React-Core
   - RNFBApp (19.2.2):
     - Firebase/CoreOnly (= 10.24.0)
     - React-Core
@@ -2398,7 +2400,7 @@ PODS:
     - FirebaseCoreExtension
     - React-Core
     - RNFBApp
-  - RNFBStorage (20.0.0):
+  - RNFBStorage (19.2.2):
     - Firebase/Storage (= 10.24.0)
     - React-Core
     - RNFBApp
@@ -2542,6 +2544,7 @@ DEPENDENCIES:
   - React-utils (from `../node_modules/react-native/ReactCommon/react/utils`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
+  - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBAuth (from `../node_modules/@react-native-firebase/auth`)"
   - "RNFBDatabase (from `../node_modules/@react-native-firebase/database`)"
@@ -2710,6 +2713,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-async-storage/async-storage"
+  RNDeviceInfo:
+    :path: "../node_modules/react-native-device-info"
   RNFBApp:
     :path: "../node_modules/@react-native-firebase/app"
   RNFBAuth:
@@ -2826,12 +2831,13 @@ SPEC CHECKSUMS:
   ReactCommon: caf0aeedbd8afc25731582379f15a4f86407ae29
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
   RNCAsyncStorage: 826b603ae9c0f88b5ac4e956801f755109fa4d5c
+  RNDeviceInfo: b899ce37a403a4dea52b7cb85e16e49c04a5b88e
   RNFBApp: 91311b27bc9a33e23b76a62825afd1635501018a
   RNFBAuth: 92172d8976baaa829825017174106e2b2c550319
   RNFBDatabase: c5f62ee5aa8809a7172082a0256c12e27c3d76f2
   RNFBFirestore: 58f9f2f1d61eadcf16bf6d75737d92ad651bb264
   RNFBMessaging: e86747e8bba79cb464f3f1f22aaae19f38ee7397
-  RNFBStorage: 5e3e166235206946a022201188965ccb2a92847d
+  RNFBStorage: 2ef3bcc956d6c771f94efda0c3714c04019dde86
   RNGestureHandler: ad030559c93b4fa018c35e84466021a03a71198c
   RNGoogleSignin: 24d3b3261f78b0fae0aa013f8ab6f8d25e369b0c
   RNNotifee: 8e2d3df3f0e9ce8f5d1fe4c967431138190b6175

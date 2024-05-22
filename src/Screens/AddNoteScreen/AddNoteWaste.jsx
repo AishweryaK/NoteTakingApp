@@ -424,3 +424,39 @@
 // }
 
 // export default AddNote;
+
+
+
+
+
+
+
+
+
+  // const addCollection = async () => {
+  //   if (newCollection.trim() === '') return;
+  //   try {
+  //     setCollection();
+  //     setSelectedCollection({ text: newCollection.trim(), number: 1 });
+
+  //     setModalVisible(false);
+  //     setNewCollection('');
+  //   } catch (error) {
+  //     console.error('Error adding collection:', error);
+  //   }
+  // };
+
+
+
+    // const setCollection = async () => {
+  //   const updatedCollections = [
+  //     ...collections,
+  //     { text: newCollection, number: 0 },
+  //   ];
+  //   await firestore().collection('users').doc(uid).set(
+  //     {
+  //       collections: updatedCollections,
+  //     },
+  //     { merge: true },
+  //   );
+  // }

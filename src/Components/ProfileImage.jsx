@@ -47,7 +47,7 @@ function ProfileImage({onImageChange}) {
     } else {
       let imageUri = response.uri || response.assets[0].uri;
       setImageUri(imageUri);
-      console.log(imageUri, "IMAGEEE")
+      // console.log(imageUri, "IMAGEEE")
       onImageChange(imageUri);
     }
   };

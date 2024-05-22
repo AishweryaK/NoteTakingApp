@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import {View} from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NAVIGATION } from "../Constants/navConstants";
 import { APPCOLOR } from "../Assets/Colors/appColors";
@@ -36,6 +37,7 @@ function StackNavigation() {
   },[])
 
   return (
+   
     <Stack.Navigator initialRouteName={user ? NAVIGATION.HOMESCREEN : NAVIGATION.WALKTHROUGH} screenOptions={{headerShown:false, headerStyle: {
       backgroundColor: colors.BACKGROUND,
     },

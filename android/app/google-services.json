@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "630539047377-qo4akm1banob9427o28i6klnmst4unkr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.chicmic.notetaking",
+            "certificate_hash": "97ba682df7eec2903807c72a2721fe05dfbfc2f1"
+          }
+        },
+        {
           "client_id": "630539047377-rc49h1cnralbgid41g8q3qvgtjhtg97j.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

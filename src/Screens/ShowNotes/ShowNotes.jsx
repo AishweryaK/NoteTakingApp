@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, SafeAreaView, TouchableOpacity, TextInput, Modal } from 'react-native';
+import { View, Text, FlatList, SafeAreaView, TouchableOpacity, TextInput, Modal, KeyboardAvoidingView } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import HTML from  "react-native-render-html"
 import { styles } from './styles';
@@ -151,7 +151,12 @@ const NotesScreen = ({ route, navigation}) => {
   );
 
   return (
-    <SafeAreaView style={styles.wrapper(colors)}>
+    // <SafeAreaView style={styles.wrapper(colors)}>
+      <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : ''}
+      style={styles.wrapper(colors)}
+      keyboardVerticalOffset={97}
+      >
       <View style={styles.input}>
 
         <TextInput
@@ -173,8 +178,7 @@ const NotesScreen = ({ route, navigation}) => {
       numColumns={2}
     />
     <View style={{alignItems:"center"}}>
-    <View style={[homeStyles.buttonShadow(colors), {borderRadius:1000, 
-      width:dimensions.width*0.5, justifyContent:"flex-end",}]}>
+    <View style={[homeStyles.buttonShadow(colors), styles.bottomButton]}>
             <TouchableOpacity style={styles.button}
           onPress={handleAddNote}
           >
@@ -207,7 +211,8 @@ const NotesScreen = ({ route, navigation}) => {
           </View>
         </View>
       </Modal>
-    </SafeAreaView>
+      </KeyboardAvoidingView>
+    // </SafeAreaView>
   );
 };
 

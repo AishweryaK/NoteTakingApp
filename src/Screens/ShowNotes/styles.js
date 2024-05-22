@@ -27,6 +27,10 @@ export const styles= StyleSheet.create(
             shadowRadius: 10,
             elevation:7,
         }),
+        bottomButton:{borderRadius:1000, 
+          width:dimensions.width*0.5,
+          justifyContent:"flex-end",
+        },
         txt:(colors)=>({
             fontFamily:FONT.EXTRA_BOLD,
             fontSize:16,

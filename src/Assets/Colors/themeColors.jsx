@@ -26,20 +26,7 @@ export const themeColors= {
         LIGHT_BLUE:"#9990FF",
         SKY:"#E7E7FF",
         GRAY:"#F2F4F5",
-        // WHITE: "#DCDCDC",
-        // WHITE:"#E6E6FA",
-
-        // WHITE:"#B2A6CE",
-        // WHITE:"#B29CE4",
-
         WHITE:"#EAE7FD",
-
-        // BACKGROUND:"#292150",
-        // BACKGROUND:"#191970",
-        // BACKGROUND:"#100062",
-
-        // BACKGROUND:"#0a003a",
-        // BACKGROUND:"#192327",
         BACKGROUND:"#292B30",
         HEADERTITLE:"#FFFFFF",
         TITLECOLOR: "#ECECEC",
@@ -51,23 +38,6 @@ export const themeColors= {
         SHADOW:"#ECECEC",
         BOTTOM:"#383A41"
         }
-    // DARK: {
-    //     DARK_BLUE: "#1C1A33",
-    //     GREEN: "#4C4F52",
-    //     BLUE: "#5A4FCF",
-    //     LIGHT_BLUE: "#7A73FF",
-    //     SKY: "#3A3A6D",
-    //     GRAY: "#2A2C2E",
-    //     WHITE: "#1E1E2E",
-    //     BACKGROUND: '#181720',
-    //     HEADERTITLE: "#EBE8FF",
-    //     TITLECOLOR: "#ECECEC",
-    //     BORDER: "#2C2E2E",
-    //     WELCOME: "#8580A6",
-    //     PLACEHOLDER: "#4C4F52",
-    //     ICON: "#8C87B6",
-    //     ICONFOCUSED: "#EBE8FF",
-    // }
     
 }
 

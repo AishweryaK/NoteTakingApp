@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Alert, Image, Text, TextInput, TouchableOpacity, View, KeyboardAvoidingView, Platform, ActivityIndicator } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Alert, Image, Text, TextInput, TouchableOpacity, View, KeyboardAvoidingView, Platform, ActivityIndicator, Dimensions } from 'react-native';
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 import { NAVIGATION } from '../../Constants/navConstants';
 import auth from '@react-native-firebase/auth';
@@ -15,6 +15,7 @@ import useAuthentication from '../../Components/CustomHook';
 import { APPCOLOR } from '../../Assets/Colors/appColors';
 import { useSelector } from 'react-redux';
 import { getThemeColors, themeColors } from '../../Assets/Colors/themeColors';
+import { dimensions } from '../../Constants/utility';
 
 
 const LoginSchema = Yup.object().shape({
@@ -26,6 +27,20 @@ function Login({ navigation }) {
   const {isLoading, signInCall} = useAuthentication();
   const theme = useSelector((state)=> state.user.theme)
   const colors = getThemeColors(theme);
+
+  useEffect(() => {
+    Dimensions.addEventListener('change', ({window:{width,height}})=>{
+      console.log(dimensions,'AbefhjajwBEFAJKBEFWAJKEWFJAWEFAWEDF')
+      // if (width<height) {
+      //   setOrientation("PORTRAIT")
+      // } else {
+      //   setOrientation("LANDSCAPE")
+    
+      // }
+    })
+
+  }, []);
+
 
   const handleLogin = async (values) => {
     // try {
@@ -50,7 +65,7 @@ function Login({ navigation }) {
   return (
     <KeyboardAvoidingView
       keyboardVerticalOffset={65}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      behavior={Platform.OS === 'ios' ? 'padding' : ''}
       style={styles.wrapper(colors)}>
       <Formik
         initialValues={{

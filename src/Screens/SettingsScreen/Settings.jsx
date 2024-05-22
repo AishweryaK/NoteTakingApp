@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, Switch } from 'react-native';
 import { ICONS } from '../../Constants/iconConstants';
 import { FONT } from '../../Constants/fontConstants';
@@ -10,12 +10,18 @@ import useAuthentication from '../../Components/CustomHook';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleTheme } from '../../Redux/Slices/demoSlice';
 import { getThemeColors, themeColors } from '../../Assets/Colors/themeColors';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SettingsPage = ({ navigation }) => {
   const { isLoading, signOutCall } = useAuthentication();
   const theme = useSelector(state => state.user.theme);
   const colors = getThemeColors(theme);
   const dispatch = useDispatch();
+
+  //   useEffect (() => {
+  //   AsyncStorage.clear();
+  //   console.log("HEHEHEHEHEHEH");
+  // },[])
     
   const handleLogout = async () => {
     await signOutCall();

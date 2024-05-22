@@ -192,7 +192,7 @@ function AddNote({ route, navigation }) {
   const setCollection = async () => {
     const updatedCollections = [
       ...collections,
-      { text: newCollection, number: 0 },
+      { text: newCollection.trim(), number: 0 },
     ];
     await firestore().collection('users').doc(uid).set(
       {
@@ -200,20 +200,32 @@ function AddNote({ route, navigation }) {
       },
       { merge: true },
     );
-  }
-
+    setCollections(updatedCollections);
+  };
+  
   const addCollection = async () => {
     if (newCollection.trim() === '') return;
-    try {
-      setCollection();
-      setSelectedCollection({ text: newCollection, number: 1 });
-
-      setModalVisible(false);
-      setNewCollection('');
-    } catch (error) {
-      console.error('Error adding collection:', error);
+  
+    const trimmedNewCollection = newCollection.trim();
+    const existingCollection = collections.find(
+      collection => collection.text.toLowerCase() === trimmedNewCollection.toLowerCase()
+    );
+  
+    if (existingCollection) {
+      setSelectedCollection(existingCollection);
+    } else {
+      try {
+        setCollection();
+        setSelectedCollection({ text: trimmedNewCollection, number: 1 });
+      } catch (error) {
+        console.error('Error adding collection:', error);
+      }
     }
+  
+    setModalVisible(false);
+    setNewCollection('');
   };
+  
 
   const renderCollectionItem = ({ item }) => (
     <TouchableOpacity
@@ -229,11 +241,13 @@ function AddNote({ route, navigation }) {
   };
 
   return (
-    // <SafeAreaView style={{ flex: 1, backgroundColor: "red" }}>
+    // <SafeAreaView style={styles.container(colors)}>
     <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      behavior={Platform.OS === 'ios' ? 'padding' : ''}
       style={styles.container(colors)}
-      keyboardVerticalOffset={97}>
+      keyboardVerticalOffset={97}
+      >
+
       <View style={styles.view}>
         <View></View>
         <View>
@@ -253,14 +267,16 @@ function AddNote({ route, navigation }) {
             onRequestClose={() => {
               // setModalVisible(!modalVisible);
               setModalVisible(false);
-            }}>
+            }}
+            >
             {/* <SafeAreaView 
         style={profileImgStyles.modalBackground}
         > */}
             <KeyboardAvoidingView
               behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
               style={profileImgStyles.modalBackground}
-              keyboardVerticalOffset={0}>
+              // keyboardVerticalOffset={-10}
+              >
               <View
                 style={[
                   profileImgStyles.modalContainer(colors),
@@ -286,10 +302,10 @@ function AddNote({ route, navigation }) {
                 />
                 <TextInput
                   style={styles.newCollectionInput(colors)}
-                  placeholder="Add New Collection"
+                  placeholder="Add Collection"
                   value={newCollection}
                   onChangeText={setNewCollection}
-                  placeholderTextColor={colors.GRAY}
+                  placeholderTextColor={colors.HEADERTITLE}
                   maxLength={20}
                 />
                 <TouchableOpacity
@@ -351,9 +367,9 @@ function AddNote({ route, navigation }) {
         </View>
       </View>
 
-      {/* <View 
-            style={{}}
-            > */}
+      <View 
+            style={{justifyContent:"flex-end"}}
+            >
       <RichToolbar
         style={styles.toolbar(colors)}
         editor={richText}
@@ -371,9 +387,9 @@ function AddNote({ route, navigation }) {
           actions.checkboxList,
         ]}
       />
-      {/* </View> */}
+      </View>
     </KeyboardAvoidingView>
-    // </SafeAreaView>
+      // </SafeAreaView> 
   );
 }
 

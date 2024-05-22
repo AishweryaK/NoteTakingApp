@@ -2631,12 +2631,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native-firebase/storage@npm:^20.0.0":
-  version: 20.0.0
-  resolution: "@react-native-firebase/storage@npm:20.0.0"
+"@react-native-firebase/storage@npm:19.2.2":
+  version: 19.2.2
+  resolution: "@react-native-firebase/storage@npm:19.2.2"
   peerDependencies:
-    "@react-native-firebase/app": 20.0.0
-  checksum: 7a414288efaaf21b4343bd0b82ca0c55946f35c0c242178ef51a6514979fc0e4048665869e9de6e05f93555737027cb7988ce43fdc6bbdaef2f8e033c21e1f7a
+    "@react-native-firebase/app": 19.2.2
+  checksum: 3bfbb6166ca9761226e621f6f665c716b2af973ba1030edee777c49c8963b9689938e179397bc2d0f08c1425ffcd2abcad4b5b9d6e8c86bdb16ef374e100ce26
   languageName: node
   linkType: hard
 
@@ -8534,7 +8534,7 @@ __metadata:
     "@react-native-firebase/database": ^19.2.2
     "@react-native-firebase/firestore": ^19.2.2
     "@react-native-firebase/messaging": ^19.2.2
-    "@react-native-firebase/storage": ^20.0.0
+    "@react-native-firebase/storage": 19.2.2
     "@react-native-google-signin/google-signin": ^11.0.1
     "@react-native/babel-preset": 0.74.81
     "@react-native/eslint-config": 0.74.81
@@ -8555,6 +8555,7 @@ __metadata:
     react: 18.2.0
     react-native: 0.74.0
     react-native-date-picker: ^5.0.2
+    react-native-device-info: ^11.1.0
     react-native-gesture-handler: ^2.16.1
     react-native-htmlview: ^0.17.0
     react-native-image-picker: ^7.1.2
@@ -9242,6 +9243,15 @@ __metadata:
     react: ">= 17.0.1"
     react-native: ">= 0.64.3"
   checksum: 0ec2d14d4306ec618e090347414728b7c152c8c7831683e5699457d25f9c1edbbc25cef2e20d0065d7d83d3b7a4d0833204154fbf87e625844b6fd61904f4748
+  languageName: node
+  linkType: hard
+
+"react-native-device-info@npm:^11.1.0":
+  version: 11.1.0
+  resolution: "react-native-device-info@npm:11.1.0"
+  peerDependencies:
+    react-native: "*"
+  checksum: 272cab82573933a1f3a9bc394b82a387ccbdf9fbef131fc1f04b8ff78b36f581931b5c643f5aa278f28577cbc320ef2ac588cafdb73292e9b0cf4427d54c44ce
   languageName: node
   linkType: hard
 

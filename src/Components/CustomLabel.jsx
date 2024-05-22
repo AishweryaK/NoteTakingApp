@@ -16,13 +16,19 @@ function CustomLabel ({handlePress, text, number}) {
         onPress={handlePress}
         style={labelStyles.container}
         >
-        {theme==="LIGHT" ? 
+        {/* {theme==="LIGHT" ? 
         <ImageBackground source={require("../Assets/Images/LabelImg.png")} 
         style={labelStyles.bg}/> 
         :
         <ImageBackground source={require("../Assets/Images/Label_dark.png")} 
         style={labelStyles.bg}/>
-        }
+        } */}
+        <ImageBackground source={theme==="LIGHT" ? require("../Assets/Images/LabelImg.png")
+                : require("../Assets/Images/Label_dark.png")
+            } 
+        // resizeMode="stretch"
+        style={labelStyles.bg} 
+         > 
         
         <View style={labelStyles.icon}>
         {/* <FrameIcon /> */}
@@ -30,13 +36,15 @@ function CustomLabel ({handlePress, text, number}) {
                     ICONS.NOTEWHITE(50,50)}
                 </View>
                 <View style={labelStyles.txtView}>
-                <Text style={labelStyles.title(colors)}>
+                <Text numberOfLines={2} ellipsizeMode="tail"
+                style={labelStyles.title(colors)}>
                     {text}
                 </Text>
                 <Text style={labelStyles.txt(colors)}>
                    {number} Files
                 </Text>
                 </View>
+                </ImageBackground>
         </TouchableOpacity>
     )
 }

@@ -2,6 +2,7 @@ import { StyleSheet } from "react-native";
 // import { colors } from "../Assets/Colors/appColors";
 import { FONT } from "../Constants/fontConstants";
 import { dimensions } from "../Constants/utility";
+import { themeColors } from "../Assets/Colors/themeColors";
 
 export const buttonStyles= StyleSheet.create(
     {
@@ -63,7 +64,7 @@ export const inputStyles= StyleSheet.create(
         shadowOpacity: 0.07,
         shadowRadius: 10,
         elevation:7,
-        color:colors.HEADERTITLE,
+        color:themeColors.LIGHT.HEADERTITLE,
 
     }),  
   }
@@ -82,19 +83,26 @@ export const labelStyles= StyleSheet.create(
         height:"100%"
       },
         icon:{ 
-        position: 'absolute', 
-        top: 35, 
-        left: 35
+        // position: 'relative', 
+        // top: 35, 
+        // left: 35,
+        paddingLeft:35,
+        paddingTop:35
       },
         txtView:{
-          position:"absolute", 
-          top:105, 
-          left:35,
-          flexDirection:"column"
+          // position:"absolute", 
+          // top:105, 
+          // left:35,
+          // flexDirection:"column",
+          // paddingRight:5
+          paddingVertical:15,
+          paddingLeft:35,
+          paddingRight:20,
+          paddingBottom:20
         },
         title : (colors)=> ({
           fontFamily:FONT.BOLD,
-          // lineHeight:12.8,
+          lineHeight:17,
           fontSize:16,
           color:colors.TITLECOLOR,
         }),
