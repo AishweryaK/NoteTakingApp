@@ -1,6 +1,8 @@
 import React, {useState, useEffect, useRef} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import auth from '@react-native-firebase/auth';
+import storage from '@react-native-firebase/storage';
+import firestore from '@react-native-firebase/firestore';
 import {
     GoogleSignin,
     statusCodes,
@@ -47,11 +49,15 @@ const {user} = await auth().createUserWithEmailAndPassword(
  email, password
 );
 console.log("THIS IS SIGNUP" ,user)
+let photoURL = null;
+if (imageUri) {
+  photoURL = await uploadImageToFirebase(imageUri, user.uid);
+}
 dispatch(saveUser({
     displayName: `${firstName} ${lastName}`,
     uid: user.uid,
     email: user.email,
-    photoURL: imageUri,
+    photoURL,
     provider : PROVIDER.EMAIL
 }));
 
@@ -67,6 +73,18 @@ await user.updateProfile({
 } finally {
 setIsLoading (false);
 }
+};
+
+const uploadImageToFirebase = async (imageUri, userId) => {
+  const storageRef = storage().ref(`profile_images/${userId}.jpg`);
+  const response = await fetch(imageUri);
+  const blob = await response.blob();
+  await storageRef.put(blob);
+  const downloadURL = await storageRef.getDownloadURL();
+  await firestore().collection('users').doc(userId).set({
+    profileImage: downloadURL,
+  }, { merge: true });
+  return downloadURL;
 };
 
   const signOutCall = async () => {

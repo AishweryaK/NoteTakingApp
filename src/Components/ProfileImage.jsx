@@ -16,7 +16,7 @@ import { getThemeColors } from "../Assets/Colors/themeColors";
 function ProfileImage({onImageChange}) {
   const [imageUri, setImageUri] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
-  const theme = useSelector((state)=>state.user.theme)
+  const {theme, uid} = useSelector((state)=>state.user)
   const colors= getThemeColors(theme);
 
   const handleImagePicker = () => {
@@ -51,6 +51,7 @@ function ProfileImage({onImageChange}) {
       onImageChange(imageUri);
     }
   };
+
 
   return (
     <View style={profileImgStyles.container}>
