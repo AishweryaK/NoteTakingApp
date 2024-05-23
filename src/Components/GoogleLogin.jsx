@@ -21,7 +21,6 @@ import { getThemeColors } from '../Assets/Colors/themeColors';
 
 
 function GoogleLogin ({navigation}) {
-    const [userInfo, setuserInfo] = useState(null);
     const {googleLoginCall} = useAuthentication();
     const theme = useSelector((state)=>state.user.theme)
     const colors= getThemeColors(theme);

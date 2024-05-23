@@ -6,7 +6,7 @@ const initialState = {
   email: "",
   photoURL: "",
   theme: "LIGHT",
-  provider:""
+  provider:"",
 };
 
 export const userInfo = createSlice({
@@ -14,7 +14,7 @@ export const userInfo = createSlice({
   initialState,
   reducers: {
     saveUser: (state, action) => {
-      const { displayName, uid, email, photoURL, provider } = action.payload;
+      const { displayName, uid, email, photoURL, provider} = action.payload;
       state.displayName = displayName;
       state.uid = uid;
       state.email = email;

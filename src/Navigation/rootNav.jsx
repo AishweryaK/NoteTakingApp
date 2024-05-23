@@ -15,30 +15,30 @@ import { getThemeColors } from "../Assets/Colors/themeColors";
 
 function StackNavigation() {
   const Stack = createNativeStackNavigator();
-  const user = useSelector((state) => state.user);
-  const colors = getThemeColors(user.theme);
+  const {theme, uid} = useSelector((state) => state.user);
+  const colors = getThemeColors(theme);
 
   // console.log(user, "USERR")
 
   // useEffect(() => {
   //   const unsubscribe = auth().onAuthStateChanged((user) => {
   //     setUser(user);
-  //     console.log("YE HAI INSIDE ON AUT CHANGED", user)
+  //     console.log(user)
   //   });
   //   return () => unsubscribe();
   // }, []);
 
-  useEffect(()=>{
-    NetInfo.addEventListener(
-      ({ isConnected, isInternetReachable, type, detail }) => {
-        console.log('update the previous note internet status',isConnected,isInternetReachable)
-      }
-    );
-  },[])
+  // useEffect(()=>{
+  //   NetInfo.addEventListener(
+  //     ({ isConnected, isInternetReachable, type, detail }) => {
+  //       console.log('update the previous note internet status',isConnected,isInternetReachable)
+  //     }
+  //   );
+  // },[])
 
   return (
    
-    <Stack.Navigator initialRouteName={user ? NAVIGATION.HOMESCREEN : NAVIGATION.WALKTHROUGH} screenOptions={{headerShown:false, headerStyle: {
+    <Stack.Navigator initialRouteName={uid? NAVIGATION.HOMESCREEN : NAVIGATION.WALKTHROUGH} screenOptions={{headerShown:false, headerStyle: {
       backgroundColor: colors.BACKGROUND,
     },
     headerShadowVisible:false,
@@ -49,7 +49,7 @@ function StackNavigation() {
       fontSize:18,
     },}}> 
       {/* {user? <AppNavigation/> : <AuthNavigation />} */}
-      <Stack.Screen name="App" component={user.uid ? AppNavigation : AuthNavigation} />
+      <Stack.Screen name="App" component={uid ? AppNavigation : AuthNavigation} />
     </Stack.Navigator>
 
   );

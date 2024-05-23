@@ -376,7 +376,7 @@ function AddNote({ route, navigation }) {
         iconTint={themeColors.LIGHT.GRAY}
         selectedIconTint={themeColors.LIGHT.DARK_BLUE}
         actions={[
-          // actions.insertImage,
+          actions.insertImage,
           actions.setBold,
           actions.setItalic,
           actions.setUnderline,

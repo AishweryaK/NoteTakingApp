@@ -121,9 +121,9 @@ export const profileImgStyles= StyleSheet.create(
       alignItems: "center",
     },
     img: {
-      height: 100,
-      width: 100,
-      borderRadius: 50,
+      height: 150,
+      width: 150,
+      borderRadius: 300,
       marginBottom: 3,
     },
     text: {

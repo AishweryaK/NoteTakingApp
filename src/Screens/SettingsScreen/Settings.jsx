@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toggleTheme } from '../../Redux/Slices/demoSlice';
 import { getThemeColors, themeColors } from '../../Assets/Colors/themeColors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 const SettingsPage = ({ navigation }) => {
   const { isLoading, signOutCall } = useAuthentication();
@@ -22,6 +23,16 @@ const SettingsPage = ({ navigation }) => {
   //   AsyncStorage.clear();
   //   console.log("HEHEHEHEHEHEH");
   // },[])
+
+  useEffect(() => {
+    GoogleSignin
+      .configure(
+        {
+        webClientId:
+        '630539047377-kfbbhc2l502b6gh679v5v7el4b618vou.apps.googleusercontent.com',
+      } 
+      );
+  }, []);
     
   const handleLogout = async () => {
     await signOutCall();
@@ -72,8 +83,6 @@ const SettingsPage = ({ navigation }) => {
           {ICONS.ARROW(24, 24)}
         </View>
       </TouchableOpacity>
-      {/* {ICONS.EYEON(24,24)} */}
-      {/* {ICONS.EYEOFF(24,24)} */}
     </ScrollView>
   );
 };

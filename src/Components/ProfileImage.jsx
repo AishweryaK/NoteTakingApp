@@ -12,18 +12,21 @@ import { ICONS } from "../Constants/iconConstants";
 import { profileImgStyles } from "../Common/styles";
 import { useSelector } from "react-redux";
 import { getThemeColors } from "../Assets/Colors/themeColors";
+import { PROVIDER } from "../Constants/signingConstants";
 
 function ProfileImage({onImageChange}) {
   const [imageUri, setImageUri] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
-  const {theme, uid} = useSelector((state)=>state.user)
+  const {theme, uid, photoURL, provider} = useSelector((state)=>state.user)
   const colors= getThemeColors(theme);
 
   const handleImagePicker = () => {
     const options = {
       mediaType: "photo",
-      // maxHeight: 100,
-      // maxWidth: 100,
+      quality : 0.2,
+      maxHeight: 500,
+      maxWidth: 500,
+      includeBase64: true
     };
     launchImageLibrary(options, handleResponse);
     setModalVisible(false);
@@ -32,8 +35,10 @@ function ProfileImage({onImageChange}) {
   const handleCameraLaunch = () => {
     const options = {
       mediaType: "photo",
-      // maxHeight: 100,
-      // maxWidth: 100,
+      quality: 0.2,
+      maxHeight: 500,
+      maxWidth: 500,
+      includeBase64: true
     };
     launchCamera(options, handleResponse);
     setModalVisible(false);
@@ -55,17 +60,21 @@ function ProfileImage({onImageChange}) {
 
   return (
     <View style={profileImgStyles.container}>
-      {imageUri ? (
-        <Image source={{ uri: imageUri }} style={profileImgStyles.img} />
-      ) : (
-        <Image
-          source={require("../Assets/Images/userImg.jpeg")}
-          style={profileImgStyles.img}
-        />
-      )}
-      <TouchableOpacity onPress={() => setModalVisible(true)}>
-        {ICONS.CAMERA(24,24)}
-      </TouchableOpacity>
+     {imageUri ? (
+  <Image source={{ uri: imageUri }} style={profileImgStyles.img} />
+) : (
+  photoURL ? (
+    <Image source={{ uri: photoURL }} style={profileImgStyles.img} />
+  ) : (
+    <Image source={require("../Assets/Images/userImg.jpeg")} style={profileImgStyles.img} />
+  )
+)}
+     {provider=== PROVIDER.EMAIL && 
+     <TouchableOpacity onPress={() => setModalVisible(true)}>
+     {ICONS.CAMERA(24,24)}
+   </TouchableOpacity>
+     }
+      
 
       <Modal
         animationType="slide"

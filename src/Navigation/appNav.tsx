@@ -34,7 +34,7 @@ function AppNavigation() : React.JSX.Element {
       <Stack.Screen name={NAVIGATION.NOTESCREEN} component={NotesScreen} 
         options={{headerShown:true, title:"Notes", headerBackTitle:"BACK"}}/>
          <Stack.Screen name={NAVIGATION.ACCOUNT} component={AccountPage} 
-        options={{headerShown:true, title:"Account", headerBackTitleVisible:false}}/>
+        options={{headerShown:true, title:"User Account", headerBackTitleVisible:false}}/>
       </Stack.Navigator>
   );
 }
