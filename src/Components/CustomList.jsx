@@ -54,6 +54,7 @@ function CustomList({navigation}) {
             numColumns={2}
             nestedScrollEnabled= {true}
             ListHeaderComponent={<AvailSpace />}
+            showsVerticalScrollIndicator= {false}
         />
 
     );

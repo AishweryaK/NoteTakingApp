@@ -23,6 +23,8 @@ import { profileImgStyles } from '../../Common/styles';
 import { dimensions } from '../../Constants/utility';
 import { useSelector } from 'react-redux';
 import { getThemeColors, themeColors } from '../../Assets/Colors/themeColors';
+import { ICONS } from '../../Constants/iconConstants';
+import Reminder from './Reminder';
 
 
 function AddNote({ route, navigation }) {
@@ -249,7 +251,7 @@ function AddNote({ route, navigation }) {
       >
 
       <View style={styles.view}>
-        <View></View>
+        {/* <Reminder /> */}
         <View>
           {itemID || label ? null : (
             <TouchableOpacity

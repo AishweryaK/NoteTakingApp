@@ -30,7 +30,8 @@ function AppNavigation() : React.JSX.Element {
     },}}> 
       <Stack.Screen name={NAVIGATION.HOMESCREEN} component={HomeNavigation}/>
       <Stack.Screen name={NAVIGATION.ADDNOTE} component={AddNote} 
-        options={{headerShown:true, title:"Add Note", headerBackTitleVisible:false}}/>
+        options={{headerShown:true, title:"Add Note", headerBackTitleVisible:false}}
+        />
       <Stack.Screen name={NAVIGATION.NOTESCREEN} component={NotesScreen} 
         options={{headerShown:true, title:"Notes", headerBackTitle:"BACK"}}/>
          <Stack.Screen name={NAVIGATION.ACCOUNT} component={AccountPage} 

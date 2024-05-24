@@ -21,7 +21,7 @@ export const buttonStyles= StyleSheet.create(
       googleTxt: (colors)=>({
         color:colors.TITLECOLOR,
         fontFamily: FONT.REGULAR_INTER,
-        paddingLeft:65,
+        // paddingLeft:65,
         // textAlign:"center",
       }),
       customButton : (colors) =>  ({ 
@@ -41,6 +41,11 @@ export const buttonStyles= StyleSheet.create(
           color: colors.WHITE,
           paddingTop:1,
         }),
+        view : {flex:1, 
+          justifyContent:"center", 
+          alignItems:"center", 
+          marginRight:41
+        }
        
     }
 )
@@ -73,10 +78,14 @@ export const inputStyles= StyleSheet.create(
 export const labelStyles= StyleSheet.create(
   {
       container:{
+        flex:1,
         height:dimensions.width*0.44, 
         width:dimensions.width*0.43 ,
         marginLeft:16,
-        marginRight:10
+        marginRight:10, 
+        // backgroundColor:"red",
+        // alignItems:"center",
+        // justifyContent:"center"
       },
         bg:{
           width:"100%", 

@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { ICONS } from '../../Constants/iconConstants';
 import { FONT } from '../../Constants/fontConstants';
 import auth from '@react-native-firebase/auth';
-import { styles } from './styles';
+import {styles} from '../SettingsScreen/styles';
 import { NAVIGATION } from '../../Constants/navConstants';
 import { useSelector } from 'react-redux';
 import ProfileImage from '../../Components/ProfileImage';
@@ -30,9 +30,25 @@ const handleImageChange = async (uri) => {
   return (
     <ScrollView style={styles.container(colors)}>
       <ProfileImage onImageChange={handleImageChange} />
-      <Text style={styles.txt(colors)}>
+      {/* <Text style={styles.txt(colors)}>
         {displayName}
-      </Text>
+      </Text> */}
+      <View style={{paddingTop:40}}>
+      <View style={[styles.option(colors), styles.indent]} 
+      onPress={() => navigation.navigate(NAVIGATION.ACCOUNT)}>
+        {ICONS.ACCOUNT(24, 24)}
+        <View style={styles.view}>
+          <Text style={styles.optionText(colors)}>{displayName} </Text>
+        </View>
+      </View>
+      <View style={[styles.option(colors), styles.indent]}  
+      onPress={() => navigation.navigate(NAVIGATION.ACCOUNT)}>
+        {ICONS.MAIL(24, 24)}
+        <View style={styles.view}>
+          <Text style={styles.optionText(colors)}>{email} </Text>
+        </View>
+      </View>
+      </View>
       
     </ScrollView>
   );

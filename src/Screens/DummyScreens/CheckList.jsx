@@ -33,8 +33,8 @@ function CheckList () {
       async function onCreateTriggerNotification() {
         console.log("reminder set")
         const date = new Date(Date.now());
-        date.setHours(16);
-        date.setMinutes(55);
+        date.setHours(18);
+        date.setMinutes(10);
 
         await notifee.requestPermission()
 

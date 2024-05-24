@@ -26,7 +26,7 @@ function ProfileImage({onImageChange}) {
       quality : 0.2,
       maxHeight: 500,
       maxWidth: 500,
-      includeBase64: true
+      // includeBase64: true
     };
     launchImageLibrary(options, handleResponse);
     setModalVisible(false);
@@ -38,7 +38,7 @@ function ProfileImage({onImageChange}) {
       quality: 0.2,
       maxHeight: 500,
       maxWidth: 500,
-      includeBase64: true
+      // includeBase64: true
     };
     launchCamera(options, handleResponse);
     setModalVisible(false);
@@ -69,10 +69,11 @@ function ProfileImage({onImageChange}) {
     <Image source={require("../Assets/Images/userImg.jpeg")} style={profileImgStyles.img} />
   )
 )}
-     {provider=== PROVIDER.EMAIL && 
+     {provider=== PROVIDER.EMAIL || provider=== "" ?
      <TouchableOpacity onPress={() => setModalVisible(true)}>
      {ICONS.CAMERA(24,24)}
    </TouchableOpacity>
+   : null
      }
       
 

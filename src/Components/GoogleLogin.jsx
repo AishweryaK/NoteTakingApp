@@ -89,8 +89,10 @@ function GoogleLogin ({navigation}) {
             {/* <TouchableOpacity
             onPress={signInBTNPress}
             > */}
+            <View style={buttonStyles.view}>
             <Text style={[buttonStyles.buttonText(colors),buttonStyles.googleTxt(colors)]}> Continue with Google </Text>
             {/* </TouchableOpacity> */}
+            </View>
         </TouchableOpacity>
       
       )

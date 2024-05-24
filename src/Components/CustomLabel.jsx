@@ -12,17 +12,11 @@ function CustomLabel ({handlePress, text, number}) {
     const colors = getThemeColors(theme);
 
     return (
+        // <View style={{alignContent:"center", flex:1, backgroundColor:"red", justifyContent:"center"}}>
         <TouchableOpacity
         onPress={handlePress}
         style={labelStyles.container}
         >
-        {/* {theme==="LIGHT" ? 
-        <ImageBackground source={require("../Assets/Images/LabelImg.png")} 
-        style={labelStyles.bg}/> 
-        :
-        <ImageBackground source={require("../Assets/Images/Label_dark.png")} 
-        style={labelStyles.bg}/>
-        } */}
         <ImageBackground source={theme==="LIGHT" ? require("../Assets/Images/LabelImg.png")
                 : require("../Assets/Images/Label_dark.png")
             } 
@@ -46,6 +40,7 @@ function CustomLabel ({handlePress, text, number}) {
                 </View>
                 </ImageBackground>
         </TouchableOpacity>
+        //  </View>
     )
 }
 

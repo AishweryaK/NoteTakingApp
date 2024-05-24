@@ -47,9 +47,9 @@ function Home({ navigation }) {
       
 
       {user.uid ? (
-        // <View style={{ height: dimensions.height * 0.75,}}>
+        <View style={{alignItems:"center"}}>
           <CustomList navigation={navigation} />
-        // </View>
+         </View>
       ) : (
           <View>
           <ActivityIndicator size="large" color={themeColors.LIGHT.BLUE} />
