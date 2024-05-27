@@ -252,6 +252,7 @@ function AddNote({ route, navigation }) {
 
       <View style={styles.view}>
         {/* <Reminder /> */}
+        <View></View>
         <View>
           {itemID || label ? null : (
             <TouchableOpacity
@@ -275,7 +276,7 @@ function AddNote({ route, navigation }) {
         style={profileImgStyles.modalBackground}
         > */}
             <KeyboardAvoidingView
-              behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+              behavior={Platform.OS === 'ios' ? 'padding' : ''}
               style={profileImgStyles.modalBackground}
               // keyboardVerticalOffset={-10}
               >
@@ -297,11 +298,13 @@ function AddNote({ route, navigation }) {
                     <Text style={{color:colors.HEADERTITLE}}>X</Text>
                   </TouchableOpacity>
                 </View>
+                
                 <FlatList
                   data={collections}
                   renderItem={renderCollectionItem}
                   keyExtractor={(item, index) => index.toString()}
                 />
+
                 <TextInput
                   style={styles.newCollectionInput(colors)}
                   placeholder="Add Collection"
@@ -378,7 +381,7 @@ function AddNote({ route, navigation }) {
         iconTint={themeColors.LIGHT.GRAY}
         selectedIconTint={themeColors.LIGHT.DARK_BLUE}
         actions={[
-          actions.insertImage,
+          // actions.insertImage,
           actions.setBold,
           actions.setItalic,
           actions.setUnderline,

@@ -1,6 +1,7 @@
 import 'react-native-gesture-handler';
 import React, { useEffect } from 'react';
 import {
+  Platform,
   SafeAreaView,
   StatusBar,
   StyleSheet,
@@ -17,10 +18,17 @@ import auth from '@react-native-firebase/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import { saveUser } from './src/Redux/Slices/demoSlice';
 import { getThemeColors } from './src/Assets/Colors/themeColors';
+import SplashScreen from 'react-native-splash-screen';
 
 function App(){
   const theme = useSelector((state)=> state.user.theme)
   const colors = getThemeColors(theme);
+
+  // useEffect(()=>{
+  //   if(Platform.OS==="android")
+  //   SplashScreen.hide();
+  // },[])
+
 
 
   // async function requestUserPermission() {

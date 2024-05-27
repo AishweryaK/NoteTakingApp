@@ -28,18 +28,18 @@ function Login({ navigation }) {
   const theme = useSelector((state)=> state.user.theme)
   const colors = getThemeColors(theme);
 
-  useEffect(() => {
-    Dimensions.addEventListener('change', ({window:{width,height}})=>{
-      console.log(dimensions,'AbefhjajwBEFAJKBEFWAJKEWFJAWEFAWEDF')
-      // if (width<height) {
-      //   setOrientation("PORTRAIT")
-      // } else {
-      //   setOrientation("LANDSCAPE")
+  // useEffect(() => {
+  //   Dimensions.addEventListener('change', ({window:{width,height}})=>{
+  //     // console.log(dimensions,'AbefhjajwBEFAJKBEFWAJKEWFJAWEFAWEDF')
+  //     // if (width<height) {
+  //     //   setOrientation("PORTRAIT")
+  //     // } else {
+  //     //   setOrientation("LANDSCAPE")
     
-      // }
-    })
+  //     // }
+  //   })
 
-  }, []);
+  // }, []);
 
 
   const handleLogin = async (values) => {

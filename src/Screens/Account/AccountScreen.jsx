@@ -5,28 +5,49 @@ import { FONT } from '../../Constants/fontConstants';
 import auth from '@react-native-firebase/auth';
 import {styles} from '../SettingsScreen/styles';
 import { NAVIGATION } from '../../Constants/navConstants';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import ProfileImage from '../../Components/ProfileImage';
 import { getThemeColors } from '../../Assets/Colors/themeColors';
 import useAuthentication from '../../Components/CustomHook';
+import { saveUser } from '../../Redux/Slices/demoSlice';
 
 
 
 const AccountPage = ({navigation}) => {
-  
-const {displayName, theme, photoURL, uid, email} = useSelector((state)=> state.user);
+const dispatch = useDispatch();
+const {displayName, theme, photoURL, uid, email, provider} = useSelector((state)=> state.user);
 const colors = getThemeColors(theme);
 const [imageUri, setImageUri] = useState(photoURL);
 const {uploadImageToFirebase} = useAuthentication();
 
-useEffect(()=>{
-console.log("URI", imageUri)
-},[imageUri])
+// useEffect(()=>{
+// console.log("URI", imageUri)
+// },[imageUri])
+
+// const handleImageChange = async (uri) => {
+//   setImageUri(uri);
+//   await uploadImageToFirebase(uri, uid)
+// }
+
+useEffect(() => {
+  if (imageUri !== photoURL) {
+    updateUserProfile(imageUri);
+  }
+}, [imageUri]);
 
 const handleImageChange = async (uri) => {
   setImageUri(uri);
-  await uploadImageToFirebase(uri, uid)
-}
+};
+
+const updateUserProfile = async (uri) => {
+  try {
+    const newPhotoURL = await uploadImageToFirebase(uri, uid);
+    await auth().currentUser.updateProfile({ photoURL: newPhotoURL });
+    dispatch(saveUser({ displayName, uid, email, photoURL: newPhotoURL, provider }));
+  } catch (error) {
+    console.error("Error updating profile: ", error);
+  }
+};
   return (
     <ScrollView style={styles.container(colors)}>
       <ProfileImage onImageChange={handleImageChange} />

@@ -44,21 +44,13 @@ export default function Walkthrough ({navigation}) {
         <GoogleLogin navigation={navigation}/>
 
         <View style={wlkStyles.loginButton}>
-        <Text
-        style={wlkStyles.loginTxt(colors)}
-        >
-           Have an account? <TouchableOpacity
-           style={wlkStyles.touchable}
-           onPress={()=>navigation.navigate(NAVIGATION.LOGIN)}
-           >
-            <Text
-            style={wlkStyles.login(colors)}
-            >
-                Log in
-            </Text>
-            </TouchableOpacity> 
+    <Text style={wlkStyles.loginTxt(colors)}>
+        Have an account? 
+        <Text onPress={() => navigation.navigate(NAVIGATION.LOGIN)} 
+        style={wlkStyles.login(colors)}> Log in
         </Text>
-        </View>
+    </Text>
+</View>
 
         </View>
 

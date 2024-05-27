@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, Switch } from 'react-native';
 import { ICONS } from '../../Constants/iconConstants';
 import { FONT } from '../../Constants/fontConstants';
@@ -12,12 +12,14 @@ import { toggleTheme } from '../../Redux/Slices/demoSlice';
 import { getThemeColors, themeColors } from '../../Assets/Colors/themeColors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import ChangePasswordModal from '../ChangePassword/ChangePScreen';
 
 const SettingsPage = ({ navigation }) => {
   const { isLoading, signOutCall } = useAuthentication();
   const theme = useSelector(state => state.user.theme);
   const colors = getThemeColors(theme);
   const dispatch = useDispatch();
+  const [isModalVisible, setModalVisible] = useState(false);
 
   //   useEffect (() => {
   //   AsyncStorage.clear();
@@ -42,6 +44,14 @@ const SettingsPage = ({ navigation }) => {
     dispatch(toggleTheme());
   };
 
+  const openChangePasswordModal = () => {
+    setModalVisible(true);
+  };
+
+  const closeChangePasswordModal = () => {
+    setModalVisible(false);
+  };
+
   return (
     <ScrollView style={styles.container(colors)}>
       <Text style={styles.heading(colors)}>Settings</Text>
@@ -54,7 +64,14 @@ const SettingsPage = ({ navigation }) => {
         </View>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.option(colors)}>
+      {/* <TouchableOpacity style={styles.option(colors)}>
+        {ICONS.CHANGEP(24, 24)}
+        <View style={styles.view}>
+          <Text style={styles.optionText(colors)}>Change Password</Text>
+          {ICONS.ARROW(24, 24)}
+        </View>
+      </TouchableOpacity> */}
+      <TouchableOpacity style={styles.option(colors)} onPress={openChangePasswordModal}>
         {ICONS.CHANGEP(24, 24)}
         <View style={styles.view}>
           <Text style={styles.optionText(colors)}>Change Password</Text>
@@ -83,6 +100,7 @@ const SettingsPage = ({ navigation }) => {
           {ICONS.ARROW(24, 24)}
         </View>
       </TouchableOpacity>
+      <ChangePasswordModal visible={isModalVisible} onClose={closeChangePasswordModal} />
     </ScrollView>
   );
 };

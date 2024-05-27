@@ -14,6 +14,10 @@ function Home({ navigation }) {
   const user = useSelector((state) => state.user);
   const colors = getThemeColors(user.theme);
 
+  useEffect(() => {
+    console.log("User state updated:", user);
+  }, [user]);
+
   // console.log(user.displayName,"THIS IS REDUX VALUE")
 
   return (

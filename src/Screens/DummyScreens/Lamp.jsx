@@ -1,3 +1,52 @@
+import React from "react";
+import { View, Text, TouchableOpacity, StyleSheet} from "react-native";
+import { APPCOLOR } from "../../Assets/Colors/appColors";
+import { useSelector } from "react-redux";
+import { getThemeColors } from "../../Assets/Colors/themeColors";
+import { FONT } from "../../Constants/fontConstants";
+
+function Lamp () {
+  const theme = useSelector((state)=> state.user.theme)
+  const colors = getThemeColors(theme);
+    return (
+        <View style={styles.view(colors)}>
+            <Text style={styles.text(colors)}>
+               New features coming soon!!! 
+            </Text>
+        </View>
+    )
+}
+
+export default Lamp;
+
+const styles = StyleSheet.create(
+  {
+    view : (colors) => ({
+      flex:1, 
+      backgroundColor:colors.BACKGROUND,
+      justifyContent:"center", 
+      alignItems:"center",
+    }),
+    text : (colors) => ({
+      color:colors.HEADERTITLE,
+      fontFamily:FONT.REGULAR,
+      fontSize:18
+    }),
+  }
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
 // import React from "react";
 // import { View, Text } from "react-native";
 // function Lamp () {
@@ -205,107 +254,116 @@
 
 // export default Lamp;
 
-import React, { useEffect, useState } from 'react';
-import {
-  View,
-  TextInput,
-  Button,
-  Text,
-  Platform,
-  Alert,
-} from 'react-native';
-import RNCalendarEvents from 'react-native-calendar-events';
 
-const Lamp = () => {
-  const [eventTitle, setEventTitle] = useState('Gym Workout');
-  const [eventLocation, setEventLocation] = useState('New Delhi');
-  const [eventId, setEventId] = useState('');
-  const [calendars, setCalendars] = useState([]);
-  const [pickedCal, setPickedCal] = useState(null);
-  const [permissionStatus, setPermissionStatus] = useState(null);
+//---------------------------------------------------------------------------------------------------
 
-  const requestCalendarPermissions = async () => {
-    try {
-      const perms = await RNCalendarEvents.requestPermissions();
-      setPermissionStatus(perms);
-      if (perms === 'authorized') {
-        loadCalendars();
-      } else {
-        Alert.alert('Permission Denied', 'Calendar permission denied.');
-      }
-    } catch (error) {
-      console.log('Error requesting permissions:', error);
-    }
-  };
 
-  const loadCalendars = async () => {
-    try {
-      const allCalendars = await RNCalendarEvents.findCalendars();
-      const primaryCal = allCalendars.find(
-        (cal) => cal.isPrimary && cal.allowsModifications
-      );
-      setCalendars(allCalendars);
-      setPickedCal(primaryCal);
-    } catch (error) {
-      console.log('Error while fetching calendars:', error);
-    }
-  };
 
-  const createEvent = async () => {
-    let now = new Date();
-let startDate = new Date(now.getTime() + 2 * 60 * 1000);
-let endDate = new Date(now.getTime() + 4 * 60 * 1000);
-startDate = startDate.toISOString();
-endDate = endDate.toISOString();
-    try {
-      const savedEventId = await RNCalendarEvents.saveEvent(eventTitle, {
-        calendarId: Platform.OS === 'android' ? pickedCal?.id : undefined,
-        startDate: startDate,
-        endDate: endDate,
-        location: eventLocation,
-      });
+// import React, { useEffect, useState } from 'react';
+// import {
+//   View,
+//   TextInput,
+//   Button,
+//   Text,
+//   Platform,
+//   Alert,
+// } from 'react-native';
+// import RNCalendarEvents from 'react-native-calendar-events';
 
-      setEventId(savedEventId);
-      Alert.alert('Success', 'Event saved successfully.');
-    } catch (error) {
-      console.log('Error while saving event:', error);
-    }
-  };
+// const Lamp = () => {
+//   const [eventTitle, setEventTitle] = useState('Gym Workout');
+//   const [eventLocation, setEventLocation] = useState('New Delhi');
+//   const [eventId, setEventId] = useState('');
+//   const [calendars, setCalendars] = useState([]);
+//   const [pickedCal, setPickedCal] = useState(null);
+//   const [permissionStatus, setPermissionStatus] = useState(null);
 
-  const fetchEvent = async () => {
-    try {
-      const eventData = await RNCalendarEvents.findEventById(eventId);
-      console.log('Event Data:', eventData);
-    } catch (error) {
-      console.log('Error while fetching event:', error);
-    }
-  };
+//   const requestCalendarPermissions = async () => {
+//     try {
+//       const perms = await RNCalendarEvents.requestPermissions();
+//       setPermissionStatus(perms);
+//       if (perms === 'authorized') {
+//         loadCalendars();
+//       } else {
+//         Alert.alert('Permission Denied', 'Calendar permission denied.');
+//       }
+//     } catch (error) {
+//       console.log('Error requesting permissions:', error);
+//     }
+//   };
 
-  return (
-    <View>
-      <TextInput
-        placeholder="Enter Event Title"
-        value={eventTitle}
-        onChangeText={setEventTitle}
-      />
-      <TextInput
-        placeholder="Enter Event Location"
-        value={eventLocation}
-        onChangeText={setEventLocation}
-        multiline={true}
-        numberOfLines={2}
-      />
-      <Button title="Request Permission" onPress={requestCalendarPermissions} />
-      <Button title="Save Event" onPress={createEvent} />
-      <Button title="Fetch Event" onPress={fetchEvent} />
-      {permissionStatus && (
-        <Text>Permission Status: {permissionStatus}</Text>
-      )}
-    </View>
-  );
-};
+//   const loadCalendars = async () => {
+//     try {
+//       const allCalendars = await RNCalendarEvents.findCalendars();
+//       const primaryCal = allCalendars.find(
+//         (cal) => cal.isPrimary && cal.allowsModifications
+//       );
+//       setCalendars(allCalendars);
+//       setPickedCal(primaryCal);
+//     } catch (error) {
+//       console.log('Error while fetching calendars:', error);
+//     }
+//   };
 
-export default Lamp;
+//   const createEvent = async () => {
+//     let now = new Date();
+// let startDate = new Date(now.getTime() + 2 * 60 * 1000);
+// let endDate = new Date(now.getTime() + 4 * 60 * 1000);
+// startDate = startDate.toISOString();
+// endDate = endDate.toISOString();
+//     try {
+//       const savedEventId = await RNCalendarEvents.saveEvent(eventTitle, {
+//         calendarId: Platform.OS === 'android' ? pickedCal?.id : undefined,
+//         startDate: startDate,
+//         endDate: endDate,
+//         location: eventLocation,
+//       });
+
+//       setEventId(savedEventId);
+//       Alert.alert('Success', 'Event saved successfully.');
+//     } catch (error) {
+//       console.log('Error while saving event:', error);
+//     }
+//   };
+
+//   const fetchEvent = async () => {
+//     try {
+//       const eventData = await RNCalendarEvents.findEventById(eventId);
+//       console.log('Event Data:', eventData);
+//     } catch (error) {
+//       console.log('Error while fetching event:', error);
+//     }
+//   };
+
+//   return (
+//     <View>
+//       <TextInput
+//         placeholder="Enter Event Title"
+//         value={eventTitle}
+//         onChangeText={setEventTitle}
+//       />
+//       <TextInput
+//         placeholder="Enter Event Location"
+//         value={eventLocation}
+//         onChangeText={setEventLocation}
+//         multiline={true}
+//         numberOfLines={2}
+//       />
+//       <Button title="Request Permission" onPress={requestCalendarPermissions} />
+//       <Button title="Save Event" onPress={createEvent} />
+//       <Button title="Fetch Event" onPress={fetchEvent} />
+//       {permissionStatus && (
+//         <Text>Permission Status: {permissionStatus}</Text>
+//       )}
+//     </View>
+//   );
+// };
+
+// export default Lamp;
+
+
+//----------------------------------------------------------------------------------
+
 
 // import React, { useEffect, useState } from 'react';
 // import { View, Text, Button, Alert } from 'react-native';

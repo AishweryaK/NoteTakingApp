@@ -6,6 +6,7 @@ import {
   Text,
   Modal,
   Platform,
+  ActivityIndicator,
 } from "react-native";
 import { launchCamera, launchImageLibrary } from "react-native-image-picker";
 import { ICONS } from "../Constants/iconConstants";
@@ -13,11 +14,13 @@ import { profileImgStyles } from "../Common/styles";
 import { useSelector } from "react-redux";
 import { getThemeColors } from "../Assets/Colors/themeColors";
 import { PROVIDER } from "../Constants/signingConstants";
+import useAuthentication from "./CustomHook";
 
 function ProfileImage({onImageChange}) {
   const [imageUri, setImageUri] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const {theme, uid, photoURL, provider} = useSelector((state)=>state.user)
+  const {isLoading} = useAuthentication();
   const colors= getThemeColors(theme);
 
   const handleImagePicker = () => {
@@ -69,12 +72,20 @@ function ProfileImage({onImageChange}) {
     <Image source={require("../Assets/Images/userImg.jpeg")} style={profileImgStyles.img} />
   )
 )}
-     {provider=== PROVIDER.EMAIL || provider=== "" ?
-     <TouchableOpacity onPress={() => setModalVisible(true)}>
-     {ICONS.CAMERA(24,24)}
-   </TouchableOpacity>
-   : null
-     }
+
+{
+        isLoading? 
+        (<ActivityIndicator size={"large"} color={colors.BLUE}/>)
+        : (
+          ( provider=== PROVIDER.EMAIL || provider=== "" ) && (
+          <TouchableOpacity onPress={() => setModalVisible(true)}>
+          {ICONS.CAMERA(24,24)}
+        </TouchableOpacity>
+          )
+        )
+       
+      }
+    
       
 
       <Modal
