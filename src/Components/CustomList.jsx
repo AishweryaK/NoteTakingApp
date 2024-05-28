@@ -60,7 +60,7 @@ function CustomList({navigation}) {
     );
 }
 
-export default CustomList;
+export default React.memo(CustomList);
 
 
 

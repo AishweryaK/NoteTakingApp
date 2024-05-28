@@ -100,6 +100,11 @@ export const styles= StyleSheet.create(
     // borderWidth:1,
 
   }),
+  ellipsisContainer :{
+    maxHeight:70,
+    overflow:"hidden",
+    
+  }
 
     }
 )

@@ -1,39 +1,39 @@
-import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet} from "react-native";
-import { APPCOLOR } from "../../Assets/Colors/appColors";
-import { useSelector } from "react-redux";
-import { getThemeColors } from "../../Assets/Colors/themeColors";
-import { FONT } from "../../Constants/fontConstants";
+// import React from "react";
+// import { View, Text, TouchableOpacity, StyleSheet} from "react-native";
+// import { APPCOLOR } from "../../Assets/Colors/appColors";
+// import { useSelector } from "react-redux";
+// import { getThemeColors } from "../../Assets/Colors/themeColors";
+// import { FONT } from "../../Constants/fontConstants";
 
-function Lamp () {
-  const theme = useSelector((state)=> state.user.theme)
-  const colors = getThemeColors(theme);
-    return (
-        <View style={styles.view(colors)}>
-            <Text style={styles.text(colors)}>
-               New features coming soon!!! 
-            </Text>
-        </View>
-    )
-}
+// function Lamp () {
+//   const theme = useSelector((state)=> state.user.theme)
+//   const colors = getThemeColors(theme);
+//     return (
+//         <View style={styles.view(colors)}>
+//             <Text style={styles.text(colors)}>
+//                New features coming soon!!! 
+//             </Text>
+//         </View>
+//     )
+// }
 
-export default Lamp;
+// export default Lamp;
 
-const styles = StyleSheet.create(
-  {
-    view : (colors) => ({
-      flex:1, 
-      backgroundColor:colors.BACKGROUND,
-      justifyContent:"center", 
-      alignItems:"center",
-    }),
-    text : (colors) => ({
-      color:colors.HEADERTITLE,
-      fontFamily:FONT.REGULAR,
-      fontSize:18
-    }),
-  }
-)
+// const styles = StyleSheet.create(
+//   {
+//     view : (colors) => ({
+//       flex:1, 
+//       backgroundColor:colors.BACKGROUND,
+//       justifyContent:"center", 
+//       alignItems:"center",
+//     }),
+//     text : (colors) => ({
+//       color:colors.HEADERTITLE,
+//       fontFamily:FONT.REGULAR,
+//       fontSize:18
+//     }),
+//   }
+// )
 
 
 
@@ -161,98 +161,98 @@ const styles = StyleSheet.create(
 // export default Lamp;
 
 
-// import React, { useEffect, useState } from 'react';
-// import {
-//   View,
-//   StyleSheet,
-//   TextInput,
-//   Button,
-//   Text,
-//   Platform,
-// } from 'react-native';
-// import RNCalendarEvents from 'react-native-calendar-events';
+import React, { useEffect, useState } from 'react';
+import {
+  View,
+  StyleSheet,
+  TextInput,
+  Button,
+  Text,
+  Platform,
+} from 'react-native';
+import RNCalendarEvents from 'react-native-calendar-events';
 
-// const Lamp = () => {
-//   const [eventTitle, setEventTitle] = useState('Gym Workout');
-//   const [eventLocation, setEventLocation] = useState('New Delhi');
-//   const [eventId, setEventId] = useState('');
-//   const [calendars, setCalendars] = useState([]);
-//   const [pickedCal, setPickedCal] = useState(null);
+const Lamp = () => {
+  const [eventTitle, setEventTitle] = useState('Gym');
+  const [eventLocation, setEventLocation] = useState('Chandigarh');
+  const [eventId, setEventId] = useState('');
+  const [calendars, setCalendars] = useState([]);
+  const [pickedCal, setPickedCal] = useState(null);
 
-//   useEffect(() => {
-//     async function loadCalendars() {
-//       try {
-//         const perms = await RNCalendarEvents.requestPermissions();
-//         if (perms === 'authorized') {
-//           const allCalendars = await RNCalendarEvents.findCalendars();
-//           const primaryCal = allCalendars.find(
-//             (cal) => cal.isPrimary && cal.allowsModifications
-//           );
-//           setCalendars(allCalendars);
-//           setPickedCal(primaryCal);
-//         } else {
-//           console.log('Calendar permission denied.');
-//         }
-//       } catch (error) {
-//         console.log('Error while fetching calendars:', error);
-//       }
-//     }
+  useEffect(() => {
+    async function loadCalendars() {
+      try {
+        const perms = await RNCalendarEvents.requestPermissions();
+        if (perms === 'authorized') {
+          const allCalendars = await RNCalendarEvents.findCalendars();
+          const primaryCal = allCalendars.find(
+            (cal) => cal.isPrimary && cal.allowsModifications
+          );
+          setCalendars(allCalendars);
+          setPickedCal(primaryCal);
+        } else {
+          console.log('Calendar permission denied.');
+        }
+      } catch (error) {
+        console.log('Error while fetching calendars:', error);
+      }
+    }
 
-//     if (Platform.OS === 'android') {
-//       loadCalendars();
-//     }
-//   }, []);
+    if (Platform.OS === 'android') {
+      loadCalendars();
+    }
+  }, []);
 
-//   const createEvent = async () => {
-//     try {
-//       const savedEventId = await RNCalendarEvents.saveEvent(eventTitle, {
-//         calendarId: Platform.OS === 'android' ? pickedCal?.id : undefined,
-//         startDate: new Date().toISOString(),
-//         endDate: new Date().toISOString(),
-//         location: eventLocation,
-//       });
+  const createEvent = async () => {
+    try {
+      const savedEventId = await RNCalendarEvents.saveEvent(eventTitle, {
+        calendarId: Platform.OS === 'android' ? pickedCal?.id : undefined,
+        startDate: new Date().toISOString(),
+        endDate: new Date().toISOString(),
+        location: eventLocation,
+      });
 
-//       setEventId(savedEventId);
-//       alert('Event saved successfully.');
-//     } catch (error) {
-//       console.log('Error while saving event:', error);
-//     }
-//   };
+      setEventId(savedEventId);
+      alert('Event saved successfully.');
+    } catch (error) {
+      console.log('Error while saving event:', error);
+    }
+  };
 
-//   const fetchEvent = async () => {
-//     try {
-//       const eventData = await RNCalendarEvents.findEventById(eventId);
-//       console.log('Event Data:', eventData);
-//     } catch (error) {
-//       console.log('Error while fetching event:', error);
-//     }
-//   };
+  const fetchEvent = async () => {
+    try {
+      const eventData = await RNCalendarEvents.findEventById(eventId);
+      console.log('Event Data:', eventData);
+    } catch (error) {
+      console.log('Error while fetching event:', error);
+    }
+  };
 
-//   return (
-//     <View 
-//     // style={styles.container}
-//     >
-//       <TextInput
-//         //   style={styles.textInput}
-//         placeholder="Enter Event Title"
-//         value={eventTitle}
-//         onChangeText={setEventTitle}
-//       />
-//       <TextInput
-//         //   style={styles.textInput}
-//         placeholder="Enter Event Location"
-//         value={eventLocation}
-//         onChangeText={setEventLocation}
-//         multiline={true}
-//         numberOfLines={2}
-//       />
-//       <Button title="Save Event" onPress={createEvent} />
-//       <Button title="Fetch Event" onPress={fetchEvent} />
-//     </View>
-//   );
-// };
+  return (
+    <View 
+    // style={styles.container}
+    >
+      <TextInput
+        //   style={styles.textInput}
+        placeholder="Enter Event Title"
+        value={eventTitle}
+        onChangeText={setEventTitle}
+      />
+      <TextInput
+        //   style={styles.textInput}
+        placeholder="Enter Event Location"
+        value={eventLocation}
+        onChangeText={setEventLocation}
+        multiline={true}
+        numberOfLines={2}
+      />
+      <Button title="Save Event" onPress={createEvent} />
+      <Button title="Fetch Event" onPress={fetchEvent} />
+    </View>
+  );
+};
 
-// export default Lamp;
+export default Lamp;
 
 
 //---------------------------------------------------------------------------------------------------

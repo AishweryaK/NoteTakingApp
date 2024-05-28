@@ -44,6 +44,7 @@ function AddNote({ route, navigation }) {
 
   const { uid, itemTitle, itemDesc, itemID, label } = route.params;
 
+
   useEffect(() => {
     if (itemTitle && itemDesc) {
       setTitle(itemTitle);

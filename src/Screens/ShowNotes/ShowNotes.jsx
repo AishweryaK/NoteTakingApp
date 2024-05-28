@@ -38,8 +38,6 @@ const NotesScreen = ({ route, navigation}) => {
         });
         setNotes(notesData);
         setFullNotes(notesData)
-        // console.log(notesData, "notesData");
-        // console.log("Triggered")
       });
 
     return () => unsubscribe();
@@ -133,6 +131,8 @@ const NotesScreen = ({ route, navigation}) => {
       >
       <Text style={styles.txt(colors)}
       >{item.title}</Text>
+       <View style={styles.ellipsisContainer}
+       >
       <MemoizedHTML 
       baseStyle={{fontFamily:FONT.BOLD,
             fontSize:14,
@@ -143,6 +143,7 @@ const NotesScreen = ({ route, navigation}) => {
       source={{ html: item.desc }} 
       contentWidth={dimensions.width} 
       />
+      </View>
       {/* <Text style={styles.content}
       >{item.desc}</Text> */}
       {/* </TouchableOpacity> */}
