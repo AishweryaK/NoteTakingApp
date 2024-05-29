@@ -5,7 +5,6 @@ import Login from "../Screens/LoginScreen/Login";
 import Signup from "../Screens/SignupScreen/Signup";
 import Walkthrough from "../Screens/WalkthroughScreen/Walkthrough";
 import ForgotPassScreen from "../Screens/ForgotPassScreen/ForgotPass";
-import { APPCOLOR } from "../Assets/Colors/appColors";
 import { FONT } from "../Constants/fontConstants";
 import { useSelector } from "react-redux";
 import { getThemeColors } from "../Assets/Colors/themeColors";

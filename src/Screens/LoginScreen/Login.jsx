@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, Image, Text, TextInput, TouchableOpacity, View, KeyboardAvoidingView, Platform, ActivityIndicator, Dimensions } from 'react-native';
-import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
+import { Alert, Image, Text, TextInput, TouchableOpacity, View,
+  KeyboardAvoidingView, Platform, ActivityIndicator, Dimensions } from 'react-native';
 import { NAVIGATION } from '../../Constants/navConstants';
-import auth from '@react-native-firebase/auth';
 import { styles } from '../SignupScreen/styles';
 import { SIGNING } from '../../Constants/signingConstants';
 import { loginStyles } from './loginStyles';
@@ -12,7 +11,6 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { SignupSchema } from '../SignupScreen/Signup';
 import useAuthentication from '../../Components/CustomHook';
-import { APPCOLOR } from '../../Assets/Colors/appColors';
 import { useSelector } from 'react-redux';
 import { getThemeColors, themeColors } from '../../Assets/Colors/themeColors';
 import { dimensions } from '../../Constants/utility';
@@ -28,37 +26,8 @@ function Login({ navigation }) {
   const theme = useSelector((state)=> state.user.theme)
   const colors = getThemeColors(theme);
 
-  // useEffect(() => {
-  //   Dimensions.addEventListener('change', ({window:{width,height}})=>{
-  //     // console.log(dimensions,'AbefhjajwBEFAJKBEFWAJKEWFJAWEFAWEDF')
-  //     // if (width<height) {
-  //     //   setOrientation("PORTRAIT")
-  //     // } else {
-  //     //   setOrientation("LANDSCAPE")
-    
-  //     // }
-  //   })
-
-  // }, []);
-
 
   const handleLogin = async (values) => {
-    // try {
-    //   const userCredential = await auth().signInWithEmailAndPassword(values.email, values.password);
-    //   const user = userCredential.user;
-    //   console.log('Logged in user:', user);
-
-    //   if (user != null) {
-    //     navigation.navigate(NAVIGATION.HOMESCREEN)
-    //     // setEmail("");
-    //     // setPass("");
-    //   } else {
-    //     Alert.alert("Wrong credentials", "Please Sign up")
-    //   }
-    // } catch (error) {
-    //   Alert.alert('Login error:', error.message);
-    // }
-
     await signInCall({email: values.email, password: values.password})
   };
 
@@ -76,19 +45,6 @@ function Login({ navigation }) {
         onSubmit={values => handleLogin(values)}>
         {({ values, errors, touched, handleChange, setFieldTouched, isValid, handleSubmit }) => (
           <>
-            {/* <View style={loginStyles.usrInfo}>
-              {userInfo != null && (
-                <>
-                  <Text>{userInfo.user.name}</Text>
-                  <Text>{userInfo.user.email}</Text>
-                  <Image
-                    source={{ uri: userInfo.user.photo }}
-                    style={loginStyles.imgStyle}
-                  />
-                </>
-              )}
-            </View> */}
-
             <CustomInput
               placeHolder={SIGNING.EMAIL}
               value={values.email}

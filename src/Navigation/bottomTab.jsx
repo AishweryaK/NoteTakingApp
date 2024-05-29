@@ -1,17 +1,16 @@
-import React, { useState, useEffect  } from "react";
+import React from "react";
 import {View, Text, TouchableOpacity} from "react-native"
 import { NAVIGATION } from "../Constants/navConstants";
 import Home from "../Screens/HomeScreen/Home";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Settings from "../Screens/SettingsScreen/Settings";
-import { APPCOLOR } from "../Assets/Colors/appColors";
 import { dimensions } from "../Constants/utility";
 import { homeStyles } from "../Screens/HomeScreen/homeStyle";
 import { ICONS } from "../Constants/iconConstants";
 import Lamp from "../Screens/DummyScreens/Lamp";
 import CheckList from "../Screens/DummyScreens/CheckList";
 import { useSelector } from "react-redux";
-import { getThemeColors, themeColors } from "../Assets/Colors/themeColors";
+import { getThemeColors } from "../Assets/Colors/themeColors";
 
 
 
@@ -29,7 +28,6 @@ function HomeNavigation({navigation}) {
     // console.log(currentUser.uid, "UIDd")
     if(uid)
       navigation.navigate(NAVIGATION.ADDNOTE, {uid:uid, itemTitle:"", itemDesc:""})
-      // console.log("HELLO")
   }
    
   return (
@@ -69,13 +67,9 @@ function HomeNavigation({navigation}) {
       height: dimensions.height*0.073,
     }
     })}
-
     >    
 
-
-
       <Tab.Screen name={NAVIGATION.HOME} component={Home}  
-      // initialParams={{userData:route.params.userData}}
       />
       <Tab.Screen name={NAVIGATION.CHECKLIST} component={CheckList}  />
      

@@ -5,7 +5,6 @@ import AddNote from "../Screens/AddNoteScreen/AddNote";
 import NotesScreen from "../Screens/ShowNotes/ShowNotes";
 import HomeNavigation from "./bottomTab";
 import { RootStackParamsList } from "./routeTypes";
-import { APPCOLOR } from "../Assets/Colors/appColors";
 import { FONT } from "../Constants/fontConstants";
 import AccountPage from "../Screens/Account/AccountScreen";
 import { getThemeColors } from "../Assets/Colors/themeColors";

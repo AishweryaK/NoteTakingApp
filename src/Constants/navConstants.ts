@@ -1,17 +1,3 @@
-// export const NAVIGATION = {
-//     WALKTHROUGH: "WALKTHROUGH",
-//     LOGIN : "LOGIN",
-//     SIGNUP : "SIGNUP",
-//     FORGOTPASS : "FORGOTPASSWORD",
-//     HOMESCREEN : "HOMESCREEN",
-//     ADDNOTE : "ADDNOTE",
-//     NOTESCREEN:"NOTESCREEN",
-//     SETTINGS : "SETTINGS",
-//     HOME:"HOME",
-//     CHECKLIST:"CHECKLIST",
-//     LAMP:"LAMP",
-// }
-
 export const NAVIGATION = {
     WALKTHROUGH: "WALKTHROUGH",
     LOGIN: "LOGIN",

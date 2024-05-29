@@ -10,14 +10,10 @@ export const styles= StyleSheet.create(
             backgroundColor: colors.BACKGROUND,
         }),
         container:(colors)=>( {flex: 1,
-            // alignItems: 'center',
             backgroundColor:colors.BACKGROUND,
-            // paddingTop:30, 
-            // borderWidth:2,
             marginBottom:10,
             marginHorizontal:8,
             borderRadius:20,
-            // paddingVertical:20,
             padding:20,
             fontFamily:FONT.REGULAR,
     
@@ -95,10 +91,6 @@ export const styles= StyleSheet.create(
     width:100,
     textAlign:"center",
     paddingVertical:10,
-    // borderRadius:5,
-    // borderColor:colors.BORDER,
-    // borderWidth:1,
-
   }),
   ellipsisContainer :{
     maxHeight:70,

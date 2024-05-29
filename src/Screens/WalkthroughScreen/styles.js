@@ -3,7 +3,12 @@ import { FONT } from "../../Constants/fontConstants";
 import { APPCOLOR } from "../../Assets/Colors/appColors";
 import { dimensions } from "../../Constants/utility";
 
-export const wlkStyles = StyleSheet.create({
+export const styles = StyleSheet.create({
+    wrapper: (colors) =>({ flex: 1,
+        alignItems: 'center',
+        backgroundColor:colors.BACKGROUND,
+        paddingTop:30
+        }),
     title : (colors)=>({
         fontFamily:FONT.EXTRA_BOLD,
         fontSize: 27,

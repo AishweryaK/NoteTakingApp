@@ -1,7 +1,6 @@
 import React from "react";
 import { View, TextInput } from "react-native";
 import { inputStyles } from "../Common/styles";
-import { APPCOLOR } from "../Assets/Colors/appColors";
 import { getThemeColors } from "../Assets/Colors/themeColors";
 import { useSelector } from "react-redux";
 

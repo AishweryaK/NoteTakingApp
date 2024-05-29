@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, Switch } from 'react-native';
 import { ICONS } from '../../Constants/iconConstants';
 import { FONT } from '../../Constants/fontConstants';
-import { APPCOLOR } from '../../Assets/Colors/appColors';
-import auth from '@react-native-firebase/auth';
 import { styles } from './styles';
 import { NAVIGATION } from '../../Constants/navConstants';
 import useAuthentication from '../../Components/CustomHook';
@@ -23,7 +21,7 @@ const SettingsPage = ({ navigation }) => {
 
   //   useEffect (() => {
   //   AsyncStorage.clear();
-  //   console.log("HEHEHEHEHEHEH");
+  //   console.log("CLEARED");
   // },[])
 
   useEffect(() => {
@@ -63,14 +61,6 @@ const SettingsPage = ({ navigation }) => {
           {ICONS.ARROW(24, 24)}
         </View>
       </TouchableOpacity>
-
-      {/* <TouchableOpacity style={styles.option(colors)}>
-        {ICONS.CHANGEP(24, 24)}
-        <View style={styles.view}>
-          <Text style={styles.optionText(colors)}>Change Password</Text>
-          {ICONS.ARROW(24, 24)}
-        </View>
-      </TouchableOpacity> */}
       <TouchableOpacity style={styles.option(colors)} onPress={openChangePasswordModal}>
         {ICONS.CHANGEP(24, 24)}
         <View style={styles.view}>

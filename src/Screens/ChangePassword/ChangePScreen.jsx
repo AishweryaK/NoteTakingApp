@@ -4,6 +4,7 @@ import auth from '@react-native-firebase/auth';
 import { styles } from './styles';
 import { useSelector } from 'react-redux';
 import { getThemeColors } from '../../Assets/Colors/themeColors';
+import CustomInput from '../../Components/CustomInput';
 
 const ChangePasswordModal = ({ visible, onClose }) => {
   const [currentPassword, setCurrentPassword] = useState('');
@@ -57,6 +58,10 @@ const ChangePasswordModal = ({ visible, onClose }) => {
             onChangeText={setCurrentPassword}
             placeholderTextColor={colors.HEADERTITLE}
           />
+          {/* <CustomInput placeHolder={"Current Password"}
+          value={currentPassword}
+          handleChange={setCurrentPassword}
+          /> */}
 
           <TextInput
             style={styles.input(colors)}

@@ -1,6 +1,5 @@
 import React from "react";
 import { View, TouchableOpacity, Text, ImageBackground } from "react-native";
-import FrameIcon from "../Assets/Svgs/FrameIcon";
 import { labelStyles } from "../Common/styles";
 import { useSelector } from "react-redux";
 import { getThemeColors } from "../Assets/Colors/themeColors";
@@ -12,7 +11,6 @@ function CustomLabel ({handlePress, text, number}) {
     const colors = getThemeColors(theme);
 
     return (
-        // <View style={{alignContent:"center", flex:1, backgroundColor:"red", justifyContent:"center"}}>
         <TouchableOpacity
         onPress={handlePress}
         style={labelStyles.container}
@@ -20,12 +18,10 @@ function CustomLabel ({handlePress, text, number}) {
         <ImageBackground source={theme==="LIGHT" ? require("../Assets/Images/LabelImg.png")
                 : require("../Assets/Images/Label_dark.png")
             } 
-        // resizeMode="stretch"
         style={labelStyles.bg} 
          > 
         
         <View style={labelStyles.icon}>
-        {/* <FrameIcon /> */}
                    { theme==="LIGHT" ?   ICONS.NOTEBLUE(50,50)  :
                     ICONS.NOTEWHITE(50,50)}
                 </View>
@@ -40,7 +36,6 @@ function CustomLabel ({handlePress, text, number}) {
                 </View>
                 </ImageBackground>
         </TouchableOpacity>
-        //  </View>
     )
 }
 

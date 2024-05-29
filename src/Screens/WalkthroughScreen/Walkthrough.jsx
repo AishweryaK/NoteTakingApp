@@ -1,11 +1,9 @@
 import React, { useEffect } from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
-import { styles } from "../SignupScreen/styles";
-import { wlkStyles } from "./walkthroughStyles";
+import { styles } from "./styles";
 import CustomButton from "../../Components/CustomButton";
 import { NAVIGATION } from "../../Constants/navConstants";
 import GoogleLogin from "../../Components/GoogleLogin";
-import auth from '@react-native-firebase/auth';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useSelector } from "react-redux";
 import { getThemeColors } from "../../Assets/Colors/themeColors";
@@ -18,23 +16,23 @@ export default function Walkthrough ({navigation}) {
     
 //   useEffect (() => {
 //     AsyncStorage.clear();
-//     console.log("HEHEHEHEHEHEH");
+//     console.log("Cleared in Walkthrough");
 //   },[])
 
     return (
     <View style={styles.wrapper(colors)}>
-        <Text style={wlkStyles.title(colors)}>
+        <Text style={styles.title(colors)}>
             Notes App
         </Text>
 
         <Image source={require("../../Assets/Images/Diary.png")} 
-        style={wlkStyles.img} />
+        style={styles.img} />
 
-        <Text style={wlkStyles.txt(colors)}>
+        <Text style={styles.txt(colors)}>
             Save and share notes
         </Text>
 
-        <View style={wlkStyles.button}>
+        <View style={styles.button}>
         <CustomButton
         handleButton={()=>navigation.navigate(NAVIGATION.SIGNUP)}
         text="Create Account"
@@ -43,18 +41,15 @@ export default function Walkthrough ({navigation}) {
 
         <GoogleLogin navigation={navigation}/>
 
-        <View style={wlkStyles.loginButton}>
-    <Text style={wlkStyles.loginTxt(colors)}>
+        <View style={styles.loginButton}>
+    <Text style={styles.loginTxt(colors)}>
         Have an account? 
         <Text onPress={() => navigation.navigate(NAVIGATION.LOGIN)} 
-        style={wlkStyles.login(colors)}> Log in
+        style={styles.login(colors)}> Log in
         </Text>
     </Text>
 </View>
-
         </View>
-
-
     </View>
     )
 }

@@ -55,7 +55,6 @@ function ProfileImage({onImageChange}) {
     } else {
       let imageUri = response.uri || response.assets[0].uri;
       setImageUri(imageUri);
-      // console.log(imageUri, "IMAGEEE")
       onImageChange(imageUri);
     }
   };
@@ -86,8 +85,6 @@ function ProfileImage({onImageChange}) {
        
       }
     
-      
-
       <Modal
         animationType="slide"
         transparent={true}

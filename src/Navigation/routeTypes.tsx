@@ -1,6 +1,5 @@
 import { NativeStackNavigationProp, NativeStackScreenProps } from "@react-navigation/native-stack";
 import { NAVIGATION } from "../Constants/navConstants";
-// import { NAVIGATION } from "../Constants/navConstants";
 
   export type RootStackParamsList = {
     WALKTHROUGH: undefined;
@@ -17,11 +16,6 @@ import { NAVIGATION } from "../Constants/navConstants";
     ACCOUNT:undefined;
   };
    
-   
-  //  export type HomeScreenProps = NativeStackScreenProps<
-  //   RootStackParamList,
-  //   "HOMESCREEN">;
-
     export interface HomeScreenProps {
       navigation: NativeStackNavigationProp<RootStackParamsList, typeof NAVIGATION.HOMESCREEN>
     }

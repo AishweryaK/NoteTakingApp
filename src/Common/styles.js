@@ -1,5 +1,4 @@
 import { StyleSheet } from "react-native";
-// import { colors } from "../Assets/Colors/appColors";
 import { FONT } from "../Constants/fontConstants";
 import { dimensions } from "../Constants/utility";
 import { themeColors } from "../Assets/Colors/themeColors";
@@ -21,8 +20,6 @@ export const buttonStyles= StyleSheet.create(
       googleTxt: (colors)=>({
         color:colors.TITLECOLOR,
         fontFamily: FONT.REGULAR_INTER,
-        // paddingLeft:65,
-        // textAlign:"center",
       }),
       customButton : (colors) =>  ({ 
         backgroundColor: colors.BLUE,
@@ -34,7 +31,6 @@ export const buttonStyles= StyleSheet.create(
       buttonText: (colors) =>
         ({
           fontFamily: FONT.BOLD,
-          // fontWeight:900,
           fontSize:16,
           textAlign:"center",
           lineHeight:17,
@@ -62,7 +58,7 @@ export const inputStyles= StyleSheet.create(
         paddingVertical:8,
         fontFamily:FONT.BOLD,
         marginTop:20,
-        // marginBottom:10,
+
 
         shadowColor: colors.BLUE,
         shadowOffset: {width: -2, height: 4},
@@ -83,27 +79,17 @@ export const labelStyles= StyleSheet.create(
         width:dimensions.width*0.43 ,
         marginLeft:16,
         marginRight:10, 
-        // backgroundColor:"red",
-        // alignItems:"center",
-        // justifyContent:"center"
+
       },
         bg:{
           width:"100%", 
         height:"100%"
       },
         icon:{ 
-        // position: 'relative', 
-        // top: 35, 
-        // left: 35,
         paddingLeft:35,
         paddingTop:35
       },
         txtView:{
-          // position:"absolute", 
-          // top:105, 
-          // left:35,
-          // flexDirection:"column",
-          // paddingRight:5
           paddingVertical:15,
           paddingLeft:35,
           paddingRight:20,
@@ -117,7 +103,6 @@ export const labelStyles= StyleSheet.create(
         }),
         txt:(colors)=> ({
           fontFamily:FONT.REGULAR,
-          // lineHeight:12.8,
           fontSize:16,
           color:colors.TITLECOLOR,
         })

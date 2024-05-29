@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, Image, SafeAreaView, ActivityIndicator, ScrollView } from "react-native";
-import { NAVIGATION } from "../../Constants/navConstants";
 import { homeStyles } from "./homeStyle";
-import auth from '@react-native-firebase/auth';
-import { dimensions } from "../../Constants/utility";
-import AvailSpace from "./AvailSpace";
 import CustomList from "../../Components/CustomList";
-import { APPCOLOR } from "../../Assets/Colors/appColors";
 import { useSelector } from "react-redux";
 import { getThemeColors, themeColors } from "../../Assets/Colors/themeColors";
 
@@ -18,7 +13,6 @@ function Home({ navigation }) {
     console.log("User state updated:", user);
   }, [user]);
 
-  // console.log(user.displayName,"THIS IS REDUX VALUE")
 
   return (
     <SafeAreaView style={homeStyles.safeArea(colors)}>
@@ -44,11 +38,6 @@ function Home({ navigation }) {
             />
           )}
         </View>
-      
-      {/* <ScrollView>
-      <View style={{ alignItems: "center" ,}}>
-        <AvailSpace /> */}
-      
 
       {user.uid ? (
         <View style={{alignItems:"center"}}>
@@ -60,8 +49,6 @@ function Home({ navigation }) {
         </View>
      
       )}
-      {/* </View>
-      </ScrollView> */}
     </SafeAreaView>
   )
 }

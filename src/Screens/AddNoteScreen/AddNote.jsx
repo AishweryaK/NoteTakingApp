@@ -252,7 +252,7 @@ function AddNote({ route, navigation }) {
       >
 
       <View style={styles.view}>
-        {/* <Reminder /> */}
+        <Reminder />
         <View></View>
         <View>
           {itemID || label ? null : (
@@ -264,18 +264,13 @@ function AddNote({ route, navigation }) {
           )}
 
           <Modal
-            // style={{backgroundColor:"red", margin:200}}
             animationType="slide"
             transparent={true}
             visible={modalVisible}
             onRequestClose={() => {
-              // setModalVisible(!modalVisible);
               setModalVisible(false);
             }}
             >
-            {/* <SafeAreaView 
-        style={profileImgStyles.modalBackground}
-        > */}
             <KeyboardAvoidingView
               behavior={Platform.OS === 'ios' ? 'padding' : ''}
               style={profileImgStyles.modalBackground}
@@ -320,20 +315,12 @@ function AddNote({ route, navigation }) {
                   <Text style={styles.addTxt(colors)}>Add</Text>
                 </TouchableOpacity>
               </View>
-              {/* </SafeAreaView> */}
             </KeyboardAvoidingView>
           </Modal>
         </View>
       </View>
-      {/* <View style={{backgroundColor:"blue", marginTop:10, flexDirection:"row",
-                    justifyContent:"space-between"
-                }}>
-                    <View></View>
-                    <Text>
-                        Hello
-                    </Text>
 
-                </View> */}
+
       <TextInput
         value={title}
         style={styles.title(colors)}
@@ -351,7 +338,7 @@ function AddNote({ route, navigation }) {
         onChange={handleDesc}
         androidHardwareAccelerationDisabled={true}
         initialHeight={80}
-        scrollEnabled
+        scrollEnabled={true}
         onLink={async url => {
           try {
             const result = await Linking.openURL(url);
@@ -362,7 +349,7 @@ function AddNote({ route, navigation }) {
         }}
         editorStyle={styles.editor(colors)}
         style={styles.desc(colors)}
-        containerStyle={{ overflow: 'scroll' }}
+        // containerStyle={{ overflow: 'scroll' }}
       />
 
       <View style={{ alignItems: 'center' }}>
@@ -395,7 +382,6 @@ function AddNote({ route, navigation }) {
       />
       </View>
     </KeyboardAvoidingView>
-      // </SafeAreaView> 
   );
 }
 

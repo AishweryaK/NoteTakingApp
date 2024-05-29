@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { View, ImageBackground, Text } from "react-native";
 import { homeStyles } from "./homeStyle";
-// import SpaceIcon from "../../Assets/Svgs/SpaceIcon";
-import { dimensions } from "../../Constants/utility";
 import { useSelector } from "react-redux";
 import { ICONS } from "../../Constants/iconConstants";
 import DeviceInfo from "react-native-device-info";
@@ -10,7 +8,6 @@ import DeviceInfo from "react-native-device-info";
 function AvailSpace () {
     const theme = useSelector(state=>state.user.theme);
     const [totalStorage, setTotalStorage] = useState(null);
-    // const [freeStorage, setFreeStorage] = useState(null);
     const [usedStorage, setUsedStorage] = useState(null);
 
     useEffect(() => {
@@ -44,9 +41,6 @@ function AvailSpace () {
          > 
          <View
           style={homeStyles.textStyle}>
-            
-            {/* <Text style={{justifyContent:"center"}}> hi </Text>
-            <Text> bye</Text> */}
             {/* {ICONS.PIECHART(60,60)} */}
             <View style={homeStyles.availsp}>
             <Text style={homeStyles.availText}

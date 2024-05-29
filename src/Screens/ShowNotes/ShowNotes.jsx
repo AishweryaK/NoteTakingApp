@@ -80,9 +80,7 @@ const NotesScreen = ({ route, navigation}) => {
     const doc = await collectionRef.get();
     if (doc.exists) {
       const userData = doc.data();
-      // console.log(userData, "USERDATA")
       const updatedCollections = userData.collections.map(collection => {
-        // console.log(collection, "COLLECTTT")
         if (collection.text === itemText) {
           return {
             ...collection,
@@ -122,8 +120,6 @@ const NotesScreen = ({ route, navigation}) => {
   const MemoizedHTML = React.memo(HTML);
 
   const renderItem = ({ item }) => (
-    
-    
     <TouchableOpacity style={styles.container(colors)}
       onPress={()=> navigation.navigate(NAVIGATION.ADDNOTE, {uid: uid ,itemTitle: item.title, 
         itemDesc : item.desc, itemID: item.id, label:itemText})}
@@ -139,20 +135,15 @@ const NotesScreen = ({ route, navigation}) => {
             lineHeight:18.2,
             opacity: 0.67,
             color:colors.HEADERTITLE}}
-            // defaultTextProps={styles.content}
       source={{ html: item.desc }} 
-      contentWidth={dimensions.width} 
+      contentWidth={dimensions.width}
       />
       </View>
-      {/* <Text style={styles.content}
-      >{item.desc}</Text> */}
-      {/* </TouchableOpacity> */}
     </TouchableOpacity>
     
   );
 
   return (
-    // <SafeAreaView style={styles.wrapper(colors)}>
       <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : ''}
       style={styles.wrapper(colors)}
@@ -213,7 +204,6 @@ const NotesScreen = ({ route, navigation}) => {
         </View>
       </Modal>
       </KeyboardAvoidingView>
-    // </SafeAreaView>
   );
 };
 
