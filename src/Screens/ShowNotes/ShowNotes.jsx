@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, SafeAreaView, TouchableOpacity, TextInput, Modal, KeyboardAvoidingView } from 'react-native';
+import { View, Text, SafeAreaView, TouchableOpacity, TextInput, Modal, KeyboardAvoidingView } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
-import HTML from  "react-native-render-html"
-import { styles } from './styles';
+import HTML from "react-native-render-html";
+import { showStyles } from './styles';
 import { NAVIGATION } from '../../Constants/navConstants';
 import { dimensions } from '../../Constants/utility';
 import { inputStyles } from '../../Common/styles';
@@ -12,16 +12,17 @@ import { FONT } from '../../Constants/fontConstants';
 import { homeStyles } from '../HomeScreen/homeStyle';
 import { useSelector } from 'react-redux';
 import { getThemeColors } from '../../Assets/Colors/themeColors';
+import StaggerView from '@mindinventory/react-native-stagger-view';
 
-const NotesScreen = ({ route, navigation}) => {
+const NotesScreen = ({ route, navigation }) => {
   const [notes, setNotes] = useState([]);
-  const [fullNotes, setFullNotes] =useState([]);
-  const [searchQuery, setSearchQuery]= useState("");
-  const {uid, itemText} = route.params;
+  const [fullNotes, setFullNotes] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const { uid, itemText } = route.params;
   const [modalVisible, setModalVisible] = useState(false);
   const [itemUid, setItemUid] = useState(null)
-  const theme = useSelector((state)=>state.user.theme)
-  const colors= getThemeColors(theme);
+  const theme = useSelector((state) => state.user.theme)
+  const colors = getThemeColors(theme);
 
   useEffect(() => {
     const unsubscribe = firestore()
@@ -31,10 +32,10 @@ const NotesScreen = ({ route, navigation}) => {
       .onSnapshot((snapshot) => {
         const notesData = [];
         snapshot.forEach((docSnapshot) => {
-        notesData.push({
+          notesData.push({
             ...docSnapshot.data(),
-            id:docSnapshot.id
-        })
+            id: docSnapshot.id
+          });
         });
         setNotes(notesData);
         setFullNotes(notesData)
@@ -47,29 +48,28 @@ const NotesScreen = ({ route, navigation}) => {
     console.log(itemText, "label");
   }, [itemText]);
 
-  const handleSearch =(query) => {
+  const handleSearch = (query) => {
     setSearchQuery(query);
     const formattedQuery = query.toLowerCase();
     const filteredNotes = filter(fullNotes, (note) => {
       return contains(note, formattedQuery);
-    } );
+    });
     setNotes(filteredNotes);
   }
 
-  const contains = ({title, desc}, query) => {
-    if(title.toLowerCase()?.includes(query) || desc.toLowerCase()?.includes(query))
-      {
-        return true;
-      }
+  const contains = ({ title, desc }, query) => {
+    if (title.toLowerCase()?.includes(query) || desc.toLowerCase()?.includes(query)) {
+      return true;
+    }
 
-      return false;
+    return false;
   }
 
   const handleAddNote = () => {
-    navigation.navigate(NAVIGATION.ADDNOTE, {uid: uid , label:itemText})
+    navigation.navigate(NAVIGATION.ADDNOTE, { uid: uid, label: itemText })
   }
 
-  const handleLongPress=(itemUid) => {
+  const handleLongPress = (itemUid) => {
     setItemUid(itemUid);
     setModalVisible(true);
     console.log(itemUid, 2734784544)
@@ -95,22 +95,21 @@ const NotesScreen = ({ route, navigation}) => {
       );
     }
   };
-  const deleteNote = async() => {
+  const deleteNote = async () => {
     await firestore()
-        .collection('users')
-        .doc(uid)
-        .collection(itemText)
-        .doc(itemUid)
-        .delete();
+      .collection('users')
+      .doc(uid)
+      .collection(itemText)
+      .doc(itemUid)
+      .delete();
   }
-
 
   const handleDeleteNote = async () => {
     try {
       deleteNote();
       setModalVisible(false);
       setItemUid(null)
-  
+
       decLabelCollection();
     } catch (error) {
       console.error("Error deleting note: ", error);
@@ -120,91 +119,101 @@ const NotesScreen = ({ route, navigation}) => {
   const MemoizedHTML = React.memo(HTML);
 
   const renderItem = ({ item }) => (
-    <TouchableOpacity style={styles.container(colors)}
-      onPress={()=> navigation.navigate(NAVIGATION.ADDNOTE, {uid: uid ,itemTitle: item.title, 
-        itemDesc : item.desc, itemID: item.id, label:itemText})}
-        onLongPress={()=>handleLongPress(item.id)}
-      >
-      <Text style={styles.txt(colors)}
-      >{item.title}</Text>
-       <View style={styles.ellipsisContainer}
-       >
-      <MemoizedHTML 
-      baseStyle={{fontFamily:FONT.BOLD,
-            fontSize:14,
-            lineHeight:18.2,
+    <TouchableOpacity style={showStyles.container(colors)}
+      onPress={() => navigation.navigate(NAVIGATION.ADDNOTE, {
+        uid: uid, itemTitle: item.title,
+        itemDesc: item.desc, itemID: item.id, label: itemText
+      })}
+      onLongPress={() => handleLongPress(item.id)}
+    >
+      {item.title &&
+        <Text style={showStyles.txt(colors)}
+        >{item.title}</Text>
+      }
+      {/* <View style={showStyles.ellipsisContainer}> */}
+        <MemoizedHTML
+          baseStyle={{
+            fontFamily: FONT.BOLD,
+            fontSize: 14,
+            lineHeight: 18.2,
             opacity: 0.67,
-            color:colors.HEADERTITLE}}
-      source={{ html: item.desc }} 
-      contentWidth={dimensions.width}
-      />
-      </View>
+            color: colors.HEADERTITLE,
+            maxHeight:100,
+            overflow:"hidden",
+            // backgroundColor:"red"
+          }}
+          source={{ html: item.desc }}
+          contentWidth={dimensions.width}
+        />
+      {/* </View> */}
     </TouchableOpacity>
-    
+
   );
 
   return (
-      <KeyboardAvoidingView
+    <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : ''}
-      style={styles.wrapper(colors)}
+      style={showStyles.wrapper(colors)}
       keyboardVerticalOffset={97}
-      >
-      <View style={styles.input}>
+    >
+      <View style={showStyles.input}>
 
         <TextInput
-        style={inputStyles.customInput(colors)}
-        placeholder='Search'
-        value={searchQuery}
-        onChangeText={handleSearch} 
-        clearButtonMode='always'
-        autoCapitalize='none'
-        autoCorrect={false}
-        placeholderTextColor={colors.PLACEHOLDER}
+          style={inputStyles.customInput(colors)}
+          placeholder='Search'
+          value={searchQuery}
+          onChangeText={handleSearch}
+          clearButtonMode='always'
+          autoCapitalize='none'
+          autoCorrect={false}
+          placeholderTextColor={colors.PLACEHOLDER}
         />
       </View>
-    <FlatList
-    style={styles.list}
-      data={notes}
-      renderItem={renderItem}
-      keyExtractor={(item) => item.id}
-      numColumns={2}
-    />
-    <View style={{alignItems:"center"}}>
-    <View style={[homeStyles.buttonShadow(colors), styles.bottomButton]}>
-            <TouchableOpacity style={styles.button}
-          onPress={handleAddNote}
+      <StaggerView
+        style={showStyles.list}
+        data={notes}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id}
+        numColumns={2}
+        
+      />
+      <View style={{ alignItems: "center" }}>
+        <View style={[homeStyles.buttonShadow(colors), showStyles.bottomButton]}>
+          <TouchableOpacity style={showStyles.button}
+            onPress={handleAddNote}
           >
-            <Text style={[homeStyles.buttonText(colors), {fontSize:30, paddingVertical:10}]}>
+            <Text style={[homeStyles.buttonText(colors), {fontSize:30, paddingVertical: 10}]}>
               +
             </Text>
-            <Text style={[homeStyles.buttonText(colors), {fontSize:14,paddingVertical:20}]}>
+            <Text style={[homeStyles.buttonText(colors), { fontSize: 14,paddingVertical:20 }]}>
               Add New Notes
             </Text>
           </TouchableOpacity>
-            </View>
-            </View>
-        <Modal
+        </View>
+      </View>
+      <Modal
         visible={modalVisible}
         transparent={true}
         animationType="slide"
       >
-        <View style={styles.modalBackground}>
-          <View style={styles.modalContainer(colors)}>
-            <Text style={styles.modalTitle(colors)}>Delete Note</Text>
-            <Text style={styles.modalMessage(colors)}>Are you sure you want to delete this note?</Text>
-            <View style={styles.modalButtons}>
+        <View style={showStyles.modalBackground}>
+          <View style={showStyles.modalContainer(colors)}>
+            <Text style={showStyles.modalTitle(colors)}>Delete Note</Text>
+            <Text style={showStyles.modalMessage(colors)}>Are you sure you want to delete this note?</Text>
+            <View style={showStyles.modalButtons}>
               <TouchableOpacity onPress={handleDeleteNote}>
-                <Text style={styles.modalText(colors)}>Yes</Text>
-                </TouchableOpacity>
-              <TouchableOpacity  onPress={() => setModalVisible(false)} >
-              <Text style={styles.modalText(colors)}>No</Text>
-                </TouchableOpacity>
+                <Text style={showStyles.modalText(colors)}>Yes</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => setModalVisible(false)} >
+                <Text style={showStyles.modalText(colors)}>No</Text>
+              </TouchableOpacity>
             </View>
           </View>
         </View>
       </Modal>
-      </KeyboardAvoidingView>
+    </KeyboardAvoidingView>
   );
 };
 
 export default NotesScreen;
+

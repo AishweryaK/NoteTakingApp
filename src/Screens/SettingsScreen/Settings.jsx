@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, Switch } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, Switch, Modal } from 'react-native';
 import { ICONS } from '../../Constants/iconConstants';
 import { FONT } from '../../Constants/fontConstants';
 import { styles } from './styles';
@@ -11,6 +11,7 @@ import { getThemeColors, themeColors } from '../../Assets/Colors/themeColors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import ChangePasswordModal from '../ChangePassword/ChangePScreen';
+import { showStyles } from '../ShowNotes/styles';
 
 const SettingsPage = ({ navigation }) => {
   const { isLoading, signOutCall } = useAuthentication();
@@ -18,6 +19,7 @@ const SettingsPage = ({ navigation }) => {
   const colors = getThemeColors(theme);
   const dispatch = useDispatch();
   const [isModalVisible, setModalVisible] = useState(false);
+  const [logoutModal, setLogoutModal] = useState(false);
 
   //   useEffect (() => {
   //   AsyncStorage.clear();
@@ -34,9 +36,15 @@ const SettingsPage = ({ navigation }) => {
       );
   }, []);
     
-  const handleLogout = async () => {
-    await signOutCall();
+  const handleLogoutModal =() => {
+    // await signOutCall();
+    setLogoutModal(true);
   };
+
+  const handleLogout = async ()=>{
+    await signOutCall();
+    setLogoutModal(false);
+  }
 
   const toggleSwitch = () => {
     dispatch(toggleTheme());
@@ -83,7 +91,7 @@ const SettingsPage = ({ navigation }) => {
         </View>
       </View>
       
-      <TouchableOpacity style={[styles.option(colors)]} onPress={handleLogout}>
+      <TouchableOpacity style={[styles.option(colors)]} onPress={handleLogoutModal}>
         {ICONS.LOGOUT(24, 24)}
         <View style={styles.view}>
           <Text style={[styles.optionText(colors), { fontFamily: FONT.BOLD }]}>Logout</Text>
@@ -91,6 +99,26 @@ const SettingsPage = ({ navigation }) => {
         </View>
       </TouchableOpacity>
       <ChangePasswordModal visible={isModalVisible} onClose={closeChangePasswordModal} />
+      <Modal
+        visible={logoutModal}
+        transparent={true}
+        animationType="slide"
+      >
+        <View style={showStyles.modalBackground}>
+          <View style={showStyles.modalContainer(colors)}>
+            <Text style={showStyles.modalTitle(colors)}>Logout</Text>
+            <Text style={showStyles.modalMessage(colors)}>Are you sure you want to logout?</Text>
+            <View style={showStyles.modalButtons}>
+              <TouchableOpacity onPress={handleLogout}>
+                <Text style={showStyles.modalText(colors)}>Yes</Text>
+                </TouchableOpacity>
+              <TouchableOpacity  onPress={() => setLogoutModal(false)} >
+              <Text style={showStyles.modalText(colors)}>No</Text>
+                </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </ScrollView>
   );
 };

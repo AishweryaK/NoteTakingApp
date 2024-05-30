@@ -3,7 +3,7 @@ import { APPCOL } from "../../Assets/Colors/appColors";
 import { FONT } from "../../Constants/fontConstants";
 import { dimensions } from "../../Constants/utility";
 
-export const styles= StyleSheet.create(
+export const showStyles= StyleSheet.create(
     {
         wrapper: (colors)=>({ 
             flex: 1, 
@@ -31,11 +31,13 @@ export const styles= StyleSheet.create(
             fontFamily:FONT.EXTRA_BOLD,
             fontSize:16,
             lineHeight:22,
-            color:colors.HEADERTITLE
+            color:colors.HEADERTITLE,
+            // backgroundColor:"blue"
           }),
           list: {
-            paddingHorizontal:8,
-            paddingTop:10
+            paddingHorizontal:4,
+            paddingTop:10,
+            // backgroundColor:"red"
         },
         content:(colors)=>({
             fontFamily:FONT.BOLD,
@@ -92,11 +94,5 @@ export const styles= StyleSheet.create(
     textAlign:"center",
     paddingVertical:10,
   }),
-  ellipsisContainer :{
-    maxHeight:70,
-    overflow:"hidden",
-    
-  }
-
     }
 )

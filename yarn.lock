@@ -2261,6 +2261,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@mindinventory/react-native-stagger-view@npm:^1.2.1":
+  version: 1.2.1
+  resolution: "@mindinventory/react-native-stagger-view@npm:1.2.1"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 4573960f0d8243e04ebfd43d9e6cb66ba5dbe62eecfb956a467ee924271b0da200a009620a884cb2c4eece5b6aaee29fe7d7b8531e6f208d1650461aef83d795
+  languageName: node
+  linkType: hard
+
 "@native-html/css-processor@npm:1.11.0":
   version: 1.11.0
   resolution: "@native-html/css-processor@npm:1.11.0"
@@ -8549,6 +8559,7 @@ __metadata:
     "@babel/core": ^7.20.0
     "@babel/preset-env": ^7.20.0
     "@babel/runtime": ^7.20.0
+    "@mindinventory/react-native-stagger-view": ^1.2.1
     "@notifee/react-native": ^7.8.2
     "@react-native-async-storage/async-storage": ^1.23.1
     "@react-native-community/datetimepicker": ^8.0.1

@@ -35,7 +35,17 @@ dispatch(saveUser({
     provider: PROVIDER.EMAIL,
 }));
 } catch (err) {
-Alert.alert("Error logging in" , `${err.message}`);
+  if (err.code === 'auth/invalid-credential') {
+    Alert.alert("Error logging in", "Incorrect email or password");
+} 
+else  if (err.code === 'auth/too-many-requests') {
+  Alert.alert("Error logging in", 
+  "All requests from this device are blocked due to unusual activity. Please try again later");
+}
+  else
+   {
+    Alert.alert("Error logging in", `${err.message}`);
+}
 } finally {
 setIsLoading(false);
 }
