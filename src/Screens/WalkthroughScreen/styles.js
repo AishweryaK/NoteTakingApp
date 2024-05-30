@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
     wrapper: (colors) =>({ flex: 1,
         alignItems: 'center',
         backgroundColor:colors.BACKGROUND,
-        paddingTop:30
+        // paddingTop:30
         }),
     title : (colors)=>({
         fontFamily:FONT.EXTRA_BOLD,
@@ -19,7 +19,8 @@ export const styles = StyleSheet.create({
     img:{
         width: dimensions.width*0.50,
         height: dimensions.width*0.50,
-        marginTop:40
+        // marginTop:40,
+        marginTop:dimensions.height*0.044
 
     },
     txt:(colors)=>({
@@ -27,7 +28,8 @@ export const styles = StyleSheet.create({
         fontSize: 24,
         lineHeight: 32.74,
         color:colors.TITLECOLOR,
-        marginTop:120,
+        marginTop:dimensions.height*0.13,
+        // marginTop:120
     }),
     button:{
         // marginTop:70,

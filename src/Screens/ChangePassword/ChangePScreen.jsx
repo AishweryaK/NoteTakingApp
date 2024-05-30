@@ -39,6 +39,13 @@ const ChangePasswordModal = ({ visible, onClose }) => {
     }
   };
 
+  const handleP = () => {
+    onClose();
+    setConfirmPassword("");
+    setCurrentPassword("");
+    setNewPassword("");
+  }
+
   return (
     <Modal
       visible={visible}
@@ -82,7 +89,7 @@ const ChangePasswordModal = ({ visible, onClose }) => {
           />
 
           <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.button(colors)} onPress={onClose}>
+            <TouchableOpacity style={styles.button(colors)} onPress={handleP}>
               <Text style={styles.buttonText(colors)}>Cancel</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.button(colors)} onPress={handleChangePassword}>

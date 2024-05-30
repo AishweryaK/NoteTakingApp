@@ -5,6 +5,7 @@ import CustomLabel from "./CustomLabel";
 import { NAVIGATION } from "../Constants/navConstants";
 import { useSelector } from "react-redux";
 import AvailSpace from "../Screens/HomeScreen/AvailSpace";
+import { dimensions } from "../Constants/utility";
 
 
 function CustomList({navigation}) {
@@ -31,7 +32,7 @@ function CustomList({navigation}) {
 
     const renderItem = useMemo(() => {
         return ({ item }) => (
-            <View style={{marginBottom:30}}>
+            <View style={{paddingBottom:30}}>
           <CustomLabel
             handlePress={() =>
               navigation.navigate(NAVIGATION.NOTESCREEN, { uid: user.uid, itemText: item.text })
@@ -47,7 +48,7 @@ function CustomList({navigation}) {
     return (
       
         <FlatList
-        style={{}}
+
             data={collections}
             renderItem={renderItem}
             keyExtractor={(item, index) => index.toString()}
@@ -55,6 +56,7 @@ function CustomList({navigation}) {
             nestedScrollEnabled= {true}
             ListHeaderComponent={<AvailSpace />}
             showsVerticalScrollIndicator= {false}
+            contentContainerStyle={{paddingBottom:dimensions.height*0.078}}
         />
 
     );

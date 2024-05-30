@@ -28,19 +28,19 @@ export const SignupSchema = Yup.object().shape({
   firstName: Yup.string()
     .min(3, 'Too Short!')
     .max(50, 'Too Long!')
-    .required('Please enter your first name')
+    .required('Please enter your First Name')
     .matches(/^[A-Za-z]+$/gi, "First Name should only contain alphabets") ,
   lastName: Yup.string()
     .min(2, 'Too Short!')
     .max(50, 'Too Long!')
-    .required('Please enter your surname')
+    .required('Please enter your Last Name')
     .matches(/^[A-Za-z]+$/gi, "Last Name should only contain alphabets") ,
   email: Yup.string()
     .email('Invalid email')
     .required('Please enter your Email'),
   password: Yup.string()
     .min(8)
-    .required('Please enter a password')
+    .required('Please enter a Password')
     .matches(
       /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
       'Password should be atleast 8 characters long consisting of one or more uppercase, numbers and special characters',

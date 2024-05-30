@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, Image, SafeAreaView, ActivityIndicator, ScrollView } from "react-native";
+import { Text, View, Image, SafeAreaView, ActivityIndicator, ScrollView, TouchableOpacity } from "react-native";
 import { homeStyles } from "./homeStyle";
 import CustomList from "../../Components/CustomList";
 import { useSelector } from "react-redux";
 import { getThemeColors, themeColors } from "../../Assets/Colors/themeColors";
+import { NAVIGATION } from "../../Constants/navConstants";
 
 function Home({ navigation }) {
   const user = useSelector((state) => state.user);
@@ -25,6 +26,7 @@ function Home({ navigation }) {
             </Text>
             <Text style={homeStyles.title(colors)}>Notes App</Text>
           </View>
+          <TouchableOpacity onPress={()=>navigation.navigate(NAVIGATION.ACCOUNT)}>
             {user.photoURL ? (
             
             <Image
@@ -37,6 +39,7 @@ function Home({ navigation }) {
               source={require('../../Assets/Images/userImg.jpeg')}
             />
           )}
+          </TouchableOpacity>
         </View>
 
       {user.uid ? (

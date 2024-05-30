@@ -252,7 +252,7 @@ function AddNote({ route, navigation }) {
       >
 
       <View style={styles.view}>
-        <Reminder />
+        {/* <Reminder /> */}
         <View></View>
         <View>
           {itemID || label ? null : (

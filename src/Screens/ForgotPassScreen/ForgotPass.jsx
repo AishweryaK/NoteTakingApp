@@ -17,6 +17,10 @@ function ForgotPassScreen ({navigation}) {
 
     const handleEmail= () => {
         // console.log(email)
+        // if(email="")
+        // {
+        //     Alert.alert("Email ID not entered", "Please enter your email")
+        // }
         auth().sendPasswordResetEmail(email)
         .then(()=>
         {Alert.alert("Email sent successfully!", "Please set a new password");

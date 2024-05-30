@@ -7,12 +7,13 @@ import GoogleLogin from "../../Components/GoogleLogin";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useSelector } from "react-redux";
 import { getThemeColors } from "../../Assets/Colors/themeColors";
+import { dimensions } from "../../Constants/utility";
 
 
 export default function Walkthrough ({navigation}) {
     const theme = useSelector((state)=>state.user.theme)
     const colors= getThemeColors(theme);
-
+// console.log(dimensions.width, dimensions.height)
     
 //   useEffect (() => {
 //     AsyncStorage.clear();

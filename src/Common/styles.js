@@ -78,8 +78,7 @@ export const labelStyles= StyleSheet.create(
         height:dimensions.width*0.44, 
         width:dimensions.width*0.43 ,
         marginLeft:16,
-        marginRight:10, 
-
+        marginRight:10,
       },
         bg:{
           width:"100%", 

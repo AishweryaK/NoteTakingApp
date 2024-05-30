@@ -83,7 +83,7 @@ const SettingsPage = ({ navigation }) => {
         </View>
       </View>
       
-      <TouchableOpacity style={[styles.option(colors), { marginTop: 40 }]} onPress={handleLogout}>
+      <TouchableOpacity style={[styles.option(colors)]} onPress={handleLogout}>
         {ICONS.LOGOUT(24, 24)}
         <View style={styles.view}>
           <Text style={[styles.optionText(colors), { fontFamily: FONT.BOLD }]}>Logout</Text>

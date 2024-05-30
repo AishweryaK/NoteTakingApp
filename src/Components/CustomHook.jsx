@@ -35,7 +35,7 @@ dispatch(saveUser({
     provider: PROVIDER.EMAIL,
 }));
 } catch (err) {
-Alert.alert("Error Logging in" , `${err}`);
+Alert.alert("Error logging in" , `${err.message}`);
 } finally {
 setIsLoading(false);
 }
@@ -132,15 +132,14 @@ const googleLoginCall = async () => {
 
             } catch (error) {
               if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-                Alert.alert('Signin with Google Cancelled');
+                Alert.alert('Google Sign-In Cancelled');
               } else if (error.code === statusCodes.IN_PROGRESS) {
                 Alert.alert('Signin in progress');
               } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
                 Alert.alert('PLAY_SERVICES_NOT_AVAILABLE');
-              } else if (error.code === 10) {
-                Alert.alert('dev err');
-              } else {
-                Alert.alert(error, 'hello');
+              }
+               else {
+                Alert.alert(error);
               }
             }
 };
