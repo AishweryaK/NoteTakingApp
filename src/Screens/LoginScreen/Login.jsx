@@ -31,6 +31,10 @@ function Login({ navigation }) {
     await signInCall({email: values.email, password: values.password})
   };
 
+  const handleForgotP = () => {
+    navigation.navigate(NAVIGATION.FORGOTPASS);
+  }
+
   return (
     <KeyboardAvoidingView
       keyboardVerticalOffset={65}
@@ -67,7 +71,7 @@ function Login({ navigation }) {
 
 
             <View style={loginStyles.button}>
-              <TouchableOpacity onPress={() => navigation.navigate(NAVIGATION.FORGOTPASS)}>
+              <TouchableOpacity onPress={handleForgotP}>
                 <Text style={loginStyles.forgotTxt}>Forgot Password?</Text>
               </TouchableOpacity>
             </View>

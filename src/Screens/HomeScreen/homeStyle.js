@@ -24,8 +24,9 @@ export const homeStyles = StyleSheet.create({
       buttonText: (colors)=>({
         color:colors.WHITE,
         fontFamily:FONT.BOLD,
-       textAlign:"center", 
-       fontSize:40,
+      //  textAlign:"center", 
+      //  fontSize:40,
+       
       }),
        welcome: colors=>({
         color:colors.WELCOME,

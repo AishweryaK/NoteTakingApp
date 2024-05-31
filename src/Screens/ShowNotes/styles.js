@@ -22,6 +22,13 @@ export const showStyles= StyleSheet.create(
             shadowOpacity: 0.15,
             shadowRadius: 10,
             elevation:7,
+            maxHeight:100
+            //width: (dimensions.width - 18) / 2,
+  //     maxHeight:100,
+  //     backgroundColor: 'gray',
+  //     margin: 4,
+  //     borderRadius: 18,
+  //     overflow:"hidden",
         }),
         bottomButton:{borderRadius:1000, 
           width:dimensions.width*0.5,
@@ -37,6 +44,7 @@ export const showStyles= StyleSheet.create(
           list: {
             paddingHorizontal:4,
             paddingTop:10,
+          
             // backgroundColor:"red"
         },
         content:(colors)=>({

@@ -30,6 +30,6 @@ async function addDocumentToCollection(userUid, collectionName) {
         .collection(collectionName)
         .add({
             title: `Welcome to your ${collectionName} collection!`,
-            desc: `This is where you write your description...`
+            desc: "This is where you write your description..."
         });
 }

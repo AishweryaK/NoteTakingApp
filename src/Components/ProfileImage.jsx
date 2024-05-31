@@ -54,10 +54,17 @@ function ProfileImage({onImageChange}) {
       console.log("ImagePicker Error: ", response.errorCode);
     } else {
       let imageUri = response.uri || response.assets[0].uri;
+      console.log(response)
       setImageUri(imageUri);
       onImageChange(imageUri);
     }
   };
+
+  const removeImage = () => {
+    setImageUri("");
+    onImageChange("");
+    setModalVisible(false)
+  }
 
 
   return (
@@ -101,6 +108,13 @@ function ProfileImage({onImageChange}) {
                 <Text style={profileImgStyles.modalOption(colors)}>Upload From Camera</Text>
               </TouchableOpacity>
             )}
+            {
+              imageUri || photoURL  ?
+              (
+              <TouchableOpacity onPress={removeImage}>
+                <Text style={profileImgStyles.modalOption(colors)}>Remove Image</Text>
+              </TouchableOpacity>
+            ):null}
             <TouchableOpacity onPress={() => setModalVisible(false)}>
               <Text style={profileImgStyles.modalOption(colors)}>Cancel</Text>
             </TouchableOpacity>

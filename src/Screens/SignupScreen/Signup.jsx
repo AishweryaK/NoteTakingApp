@@ -26,24 +26,34 @@ import { getThemeColors } from '../../Assets/Colors/themeColors';
 
 export const SignupSchema = Yup.object().shape({
   firstName: Yup.string()
+    .transform(value => value.trim())
     .min(3, 'Too Short!')
-    .max(50, 'Too Long!')
+    .max(25, 'Too Long!')
     .required('Please enter your First Name')
     .matches(/^[A-Za-z]+$/gi, "First Name should only contain alphabets") ,
   lastName: Yup.string()
+    .transform(value => value.trim())
     .min(2, 'Too Short!')
-    .max(50, 'Too Long!')
+    .max(25, 'Too Long!')
     .required('Please enter your Last Name')
     .matches(/^[A-Za-z]+$/gi, "Last Name should only contain alphabets") ,
   email: Yup.string()
+    .transform(value => value.trim())
     .email('Invalid email')
-    .required('Please enter your Email'),
+    .required('Please enter your Email')
+    .matches(
+      /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g,
+      'Invalid email',
+    ),
   password: Yup.string()
+  .transform(value => value.trim())
     .min(8)
+    .max(25)
     .required('Please enter a Password')
     .matches(
-      /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
-      'Password should be atleast 8 characters long consisting of one or more uppercase, numbers and special characters',
+      // /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
+      /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-])(?!.*\s).{8,25}$/,
+      'Password should consist of one or more uppercase, numbers and special characters, but no spaces',
     ),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref('password')], 'Your passwords do not match')
@@ -62,10 +72,10 @@ function Signup({navigation}) {
 
 
   const handleSignUp = async values => {
-    await signUpCall({email:values.email, 
-      password: values.password,
-      firstName: values.firstName,
-      lastName: values.lastName,
+    await signUpCall({email:values.email.trim(), 
+      password: values.password.trim(),
+      firstName: values.firstName.trim(),
+      lastName: values.lastName.trim(),
       imageUri: imageUri});
   };
 
@@ -137,9 +147,11 @@ function Signup({navigation}) {
               handleChange={handleChange('password')}
               handleBlur={() => setFieldTouched('password')}
             />
+            <View>
             {touched.password && errors.password && (
               <Text style={styles.errorTxt}>{errors.password}</Text>
             )}
+            </View>
 
             <CustomInput
               placeHolder={SIGNING.CONFIRMPASSWORD}

@@ -78,7 +78,7 @@ export const styles = StyleSheet.create(
     color: colors.DARK_BLUE
   }),
   newCollectionInput: (colors)=> ({
-    borderWidth: 0.5,
+    borderWidth: 1,
     borderColor: colors.BORDER,
     borderRadius: 8,
     padding: 10,

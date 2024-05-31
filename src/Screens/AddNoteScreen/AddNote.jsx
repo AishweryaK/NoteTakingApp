@@ -38,6 +38,7 @@ function AddNote({ route, navigation }) {
     text: 'Others',
   });
   const richText = useRef();
+  const [emptyColl, setEmptyColl] = useState(false);
   const theme = useSelector((state)=> state.user.theme)
   const colors = getThemeColors(theme);
   // const descRef = useRef("");
@@ -46,7 +47,7 @@ function AddNote({ route, navigation }) {
 
 
   useEffect(() => {
-    if (itemTitle && itemDesc) {
+    if (itemTitle || itemDesc) {
       setTitle(itemTitle);
       setDesc(itemDesc);
     }
@@ -97,9 +98,7 @@ function AddNote({ route, navigation }) {
     const doc = await collectionRef.get();
     if (doc.exists) {
       const userData = doc.data();
-      // console.log(userData, "USERDATA")
       const updatedCollections = userData.collections.map(collection => {
-        // console.log(collection, "COLLECTTT")
         if (collection.text === label) {
           return {
             ...collection,
@@ -131,9 +130,7 @@ function AddNote({ route, navigation }) {
         const doc = await collectionRef.get();
         if (doc.exists) {
           const userData = doc.data();
-          // console.log(userData, "USERDATA")
           const updatedCollections = userData.collections.map(collection => {
-            // console.log(collection, "COLLECTTT")
             if (collection.text === selectedCollection.text) {
               return {
                 ...collection,
@@ -158,13 +155,14 @@ function AddNote({ route, navigation }) {
     }
     try {
       if (itemID && label) {
+      
         updateNote();
-        console.log('update the previous note')
+
   
       } 
       else if (label) {
         saveNoteLabel();
-        console.log('new note in label')
+  
 
         incLabelCollection();
 
@@ -176,12 +174,12 @@ function AddNote({ route, navigation }) {
        incNewCollection();
         
       }
-      console.log('update the previous note1111')
+    
       setTitle('');
-      console.log('update the previous note2222')
+   
       setDesc('');
 
-      console.log('update the previous note Note saved successfully!');
+      console.log(' Note saved successfully!');
       if (itemID || label) {
         navigation.goBack();
       } else {
@@ -207,8 +205,12 @@ function AddNote({ route, navigation }) {
   };
   
   const addCollection = async () => {
-    if (newCollection.trim() === '') return;
-  
+    if (newCollection.trim() === '') 
+      { setEmptyColl(true);
+        return;
+      }
+     
+  setEmptyColl(false)
     const trimmedNewCollection = newCollection.trim();
     const existingCollection = collections.find(
       collection => collection.text.toLowerCase() === trimmedNewCollection.toLowerCase()
@@ -239,7 +241,6 @@ function AddNote({ route, navigation }) {
   );
   const handleCollectionSelection = collection => {
     setSelectedCollection(collection);
-    // console.log(selectedCollection.text, "TEXT")
     setModalVisible(false);
   };
 
@@ -309,6 +310,12 @@ function AddNote({ route, navigation }) {
                   placeholderTextColor={colors.HEADERTITLE}
                   maxLength={20}
                 />
+                {
+                  emptyColl &&
+                  <Text style={{color:"black"}}>
+                    Enter collection
+                  </Text>
+                }
                 <TouchableOpacity
                   style={styles.addButton(colors)}
                   onPress={addCollection}>
@@ -328,7 +335,7 @@ function AddNote({ route, navigation }) {
         multiline={true}
         maxLength={60}
         onChangeText={text => setTitle(text)}
-        placeholderTextColor={colors.HEADERTITLE}
+        placeholderTextColor={"gray"}
       />
 
       <RichEditor
@@ -342,7 +349,6 @@ function AddNote({ route, navigation }) {
         onLink={async url => {
           try {
             const result = await Linking.openURL(url);
-            // console.log(result);
           } catch (error) {
             console.error('Error occurred while opening URL:', error);
           }
@@ -368,6 +374,8 @@ function AddNote({ route, navigation }) {
         editor={richText}
         iconTint={themeColors.LIGHT.GRAY}
         selectedIconTint={themeColors.LIGHT.DARK_BLUE}
+        // onInsertLink={()=>console.log("hello")}
+        // onInsertLink={()=>{Alert.alert('')}}
         actions={[
           // actions.insertImage,
           actions.setBold,

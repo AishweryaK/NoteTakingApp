@@ -9,10 +9,11 @@ export const styles = StyleSheet.create({
     errorTxt: {
         fontSize: 12,
         color: '#FF0D10',
-        paddingHorizontal:20,
+        paddingHorizontal:15,
         paddingBottom:10,
         textAlign:"left",
-        paddingTop:5
+        paddingTop:5,
+        marginRight:20,
     },
     bottom:{
         flex: 1,

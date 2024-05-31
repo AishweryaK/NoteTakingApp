@@ -21,8 +21,8 @@ export const buttonStyles= StyleSheet.create(
         color:colors.TITLECOLOR,
         fontFamily: FONT.REGULAR_INTER,
       }),
-      customButton : (colors) =>  ({ 
-        backgroundColor: colors.BLUE,
+      customButton : (colors, disable) =>  ({ 
+        backgroundColor: disable? colors.LIGHT_BLUE : colors.BLUE,
         width: dimensions.width*0.9,
         height: 48,
         borderRadius:48,
@@ -127,7 +127,7 @@ export const profileImgStyles= StyleSheet.create(
     },
     modalBackground: {
       flex: 1,
-      backgroundColor: "rgba(0, 0, 0, 0.5)",
+      backgroundColor: "rgba(0, 0, 0, 0.7)",
       justifyContent: "center",
       alignItems: "center",
     },

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, SafeAreaView, TouchableOpacity, TextInput, Modal, KeyboardAvoidingView } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import HTML from "react-native-render-html";
@@ -13,6 +13,7 @@ import { homeStyles } from '../HomeScreen/homeStyle';
 import { useSelector } from 'react-redux';
 import { getThemeColors } from '../../Assets/Colors/themeColors';
 import StaggerView from '@mindinventory/react-native-stagger-view';
+import { ICONS } from '../../Constants/iconConstants';
 
 const NotesScreen = ({ route, navigation }) => {
   const [notes, setNotes] = useState([]);
@@ -20,6 +21,7 @@ const NotesScreen = ({ route, navigation }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const { uid, itemText } = route.params;
   const [modalVisible, setModalVisible] = useState(false);
+  const [searchFound, setSearchFound] = useState(false);
   const [itemUid, setItemUid] = useState(null)
   const theme = useSelector((state) => state.user.theme)
   const colors = getThemeColors(theme);
@@ -48,6 +50,13 @@ const NotesScreen = ({ route, navigation }) => {
     console.log(itemText, "label");
   }, [itemText]);
 
+  const handleNotePress = (item) => {
+    navigation.navigate(NAVIGATION.ADDNOTE, {
+      uid: uid, itemTitle: item.title,
+      itemDesc: item.desc, itemID: item.id, label: itemText })
+    // setSearchQuery("");
+  }
+
   const handleSearch = (query) => {
     setSearchQuery(query);
     const formattedQuery = query.toLowerCase();
@@ -61,18 +70,20 @@ const NotesScreen = ({ route, navigation }) => {
     if (title.toLowerCase()?.includes(query) || desc.toLowerCase()?.includes(query)) {
       return true;
     }
-
+    else {
     return false;
+    }
   }
 
   const handleAddNote = () => {
     navigation.navigate(NAVIGATION.ADDNOTE, { uid: uid, label: itemText })
+    // setSearchQuery("");
   }
 
   const handleLongPress = (itemUid) => {
     setItemUid(itemUid);
     setModalVisible(true);
-    console.log(itemUid, 2734784544)
+    // console.log(itemUid, 2734784544)
   }
 
   const decLabelCollection = async () => {
@@ -119,11 +130,8 @@ const NotesScreen = ({ route, navigation }) => {
   const MemoizedHTML = React.memo(HTML);
 
   const renderItem = ({ item }) => (
-    <TouchableOpacity style={showStyles.container(colors)}
-      onPress={() => navigation.navigate(NAVIGATION.ADDNOTE, {
-        uid: uid, itemTitle: item.title,
-        itemDesc: item.desc, itemID: item.id, label: itemText
-      })}
+    <TouchableOpacity style={getChildrenStyle()}
+      onPress={()=> handleNotePress(item)}
       onLongPress={() => handleLongPress(item.id)}
     >
       {item.title &&
@@ -138,9 +146,8 @@ const NotesScreen = ({ route, navigation }) => {
             lineHeight: 18.2,
             opacity: 0.67,
             color: colors.HEADERTITLE,
-            maxHeight:100,
+            maxHeight:dimensions.height*0.16,
             overflow:"hidden",
-            // backgroundColor:"red"
           }}
           source={{ html: item.desc }}
           contentWidth={dimensions.width}
@@ -150,12 +157,30 @@ const NotesScreen = ({ route, navigation }) => {
 
   );
 
+  const getChildrenStyle = () => {
+    return {
+    backgroundColor:colors.BACKGROUND,
+  marginBottom:10,
+  marginHorizontal:8,
+  borderRadius:20,
+  padding:20,
+  fontFamily:FONT.REGULAR,
+
+  shadowColor: colors.SHADOW,
+  shadowOffset: {width: -2, height: 4},
+  shadowOpacity: 0.15,
+  shadowRadius: 10,
+  elevation:7,
+    };
+  };
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : ''}
       style={showStyles.wrapper(colors)}
       keyboardVerticalOffset={97}
     >
+    
       <View style={showStyles.input}>
 
         <TextInput
@@ -169,6 +194,21 @@ const NotesScreen = ({ route, navigation }) => {
           placeholderTextColor={colors.PLACEHOLDER}
         />
       </View>
+      {notes.length===0 &&
+      (
+        <Text style={{flex:1, color:colors.HEADERTITLE, textAlign:"center", justifyContent:"center", textAlignVertical:"center", fontFamily:FONT.BOLD, fontSize:16, opacity:0.5, paddingHorizontal:16}}>
+        Add a note to start your collection!
+      </Text>
+      )
+      }
+
+      {notes.length === 0 && searchQuery !== "" && 
+      (
+        <Text style={{flex:1, color:colors.HEADERTITLE, textAlign:"center", justifyContent:"center", textAlignVertical:"center", fontFamily:FONT.BOLD, fontSize:16}}>
+          No matching notes
+        </Text>
+      )
+}
       <StaggerView
         style={showStyles.list}
         data={notes}
@@ -182,10 +222,13 @@ const NotesScreen = ({ route, navigation }) => {
           <TouchableOpacity style={showStyles.button}
             onPress={handleAddNote}
           >
-            <Text style={[homeStyles.buttonText(colors), {fontSize:30, paddingVertical: 10}]}>
+            {/* <Text style={[homeStyles.buttonText(colors), {fontSize:30, paddingVertical: 10}]}>
               +
-            </Text>
-            <Text style={[homeStyles.buttonText(colors), { fontSize: 14,paddingVertical:20 }]}>
+            </Text> */}
+            <View style={{justifyContent:"center"}}>
+            {ICONS.ADD(30,30)}
+            </View>
+            <Text style={[homeStyles.buttonText(colors), {textAlignVertical:"center" }]}>
               Add New Notes
             </Text>
           </TouchableOpacity>

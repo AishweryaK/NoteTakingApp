@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, KeyboardAvoidingView, Alert } from "react-native";
+import { View, KeyboardAvoidingView, Alert, Text , Platform} from "react-native";
 import { styles } from "../SignupScreen/styles";
 import CustomButton from "../../Components/CustomButton";
 import CustomInput from "../../Components/CustomInput";
@@ -9,53 +9,84 @@ import { SIGNING } from "../../Constants/signingConstants";
 import { NAVIGATION } from "../../Constants/navConstants";
 import { useSelector } from "react-redux";
 import { getThemeColors } from "../../Assets/Colors/themeColors";
+import { SignupSchema } from "../SignupScreen/Signup";
+import { Formik } from 'formik';
+import * as Yup from 'yup';
+
+const ForgotPScheme = Yup.object().shape({
+    email: SignupSchema.fields.email,
+  });
 
 function ForgotPassScreen ({navigation}) {
-    const [email, setEmail] = useState("");
     const theme = useSelector((state)=>state.user.theme)
     const colors= getThemeColors(theme);
+    
 
-    const handleEmail= () => {
-        // console.log(email)
-        // if(email="")
-        // {
-        //     Alert.alert("Email ID not entered", "Please enter your email")
-        // }
-        auth().sendPasswordResetEmail(email)
+    const handleEmail= (values) => {
+        console.log(values.email)
+        auth().sendPasswordResetEmail(values.email)
         .then(()=>
         {Alert.alert("Email sent successfully!", "Please set a new password");
         navigation.navigate(NAVIGATION.LOGIN);
     }
     )
     .catch((error) => {
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        Alert.alert(`Error sending email`, `${errorMessage}` )
+        if (error.code === 'auth/invalid-credential') {
+            Alert.alert("Error sending email", "Incorrect email");
+        } 
+        else  if (error.code === 'auth/too-many-requests') {
+          Alert.alert("Error sending email", 
+          "All requests from this device are blocked due to unusual activity. Please try again later");
+        }
+        else  if (error.code === 'auth/user-not-found') {
+          Alert.alert("Error sending email", 
+          "No user corresponding this email exists. Please Sign up");
+        }
+          else
+           {
+            Alert.alert("Error sending email", `${error.message}`);
+        }
     })
 };
 
 
     return (
-        // <View style={styles.wrapper}>
         <KeyboardAvoidingView
       keyboardVerticalOffset={65}
       behavior={Platform.OS === 'ios' ? 'padding' : ''}
       style={styles.wrapper(colors)}>
-            <CustomInput 
-            placeHolder={SIGNING.EMAIL}
-            value={email}
-            handleChange={(text)=> setEmail(text)}
+         <Formik
+        initialValues={{
+          email: '',
+        }}
+        validationSchema={ForgotPScheme} 
+        onSubmit={values => handleEmail(values)}>
+        {({ values, errors, touched, handleChange, setFieldTouched, isValid, handleSubmit }) => (
+          <>
+            <CustomInput
+              placeHolder={SIGNING.EMAIL}
+              value={values.email}
+              handleChange={handleChange('email')}
+              handleBlur={() => setFieldTouched('email')}
             />
+        
+            {touched.email && errors.email && (
+              <Text style={styles.errorTxt}>{errors.email}</Text>
+            )}
+            
             
             <View style={passStyles.bottom}>
+            
             <CustomButton 
-            handleButton={handleEmail}
+            handleButton={handleSubmit}
             text={"Verify"}
-            disable={false}
+            disable={!isValid}
             />
             </View>
+            </>
+        )}
+      </Formik>
             </KeyboardAvoidingView>
-        // </View>
     )
 }
 

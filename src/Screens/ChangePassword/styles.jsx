@@ -53,13 +53,14 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.BORDER,
     borderRadius: 20,
-    paddingLeft:20
+    paddingLeft:20,
+    color:colors.HEADERTITLE,
   }),
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
-    paddingTop:10
+    paddingTop:20
   },
   button:  (colors) => ({
     padding: 10,

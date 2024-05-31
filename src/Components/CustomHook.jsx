@@ -16,6 +16,7 @@ import { PROVIDER } from "../Constants/signingConstants";
 export default function useAuthentication() {
 const dispatch = useDispatch();
 const myProvider = useSelector(state=>state.user.provider)
+const {displayName, uid, email} = useSelector((state)=> state.user);
 const [isLoading, setIsLoading] = useState(false);
 
 
@@ -41,6 +42,14 @@ dispatch(saveUser({
 else  if (err.code === 'auth/too-many-requests') {
   Alert.alert("Error logging in", 
   "All requests from this device are blocked due to unusual activity. Please try again later");
+}
+else  if (err.code === 'auth/user-not-found') {
+  Alert.alert("Error logging in", 
+  "No user corresponding this email exists. Please Sign up");
+}
+else  if (err.code === 'auth/wrong-password') {
+  Alert.alert("Error logging in", 
+  "Incorrect Password. Please try again or reset your password.");
 }
   else
    {
@@ -81,7 +90,11 @@ const signUpCall = async ({ email, password, firstName, lastName, imageUri }) =>
       console.log("THIS IS SIGNUP END", user);
 
   } catch (err) {
-      Alert.alert(`${err.message}`);
+    if (err.code === 'auth/email-already-in-use') {
+      Alert.alert("Error signing up", "The email address is already in use");
+  } 
+  else
+      Alert.alert("Error signing up", `${err.message}`);
   } finally {
       setIsLoading(false);
   }
@@ -95,6 +108,23 @@ const uploadImageToFirebase = async (imageUri, userId) => {
   const downloadURL = await storageRef.getDownloadURL();
   console.log(downloadURL, "DOWNLOAD");
   return downloadURL;
+};
+
+
+const deletePhoto = async () => {
+  setIsLoading(true);
+  console.log("TRUE")
+  try {
+    const storageRef = storage().ref(`profile_images/${uid}.jpg`);
+    await storageRef.delete();
+    await auth().currentUser.updateProfile({ photoURL: null });
+    dispatch(saveUser({ displayName, uid, email, photoURL: "", provider: myProvider }));
+  } catch (error) {
+    console.error("Error deleting photo: ", error);
+  } finally {
+    setIsLoading(false);
+    console.log("FALSE")
+  }
 };
 
 
@@ -154,5 +184,5 @@ const googleLoginCall = async () => {
             }
 };
 
-return {isLoading, signInCall, signUpCall, signOutCall, googleLoginCall, uploadImageToFirebase};
+return {isLoading, signInCall, signUpCall, signOutCall, googleLoginCall, uploadImageToFirebase, deletePhoto};
 }

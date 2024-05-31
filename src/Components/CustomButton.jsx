@@ -10,7 +10,7 @@ export default function CustomButton ({handleButton, text, disable}) {
     return (
         <View>
             <TouchableOpacity
-            style={buttonStyles.customButton(colors)}
+            style={[buttonStyles.customButton(colors, disable)]}
             onPress={handleButton}
             disabled={disable}
             >

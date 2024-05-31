@@ -21,6 +21,7 @@ import NOTEBLUE from "../Assets/Svgs/blue-note.svg"
 import PIECHART from "../Assets/Svgs/pie-chart.svg"
 import MAIL from "../Assets/Svgs/mail-outline.svg"
 import REMINDER from "../Assets/Svgs/date-reminder-icon.svg"
+import ADD from "../Assets/Svgs/add-outline.svg"
 
 
 const iconStyle = (
@@ -58,4 +59,5 @@ export const ICONS = {
   PIECHART: (...params) =><PIECHART {...iconStyle(...params)} />,
   MAIL: (...params) =><MAIL {...iconStyle(...params)} />,
   REMINDER: (...params) =><REMINDER {...iconStyle(...params)} />,
+  ADD: (...params) =><ADD {...iconStyle(...params)} />,
 }

@@ -31,7 +31,7 @@ function HomeNavigation({navigation}) {
   }
    
   return (
-    <View style={{flex:1,backgroundColor:colors.BACKGROUND, height: dimensions.height*0.073,}}>
+    <View style={{flex:1,backgroundColor:colors.BACKGROUND, height: dimensions.height*0.073, paddingBottom:5}}>
 
     
     <Tab.Navigator initialRouteName={NAVIGATION.HOME}
@@ -75,14 +75,16 @@ function HomeNavigation({navigation}) {
      
       <Tab.Screen name="Something" component={DummyAddNote} options={{
         tabBarButton:() => (
-          <View style={homeStyles.buttonShadow(colors)}>
-            <TouchableOpacity 
-          onPress={handleAddNote}>
-            <Text style={homeStyles.buttonText(colors)}>
+          // <View style={homeStyles.buttonShadow(colors)}>
+          <TouchableOpacity 
+          onPress={handleAddNote}
+          style={homeStyles.buttonShadow(colors)}>
+            {/* <Text style={homeStyles.buttonText(colors)}>
               +
-            </Text>
+            </Text> */}
+            {ICONS.ADD(30,30)}
           </TouchableOpacity>
-            </View>
+            // </View>
         )
       }}/>
        <Tab.Screen name={NAVIGATION.LAMP} component={Lamp}  />
