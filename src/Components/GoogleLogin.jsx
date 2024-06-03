@@ -20,6 +20,7 @@ function GoogleLogin ({navigation}) {
     const {googleLoginCall} = useAuthentication();
     const theme = useSelector((state)=>state.user.theme)
     const colors= getThemeColors(theme);
+    const connection = useSelector(state=> state.internet.connection);
 
 
     useEffect(() => {
@@ -34,12 +35,19 @@ function GoogleLogin ({navigation}) {
 
 
       const signInBTNPress = async () => {
-        await googleLoginCall();
+        if(connection){
+          await googleLoginCall();
+        }
+        else
+        Alert.alert("No Internet Connection",
+        "Please check your internet connection and try again.")
       };
 
       return (
        
-         <TouchableOpacity style={[buttonStyles.customButton(colors), buttonStyles.googleButton(colors)]}
+         <TouchableOpacity style={[buttonStyles.customButton(colors), buttonStyles.googleButton(colors)]
+         }
+        //  disabled={!connection}
          onPress={signInBTNPress}>
             <GoogleIcon width={25} height={25}
             />

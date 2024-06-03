@@ -51,6 +51,10 @@ else  if (err.code === 'auth/wrong-password') {
   Alert.alert("Error logging in", 
   "Incorrect Password. Please try again or reset your password.");
 }
+else  if (err.code === 'auth/network-request-failed') {
+  Alert.alert("No Internet Connection",
+    "Please check your internet connection and try again.");
+}
   else
    {
     Alert.alert("Error logging in", `${err.message}`);
@@ -93,6 +97,10 @@ const signUpCall = async ({ email, password, firstName, lastName, imageUri }) =>
     if (err.code === 'auth/email-already-in-use') {
       Alert.alert("Error signing up", "The email address is already in use");
   } 
+  else  if (err.code === 'auth/network-request-failed') {
+    Alert.alert("No Internet Connection",
+      "Please check your internet connection and try again.");
+  }
   else
       Alert.alert("Error signing up", `${err.message}`);
   } finally {

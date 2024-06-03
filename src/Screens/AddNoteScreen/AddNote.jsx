@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useFocusEffect } from 'react';
+import React, {useRef, useState, useEffect, useFocusEffect} from 'react';
 import {
   Dimensions,
   KeyboardAvoidingView,
@@ -11,23 +11,23 @@ import {
   TouchableOpacity,
   SafeAreaView,
   Alert,
+  StatusBar,
 } from 'react-native';
-import { RichEditor, RichToolbar, actions } from 'react-native-pell-rich-editor';
-import { APPCOLOR } from '../../Assets/Colors/appColors';
-import { homeStyles } from '../HomeScreen/homeStyle';
-import { FONT } from '../../Constants/fontConstants';
-import { NAVIGATION } from '../../Constants/navConstants';
+import {RichEditor, RichToolbar, actions} from 'react-native-pell-rich-editor';
+import {APPCOLOR} from '../../Assets/Colors/appColors';
+import {homeStyles} from '../HomeScreen/homeStyle';
+import {FONT} from '../../Constants/fontConstants';
+import {NAVIGATION} from '../../Constants/navConstants';
 import firestore from '@react-native-firebase/firestore';
-import { styles } from './styles';
-import { profileImgStyles } from '../../Common/styles';
-import { dimensions } from '../../Constants/utility';
-import { useSelector } from 'react-redux';
-import { getThemeColors, themeColors } from '../../Assets/Colors/themeColors';
-import { ICONS } from '../../Constants/iconConstants';
+import {styles} from './styles';
+import {profileImgStyles} from '../../Common/styles';
+import {dimensions} from '../../Constants/utility';
+import {useSelector} from 'react-redux';
+import {getThemeColors, themeColors} from '../../Assets/Colors/themeColors';
+import {ICONS} from '../../Constants/iconConstants';
 import Reminder from './Reminder';
 
-
-function AddNote({ route, navigation }) {
+function AddNote({route, navigation}) {
   const [title, setTitle] = useState('');
   const [desc, setDesc] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
@@ -39,13 +39,12 @@ function AddNote({ route, navigation }) {
   });
   const richText = useRef();
   const [emptyColl, setEmptyColl] = useState(false);
-  const theme = useSelector((state)=> state.user.theme)
+  const theme = useSelector(state => state.user.theme);
   const colors = getThemeColors(theme);
   // const descRef = useRef("");
 
-  const { uid, itemTitle, itemDesc, itemID, label } = route.params;
-
-
+  const {uid, itemTitle, itemDesc, itemID, label} = route.params;
+console.log(emptyColl,"EMPTY")
   useEffect(() => {
     if (itemTitle || itemDesc) {
       setTitle(itemTitle);
@@ -68,30 +67,28 @@ function AddNote({ route, navigation }) {
     return () => unsubscribe();
   }, [uid]);
 
-
   const handleDesc = text => {
     setDesc(text);
   };
 
-  const updateNote = async()=>{
+  const updateNote = async () => {
     await firestore()
-    .collection('users')
-    .doc(uid)
-    .collection(label)
-    .doc(itemID)
-    .update({
-      title: title,
-      desc: desc,
-    });
-  }
+      .collection('users')
+      .doc(uid)
+      .collection(label)
+      .doc(itemID)
+      .update({
+        title: title,
+        desc: desc,
+      });
+  };
 
-
-  const saveNoteLabel= async()=>{
+  const saveNoteLabel = async () => {
     await firestore().collection('users').doc(uid).collection(label).add({
       title: title,
       desc: desc,
     });
-  }
+  };
 
   const incLabelCollection = async () => {
     const collectionRef = firestore().collection('users').doc(uid);
@@ -107,45 +104,38 @@ function AddNote({ route, navigation }) {
         }
         return collection;
       });
-      await collectionRef.set(
-        { collections: updatedCollections },
-        { merge: true },
-      );
+      await collectionRef.set({collections: updatedCollections}, {merge: true});
     }
   };
 
   const saveNoteNew = async () => {
     await firestore()
-    .collection('users')
-    .doc(uid)
-    .collection(selectedCollection.text)
-    .add({
-      title: title,
-      desc: desc,
-    });
-  }
+      .collection('users')
+      .doc(uid)
+      .collection(selectedCollection.text)
+      .add({
+        title: title,
+        desc: desc,
+      });
+  };
 
   const incNewCollection = async () => {
     const collectionRef = firestore().collection('users').doc(uid);
-        const doc = await collectionRef.get();
-        if (doc.exists) {
-          const userData = doc.data();
-          const updatedCollections = userData.collections.map(collection => {
-            if (collection.text === selectedCollection.text) {
-              return {
-                ...collection,
-                number: collection.number + 1,
-              };
-            }
-            return collection;
-          });
-          await collectionRef.set(
-            { collections: updatedCollections },
-            { merge: true },
-          );
+    const doc = await collectionRef.get();
+    if (doc.exists) {
+      const userData = doc.data();
+      const updatedCollections = userData.collections.map(collection => {
+        if (collection.text === selectedCollection.text) {
+          return {
+            ...collection,
+            number: collection.number + 1,
+          };
         }
-  }
-
+        return collection;
+      });
+      await collectionRef.set({collections: updatedCollections}, {merge: true});
+    }
+  };
 
   const saveNote = async () => {
     if (title === '' && desc === '') {
@@ -155,36 +145,26 @@ function AddNote({ route, navigation }) {
     }
     try {
       if (itemID && label) {
-      
         updateNote();
-
-  
-      } 
-      else if (label) {
+      } else if (label) {
         saveNoteLabel();
-  
 
         incLabelCollection();
-
-      } 
-      
-      else {
-
-       saveNoteNew();
-       incNewCollection();
-        
+      } else {
+        saveNoteNew();
+        incNewCollection();
       }
-    
+
       setTitle('');
-   
+
       setDesc('');
 
       console.log(' Note saved successfully!');
       if (itemID || label) {
         navigation.goBack();
       } else {
-        navigation.navigate(NAVIGATION.HOMESCREEN)
-      };
+        navigation.navigate(NAVIGATION.HOMESCREEN);
+      }
     } catch (error) {
       console.error('Error saving note:', error);
     }
@@ -193,46 +173,47 @@ function AddNote({ route, navigation }) {
   const setCollection = async () => {
     const updatedCollections = [
       ...collections,
-      { text: newCollection.trim(), number: 0 },
+      {text: newCollection.trim(), number: 0},
     ];
     await firestore().collection('users').doc(uid).set(
       {
         collections: updatedCollections,
       },
-      { merge: true },
+      {merge: true},
     );
     setCollections(updatedCollections);
   };
-  
+
   const addCollection = async () => {
-    if (newCollection.trim() === '') 
-      { setEmptyColl(true);
-        return;
-      }
-     
-  setEmptyColl(false)
+    if (newCollection.trim() === '') {
+      setEmptyColl(true);
+      return;
+    }
+
+    setEmptyColl(false);
+
     const trimmedNewCollection = newCollection.trim();
     const existingCollection = collections.find(
-      collection => collection.text.toLowerCase() === trimmedNewCollection.toLowerCase()
+      collection =>
+        collection.text.toLowerCase() === trimmedNewCollection.toLowerCase(),
     );
-  
+
     if (existingCollection) {
       setSelectedCollection(existingCollection);
     } else {
       try {
         setCollection();
-        setSelectedCollection({ text: trimmedNewCollection, number: 1 });
+        setSelectedCollection({text: trimmedNewCollection, number: 1});
       } catch (error) {
         console.error('Error adding collection:', error);
       }
     }
-  
+
     setModalVisible(false);
     setNewCollection('');
   };
-  
 
-  const renderCollectionItem = ({ item }) => (
+  const renderCollectionItem = ({item}) => (
     <TouchableOpacity
       style={styles.collectionItem}
       onPress={() => handleCollectionSelection(item)}>
@@ -242,6 +223,7 @@ function AddNote({ route, navigation }) {
   const handleCollectionSelection = collection => {
     setSelectedCollection(collection);
     setModalVisible(false);
+    setEmptyColl(false);
   };
 
   return (
@@ -249,9 +231,11 @@ function AddNote({ route, navigation }) {
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : ''}
       style={styles.container(colors)}
-      keyboardVerticalOffset={97}
-      >
-
+      keyboardVerticalOffset={97}>
+        {/* {modalVisible &&
+          <StatusBar backgroundColor={"rgba(0,0,0,0)"}
+      barStyle= {theme === "LIGHT" ? "dark-content" : "light-content"}
+      />} */}
       <View style={styles.view}>
         {/* <Reminder /> */}
         <View></View>
@@ -260,7 +244,10 @@ function AddNote({ route, navigation }) {
             <TouchableOpacity
               style={styles.collButton(colors)}
               onPress={() => setModalVisible(true)}>
-              <Text style={styles.collText(colors)}> {selectedCollection.text} </Text>
+              <Text style={styles.collText(colors)}>
+                {' '}
+                {selectedCollection.text}{' '}
+              </Text>
             </TouchableOpacity>
           )}
 
@@ -270,13 +257,12 @@ function AddNote({ route, navigation }) {
             visible={modalVisible}
             onRequestClose={() => {
               setModalVisible(false);
-            }}
-            >
+            }}>
             <KeyboardAvoidingView
               behavior={Platform.OS === 'ios' ? 'padding' : ''}
               style={profileImgStyles.modalBackground}
               // keyboardVerticalOffset={-10}
-              >
+            >
               <View
                 style={[
                   profileImgStyles.modalContainer(colors),
@@ -291,11 +277,13 @@ function AddNote({ route, navigation }) {
                   </View>
                   <TouchableOpacity
                     style={styles.xButton(colors)}
-                    onPress={() => setModalVisible(false)}>
-                    <Text style={{color:colors.HEADERTITLE}}>X</Text>
+                    onPress={() => {setModalVisible(false);
+                      setEmptyColl(false);
+                    }}>
+                    <Text style={{color: colors.HEADERTITLE}}>X</Text>
                   </TouchableOpacity>
                 </View>
-                
+
                 <FlatList
                   data={collections}
                   renderItem={renderCollectionItem}
@@ -309,13 +297,13 @@ function AddNote({ route, navigation }) {
                   onChangeText={setNewCollection}
                   placeholderTextColor={colors.HEADERTITLE}
                   maxLength={20}
+                  onBlur={()=> setEmptyColl(false)}
                 />
-                {
-                  emptyColl &&
-                  <Text style={{color:"black"}}>
-                    Enter collection
+                {emptyColl && newCollection=="" && (
+                  <Text style={{color: 'red', paddingBottom: 10}}>
+                    *Enter collection name
                   </Text>
-                }
+                )}
                 <TouchableOpacity
                   style={styles.addButton(colors)}
                   onPress={addCollection}>
@@ -327,7 +315,6 @@ function AddNote({ route, navigation }) {
         </View>
       </View>
 
-
       <TextInput
         value={title}
         style={styles.title(colors)}
@@ -335,7 +322,7 @@ function AddNote({ route, navigation }) {
         multiline={true}
         maxLength={60}
         onChangeText={text => setTitle(text)}
-        placeholderTextColor={"gray"}
+        placeholderTextColor={'gray'}
       />
 
       <RichEditor
@@ -358,7 +345,7 @@ function AddNote({ route, navigation }) {
         // containerStyle={{ overflow: 'scroll' }}
       />
 
-      <View style={{ alignItems: 'center' }}>
+      <View style={{alignItems: 'center'}}>
         <View style={homeStyles.buttonShadow(colors)}>
           <TouchableOpacity onPress={saveNote}>
             <Text style={styles.buttonTxt(colors)}>Save</Text>
@@ -366,28 +353,26 @@ function AddNote({ route, navigation }) {
         </View>
       </View>
 
-      <View 
-            style={{justifyContent:"flex-end"}}
-            >
-      <RichToolbar
-        style={styles.toolbar(colors)}
-        editor={richText}
-        iconTint={themeColors.LIGHT.GRAY}
-        selectedIconTint={themeColors.LIGHT.DARK_BLUE}
-        // onInsertLink={()=>console.log("hello")}
-        // onInsertLink={()=>{Alert.alert('')}}
-        actions={[
-          // actions.insertImage,
-          actions.setBold,
-          actions.setItalic,
-          actions.setUnderline,
-          actions.setStrikethrough,
-          actions.insertBulletsList,
-          actions.insertOrderedList,
-          actions.insertLink,
-          actions.checkboxList,
-        ]}
-      />
+      <View style={{justifyContent: 'flex-end'}}>
+        <RichToolbar
+          style={styles.toolbar(colors)}
+          editor={richText}
+          iconTint={themeColors.LIGHT.GRAY}
+          selectedIconTint={themeColors.LIGHT.DARK_BLUE}
+          // onInsertLink={()=>console.log("hello")}
+          // onInsertLink={()=>{Alert.alert('')}}
+          actions={[
+            // actions.insertImage,
+            actions.setBold,
+            actions.setItalic,
+            actions.setUnderline,
+            actions.setStrikethrough,
+            actions.insertBulletsList,
+            actions.insertOrderedList,
+            actions.insertLink,
+            actions.checkboxList,
+          ]}
+        />
       </View>
     </KeyboardAvoidingView>
   );

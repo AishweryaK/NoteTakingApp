@@ -194,9 +194,9 @@ const NotesScreen = ({ route, navigation }) => {
           placeholderTextColor={colors.PLACEHOLDER}
         />
       </View>
-      {notes.length===0 &&
+      {notes.length===0 && searchQuery === "" &&
       (
-        <Text style={{flex:1, color:colors.HEADERTITLE, textAlign:"center", justifyContent:"center", textAlignVertical:"center", fontFamily:FONT.BOLD, fontSize:16, opacity:0.5, paddingHorizontal:16}}>
+        <Text style={showStyles.noNotes(colors)}>
         Add a note to start your collection!
       </Text>
       )
@@ -204,7 +204,7 @@ const NotesScreen = ({ route, navigation }) => {
 
       {notes.length === 0 && searchQuery !== "" && 
       (
-        <Text style={{flex:1, color:colors.HEADERTITLE, textAlign:"center", justifyContent:"center", textAlignVertical:"center", fontFamily:FONT.BOLD, fontSize:16}}>
+        <Text style={showStyles.noNotes(colors)}>
           No matching notes
         </Text>
       )

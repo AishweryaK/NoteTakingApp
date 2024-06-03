@@ -42,6 +42,10 @@ function ForgotPassScreen ({navigation}) {
           Alert.alert("Error sending email", 
           "No user corresponding this email exists. Please Sign up");
         }
+        else  if (err.code === 'auth/network-request-failed') {
+          Alert.alert("No Internet Connection",
+            "Please check your internet connection and try again.");
+        }
           else
            {
             Alert.alert("Error sending email", `${error.message}`);

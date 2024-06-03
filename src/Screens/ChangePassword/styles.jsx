@@ -1,7 +1,13 @@
 import { StyleSheet } from 'react-native';
 import { themeColors } from '../../Assets/Colors/themeColors';
+import { FONT } from '../../Constants/fontConstants';
 
 export const styles = StyleSheet.create({
+  wrapper: (colors) =>({ flex: 1,
+    alignItems: 'center',
+    backgroundColor:colors.BACKGROUND,
+    paddingTop:30
+    }),
   container: (colors) => ({
     flex: 1,
     backgroundColor: colors.BACKGROUND,
@@ -49,7 +55,7 @@ export const styles = StyleSheet.create({
   input:  (colors) => ({
     width: '100%',
     padding: 10,
-    marginVertical: 10,
+    marginTop: 20,
     borderWidth: 1,
     borderColor: colors.BORDER,
     borderRadius: 20,
@@ -60,7 +66,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
-    paddingTop:20
+    paddingTop:30
   },
   button:  (colors) => ({
     padding: 10,
@@ -68,6 +74,18 @@ export const styles = StyleSheet.create({
     borderRadius: 5,
   }),
   buttonText: (colors) => ( {
-    color: colors.BACKGROUND,
+    fontFamily: FONT.REGULAR,
+          fontSize:14,
+          textAlign:"center",
+          lineHeight:17,
+          color: colors.WHITE,
   }),
+  errorTxt: {
+    fontSize: 12,
+    color: '#FF0D10',
+    // paddingBottom:10,
+    textAlign:"center",
+    paddingTop:5,
+    marginRight:20,
+},
 });

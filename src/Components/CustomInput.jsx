@@ -3,6 +3,7 @@ import { View, TextInput } from "react-native";
 import { inputStyles } from "../Common/styles";
 import { getThemeColors } from "../Assets/Colors/themeColors";
 import { useSelector } from "react-redux";
+// import { TextInput } from "react-native-paper";
 
 
 export default function CustomInput ({placeHolder,value,handleChange,handleBlur}) {

@@ -7,6 +7,7 @@ import {
   Modal,
   Platform,
   ActivityIndicator,
+  Alert,
 } from "react-native";
 import { launchCamera, launchImageLibrary } from "react-native-image-picker";
 import { ICONS } from "../Constants/iconConstants";
@@ -22,6 +23,7 @@ function ProfileImage({onImageChange}) {
   const {theme, uid, photoURL, provider} = useSelector((state)=>state.user)
   const {isLoading} = useAuthentication();
   const colors= getThemeColors(theme);
+  const connection = useSelector(state=> state.internet.connection);
 
   const handleImagePicker = () => {
     const options = {
@@ -54,7 +56,7 @@ function ProfileImage({onImageChange}) {
       console.log("ImagePicker Error: ", response.errorCode);
     } else {
       let imageUri = response.uri || response.assets[0].uri;
-      console.log(response)
+      console.log(response,'asefaefrwwefewfaewf')
       setImageUri(imageUri);
       onImageChange(imageUri);
     }
@@ -66,6 +68,13 @@ function ProfileImage({onImageChange}) {
     setModalVisible(false)
   }
 
+  const handleIcon =() => {
+    if(connection)
+    setModalVisible(true);
+  else
+  Alert.alert("No Internet Connection",
+  "Please check your internet connection and try again.")
+  }
 
   return (
     <View style={profileImgStyles.container}>
@@ -84,7 +93,7 @@ function ProfileImage({onImageChange}) {
         (<ActivityIndicator size={"large"} color={colors.BLUE}/>)
         : (
           ( provider=== PROVIDER.EMAIL || provider=== "" ) && (
-          <TouchableOpacity onPress={() => setModalVisible(true)}>
+          <TouchableOpacity onPress={handleIcon}>
           {ICONS.CAMERA(24,24)}
         </TouchableOpacity>
           )
@@ -103,11 +112,11 @@ function ProfileImage({onImageChange}) {
             <TouchableOpacity onPress={handleImagePicker} >
               <Text style={profileImgStyles.modalOption(colors)}>Set Image From Gallery</Text>
             </TouchableOpacity>
-            {Platform.OS !== "ios" && (
+            {/* {Platform.OS !== "ios" && ( */}
               <TouchableOpacity onPress={handleCameraLaunch}>
                 <Text style={profileImgStyles.modalOption(colors)}>Upload From Camera</Text>
               </TouchableOpacity>
-            )}
+            {/* )} */}
             {
               imageUri || photoURL  ?
               (

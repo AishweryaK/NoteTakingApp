@@ -23,6 +23,7 @@ import { APPCOLOR } from '../../Assets/Colors/appColors';
 import useAuthentication from '../../Components/CustomHook';
 import { useSelector } from 'react-redux';
 import { getThemeColors } from '../../Assets/Colors/themeColors';
+import OfflineSign from '../../Components/InternetConn';
 
 export const SignupSchema = Yup.object().shape({
   firstName: Yup.string()
@@ -57,7 +58,7 @@ export const SignupSchema = Yup.object().shape({
     ),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref('password')], 'Your passwords do not match')
-    .required('Confirm password is required'),
+    .required('Password Confirmation required'),
 });
 
 function Signup({navigation}) {
@@ -65,6 +66,7 @@ function Signup({navigation}) {
   const {isLoading, signUpCall} = useAuthentication();
   const theme = useSelector((state)=>state.user.theme)
   const colors= getThemeColors(theme);
+  const connection = useSelector(state=> state.internet.connection);
 
   const handleImageChange = (uri) => { 
     setImageUri(uri);
@@ -106,6 +108,7 @@ function Signup({navigation}) {
           style={styles.wrapper(colors)}
           keyboardVerticalOffset={100}
           >  
+           
           <ScrollView style={{marginBottom: 10}}>
           <View style={{ paddingHorizontal:8, paddingBottom:20}}>
             {/* <ProfileImage /> */}

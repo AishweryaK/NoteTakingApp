@@ -11,6 +11,7 @@ function AvailSpace () {
     const [usedStorage, setUsedStorage] = useState(null);
 
     useEffect(() => {
+      console.log("inside storage")
         const getStorageInfo = async () => {
           try {
             const totalBytes = await DeviceInfo.getTotalDiskCapacity();
@@ -26,7 +27,7 @@ function AvailSpace () {
           }
         };
     
-        getStorageInfo();
+      getStorageInfo();
       }, []);
 
     return (

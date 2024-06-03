@@ -35,7 +35,6 @@ export const buttonStyles= StyleSheet.create(
           textAlign:"center",
           lineHeight:17,
           color: colors.WHITE,
-          paddingTop:1,
         }),
         view : {flex:1, 
           justifyContent:"center", 
@@ -117,7 +116,7 @@ export const profileImgStyles= StyleSheet.create(
       height: 150,
       width: 150,
       borderRadius: 300,
-      marginBottom: 3,
+      marginBottom: 10,
     },
     text: {
       paddingTop: 5,

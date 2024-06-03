@@ -102,5 +102,17 @@ export const showStyles= StyleSheet.create(
     textAlign:"center",
     paddingVertical:10,
   }),
+  noNotes: (colors)=>(
+  {
+    flex:1, 
+  color:colors.HEADERTITLE, 
+  textAlign:"center", 
+  justifyContent:"center", 
+  textAlignVertical:"center", 
+  fontFamily:FONT.BOLD,
+  fontSize:16,
+  opacity:0.5, 
+  paddingHorizontal:16
+}),
     }
 )

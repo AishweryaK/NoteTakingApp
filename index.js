@@ -7,7 +7,6 @@ import { store, persistor } from './src/Redux/Store/store';
 import { PersistGate } from 'redux-persist/integration/react';
 
 
-
 const NoteApp = () => (
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor} >

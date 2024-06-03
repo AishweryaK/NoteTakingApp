@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { View, Text, Image, TouchableOpacity } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Text, Image, TouchableOpacity, Alert } from "react-native";
 import { styles } from "./styles";
 import CustomButton from "../../Components/CustomButton";
 import { NAVIGATION } from "../../Constants/navConstants";
@@ -7,7 +7,6 @@ import GoogleLogin from "../../Components/GoogleLogin";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useSelector } from "react-redux";
 import { getThemeColors } from "../../Assets/Colors/themeColors";
-import { dimensions } from "../../Constants/utility";
 
 
 export default function Walkthrough ({navigation}) {
@@ -20,8 +19,11 @@ export default function Walkthrough ({navigation}) {
 //     console.log("Cleared in Walkthrough");
 //   },[])
 
+
+
     return (
     <View style={styles.wrapper(colors)}>
+
         <Text style={styles.title(colors)}>
             Notes App
         </Text>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, Switch, Modal } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, Switch, Modal, Alert } from 'react-native';
 import { ICONS } from '../../Constants/iconConstants';
 import { FONT } from '../../Constants/fontConstants';
 import { styles } from './styles';
@@ -20,6 +20,7 @@ const SettingsPage = ({ navigation }) => {
   const dispatch = useDispatch();
   const [isModalVisible, setModalVisible] = useState(false);
   const [logoutModal, setLogoutModal] = useState(false);
+  const connection = useSelector(state=> state.internet.connection);
 
   //   useEffect (() => {
   //   AsyncStorage.clear();
@@ -51,7 +52,11 @@ const SettingsPage = ({ navigation }) => {
   };
 
   const openChangePasswordModal = () => {
+    if(connection)
     setModalVisible(true);
+  else
+  Alert.alert("No Internet Connection",
+  "Please check your internet connection and try again.")
   };
 
   const closeChangePasswordModal = () => {
