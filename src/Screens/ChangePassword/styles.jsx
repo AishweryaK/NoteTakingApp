@@ -88,4 +88,16 @@ export const styles = StyleSheet.create({
     paddingTop:5,
     marginRight:20,
 },
+loadingContainer:(buttonWidth) => ({
+  flex: 1,
+  justifyContent: 'center',
+  alignItems: 'center',
+  // backgroundColor:"red"
+  paddingLeft:(buttonWidth/2),
+}),
+activity :
+{flex:1, 
+justifyContent:"center", 
+alignItems:"center"
+}
 });

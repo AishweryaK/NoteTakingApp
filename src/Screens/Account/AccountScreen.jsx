@@ -60,12 +60,18 @@ const updateUserProfile = async (uri) => {
         <View style={styles.view}>
           <Text style={styles.optionText(colors)}>{displayName} </Text>
         </View>
+        <TouchableOpacity style={{ paddingLeft:20}}>
+        {ICONS.EDIT(24, 24)}
+        </TouchableOpacity>
       </View>
       <View style={[styles.option(colors), styles.indent]}  >
         {ICONS.MAIL(24, 24)}
         <View style={styles.view}>
           <Text style={styles.optionText(colors)}>{email} </Text>
         </View>
+        <TouchableOpacity style={{ paddingLeft:20}}>
+        {ICONS.EDIT(24, 24)}
+        </TouchableOpacity>
       </View>
       </View>
       

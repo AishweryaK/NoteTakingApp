@@ -32,7 +32,8 @@ export const styles = StyleSheet.create({
     view: { flex:1, 
       flexDirection:"row", 
       justifyContent:"space-between", 
-      paddingRight:5
+      paddingRight:5,
+      
     },
     indent:{
       paddingTop:30

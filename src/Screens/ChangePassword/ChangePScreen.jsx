@@ -3,14 +3,10 @@ import { View, Text, TextInput, TouchableOpacity, Modal, Alert, KeyboardAvoiding
 import auth from '@react-native-firebase/auth';
 import { styles } from './styles';
 import { useSelector } from 'react-redux';
-import { getThemeColors, themeColors } from '../../Assets/Colors/themeColors';
-import CustomInput from '../../Components/CustomInput';
+import { getThemeColors } from '../../Assets/Colors/themeColors';
 import { SignupSchema } from '../SignupScreen/Signup';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
-import CustomButton from '../../Components/CustomButton';
-import { SIGNING } from '../../Constants/signingConstants';
-import { loginStyles } from '../LoginScreen/loginStyles';
 
 const ChangePSchema = Yup.object().shape({
   password: SignupSchema.fields.password,
@@ -19,8 +15,8 @@ const ChangePSchema = Yup.object().shape({
 
 const ChangePasswordModal = ({ visible, onClose }) => {
   const [currentPassword, setCurrentPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [buttonWidth, setButtonWidth] = useState(0);
   const {theme} = useSelector(state=> state.user);
   const colors = getThemeColors(theme);
 
@@ -34,33 +30,40 @@ const ChangePasswordModal = ({ visible, onClose }) => {
     }
   };
 
-  const handleChangePassword = async () => {
-    if (newPassword !== confirmPassword) {
-      Alert.alert('Error', 'New password and confirm password do not match');
+  const handleChangePassword = async (values, {resetForm}) => {
+    
+    if (currentPassword === values.password) {
+      Alert.alert('Error', "The new password cannot be the same as the current password.");
+      resetForm();
       return;
     }
-    else if(currentPassword=="" || newPassword=="" || confirmPassword=="")
+    if(currentPassword=="" || values.password=="" || values.confirmPassword=="")
       {
         Alert.alert('Error', 'Please fill in all the fields.');
         return;
       }
+
+    setIsLoading(true);
     try {
       await reauthenticate(currentPassword);
       const user = auth().currentUser;
-      await user.updatePassword(newPassword);
+      await user.updatePassword(values.password);
       Alert.alert('Success', 'Password changed successfully');
+      resetForm();
       onClose();
     } catch (error) {
       Alert.alert('Error', error.message);
     }
+    finally{
+      setIsLoading(false);
+    }
   };
 
-  const handleP = () => {
+  const handleP = (resetForm) => {
     onClose();
-    setConfirmPassword("");
-    setCurrentPassword("");
-    setNewPassword("");
-  }
+    setCurrentPassword('');
+    resetForm();
+  };
 
   return (
         <KeyboardAvoidingView
@@ -73,8 +76,8 @@ const ChangePasswordModal = ({ visible, onClose }) => {
         confirmPassword:"",
       }}
       validationSchema={ChangePSchema} 
-      onSubmit={values => handleLogin(values)}>
-      {({ values, errors, touched, handleChange, setFieldTouched, isValid, handleSubmit }) => (
+      onSubmit={handleChangePassword}>
+      {({ values, errors, touched, handleChange, setFieldTouched, isValid, handleSubmit, resetForm }) => (
     <Modal
       visible={visible}
       animationType="slide"
@@ -93,11 +96,6 @@ const ChangePasswordModal = ({ visible, onClose }) => {
             onChangeText={setCurrentPassword}
             placeholderTextColor={colors.HEADERTITLE}
           />
-          {/* <CustomInput placeHolder={"Current Password"}
-          value={currentPassword}
-          handleChange={setCurrentPassword}
-          /> */}
-
           <TextInput
             style={styles.input(colors)}
             placeholder="New Password"
@@ -120,15 +118,34 @@ const ChangePasswordModal = ({ visible, onClose }) => {
             placeholderTextColor={colors.HEADERTITLE}
             onBlur={() => setFieldTouched('confirmPassword')}
           />
-          
+           {touched.confirmPassword && errors.confirmPassword && (
+              <Text style={styles.errorTxt}>{errors.confirmPassword}</Text>
+            )}
 
+            
           <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.button(colors)} onPress={handleP}>
+          {
+              isLoading? 
+              <View style={styles.activity}>
+              <ActivityIndicator size={"large"} color={colors.BLUE} 
+               /> 
+               </View>
+              :
+              <>
+            <TouchableOpacity style={styles.button(colors)} onPress={()=>handleP(resetForm)}>
               <Text style={styles.buttonText(colors)}>Cancel</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button(colors)} onPress={handleChangePassword}>
+
+              <TouchableOpacity style={styles.button(colors)} 
+              onPress={handleSubmit}
+              disabled={!isValid}
+              >
               <Text style={styles.buttonText(colors)}>Change Password</Text>
-            </TouchableOpacity>
+              </TouchableOpacity>
+              </>
+            }
+           
+
           </View>
         </View>
       </View>
@@ -136,63 +153,6 @@ const ChangePasswordModal = ({ visible, onClose }) => {
           )}
     </Formik>
   </KeyboardAvoidingView>
-
-  //   <KeyboardAvoidingView
-  //   keyboardVerticalOffset={65}
-  //   behavior={Platform.OS === 'ios' ? 'padding' : ''}
-  //   style={styles.wrapper(colors)}>
-  //   <Formik
-  //     initialValues={{
-  //       email: '',
-  //       password: '',
-  //     }}
-  //     validationSchema={ChangePSchema} 
-  //     onSubmit={values => handleLogin(values)}>
-  //     {({ values, errors, touched, handleChange, setFieldTouched, isValid, handleSubmit }) => (
-  //       <>
-  //         <CustomInput
-  //           placeHolder={SIGNING.EMAIL}
-  //           value={values.email}
-  //           handleChange={handleChange('email')}
-  //           handleBlur={() => setFieldTouched('email')}
-  //         />
-  //         {touched.email && errors.email && (
-  //           <Text style={styles.errorTxt}>{errors.email}</Text>
-  //         )}
-
-  //         <CustomInput
-  //           placeHolder={SIGNING.SETPASSWORD}
-  //           value={values.password}
-  //           handleChange={handleChange('password')}
-  //           handleBlur={() => setFieldTouched('password')}
-  //         />
-  //         {touched.password && errors.password && (
-  //           <Text style={styles.errorTxt}>{errors.password}</Text>
-  //         )}
-
-
-  //         {/* <View style={loginStyles.button}>
-  //           <TouchableOpacity onPress={handleForgotP}>
-  //             <Text style={loginStyles.forgotTxt}>Forgot Password?</Text>
-  //           </TouchableOpacity>
-  //         </View> */}
-
-  //         <View style={loginStyles.bottom}>
-  //         {isLoading ? (
-  //           <ActivityIndicator size="large" color={themeColors.LIGHT.BLUE} />
-  //         ) : (
-  //           <CustomButton
-  //             handleButton={handleSubmit}
-  //             text={'Log in'}
-  //             disable={!isValid}
-  //           /> )}
-  //         </View>
-
-          
-  //       </>
-  //     )}
-  //   </Formik>
-  // </KeyboardAvoidingView>
   );
 };
 
