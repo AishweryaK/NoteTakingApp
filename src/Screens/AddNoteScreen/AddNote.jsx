@@ -18,7 +18,7 @@ import {APPCOLOR} from '../../Assets/Colors/appColors';
 import {homeStyles} from '../HomeScreen/homeStyle';
 import {FONT} from '../../Constants/fontConstants';
 import {NAVIGATION} from '../../Constants/navConstants';
-import firestore from '@react-native-firebase/firestore';
+import firestore , { serverTimestamp } from '@react-native-firebase/firestore';
 import {styles} from './styles';
 import {profileImgStyles} from '../../Common/styles';
 import {dimensions} from '../../Constants/utility';
@@ -26,6 +26,7 @@ import {useSelector} from 'react-redux';
 import {getThemeColors, themeColors} from '../../Assets/Colors/themeColors';
 import {ICONS} from '../../Constants/iconConstants';
 import Reminder from './Reminder';
+import CustomDialogInput from './CustomDialogInput';
 
 function AddNote({route, navigation}) {
   const [title, setTitle] = useState('');
@@ -33,6 +34,7 @@ function AddNote({route, navigation}) {
   const [modalVisible, setModalVisible] = useState(false);
   const [collections, setCollections] = useState([]);
   const [newCollection, setNewCollection] = useState('');
+  const [isDialogVisible, setIsDialogVisible] = useState(false);
   const [selectedCollection, setSelectedCollection] = useState({
     number: 1,
     text: 'Others',
@@ -44,7 +46,7 @@ function AddNote({route, navigation}) {
   // const descRef = useRef("");
 
   const {uid, itemTitle, itemDesc, itemID, label} = route.params;
-console.log(emptyColl,"EMPTY")
+// console.log(emptyColl,"EMPTY")
   useEffect(() => {
     if (itemTitle || itemDesc) {
       setTitle(itemTitle);
@@ -67,6 +69,23 @@ console.log(emptyColl,"EMPTY")
     return () => unsubscribe();
   }, [uid]);
 
+  const handleInsertLink = () => {
+    setIsDialogVisible(true);
+  };
+  const handleCancel = () => {
+    setIsDialogVisible(false);
+  };
+
+  const handleSubmit = (link) => {
+    if(link=="")
+      {
+        Alert.alert("No URL provided", "Please enter a URL");
+        return;
+      }
+    richText.current?.insertLink(link, link);
+    setIsDialogVisible(false);
+  };
+
   const handleDesc = text => {
     setDesc(text);
   };
@@ -80,6 +99,7 @@ console.log(emptyColl,"EMPTY")
       .update({
         title: title,
         desc: desc,
+        createdAt : serverTimestamp(),
       });
   };
 
@@ -87,6 +107,7 @@ console.log(emptyColl,"EMPTY")
     await firestore().collection('users').doc(uid).collection(label).add({
       title: title,
       desc: desc,
+      createdAt : serverTimestamp(),
     });
   };
 
@@ -115,7 +136,8 @@ console.log(emptyColl,"EMPTY")
       .collection(selectedCollection.text)
       .add({
         title: title,
-        desc: desc,
+        desc: desc, 
+        createdAt : serverTimestamp(),
       });
   };
 
@@ -361,6 +383,7 @@ console.log(emptyColl,"EMPTY")
           selectedIconTint={themeColors.LIGHT.DARK_BLUE}
           // onInsertLink={()=>console.log("hello")}
           // onInsertLink={()=>{Alert.alert('')}}
+          onInsertLink={handleInsertLink}
           actions={[
             // actions.insertImage,
             actions.setBold,
@@ -373,6 +396,11 @@ console.log(emptyColl,"EMPTY")
             actions.checkboxList,
           ]}
         />
+        <CustomDialogInput
+        isVisible={isDialogVisible}
+        onCancel={handleCancel}
+        onSubmit={handleSubmit}
+      />
       </View>
     </KeyboardAvoidingView>
   );

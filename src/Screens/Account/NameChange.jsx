@@ -8,27 +8,16 @@ import { SignupSchema } from '../SignupScreen/Signup';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 
-const ChangePSchema = Yup.object().shape({
-  password: SignupSchema.fields.password,
-  confirmPassword: SignupSchema.fields.confirmPassword,
-});
+const AccountSchema = Yup.object().shape({
+    password: SignupSchema.fields.password,
+    confirmPassword: SignupSchema.fields.confirmPassword,
+  });
 
-const ChangePasswordModal = ({ visible, onClose }) => {
+const NameChange = ({ visible, onClose }) => {
   const [currentPassword, setCurrentPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  // const [buttonWidth, setButtonWidth] = useState(0);
   const {theme} = useSelector(state=> state.user);
   const colors = getThemeColors(theme);
-
-  const reauthenticate = async (currentPassword) => {
-    const user = auth().currentUser;
-    const credential = auth.EmailAuthProvider.credential(user.email, currentPassword);
-    try {
-      await user.reauthenticateWithCredential(credential);
-    } catch (error) {
-      throw new Error('Current password is incorrect');
-    }
-  };
 
   const handleChangePassword = async (values, {resetForm}) => {
     
@@ -72,10 +61,10 @@ const ChangePasswordModal = ({ visible, onClose }) => {
     style={styles.wrapper(colors)}>
     <Formik
       initialValues={{
-        password: '',
-        confirmPassword:"",
+        firstName:"",
+        lastName:"",
       }}
-      validationSchema={ChangePSchema} 
+      validationSchema={AccountSchema} 
       onSubmit={handleChangePassword}>
       {({ values, errors, touched, handleChange, setFieldTouched, isValid, handleSubmit, resetForm }) => (
     <Modal
@@ -156,4 +145,4 @@ const ChangePasswordModal = ({ visible, onClose }) => {
   );
 };
 
-export default ChangePasswordModal;
+export default NameChange;

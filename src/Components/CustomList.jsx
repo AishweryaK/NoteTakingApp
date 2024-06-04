@@ -30,10 +30,34 @@ function CustomList({navigation}) {
       return () => unsubscribe();
     }, [user.uid]);
 
+    // const decLabelCollection = async () => {
+    //   const collectionRef = firestore().collection('users').doc(user.uid);
+    //   const doc = await collectionRef.get();
+    //   if (doc.exists) {
+    //     const userData = doc.data();
+    //     const updatedCollections = userData.collections.map(collection => {
+    //       if (collection.text === itemText) {
+    //         return {
+    //           ...collection,
+    //           number: collection.number - 1,
+    //         };
+    //       }
+    //       return collection;
+    //     });
+    //     await collectionRef.set(
+    //       { collections: updatedCollections },
+    //       { merge: true },
+    //     );
+    //   }
+    // };
+
     const renderItem = useMemo(() => {
         return ({ item }) => (
             <View style={{paddingBottom:30}}>
           <CustomLabel
+          handleLongPress={()=>
+            console.log("long")
+          }
             handlePress={() =>
               navigation.navigate(NAVIGATION.NOTESCREEN, { uid: user.uid, itemText: item.text })
             }

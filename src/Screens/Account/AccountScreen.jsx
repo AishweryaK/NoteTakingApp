@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, KeyboardAvoidingView } from 'react-native';
 import { ICONS } from '../../Constants/iconConstants';
 import auth from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
@@ -10,6 +10,9 @@ import ProfileImage from '../../Components/ProfileImage';
 import { getThemeColors } from '../../Assets/Colors/themeColors';
 import useAuthentication from '../../Components/CustomHook';
 import { saveUser } from '../../Redux/Slices/demoSlice';
+import { SignupSchema } from '../SignupScreen/Signup';
+import * as Yup from 'yup';
+import NameChange from './NameChange';
 
 
 
@@ -19,6 +22,8 @@ const {displayName, theme, photoURL, uid, email, provider} = useSelector((state)
 const colors = getThemeColors(theme);
 const [imageUri, setImageUri] = useState(photoURL);
 const {uploadImageToFirebase, deletePhoto} = useAuthentication();
+const [modalVisible, setModalVisible] = useState(false);
+const connection = useSelector(state=> state.internet.connection);
 
 
 useEffect(() => {
@@ -31,15 +36,23 @@ const handleImageChange = async (uri) => {
   setImageUri(uri);
 };
 
+const openChangeNameModal = () => {
+  if(connection)
+    setModalVisible(true);
+  else
+  Alert.alert("No Internet Connection",
+  "Please check your internet connection and try again.")
+}
+
+
+const closeChangeNameModal = () => {
+  setModalVisible(false);
+}
 
 const updateUserProfile = async (uri) => {
   try {
       if(uri=="")
         {
-          // const storageRef = storage().ref(`profile_images/${uid}.jpg`);
-          // await storageRef.delete();
-          // await auth().currentUser.updateProfile({ photoURL: null });
-          // dispatch(saveUser({ displayName, uid, email, photoURL: "", provider }));
           await deletePhoto();
         }
         else {
@@ -60,7 +73,9 @@ const updateUserProfile = async (uri) => {
         <View style={styles.view}>
           <Text style={styles.optionText(colors)}>{displayName} </Text>
         </View>
-        <TouchableOpacity style={{ paddingLeft:20}}>
+        <TouchableOpacity style={{ paddingLeft:20}}
+        onPress={openChangeNameModal}
+        >
         {ICONS.EDIT(24, 24)}
         </TouchableOpacity>
       </View>
@@ -69,12 +84,12 @@ const updateUserProfile = async (uri) => {
         <View style={styles.view}>
           <Text style={styles.optionText(colors)}>{email} </Text>
         </View>
-        <TouchableOpacity style={{ paddingLeft:20}}>
+        {/* <TouchableOpacity style={{ paddingLeft:20}}>
         {ICONS.EDIT(24, 24)}
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
       </View>
-      
+      <NameChange visible={modalVisible} onClose={closeChangeNameModal} />
     </ScrollView>
   );
 };

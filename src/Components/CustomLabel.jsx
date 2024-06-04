@@ -6,7 +6,7 @@ import { getThemeColors } from "../Assets/Colors/themeColors";
 import { ICONS } from "../Constants/iconConstants";
 
 
-function CustomLabel ({handlePress, text, number}) {
+function CustomLabel ({handlePress, text, number, handleLongPress}) {
     const theme = useSelector((state)=>state.user.theme)
     const colors = getThemeColors(theme);
 
@@ -14,6 +14,7 @@ function CustomLabel ({handlePress, text, number}) {
         <TouchableOpacity
         onPress={handlePress}
         style={labelStyles.container}
+        onLongPress={handleLongPress}
         >
         <ImageBackground source={theme==="LIGHT" ? require("../Assets/Images/LabelImg.png")
                 : require("../Assets/Images/Label_dark.png")

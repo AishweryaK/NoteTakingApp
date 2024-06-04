@@ -21,7 +21,6 @@ const NotesScreen = ({ route, navigation }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const { uid, itemText } = route.params;
   const [modalVisible, setModalVisible] = useState(false);
-  const [searchFound, setSearchFound] = useState(false);
   const [itemUid, setItemUid] = useState(null)
   const theme = useSelector((state) => state.user.theme)
   const colors = getThemeColors(theme);
@@ -31,6 +30,7 @@ const NotesScreen = ({ route, navigation }) => {
       .collection('users')
       .doc(uid)
       .collection(itemText)
+      .orderBy("createdAt","desc")
       .onSnapshot((snapshot) => {
         const notesData = [];
         snapshot.forEach((docSnapshot) => {
