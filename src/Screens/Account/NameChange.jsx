@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Modal, Alert, KeyboardAvoidingView, ActivityIndicator } from 'react-native';
 import auth from '@react-native-firebase/auth';
-import { styles } from '/Users/chicmic/659_ReactNative/NoteTakingApp/src/Screens/ChangePassword/styles.jsx';
+import { styles } from '../ChangePassword/styles.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { getThemeColors } from '../../Assets/Colors/themeColors';
 import { SignupSchema } from '../SignupScreen/Signup';
