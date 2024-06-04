@@ -31,6 +31,7 @@ function App(){
   // },[])
 
   // useEffect(()=>{
+  //   console.log(internet, 98745897)
   // },[internet])
 
     useEffect(()=>{
