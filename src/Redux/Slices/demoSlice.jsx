@@ -22,6 +22,10 @@ export const userInfo = createSlice({
       state.provider = provider;
       console.log(state, 2324534636);
     },
+    saveName :(state, action) => {
+      const { displayName} = action.payload;
+      state.displayName = displayName;
+    },
     clearUserData: (state) => {
       state.displayName = "";
       state.uid = "";
@@ -37,5 +41,5 @@ export const userInfo = createSlice({
   },
 });
 
-export const { saveUser, clearUserData, toggleTheme } = userInfo.actions;
+export const { saveUser, clearUserData, toggleTheme , saveName} = userInfo.actions;
 export default userInfo.reducer;

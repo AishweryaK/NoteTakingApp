@@ -1,43 +1,47 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Modal, Alert, KeyboardAvoidingView, ActivityIndicator } from 'react-native';
 import auth from '@react-native-firebase/auth';
-import { styles } from './styles';
-import { useSelector } from 'react-redux';
+import { styles } from '../ChangePassword/styles.jsx';
+import { useDispatch, useSelector } from 'react-redux';
 import { getThemeColors } from '../../Assets/Colors/themeColors';
 import { SignupSchema } from '../SignupScreen/Signup';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
+import { saveName, saveUser } from '../../Redux/Slices/demoSlice';
 
 const AccountSchema = Yup.object().shape({
-    password: SignupSchema.fields.password,
-    confirmPassword: SignupSchema.fields.confirmPassword,
+   firstName: SignupSchema.fields.firstName,
+    lastName: SignupSchema.fields.lastName,
   });
 
 const NameChange = ({ visible, onClose }) => {
-  const [currentPassword, setCurrentPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const {theme} = useSelector(state=> state.user);
+  const {theme, displayName} = useSelector(state=> state.user);
   const colors = getThemeColors(theme);
+  const dispatch = useDispatch();
 
-  const handleChangePassword = async (values, {resetForm}) => {
-    
-    if (currentPassword === values.password) {
-      Alert.alert('Error', "The new password cannot be the same as the current password.");
-      resetForm();
-      return;
-    }
-    if(currentPassword=="" || values.password=="" || values.confirmPassword=="")
+  const handleNameChange = async (values, {resetForm}) => {
+
+    if(values.firstName.trim()=="" || values.lastName.trim()=="")
       {
         Alert.alert('Error', 'Please fill in all the fields.');
         return;
       }
+      else if (`${values.firstName.trim()} ${values.lastName.trim()}` === displayName)
+        { Alert.alert('Error', 'User Name same as before. Please try again.');
+      return;}
 
     setIsLoading(true);
     try {
-      await reauthenticate(currentPassword);
-      const user = auth().currentUser;
-      await user.updatePassword(values.password);
-      Alert.alert('Success', 'Password changed successfully');
+        const user = auth().currentUser;
+        await user.updateProfile({
+            displayName: `${values.firstName.trim()} ${values.lastName.trim()}`,
+        });
+
+        dispatch(saveName({
+            displayName: `${values.firstName.trim()} ${values.lastName.trim()}`
+        }));
+        Alert.alert('Success', 'User Name changed successfully');
       resetForm();
       onClose();
     } catch (error) {
@@ -48,9 +52,8 @@ const NameChange = ({ visible, onClose }) => {
     }
   };
 
-  const handleP = (resetForm) => {
+  const handleN = (resetForm) => {
     onClose();
-    setCurrentPassword('');
     resetForm();
   };
 
@@ -65,7 +68,7 @@ const NameChange = ({ visible, onClose }) => {
         lastName:"",
       }}
       validationSchema={AccountSchema} 
-      onSubmit={handleChangePassword}>
+      onSubmit={handleNameChange}>
       {({ values, errors, touched, handleChange, setFieldTouched, isValid, handleSubmit, resetForm }) => (
     <Modal
       visible={visible}
@@ -75,40 +78,30 @@ const NameChange = ({ visible, onClose }) => {
     >
       <View style={styles.modalContainer}>
         <View style={styles.modalContent(colors)}>
-          <Text style={styles.modalTitle(colors)}>Change Password</Text>
+          <Text style={styles.modalTitle(colors)}>Change User Name</Text>
 
           <TextInput
             style={styles.input(colors)}
-            placeholder="Current Password"
-            secureTextEntry={true}
-            value={currentPassword}
-            onChangeText={setCurrentPassword}
+            placeholder="Enter First Name"
+            value={values.firstName}
+            onChangeText={handleChange("firstName")}
             placeholderTextColor={colors.HEADERTITLE}
+            onBlur={() => setFieldTouched('firstName')}
           />
-          <TextInput
-            style={styles.input(colors)}
-            placeholder="New Password"
-            secureTextEntry={true}
-            value={values.password}
-            onChangeText={handleChange('password')}
-            placeholderTextColor={colors.HEADERTITLE}
-            onBlur={() => setFieldTouched('password')}
-          />
-           {touched.password && errors.password && (
-              <Text style={styles.errorTxt}>{errors.password}</Text>
+           {touched.firstName && errors.firstName && (
+              <Text style={styles.errorTxt}>{errors.firstName}</Text>
             )}
 
           <TextInput
             style={styles.input(colors)}
-            placeholder="Confirm New Password"
-            secureTextEntry={true}
-            value={values.confirmPassword}
-            onChangeText={handleChange('confirmPassword')}
+            placeholder="Enter Last Name"
+            value={values.lastName}
+            onChangeText={handleChange('lastName')}
             placeholderTextColor={colors.HEADERTITLE}
-            onBlur={() => setFieldTouched('confirmPassword')}
+            onBlur={() => setFieldTouched('lastName')}
           />
-           {touched.confirmPassword && errors.confirmPassword && (
-              <Text style={styles.errorTxt}>{errors.confirmPassword}</Text>
+           {touched.lastName && errors.lastName && (
+              <Text style={styles.errorTxt}>{errors.lastName}</Text>
             )}
 
             
@@ -121,7 +114,7 @@ const NameChange = ({ visible, onClose }) => {
                </View>
               :
               <>
-            <TouchableOpacity style={styles.button(colors)} onPress={()=>handleP(resetForm)}>
+            <TouchableOpacity style={styles.button(colors)} onPress={()=>handleN(resetForm)}>
               <Text style={styles.buttonText(colors)}>Cancel</Text>
             </TouchableOpacity>
 
@@ -129,12 +122,11 @@ const NameChange = ({ visible, onClose }) => {
               onPress={handleSubmit}
               disabled={!isValid}
               >
-              <Text style={styles.buttonText(colors)}>Change Password</Text>
+              <Text style={styles.buttonText(colors)}>Change Username</Text>
               </TouchableOpacity>
               </>
             }
            
-
           </View>
         </View>
       </View>
