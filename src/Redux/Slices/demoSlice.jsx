@@ -1,16 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { SLICE, THEME } from "../../Constants/strings";
 
 const initialState = {
   displayName: "",
   uid: "",
   email: "",
   photoURL: "",
-  theme: "LIGHT",
+  theme: THEME.LIGHT,
   provider:"",
 };
 
 export const userInfo = createSlice({
-  name: "user",
+  name:SLICE.USER,
   initialState,
   reducers: {
     saveUser: (state, action) => {
@@ -31,11 +32,11 @@ export const userInfo = createSlice({
       state.uid = "";
       state.email = "";
       state.photoURL = "";
-      state.theme = "LIGHT";
+      state.theme = THEME.LIGHT;
       state.provider="";
     },
     toggleTheme: (state) => {
-      state.theme = state.theme === "LIGHT" ? "DARK" : "LIGHT";
+      state.theme = state.theme === THEME.LIGHT ? THEME.DARK : THEME.LIGHT;
       console.log(state.theme,63637284)
     },
   },

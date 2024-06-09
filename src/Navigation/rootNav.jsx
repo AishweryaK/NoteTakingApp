@@ -6,6 +6,7 @@ import AppNavigation from "./appNav";
 import AuthNavigation from "./authNav";
 import { useSelector } from "react-redux";
 import { getThemeColors } from "../Assets/Colors/themeColors";
+import { TITLE } from "../Constants/strings";
 
 
 
@@ -27,7 +28,7 @@ function StackNavigation() {
       fontSize:18,
     },}}> 
       {/* {user? <AppNavigation/> : <AuthNavigation />} */}
-      <Stack.Screen name="App" component={uid ? AppNavigation : AuthNavigation} />
+      <Stack.Screen name={TITLE.APP} component={uid ? AppNavigation : AuthNavigation} />
     </Stack.Navigator>
 
   );

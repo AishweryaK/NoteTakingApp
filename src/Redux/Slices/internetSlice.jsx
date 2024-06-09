@@ -1,11 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { SLICE } from "../../Constants/strings";
 
 const initialState = {
 connection:null,
 };
 
 export const netInfo = createSlice({
-  name: "internet",
+  name: SLICE.INTERNET,
   initialState,
   reducers: {
     netConnection: (state, action) => {

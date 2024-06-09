@@ -9,6 +9,7 @@ import { FONT } from "../Constants/fontConstants";
 import AccountPage from "../Screens/Account/AccountScreen";
 import { getThemeColors } from "../Assets/Colors/themeColors";
 import { useSelector } from "react-redux";
+import { TITLE } from "../Constants/strings";
 
 
 
@@ -29,12 +30,12 @@ function AppNavigation() : React.JSX.Element {
     },}}> 
       <Stack.Screen name={NAVIGATION.HOMESCREEN} component={HomeNavigation}/>
       <Stack.Screen name={NAVIGATION.ADDNOTE} component={AddNote} 
-        options={{headerShown:true, title:"Add Note", headerBackTitleVisible:false}}
+        options={{headerShown:true, title:TITLE.ADDNOTE, headerBackTitleVisible:false}}
         />
       <Stack.Screen name={NAVIGATION.NOTESCREEN} component={NotesScreen} 
-        options={{headerShown:true, title:"Notes", headerBackTitle:"BACK"}}/>
+        options={{headerShown:true, title:TITLE.NOTES, headerBackTitle:TITLE.BACK}}/>
          <Stack.Screen name={NAVIGATION.ACCOUNT} component={AccountPage} 
-        options={{headerShown:true, title:"User Account", headerBackTitleVisible:false}}/>
+        options={{headerShown:true, title:TITLE.USERACCOUNT, headerBackTitleVisible:false}}/>
       </Stack.Navigator>
   );
 }

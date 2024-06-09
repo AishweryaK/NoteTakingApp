@@ -8,6 +8,7 @@ import ForgotPassScreen from "../Screens/ForgotPassScreen/ForgotPass";
 import { FONT } from "../Constants/fontConstants";
 import { useSelector } from "react-redux";
 import { getThemeColors } from "../Assets/Colors/themeColors";
+import { TITLE } from "../Constants/strings";
 
 
 
@@ -29,11 +30,11 @@ function AuthNavigation() {
       <Stack.Screen name={NAVIGATION.WALKTHROUGH} component={Walkthrough} 
         options={{headerShown:false}}/>  
       <Stack.Screen name={NAVIGATION.LOGIN} component={Login} 
-        options={{headerShown:true, title:"Log in", headerBackTitleVisible:false}}/>
+        options={{headerShown:true, title:TITLE.LOGIN, headerBackTitleVisible:false}}/>
       <Stack.Screen name={NAVIGATION.SIGNUP} component={Signup} 
-        options={{headerShown:true, title:"Sign up", headerBackTitleVisible:false}}/>
+        options={{headerShown:true, title:TITLE.SIGNUP, headerBackTitleVisible:false}}/>
       <Stack.Screen name={NAVIGATION.FORGOTPASS} component={ForgotPassScreen} 
-        options={{headerShown:true, title:"Forgot Password", headerBackTitleVisible:false}}/>
+        options={{headerShown:true, title:TITLE.FORGOT, headerBackTitleVisible:false}}/>
     </Stack.Navigator>
   );
 }

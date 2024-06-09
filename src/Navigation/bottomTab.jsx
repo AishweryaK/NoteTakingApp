@@ -11,6 +11,7 @@ import Lamp from "../Screens/DummyScreens/Lamp";
 import CheckList from "../Screens/DummyScreens/CheckList";
 import { useSelector } from "react-redux";
 import { getThemeColors } from "../Assets/Colors/themeColors";
+import { TITLE } from "../Constants/strings";
 
 
 
@@ -73,7 +74,7 @@ function HomeNavigation({navigation}) {
       />
       <Tab.Screen name={NAVIGATION.CHECKLIST} component={CheckList}  />
      
-      <Tab.Screen name="Something" component={DummyAddNote} options={{
+      <Tab.Screen name={TITLE.SOMETHING} component={DummyAddNote} options={{
         tabBarButton:() => (
           // <View style={homeStyles.buttonShadow(colors)}>
           <TouchableOpacity 
