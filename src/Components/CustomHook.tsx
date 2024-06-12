@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import auth from '@react-native-firebase/auth';
+import { useReduxDispatch, useReduxSelector } from "../Redux/Store/store";
+import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
 import {
@@ -14,27 +14,49 @@ import { PROVIDER } from "../Constants/signingConstants";
 
 
 export default function useAuthentication() {
-const dispatch = useDispatch();
-const myProvider = useSelector(state=>state.user.provider)
-const {displayName, uid, email} = useSelector((state)=> state.user);
+const dispatch = useReduxDispatch();
+const myProvider = useReduxSelector(state=>state.user.provider)
+const {displayName, uid, email, theme} = useReduxSelector((state)=> state.user);
 const [isLoading, setIsLoading] = useState(false);
 
+interface SignInProps {
+  email: string,
+  password :string,
+}
 
-const signInCall = async ({email, password}) => 
+interface UserProps {
+  displayName :string ,
+  uid :string,
+  email: string,
+  photoURL:string,
+  provider:string,
+}
+
+const signInCall = async ({email, password}:SignInProps) => 
     { setIsLoading (true);
 try {
-const {user} = await auth().signInWithEmailAndPassword(
+const {user}: { user: FirebaseAuthTypes.User } = await auth().signInWithEmailAndPassword(
  email,
 password
 );
 console.log(user, "THIS IS CUSTOMHOOK LOGIN")
+if (user){
+//   dispatch(saveUser({
+//     displayName: user?.displayName,
+//     uid: user.uid,
+//     email: user?.email,
+//     photoURL: user?.photoURL,
+//     provider: PROVIDER.EMAIL,
+// }));
 dispatch(saveUser({
-    displayName: user.displayName,
-    uid: user.uid,
-    email: user.email,
-    photoURL: user.photoURL,
-    provider: PROVIDER.EMAIL,
+  displayName: user.displayName ,
+  uid: user.uid,
+  email: user.email ,
+  photoURL: user.photoURL ,
+  provider: PROVIDER.EMAIL,
 }));
+}
+
 } catch (err) {
   if (err.code === 'auth/invalid-credential') {
     Alert.alert("Error logging in", "Incorrect email or password");
@@ -121,19 +143,23 @@ const uploadImageToFirebase = async (imageUri, userId) => {
 
 const deletePhoto = async () => {
   setIsLoading(true);
-  console.log("TRUE")
   try {
     const storageRef = storage().ref(`profile_images/${uid}.jpg`);
     await storageRef.delete();
-    await auth().currentUser.updateProfile({ photoURL: null });
-    dispatch(saveUser({ displayName, uid, email, photoURL: "", provider: myProvider }));
+    const user = auth().currentUser;
+    if (!user) {
+      console.log("error");
+    } else {
+      await user?.updateProfile({ photoURL: null });
+    }
+    dispatch(saveUser({ displayName, uid, email, photoURL: "", provider: myProvider, theme :theme }));
   } catch (error) {
     console.error("Error deleting photo: ", error);
   } finally {
     setIsLoading(false);
-    console.log("FALSE")
   }
 };
+
 
 
   const signOutCall = async () => {
@@ -165,15 +191,17 @@ const googleLoginCall = async () => {
         const credential = auth.GoogleAuthProvider.credential(userInfo.idToken);
         const { user, additionalUserInfo } = await auth().signInWithCredential(credential);
             dispatch(saveUser({
-                displayName: user.displayName,
+                displayName: user.displayName ,
                 uid: user.uid,
                 email: user.email,
                 photoURL: user.photoURL,
                 provider: PROVIDER.GOOGLE,
             }));
-        if(additionalUserInfo.isNewUser) {
-            await addDocumentsForUser(user.uid);
-           }
+            
+            if (additionalUserInfo && additionalUserInfo.isNewUser) {
+              await addDocumentsForUser(user.uid);
+            }
+
     
               console.log('User account created & signed in!', user);
     

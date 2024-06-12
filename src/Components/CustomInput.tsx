@@ -2,12 +2,18 @@ import React from "react";
 import { View, TextInput } from "react-native";
 import { inputStyles } from "../Common/styles";
 import { getThemeColors } from "../Assets/Colors/themeColors";
-import { useSelector } from "react-redux";
+import { useReduxSelector } from "../Redux/Store/store";
 // import { TextInput } from "react-native-paper";
 
+interface CustomInputProps {
+    placeHolder:string,
+    value:string,
+    handleChange : () => void,
+    handleBlur : () => void,
+}
 
-export default function CustomInput ({placeHolder,value,handleChange,handleBlur}) {
-    const theme = useSelector((state)=> state.user.theme)
+export default function CustomInput ({placeHolder,value,handleChange,handleBlur}:CustomInputProps) {
+    const theme = useReduxSelector((state)=> state.user.theme)
     const colors = getThemeColors(theme);
     return (
         <TextInput

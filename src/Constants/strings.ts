@@ -1,7 +1,9 @@
-export const THEME = {
-    LIGHT : "LIGHT",
-    DARK : "DARK"
-}
+export type Theme = "LIGHT" | "DARK";
+
+export const THEME: { LIGHT: Theme; DARK: Theme } = {
+    LIGHT: 'LIGHT',
+    DARK: 'DARK',
+  };
 
 export const TITLE = {
     ADDNOTE : "Add Note",

@@ -7,7 +7,7 @@ import auth from '@react-native-firebase/auth';
 import { passStyles } from "./passStyles";
 import { SIGNING } from "../../Constants/signingConstants";
 import { NAVIGATION } from "../../Constants/navConstants";
-import { useSelector } from "react-redux";
+import { useReduxSelector } from "../Redux/Store/store";
 import { getThemeColors } from "../../Assets/Colors/themeColors";
 import { SignupSchema } from "../SignupScreen/Signup";
 import { Formik } from 'formik';
@@ -18,7 +18,7 @@ const ForgotPScheme = Yup.object().shape({
   });
 
 function ForgotPassScreen ({navigation}) {
-    const theme = useSelector((state)=>state.user.theme)
+    const theme = useReduxSelector((state)=>state.user.theme)
     const colors= getThemeColors(theme);
     
 

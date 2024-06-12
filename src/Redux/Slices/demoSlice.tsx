@@ -1,12 +1,14 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {SLICE, THEME} from '../../Constants/strings';
 
+export type Theme = "LIGHT" | "DARK";
+
 export interface UserInfoState {
-  displayName: string;
+  displayName: string | null;
   uid: string;
-  email: string;
-  photoURL: string;
-  theme: string;
+  email: string ;
+  photoURL: string | null;
+  theme: Theme;
   provider: string;
 }
 
@@ -15,7 +17,7 @@ const initialState: UserInfoState = {
   uid: '',
   email: '',
   photoURL: '',
-  theme: THEME.LIGHT,
+  theme: THEME.LIGHT as Theme,
   provider: '',
 };
 
@@ -40,7 +42,7 @@ export const userInfo = createSlice({
       state.uid = '';
       state.email = '';
       state.photoURL = '';
-      state.theme = THEME.LIGHT;
+      state.theme = THEME.LIGHT as Theme;
       state.provider = '';
     },
     toggleTheme: state => {

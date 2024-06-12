@@ -1,13 +1,13 @@
 import React from "react";
 import { View, TouchableOpacity, Text, ImageBackground } from "react-native";
 import { labelStyles } from "../Common/styles";
-import { useSelector } from "react-redux";
+import { useReduxSelector } from "../Redux/Store/store";
 import { getThemeColors } from "../Assets/Colors/themeColors";
 import { ICONS } from "../Constants/iconConstants";
 
 
 function CustomLabel ({handlePress, text, number, handleLongPress}) {
-    const theme = useSelector((state)=>state.user.theme)
+    const theme = useReduxSelector((state)=>state.user.theme)
     const colors = getThemeColors(theme);
 
     return (

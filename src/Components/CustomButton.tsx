@@ -3,9 +3,13 @@ import { TouchableOpacity, View, Text} from "react-native";
 import { buttonStyles } from "../Common/styles";
 import { getThemeColors } from "../Assets/Colors/themeColors";
 
+interface CustomButtonProps {
+    handleButton: () => void;
+    text:string,
+    disable:boolean,
+}
 
-
-export default function CustomButton ({handleButton, text, disable}) {
+export default function CustomButton ({handleButton, text, disable}:CustomButtonProps) {
     const colors = getThemeColors("LIGHT");
     return (
         <View>

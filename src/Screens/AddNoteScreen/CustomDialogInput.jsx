@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import Dialog from 'react-native-dialog';
-import { useSelector } from 'react-redux';
+import { useReduxSelector } from 'react-redux';
 import { getThemeColors } from '../../Assets/Colors/themeColors';
 import { FONT } from '../../Constants/fontConstants';
 
 const CustomDialogInput = ({ isVisible, onCancel, onSubmit}) => {
   const [inputValue, setInputValue] = useState('');
-  const theme = useSelector(state=>state.user.theme);
+  const theme = useReduxSelector(state=>state.user.theme);
   const colors = getThemeColors(theme);
 
   return (

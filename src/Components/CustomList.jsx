@@ -3,7 +3,7 @@ import { View, TouchableOpacity, Text, ImageBackground, FlatList, Modal, Alert }
 import firestore from "@react-native-firebase/firestore";
 import CustomLabel from "./CustomLabel";
 import { NAVIGATION } from "../Constants/navConstants";
-import { useSelector } from "react-redux";
+import { useReduxSelector } from "../Redux/Store/store";
 import AvailSpace from "../Screens/HomeScreen/AvailSpace";
 import { dimensions } from "../Constants/utility";
 import { showStyles } from "../Screens/ShowNotes/styles";
@@ -12,7 +12,7 @@ import { getThemeColors } from "../Assets/Colors/themeColors";
 
 function CustomList({ navigation }) {
   const [collections, setCollections] = useState([]);
-  const user = useSelector((state) => state.user);
+  const user = useReduxSelector((state) => state.user);
   const colors = getThemeColors(user.theme);
   const [modalVisible, setModalVisible] = useState(false);
   const [collName, setCollName] = useState("");

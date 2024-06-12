@@ -21,7 +21,7 @@ import { addDocumentsForUser } from '../../Common/firebaseUtils';
 import ProfileImage from '../../Components/ProfileImage';
 import { APPCOLOR } from '../../Assets/Colors/appColors';
 import useAuthentication from '../../Components/CustomHook';
-import { useSelector } from 'react-redux';
+import { useReduxSelector } from 'react-redux';
 import { getThemeColors } from '../../Assets/Colors/themeColors';
 import OfflineSign from '../../Components/InternetConn';
 
@@ -64,9 +64,9 @@ export const SignupSchema = Yup.object().shape({
 function Signup({navigation}) {
   const [imageUri, setImageUri]=  useState(""); 
   const {isLoading, signUpCall} = useAuthentication();
-  const theme = useSelector((state)=>state.user.theme)
+  const theme = useReduxSelector((state)=>state.user.theme)
   const colors= getThemeColors(theme);
-  const connection = useSelector(state=> state.internet.connection);
+  const connection = useReduxSelector(state=> state.internet.connection);
 
   const handleImageChange = (uri) => { 
     setImageUri(uri);

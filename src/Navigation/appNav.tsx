@@ -8,13 +8,12 @@ import { RootStackParamsList } from "./routeTypes";
 import { FONT } from "../Constants/fontConstants";
 import AccountPage from "../Screens/Account/AccountScreen";
 import { getThemeColors } from "../Assets/Colors/themeColors";
-import { useSelector } from "react-redux";
 import { TITLE } from "../Constants/strings";
-
-
+import { useReduxSelector } from "../Redux/Store/store";
+import { RootStateType } from "../Redux/Slices/rootReducer";
 
 function AppNavigation() : React.JSX.Element {
-  const theme = useSelector((state)=> state.user.theme)
+  const theme = useReduxSelector((state)=> state.user.theme)
   const colors = getThemeColors(theme);
   const Stack = createNativeStackNavigator<RootStackParamsList>();
   return (

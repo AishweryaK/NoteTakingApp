@@ -10,7 +10,7 @@ import filter from "lodash.filter";
 import { APPCOLOR } from '../../Assets/Colors/appColors';
 import { FONT } from '../../Constants/fontConstants';
 import { homeStyles } from '../HomeScreen/homeStyle';
-import { useSelector } from 'react-redux';
+import { useReduxSelector } from 'react-redux';
 import { getThemeColors } from '../../Assets/Colors/themeColors';
 import StaggerView from '@mindinventory/react-native-stagger-view';
 import { ICONS } from '../../Constants/iconConstants';
@@ -22,7 +22,7 @@ const NotesScreen = ({ route, navigation }) => {
   const { uid, itemText } = route.params;
   const [modalVisible, setModalVisible] = useState(false);
   const [itemUid, setItemUid] = useState(null)
-  const theme = useSelector((state) => state.user.theme)
+  const theme = useReduxSelector((state) => state.user.theme)
   const colors = getThemeColors(theme);
 
   useEffect(() => {

@@ -1,12 +1,12 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet} from "react-native";
 import { APPCOLOR } from "../../Assets/Colors/appColors";
-import { useSelector } from "react-redux";
+import { useReduxSelector } from "../Redux/Store/store";
 import { getThemeColors } from "../../Assets/Colors/themeColors";
 import { FONT } from "../../Constants/fontConstants";
 
 function Lamp () {
-  const theme = useSelector((state)=> state.user.theme)
+  const theme = useReduxSelector((state)=> state.user.theme)
   const colors = getThemeColors(theme);
     return (
         <View style={styles.view(colors)}>

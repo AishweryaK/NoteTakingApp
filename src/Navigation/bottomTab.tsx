@@ -9,16 +9,20 @@ import { homeStyles } from "../Screens/HomeScreen/homeStyle";
 import { ICONS } from "../Constants/iconConstants";
 import Lamp from "../Screens/DummyScreens/Lamp";
 import CheckList from "../Screens/DummyScreens/CheckList";
-import { useSelector } from "react-redux";
+import { useReduxSelector } from "../Redux/Store/store";
 import { getThemeColors } from "../Assets/Colors/themeColors";
 import { TITLE } from "../Constants/strings";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamsList } from "./routeTypes";
 
+interface HomeNavigationProps {
+  navigation: NativeStackNavigationProp<RootStackParamsList, typeof NAVIGATION.HOMESCREEN>;
+}
 
-
-function HomeNavigation({navigation}) {
+function HomeNavigation({ navigation }: HomeNavigationProps) {
   const Tab = createBottomTabNavigator();
-  const uid = useSelector((state)=>state.user.uid)
-  const theme = useSelector((state)=> state.user.theme)
+  const uid = useReduxSelector((state)=>state.user.uid)
+  const theme = useReduxSelector((state)=> state.user.theme)
   const colors = getThemeColors(theme);
 
   const DummyAddNote = () => {
@@ -38,7 +42,7 @@ function HomeNavigation({navigation}) {
     <Tab.Navigator initialRouteName={NAVIGATION.HOME}
 
     screenOptions={({ route }) => ({
-      tabBarIcon: ({ focused, color, size }) => {
+      tabBarIcon:({ focused, color, size }) => {
         let iconName;
         let rn = route.name;
 

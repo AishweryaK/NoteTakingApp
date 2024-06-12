@@ -12,15 +12,15 @@ import {
 import { buttonStyles } from '../Common/styles';
 import GoogleIcon from '../Assets/Svgs/GoogleIcon';
 import useAuthentication from './CustomHook';
-import { useSelector } from 'react-redux';
+import { useReduxSelector } from 'react-redux';
 import { getThemeColors } from '../Assets/Colors/themeColors';
 
 
 function GoogleLogin ({navigation}) {
     const {googleLoginCall} = useAuthentication();
-    const theme = useSelector((state)=>state.user.theme)
+    const theme = useReduxSelector((state)=>state.user.theme)
     const colors= getThemeColors(theme);
-    const connection = useSelector(state=> state.internet.connection);
+    const connection = useReduxSelector(state=> state.internet.connection);
 
 
     useEffect(() => {

@@ -5,7 +5,7 @@ import { FONT } from '../../Constants/fontConstants';
 import { styles } from './styles';
 import { NAVIGATION } from '../../Constants/navConstants';
 import useAuthentication from '../../Components/CustomHook';
-import { useDispatch, useSelector } from 'react-redux';
+import { useReduxDispatch, useReduxSelector } from '../../Redux/Store/store';
 import { toggleTheme } from '../../Redux/Slices/demoSlice';
 import { getThemeColors, themeColors } from '../../Assets/Colors/themeColors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -15,12 +15,12 @@ import { showStyles } from '../ShowNotes/styles';
 
 const SettingsPage = ({ navigation }) => {
   const { isLoading, signOutCall } = useAuthentication();
-  const theme = useSelector(state => state.user.theme);
+  const theme = useReduxSelector(state => state.user.theme);
   const colors = getThemeColors(theme);
-  const dispatch = useDispatch();
+  const dispatch = useReduxDispatch();
   const [isModalVisible, setModalVisible] = useState(false);
   const [logoutModal, setLogoutModal] = useState(false);
-  const connection = useSelector(state=> state.internet.connection);
+  const connection = useReduxSelector(state=> state.internet.connection);
 
   //   useEffect (() => {
   //   AsyncStorage.clear();

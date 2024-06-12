@@ -1,11 +1,11 @@
 import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { ICONS } from "../../Constants/iconConstants";
-import { useSelector } from "react-redux";
+import { useReduxSelector } from "../Redux/Store/store";
 import { getThemeColors } from "../../Assets/Colors/themeColors";
 
 function Reminder () {
-    const theme = useSelector(state=>state.user.theme)
+    const theme = useReduxSelector(state=>state.user.theme)
     const colors= getThemeColors(theme);
     return (
         <View

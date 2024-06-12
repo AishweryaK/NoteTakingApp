@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Modal, Alert, KeyboardAvoidingView, ActivityIndicator } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import { styles } from '../ChangePassword/styles.jsx';
-import { useDispatch, useSelector } from 'react-redux';
+import { useReduxDispatch, useReduxSelector } from '../../Redux/Store/store.js';
 import { getThemeColors } from '../../Assets/Colors/themeColors';
 import { SignupSchema } from '../SignupScreen/Signup';
 import * as Yup from 'yup';
@@ -16,9 +16,9 @@ const AccountSchema = Yup.object().shape({
 
 const NameChange = ({ visible, onClose }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const {theme, displayName} = useSelector(state=> state.user);
+  const {theme, displayName} = useReduxSelector(state=> state.user);
   const colors = getThemeColors(theme);
-  const dispatch = useDispatch();
+  const dispatch = useReduxDispatch();
 
   const handleNameChange = async (values, {resetForm}) => {
 

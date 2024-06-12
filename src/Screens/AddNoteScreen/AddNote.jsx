@@ -22,7 +22,7 @@ import firestore , { serverTimestamp } from '@react-native-firebase/firestore';
 import {styles} from './styles';
 import {profileImgStyles} from '../../Common/styles';
 import {dimensions} from '../../Constants/utility';
-import {useSelector} from 'react-redux';
+import {useReduxSelector} from 'react-redux';
 import {getThemeColors, themeColors} from '../../Assets/Colors/themeColors';
 import {ICONS} from '../../Constants/iconConstants';
 import Reminder from './Reminder';
@@ -41,7 +41,7 @@ function AddNote({route, navigation}) {
   });
   const richText = useRef();
   const [emptyColl, setEmptyColl] = useState(false);
-  const theme = useSelector(state => state.user.theme);
+  const theme = useReduxSelector(state => state.user.theme);
   const colors = getThemeColors(theme);
   // const descRef = useRef("");
 

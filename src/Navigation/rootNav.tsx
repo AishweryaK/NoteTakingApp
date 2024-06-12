@@ -4,7 +4,7 @@ import { NAVIGATION } from "../Constants/navConstants";
 import { FONT } from "../Constants/fontConstants";
 import AppNavigation from "./appNav";
 import AuthNavigation from "./authNav";
-import { useSelector } from "react-redux";
+import { useReduxSelector } from "../Redux/Store/store";
 import { getThemeColors } from "../Assets/Colors/themeColors";
 import { TITLE } from "../Constants/strings";
 
@@ -12,7 +12,7 @@ import { TITLE } from "../Constants/strings";
 
 function StackNavigation() {
   const Stack = createNativeStackNavigator();
-  const {theme, uid} = useSelector((state) => state.user);
+  const {theme, uid} = useReduxSelector((state) => state.user);
   const colors = getThemeColors(theme);
 
   return (

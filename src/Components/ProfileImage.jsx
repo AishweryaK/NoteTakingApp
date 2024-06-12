@@ -12,7 +12,7 @@ import {
 import { launchCamera, launchImageLibrary } from "react-native-image-picker";
 import { ICONS } from "../Constants/iconConstants";
 import { profileImgStyles } from "../Common/styles";
-import { useSelector } from "react-redux";
+import { useReduxSelector } from "../Redux/Store/store";
 import { getThemeColors } from "../Assets/Colors/themeColors";
 import { PROVIDER } from "../Constants/signingConstants";
 import useAuthentication from "./CustomHook";
@@ -20,10 +20,10 @@ import useAuthentication from "./CustomHook";
 function ProfileImage({onImageChange}) {
   const [imageUri, setImageUri] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
-  const {theme, uid, photoURL, provider} = useSelector((state)=>state.user)
+  const {theme, uid, photoURL, provider} = useReduxSelector((state)=>state.user)
   const {isLoading} = useAuthentication();
   const colors= getThemeColors(theme);
-  const connection = useSelector(state=> state.internet.connection);
+  const connection = useReduxSelector(state=> state.internet.connection);
 
   const handleImagePicker = () => {
     const options = {

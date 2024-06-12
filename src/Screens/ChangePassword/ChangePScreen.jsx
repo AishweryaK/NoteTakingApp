@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Modal, Alert, KeyboardAvoidingView, ActivityIndicator } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import { styles } from './styles';
-import { useSelector } from 'react-redux';
+import { useReduxSelector } from 'react-redux';
 import { getThemeColors } from '../../Assets/Colors/themeColors';
 import { SignupSchema } from '../SignupScreen/Signup';
 import * as Yup from 'yup';
@@ -17,7 +17,7 @@ const ChangePasswordModal = ({ visible, onClose }) => {
   const [currentPassword, setCurrentPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   // const [buttonWidth, setButtonWidth] = useState(0);
-  const {theme} = useSelector(state=> state.user);
+  const {theme} = useReduxSelector(state=> state.user);
   const colors = getThemeColors(theme);
 
   const reauthenticate = async (currentPassword) => {

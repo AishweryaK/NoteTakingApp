@@ -5,7 +5,7 @@ import auth from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
 import {styles} from '../SettingsScreen/styles';
 import { NAVIGATION } from '../../Constants/navConstants';
-import { useDispatch, useSelector } from 'react-redux';
+import { useReduxDispatch, useReduxSelector } from '../../Redux/Store/store';
 import ProfileImage from '../../Components/ProfileImage';
 import { getThemeColors } from '../../Assets/Colors/themeColors';
 import useAuthentication from '../../Components/CustomHook';
@@ -17,13 +17,13 @@ import NameChange from './NameChange';
 
 
 const AccountPage = ({navigation}) => {
-const dispatch = useDispatch();
-const {displayName, theme, photoURL, uid, email, provider} = useSelector((state)=> state.user);
+const dispatch = useReduxDispatch();
+const {displayName, theme, photoURL, uid, email, provider} = useReduxSelector((state)=> state.user);
 const colors = getThemeColors(theme);
 const [imageUri, setImageUri] = useState(photoURL);
 const {uploadImageToFirebase, deletePhoto} = useAuthentication();
 const [modalVisible, setModalVisible] = useState(false);
-const connection = useSelector(state=> state.internet.connection);
+const connection = useReduxSelector(state=> state.internet.connection);
 
 
 useEffect(() => {

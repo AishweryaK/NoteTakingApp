@@ -6,14 +6,14 @@ import Signup from "../Screens/SignupScreen/Signup";
 import Walkthrough from "../Screens/WalkthroughScreen/Walkthrough";
 import ForgotPassScreen from "../Screens/ForgotPassScreen/ForgotPass";
 import { FONT } from "../Constants/fontConstants";
-import { useSelector } from "react-redux";
+import { useReduxSelector } from "../Redux/Store/store";
 import { getThemeColors } from "../Assets/Colors/themeColors";
 import { TITLE } from "../Constants/strings";
 
 
 
 function AuthNavigation() {
-  const theme = useSelector((state)=> state.user.theme)
+  const theme = useReduxSelector((state)=> state.user.theme)
   const colors = getThemeColors(theme);
   const Stack = createNativeStackNavigator();
   return (

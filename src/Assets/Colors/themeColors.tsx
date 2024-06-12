@@ -1,3 +1,26 @@
+export type Theme = "LIGHT" | "DARK";
+
+export interface ThemeColors {
+    DARK_BLUE: string;
+    GREEN: string;
+    BLUE: string;
+    LIGHT_BLUE: string;
+    SKY: string;
+    GRAY: string;
+    WHITE: string;
+    BACKGROUND: string;
+    HEADERTITLE: string;
+    TITLECOLOR: string;
+    BORDER: string;
+    WELCOME: string;
+    PLACEHOLDER: string;
+    ICON: string;
+    ICONFOCUSED: string;
+    SHADOW: string;
+    BOTTOM: string;
+}
+
+
 export const themeColors= {
     LIGHT : {
     DARK_BLUE: "#292150",
@@ -41,6 +64,10 @@ export const themeColors= {
     
 }
 
-export const getThemeColors = (theme:"LIGHT" | "DARK") => {
+// export const getThemeColors = (theme:"LIGHT" | "DARK") => {
+//     return theme === "DARK" ? themeColors.DARK : themeColors.LIGHT;
+//   };
+
+export const getThemeColors = (theme: Theme): ThemeColors => {
     return theme === "DARK" ? themeColors.DARK : themeColors.LIGHT;
-  };
+};

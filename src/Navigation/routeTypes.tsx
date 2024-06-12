@@ -7,7 +7,7 @@ import { NAVIGATION } from "../Constants/navConstants";
     SIGNUP: undefined;
     FORGOTPASS: undefined;
     HOMESCREEN: undefined;
-    ADDNOTE: undefined;
+    ADDNOTE:{uid:string, itemTitle:string, itemDesc:string};
     NOTESCREEN: undefined;
     SETTINGS: undefined;
     HOME: undefined;

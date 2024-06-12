@@ -11,7 +11,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { SignupSchema } from '../SignupScreen/Signup';
 import useAuthentication from '../../Components/CustomHook';
-import { useSelector } from 'react-redux';
+import { useReduxSelector } from 'react-redux';
 import { getThemeColors, themeColors } from '../../Assets/Colors/themeColors';
 import { dimensions } from '../../Constants/utility';
 
@@ -23,7 +23,7 @@ const LoginSchema = Yup.object().shape({
 
 function Login({ navigation }) {
   const {isLoading, signInCall} = useAuthentication();
-  const theme = useSelector((state)=> state.user.theme)
+  const theme = useReduxSelector((state)=> state.user.theme)
   const colors = getThemeColors(theme);
 
 

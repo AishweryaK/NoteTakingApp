@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react"
 import { View, ImageBackground, Text } from "react-native";
 import { homeStyles } from "./homeStyle";
-import { useSelector } from "react-redux";
+import { useReduxSelector } from "../Redux/Store/store";
 import { ICONS } from "../../Constants/iconConstants";
 import DeviceInfo from "react-native-device-info";
 
 function AvailSpace () {
-    const theme = useSelector(state=>state.user.theme);
+    const theme = useReduxSelector(state=>state.user.theme);
     const [totalStorage, setTotalStorage] = useState(null);
     const [usedStorage, setUsedStorage] = useState(null);
 

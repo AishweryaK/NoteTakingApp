@@ -5,12 +5,12 @@ import CustomButton from "../../Components/CustomButton";
 import { NAVIGATION } from "../../Constants/navConstants";
 import GoogleLogin from "../../Components/GoogleLogin";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useSelector } from "react-redux";
+import { useReduxSelector } from "../Redux/Store/store";
 import { getThemeColors } from "../../Assets/Colors/themeColors";
 
 
 export default function Walkthrough ({navigation}) {
-    const theme = useSelector((state)=>state.user.theme)
+    const theme = useReduxSelector((state)=>state.user.theme)
     const colors= getThemeColors(theme);
 // console.log(dimensions.width, dimensions.height)
     
