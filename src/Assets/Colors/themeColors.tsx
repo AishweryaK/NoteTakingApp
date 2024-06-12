@@ -41,6 +41,6 @@ export const themeColors= {
     
 }
 
-export const getThemeColors = (theme) => {
+export const getThemeColors = (theme:"LIGHT" | "DARK") => {
     return theme === "DARK" ? themeColors.DARK : themeColors.LIGHT;
   };
