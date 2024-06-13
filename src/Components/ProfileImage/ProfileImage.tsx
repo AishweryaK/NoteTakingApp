@@ -98,7 +98,7 @@ const ProfileImage: React.FC<ProfileImageProps> = ({ onImageChange }) => {
         <Image source={{ uri: photoURL }} style={profileImgStyles.img as StyleProp<ImageStyle>} />
       ) : (
         <Image
-          source={require("../Assets/Images/userImg.jpeg")}
+          source={require("../../Assets/Images/userImg.jpeg")}
           style={profileImgStyles.img as StyleProp<ImageStyle>}
         />
       )}

@@ -1,7 +1,6 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {SLICE, THEME} from '../../Constants/strings';
-
-export type Theme = 'LIGHT' | 'DARK';
+import { Theme } from '../../Assets/Colors/themeColors';
 
 export interface UserInfoState {
   displayName: string | null;

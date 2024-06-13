@@ -8,7 +8,7 @@ import { RouteProp } from "@react-navigation/native";
     SIGNUP: undefined;
     FORGOTPASS: undefined;
     HOMESCREEN: undefined;
-    ADDNOTE:{uid:string, itemTitle:string, itemDesc:string, itemID:string, label:string};
+    ADDNOTE:{uid:string, itemTitle?:string, itemDesc?:string, itemID?:string, label?:string};
     NOTESCREEN: { uid: string, itemText: string};
     SETTINGS: undefined;
     HOME: undefined;
@@ -46,10 +46,15 @@ import { RouteProp } from "@react-navigation/native";
     }
 
     export interface NoteScreenProps {
-      navigation: NativeStackNavigationProp<RootStackParamsList, typeof NAVIGATION.NOTESCREEN>
+      route: RouteProp<RootStackParamsList, typeof NAVIGATION.NOTESCREEN>;
+      navigation: NativeStackNavigationProp<RootStackParamsList, typeof NAVIGATION.NOTESCREEN>;
     }
 
     export interface AccountScreenProps {
       navigation: NativeStackNavigationProp<RootStackParamsList, typeof NAVIGATION.ACCOUNT>
+    }
+
+    export interface SettingsScreenProps {
+      navigation: NativeStackNavigationProp<RootStackParamsList, typeof NAVIGATION.SETTINGS>
     }
 

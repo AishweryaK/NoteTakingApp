@@ -5,6 +5,7 @@
     "preserveConstEnums": true,
     "moduleResolution": "node16",
     "allowSyntheticDefaultImports": true,
+    "module": "node16"
   },
   "extends": "@react-native/typescript-config/tsconfig.json"
 }

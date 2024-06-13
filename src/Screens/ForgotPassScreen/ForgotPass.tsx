@@ -21,7 +21,6 @@ const ForgotPassScreen: React.FC<ForgotPassScreenProps> = ({navigation}) => {
   const colors = getThemeColors(theme);
 
   const handleEmail = (values: FormValues) => {
-    console.log(values.email);
     auth()
       .sendPasswordResetEmail(values.email)
       .then(() => {

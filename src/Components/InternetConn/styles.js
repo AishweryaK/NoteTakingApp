@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native/types";
+import { StyleSheet } from "react-native";
 import { dimensions } from "../../Constants/utility";
 import { commonColors} from "../../Assets/Colors/themeColors";
 

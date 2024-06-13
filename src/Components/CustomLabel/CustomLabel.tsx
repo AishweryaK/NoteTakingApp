@@ -23,8 +23,8 @@ function CustomLabel({
       <ImageBackground
         source={
           theme === 'LIGHT'
-            ? require('../Assets/Images/LabelImg.png')
-            : require('../Assets/Images/Label_dark.png')
+            ? require('../../Assets/Images/LabelImg.png')
+            : require('../../Assets/Images/Label_dark.png')
         }
         style={styles.bg}>
         <View style={styles.icon}>

@@ -12,14 +12,15 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import ChangePasswordModal from '../ChangePassword/ChangePScreen';
 import { showStyles } from '../ShowNotes/styles';
+import { SettingsScreenProps } from '../../Navigation/routeTypes';
 
-const SettingsPage = ({ navigation }) => {
+const SettingsPage = ({ navigation }:SettingsScreenProps) => {
   const { isLoading, signOutCall } = useAuthentication();
   const theme = useReduxSelector(state => state.user.theme);
   const colors = getThemeColors(theme);
   const dispatch = useReduxDispatch();
-  const [isModalVisible, setModalVisible] = useState(false);
-  const [logoutModal, setLogoutModal] = useState(false);
+  const [isModalVisible, setModalVisible] = useState<boolean>(false);
+  const [logoutModal, setLogoutModal] = useState<boolean>(false);
   const connection = useReduxSelector(state=> state.internet.connection);
 
   //   useEffect (() => {
@@ -38,7 +39,6 @@ const SettingsPage = ({ navigation }) => {
   }, []);
     
   const handleLogoutModal =() => {
-    // await signOutCall();
     setLogoutModal(true);
   };
 

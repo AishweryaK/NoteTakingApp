@@ -1,6 +1,7 @@
 import { StyleSheet } from "react-native";
 import { FONT } from "../../Constants/fontConstants";
 import { themeColors } from "../../Assets/Colors/themeColors";
+import { dimensions } from "../../Constants/utility";
 
 export const inputStyles= StyleSheet.create(
     {
@@ -13,8 +14,6 @@ export const inputStyles= StyleSheet.create(
           paddingVertical:8,
           fontFamily:FONT.BOLD,
           marginTop:20,
-  
-  
           shadowColor: colors.BLUE,
           shadowOffset: {width: -2, height: 4},
           shadowOpacity: 0.07,

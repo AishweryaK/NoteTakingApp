@@ -2,7 +2,6 @@ import React, {useState, useEffect, useRef} from 'react';
 import {useReduxDispatch, useReduxSelector} from '../../Redux/Store/store';
 import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
-import firestore from '@react-native-firebase/firestore';
 import {
   GoogleSignin,
   statusCodes,
@@ -12,6 +11,7 @@ import {addDocumentsForUser} from '../../Common/firebaseUtils';
 import {Alert} from 'react-native';
 import {PROVIDER} from '../../Constants/signingConstants';
 import { SignInProps, SignUpProps, UploadImageProps } from '.';
+import { handleAuthError } from '../../Common/handleAuthErr';
 
 export default function useAuthentication() {
   const dispatch = useReduxDispatch();
@@ -26,15 +26,7 @@ export default function useAuthentication() {
     try {
       const {user}: {user: FirebaseAuthTypes.User} =
         await auth().signInWithEmailAndPassword(email, password);
-      console.log(user, 'THIS IS CUSTOMHOOK LOGIN');
       if (user) {
-        //   dispatch(saveUser({
-        //     displayName: user?.displayName,
-        //     uid: user.uid,
-        //     email: user?.email,
-        //     photoURL: user?.photoURL,
-        //     provider: PROVIDER.EMAIL,
-        // }));
         dispatch(
           saveUser({
             displayName: user.displayName,
@@ -46,32 +38,8 @@ export default function useAuthentication() {
           }),
         );
       }
-    } catch (err) {
-      if (err.code === 'auth/invalid-credential') {
-        Alert.alert('Error logging in', 'Incorrect email or password');
-      } else if (err.code === 'auth/too-many-requests') {
-        Alert.alert(
-          'Error logging in',
-          'All requests from this device are blocked due to unusual activity. Please try again later',
-        );
-      } else if (err.code === 'auth/user-not-found') {
-        Alert.alert(
-          'Error logging in',
-          'No user corresponding this email exists. Please Sign up',
-        );
-      } else if (err.code === 'auth/wrong-password') {
-        Alert.alert(
-          'Error logging in',
-          'Incorrect Password. Please try again or reset your password.',
-        );
-      } else if (err.code === 'auth/network-request-failed') {
-        Alert.alert(
-          'No Internet Connection',
-          'Please check your internet connection and try again.',
-        );
-      } else {
-        Alert.alert('Error logging in', `${err.message}`);
-      }
+    } catch (e) {
+      handleAuthError(e);
     } finally {
       setIsLoading(false);
     }
@@ -100,7 +68,6 @@ export default function useAuthentication() {
         photoURL: photoURL,
       });
 
-      console.log('Updated Profile', user);
 
       if (email)
         dispatch(
@@ -116,8 +83,7 @@ export default function useAuthentication() {
 
       await addDocumentsForUser(user.uid);
 
-      console.log('THIS IS SIGNUP END', user);
-    } catch (err) {
+    } catch (err:any) {
       if (err.code === 'auth/email-already-in-use') {
         Alert.alert('Error signing up', 'The email address is already in use');
       } else if (err.code === 'auth/network-request-failed') {
@@ -140,7 +106,6 @@ export default function useAuthentication() {
     const blob = await response.blob();
     await storageRef.put(blob);
     const downloadURL = await storageRef.getDownloadURL();
-    console.log(downloadURL, 'DOWNLOAD');
     return downloadURL;
   };
 
@@ -171,13 +136,11 @@ export default function useAuthentication() {
     setIsLoading(true);
     try {
       if (myProvider === PROVIDER.GOOGLE) {
-        console.log('inside');
         await GoogleSignin.signOut();
       } else {
         await auth().signOut();
       }
       dispatch(clearUserData());
-      console.log('user signed out!');
     } catch (err) {
       console.log(err);
     } finally {
@@ -209,8 +172,7 @@ export default function useAuthentication() {
         await addDocumentsForUser(user.uid);
       }
 
-      console.log('User account created & signed in!', user);
-    } catch (error) {
+    } catch (error:any) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         Alert.alert('Google Sign-In Cancelled');
       } else if (error.code === statusCodes.IN_PROGRESS) {

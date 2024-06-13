@@ -1,6 +1,16 @@
-import firestore, { serverTimestamp } from '@react-native-firebase/firestore';
+import firestore from '@react-native-firebase/firestore';
 
-export async function addDocumentsForUser(userUid) {
+interface CollectionItem {
+    text: string;
+    number: number;
+}
+
+interface Props {
+    userUid: string;
+}
+
+
+export async function addDocumentsForUser({userUid}:Props) {
     const collections = ['Personal', 'Academic', 'Work', 'Others'];
     
     const addDocumentPromises = collections.map(collectionName =>
@@ -16,14 +26,14 @@ export async function addDocumentsForUser(userUid) {
         collections: data
     });
 }
-const data = [
+const data :CollectionItem[] = [
     { text: "Personal", number: 1 },
     { text: "Academic", number: 1 },
     { text: "Work", number: 1 },
     { text: "Others", number: 1 },
 ];
 
-async function addDocumentToCollection(userUid, collectionName) {
+async function addDocumentToCollection(userUid:string, collectionName:string) {
     await firestore()
         .collection('users')
         .doc(userUid)
@@ -31,6 +41,6 @@ async function addDocumentToCollection(userUid, collectionName) {
         .add({
             title: `Welcome to your ${collectionName} collection!`,
             desc: "This is where you write your description...",
-            createdAt: serverTimestamp(),
+            createdAt: firestore.FieldValue.serverTimestamp(),
         });
 }

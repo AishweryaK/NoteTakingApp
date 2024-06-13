@@ -48,8 +48,8 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
 
   useEffect(() => {
     if (itemTitle || itemDesc) {
-      setTitle(itemTitle);
-      setDesc(itemDesc);
+      setTitle(itemTitle as string);
+      setDesc(itemDesc as string);
     }
   }, [itemTitle, itemDesc]);
 
@@ -93,7 +93,7 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
     await firestore()
       .collection('users')
       .doc(uid)
-      .collection(label)
+      .collection(label as string)
       .doc(itemID)
       .update({
         title: title,
@@ -103,7 +103,7 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
   };
 
   const saveNoteLabel = async () => {
-    await firestore().collection('users').doc(uid).collection(label).add({
+    await firestore().collection('users').doc(uid).collection(label as string).add({
       title: title,
       desc: desc,
       createdAt: firestore.FieldValue.serverTimestamp(),
