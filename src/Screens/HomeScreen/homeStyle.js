@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 import { APPCOL } from "../../Assets/Colors/appColors";
 import { FONT } from "../../Constants/fontConstants";
 import { dimensions } from "../../Constants/utility";
-import { themeColors } from "../../Assets/Colors/themeColors";
+import { commonColors, themeColors } from "../../Assets/Colors/themeColors";
 
 export const homeStyles = StyleSheet.create({
     buttonShadow: (colors) =>  ({
@@ -99,13 +99,13 @@ export const homeStyles = StyleSheet.create({
       textAlign:"left", 
      fontFamily:FONT.EXTRA_BOLD,
      fontSize:20,
-     color: themeColors.LIGHT.WHITE,
+     color: commonColors.WHITE,
     },
     availTextTwo: {
       textAlign:"left", 
      fontFamily:FONT.REGULAR,
      fontSize: 12,
-     color: themeColors.LIGHT.WHITE,
+     color: commonColors.WHITE,
     }
         
 

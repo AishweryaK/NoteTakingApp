@@ -10,7 +10,6 @@ import AccountPage from "../Screens/Account/AccountScreen";
 import { getThemeColors } from "../Assets/Colors/themeColors";
 import { TITLE } from "../Constants/strings";
 import { useReduxSelector } from "../Redux/Store/store";
-import { RootStateType } from "../Redux/Slices/rootReducer";
 
 function AppNavigation() : React.JSX.Element {
   const theme = useReduxSelector((state)=> state.user.theme)

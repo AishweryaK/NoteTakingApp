@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, Image, TouchableOpacity, Alert } from "react-native";
 import { styles } from "./styles";
-import CustomButton from "../../Components/CustomButton";
+import CustomButton from "../../Components/CustomButton/CustomButton";
 import { NAVIGATION } from "../../Constants/navConstants";
-import GoogleLogin from "../../Components/GoogleLogin";
+import GoogleLogin from "../../Components/GoogleLogin/GoogleLogin";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useReduxSelector } from "../Redux/Store/store";
 import { getThemeColors } from "../../Assets/Colors/themeColors";

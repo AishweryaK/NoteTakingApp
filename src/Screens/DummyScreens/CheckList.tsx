@@ -1,39 +1,47 @@
-import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet} from "react-native";
-import { APPCOLOR } from "../../Assets/Colors/appColors";
-import { useReduxSelector } from "../Redux/Store/store";
-import { getThemeColors } from "../../Assets/Colors/themeColors";
-import { FONT } from "../../Constants/fontConstants";
+import React from 'react';
+import {View, Text} from 'react-native';
+import { useReduxSelector } from '../../Redux/Store/store';
+import {getThemeColors} from '../../Assets/Colors/themeColors';
+import { styles } from './styles';
 
-function CheckList () {
-  const theme = useReduxSelector((state)=> state.user.theme)
+function CheckList() {
+  const theme = useReduxSelector(state => state.user.theme);
   const colors = getThemeColors(theme);
-    return (
-        <View style={styles.view(colors)}>
-            <Text style={styles.text(colors)}>
-               New features coming soon!!! 
-            </Text>
-        </View>
-    )
+  return (
+    <View style={styles.view(colors)}>
+      <Text style={styles.text(colors)}>New features coming soon!!!</Text>
+    </View>
+  );
 }
 
 export default CheckList;
 
-const styles = StyleSheet.create(
-  {
-    view : (colors) => ({
-      flex:1, 
-      backgroundColor:colors.BACKGROUND,
-      justifyContent:"center", 
-      alignItems:"center",
-    }),
-    text : (colors) => ({
-      color:colors.HEADERTITLE,
-      fontFamily:FONT.REGULAR,
-      fontSize:18
-    }),
-  }
-)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -53,14 +61,12 @@ const styles = StyleSheet.create(
 //     // async function onDisplayNotification() {
 
 //     //     await notifee.requestPermission()
-    
-        
+
 //     //     const channelId = await notifee.createChannel({
 //     //       id: 'default',
 //     //       name: 'Default Channel',
 //     //     });
-    
-       
+
 //     //     await notifee.displayNotification({
 //     //       title: 'Notification Title',
 //     //       body: 'Main body content of the notification',
@@ -87,12 +93,12 @@ const styles = StyleSheet.create(
 //             id: 'default',
 //             name: 'Default Channel',
 //           });
-    
+
 //         const trigger = {
 //           type: TriggerType.TIMESTAMP,
-//           timestamp: date.getTime(), 
+//           timestamp: date.getTime(),
 //         };
-    
+
 //         await notifee.createTriggerNotification(
 //           {
 //             title: 'Meeting',
@@ -105,7 +111,6 @@ const styles = StyleSheet.create(
 //         );
 //       }
 
-
 //     return (
 //         <View style={{flex:1, backgroundColor:APPCOLOR.BACKGROUND,
 //             justifyContent:"center", alignItems:"center",}}>
@@ -113,9 +118,9 @@ const styles = StyleSheet.create(
 //                 CheckList
 //             </Text>
 
-//             {/* <TouchableOpacity 
-//             onPress={onDisplayNotification} 
-//             style={{backgroundColor:"pink", padding:20, 
+//             {/* <TouchableOpacity
+//             onPress={onDisplayNotification}
+//             style={{backgroundColor:"pink", padding:20,
 //             justifyContent:"center", alignItems:"center",
 //              width:"50%", marginVertical:10}}>
 //                 <Text style={{color:"black"}}>
@@ -123,9 +128,9 @@ const styles = StyleSheet.create(
 //                 </Text>
 //             </TouchableOpacity> */}
 
-//             <TouchableOpacity 
-//             onPress={onCreateTriggerNotification} 
-//             style={{backgroundColor:"blue", padding:20, 
+//             <TouchableOpacity
+//             onPress={onCreateTriggerNotification}
+//             style={{backgroundColor:"blue", padding:20,
 //             justifyContent:"center", alignItems:"center",
 //              width:"50%", marginVertical:10}}>
 //                 <Text style={{color:"white"}}>

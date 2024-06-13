@@ -1,6 +1,5 @@
-import React, {useRef, useState, useEffect, useFocusEffect} from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import {
-  Dimensions,
   KeyboardAvoidingView,
   Modal,
   Text,
@@ -9,44 +8,44 @@ import {
   FlatList,
   Linking,
   TouchableOpacity,
-  SafeAreaView,
   Alert,
-  StatusBar,
+  Platform,
 } from 'react-native';
 import {RichEditor, RichToolbar, actions} from 'react-native-pell-rich-editor';
-import {APPCOLOR} from '../../Assets/Colors/appColors';
 import {homeStyles} from '../HomeScreen/homeStyle';
-import {FONT} from '../../Constants/fontConstants';
 import {NAVIGATION} from '../../Constants/navConstants';
-import firestore , { serverTimestamp } from '@react-native-firebase/firestore';
+import firestore from '@react-native-firebase/firestore';
 import {styles} from './styles';
-import {profileImgStyles} from '../../Common/styles';
+import {profileImgStyles} from '../../Components/ProfileImage/styles';
 import {dimensions} from '../../Constants/utility';
-import {useReduxSelector} from 'react-redux';
+import {useReduxSelector} from '../../Redux/Store/store';
 import {getThemeColors, themeColors} from '../../Assets/Colors/themeColors';
-import {ICONS} from '../../Constants/iconConstants';
-import Reminder from './Reminder';
 import CustomDialogInput from './CustomDialogInput';
+import {AddNoteScreenProps} from '../../Navigation/routeTypes';
 
-function AddNote({route, navigation}) {
-  const [title, setTitle] = useState('');
-  const [desc, setDesc] = useState('');
-  const [modalVisible, setModalVisible] = useState(false);
-  const [collections, setCollections] = useState([]);
-  const [newCollection, setNewCollection] = useState('');
-  const [isDialogVisible, setIsDialogVisible] = useState(false);
-  const [selectedCollection, setSelectedCollection] = useState({
+const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
+  const [title, setTitle] = useState<string>('');
+  const [desc, setDesc] = useState<string>('');
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [collections, setCollections] = useState<
+    Array<{text: string; number: number}>
+  >([]);
+  const [newCollection, setNewCollection] = useState<string>('');
+  const [isDialogVisible, setIsDialogVisible] = useState<boolean>(false);
+  const [selectedCollection, setSelectedCollection] = useState<{
+    number: number;
+    text: string;
+  }>({
     number: 1,
     text: 'Others',
   });
-  const richText = useRef();
-  const [emptyColl, setEmptyColl] = useState(false);
+  const richText = useRef<RichEditor>(null);
+  const [emptyColl, setEmptyColl] = useState<boolean>(false);
   const theme = useReduxSelector(state => state.user.theme);
   const colors = getThemeColors(theme);
-  // const descRef = useRef("");
 
   const {uid, itemTitle, itemDesc, itemID, label} = route.params;
-// console.log(emptyColl,"EMPTY")
+
   useEffect(() => {
     if (itemTitle || itemDesc) {
       setTitle(itemTitle);
@@ -60,7 +59,7 @@ function AddNote({route, navigation}) {
     const unsubscribe = userDocRef.onSnapshot(snapshot => {
       if (snapshot.exists) {
         const userData = snapshot.data();
-        if (userData.collections) {
+        if (userData?.collections) {
           setCollections(userData.collections);
         }
       }
@@ -72,21 +71,21 @@ function AddNote({route, navigation}) {
   const handleInsertLink = () => {
     setIsDialogVisible(true);
   };
+
   const handleCancel = () => {
     setIsDialogVisible(false);
   };
 
-  const handleSubmit = (link) => {
-    if(link=="")
-      {
-        Alert.alert("No URL provided", "Please enter a URL");
-        return;
-      }
+  const handleSubmit = (link: string) => {
+    if (link === '') {
+      Alert.alert('No URL provided', 'Please enter a URL');
+      return;
+    }
     richText.current?.insertLink(link, link);
     setIsDialogVisible(false);
   };
 
-  const handleDesc = text => {
+  const handleDesc = (text: string) => {
     setDesc(text);
   };
 
@@ -99,7 +98,7 @@ function AddNote({route, navigation}) {
       .update({
         title: title,
         desc: desc,
-        createdAt : serverTimestamp(),
+        createdAt: firestore.FieldValue.serverTimestamp(),
       });
   };
 
@@ -107,7 +106,7 @@ function AddNote({route, navigation}) {
     await firestore().collection('users').doc(uid).collection(label).add({
       title: title,
       desc: desc,
-      createdAt : serverTimestamp(),
+      createdAt: firestore.FieldValue.serverTimestamp(),
     });
   };
 
@@ -116,15 +115,17 @@ function AddNote({route, navigation}) {
     const doc = await collectionRef.get();
     if (doc.exists) {
       const userData = doc.data();
-      const updatedCollections = userData.collections.map(collection => {
-        if (collection.text === label) {
-          return {
-            ...collection,
-            number: collection.number + 1,
-          };
-        }
-        return collection;
-      });
+      const updatedCollections = userData?.collections.map(
+        (collection: {text: string; number: number}) => {
+          if (collection.text === label) {
+            return {
+              ...collection,
+              number: collection.number + 1,
+            };
+          }
+          return collection;
+        },
+      );
       await collectionRef.set({collections: updatedCollections}, {merge: true});
     }
   };
@@ -136,8 +137,8 @@ function AddNote({route, navigation}) {
       .collection(selectedCollection.text)
       .add({
         title: title,
-        desc: desc, 
-        createdAt : serverTimestamp(),
+        desc: desc,
+        createdAt: firestore.FieldValue.serverTimestamp(),
       });
   };
 
@@ -146,15 +147,17 @@ function AddNote({route, navigation}) {
     const doc = await collectionRef.get();
     if (doc.exists) {
       const userData = doc.data();
-      const updatedCollections = userData.collections.map(collection => {
-        if (collection.text === selectedCollection.text) {
-          return {
-            ...collection,
-            number: collection.number + 1,
-          };
-        }
-        return collection;
-      });
+      const updatedCollections = userData?.collections.map(
+        (collection: {text: string; number: number}) => {
+          if (collection.text === selectedCollection.text) {
+            return {
+              ...collection,
+              number: collection.number + 1,
+            };
+          }
+          return collection;
+        },
+      );
       await collectionRef.set({collections: updatedCollections}, {merge: true});
     }
   };
@@ -170,7 +173,6 @@ function AddNote({route, navigation}) {
         updateNote();
       } else if (label) {
         saveNoteLabel();
-
         incLabelCollection();
       } else {
         saveNoteNew();
@@ -178,10 +180,8 @@ function AddNote({route, navigation}) {
       }
 
       setTitle('');
-
       setDesc('');
-
-      console.log(' Note saved successfully!');
+      console.log('Note saved successfully!');
       if (itemID || label) {
         navigation.goBack();
       } else {
@@ -235,31 +235,33 @@ function AddNote({route, navigation}) {
     setNewCollection('');
   };
 
-  const renderCollectionItem = ({item}) => (
+  const renderCollectionItem = ({
+    item,
+  }: {
+    item: {text: string; number: number};
+  }) => (
     <TouchableOpacity
       style={styles.collectionItem}
       onPress={() => handleCollectionSelection(item)}>
       <Text style={styles.collectionText(colors)}>{item.text}</Text>
     </TouchableOpacity>
   );
-  const handleCollectionSelection = collection => {
+
+  const handleCollectionSelection = (collection: {
+    text: string;
+    number: number;
+  }) => {
     setSelectedCollection(collection);
     setModalVisible(false);
     setEmptyColl(false);
   };
 
   return (
-    // <SafeAreaView style={styles.container(colors)}>
     <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : ''}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       style={styles.container(colors)}
       keyboardVerticalOffset={97}>
-        {/* {modalVisible &&
-          <StatusBar backgroundColor={"rgba(0,0,0,0)"}
-      barStyle= {theme === "LIGHT" ? "dark-content" : "light-content"}
-      />} */}
       <View style={styles.view}>
-        {/* <Reminder /> */}
         <View></View>
         <View>
           {itemID || label ? null : (
@@ -267,8 +269,7 @@ function AddNote({route, navigation}) {
               style={styles.collButton(colors)}
               onPress={() => setModalVisible(true)}>
               <Text style={styles.collText(colors)}>
-                {' '}
-                {selectedCollection.text}{' '}
+                {selectedCollection.text}
               </Text>
             </TouchableOpacity>
           )}
@@ -281,10 +282,8 @@ function AddNote({route, navigation}) {
               setModalVisible(false);
             }}>
             <KeyboardAvoidingView
-              behavior={Platform.OS === 'ios' ? 'padding' : ''}
-              style={profileImgStyles.modalBackground}
-              // keyboardVerticalOffset={-10}
-            >
+              behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+              style={profileImgStyles.modalBackground}>
               <View
                 style={[
                   profileImgStyles.modalContainer(colors),
@@ -299,7 +298,8 @@ function AddNote({route, navigation}) {
                   </View>
                   <TouchableOpacity
                     style={styles.xButton(colors)}
-                    onPress={() => {setModalVisible(false);
+                    onPress={() => {
+                      setModalVisible(false);
                       setEmptyColl(false);
                     }}>
                     <Text style={{color: colors.HEADERTITLE}}>X</Text>
@@ -319,9 +319,9 @@ function AddNote({route, navigation}) {
                   onChangeText={setNewCollection}
                   placeholderTextColor={colors.HEADERTITLE}
                   maxLength={20}
-                  onBlur={()=> setEmptyColl(false)}
+                  onBlur={() => setEmptyColl(false)}
                 />
-                {emptyColl && newCollection=="" && (
+                {emptyColl && newCollection === '' && (
                   <Text style={{color: 'red', paddingBottom: 10}}>
                     *Enter collection name
                   </Text>
@@ -352,7 +352,6 @@ function AddNote({route, navigation}) {
         placeholder="Note"
         initialContentHTML={desc}
         onChange={handleDesc}
-        androidHardwareAccelerationDisabled={true}
         initialHeight={80}
         scrollEnabled={true}
         onLink={async url => {
@@ -364,7 +363,6 @@ function AddNote({route, navigation}) {
         }}
         editorStyle={styles.editor(colors)}
         style={styles.desc(colors)}
-        // containerStyle={{ overflow: 'scroll' }}
       />
 
       <View style={{alignItems: 'center'}}>
@@ -381,11 +379,8 @@ function AddNote({route, navigation}) {
           editor={richText}
           iconTint={themeColors.LIGHT.GRAY}
           selectedIconTint={themeColors.LIGHT.DARK_BLUE}
-          // onInsertLink={()=>console.log("hello")}
-          // onInsertLink={()=>{Alert.alert('')}}
           onInsertLink={handleInsertLink}
           actions={[
-            // actions.insertImage,
             actions.setBold,
             actions.setItalic,
             actions.setUnderline,
@@ -397,13 +392,13 @@ function AddNote({route, navigation}) {
           ]}
         />
         <CustomDialogInput
-        isVisible={isDialogVisible}
-        onCancel={handleCancel}
-        onSubmit={handleSubmit}
-      />
+          isVisible={isDialogVisible}
+          onCancel={handleCancel}
+          onSubmit={handleSubmit}
+        />
       </View>
     </KeyboardAvoidingView>
   );
-}
+};
 
 export default AddNote;

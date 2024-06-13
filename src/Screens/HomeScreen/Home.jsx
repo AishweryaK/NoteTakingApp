@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, Image, SafeAreaView, ActivityIndicator, ScrollView, TouchableOpacity } from "react-native";
 import { homeStyles } from "./homeStyle";
-import CustomList from "../../Components/CustomList";
+import CustomList from "../../Components/CustomList/CustomList";
 import { useReduxSelector } from "../Redux/Store/store";
 import { getThemeColors, themeColors } from "../../Assets/Colors/themeColors";
 import { NAVIGATION } from "../../Constants/navConstants";

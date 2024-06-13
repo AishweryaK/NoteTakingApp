@@ -1,32 +1,35 @@
-import React, { useMemo, useState, useEffect } from "react";
-import { View, TouchableOpacity, Text, ImageBackground, FlatList, Modal, Alert } from "react-native";
+import React, { useMemo, useState, useEffect, FC } from "react";
+import { View, TouchableOpacity, Text, FlatList, Modal, Alert } from "react-native";
 import firestore from "@react-native-firebase/firestore";
-import CustomLabel from "./CustomLabel";
-import { NAVIGATION } from "../Constants/navConstants";
-import { useReduxSelector } from "../Redux/Store/store";
-import AvailSpace from "../Screens/HomeScreen/AvailSpace";
-import { dimensions } from "../Constants/utility";
-import { showStyles } from "../Screens/ShowNotes/styles";
-import { getThemeColors } from "../Assets/Colors/themeColors";
+import CustomLabel from "../CustomLabel/CustomLabel";
+import { NAVIGATION } from "../../Constants/navConstants";
+import { useReduxSelector } from "../../Redux/Store/store";
+import AvailSpace from "../../Screens/HomeScreen/AvailSpace";
+import { dimensions } from "../../Constants/utility";
+import { showStyles } from "../../Screens/ShowNotes/styles";
+import { getThemeColors } from "../../Assets/Colors/themeColors";
+import { HomeProps } from "../../Navigation/routeTypes";
+
+interface CollectionItem {
+  text: string;
+  number: number;
+}
 
 
-function CustomList({ navigation }) {
-  const [collections, setCollections] = useState([]);
+const CustomList: FC<HomeProps> = ({ navigation }) => {
+  const [collections, setCollections] = useState<CollectionItem[]>([]);
   const user = useReduxSelector((state) => state.user);
   const colors = getThemeColors(user.theme);
   const [modalVisible, setModalVisible] = useState(false);
   const [collName, setCollName] = useState("");
 
-
   useEffect(() => {
     const userDocRef = firestore().collection('users').doc(user.uid);
 
     const unsubscribe = userDocRef.onSnapshot((snapshot) => {
-      // console.log('snapshot',snapshot)
       if (snapshot.exists) {
         const userData = snapshot.data();
-        console.log("userData fetching", userData)
-        if (userData.collections) {
+        if (userData && userData.collections) {
           setCollections(userData.collections);
         }
       }
@@ -35,12 +38,12 @@ function CustomList({ navigation }) {
     return () => unsubscribe();
   }, [user.uid]);
 
-  const handleLongPress = (collName) => {
+  const handleLongPress = (collName: string) => {
     setCollName(collName);
     setModalVisible(true);
   }
 
-  const removeCollectionFromFirestore = async (collName) => {
+  const removeCollectionFromFirestore = async (collName: string) => {
     const collectionItem = collections.find(collection => collection.text === collName);
     const number = collectionItem ? collectionItem.number : 1;
     const userDocRef = firestore().collection('users').doc(user.uid);
@@ -54,13 +57,12 @@ function CustomList({ navigation }) {
   }
 
   const handleDeleteCollection = async () => {
-    if (collName == "Personal" || collName == "Academic" || collName == "Others" || collName == "Work") {
+    if (collName === "Personal" || collName === "Academic" || collName === "Others" || collName === "Work") {
       Alert.alert("Action Not Allowed", "You cannot delete default collections.");
-      setModalVisible(false)
+      setModalVisible(false);
       return;
     }
     try {
-
       const collectionRef = firestore()
         .collection('users')
         .doc(user.uid)
@@ -71,9 +73,7 @@ function CustomList({ navigation }) {
       const deletePromises = snapshot.docs.map(doc => doc.ref.delete());
       await Promise.all(deletePromises);
 
-      removeCollectionFromFirestore(collName);
-
-
+      await removeCollectionFromFirestore(collName);
 
       setCollections(prevCollections =>
         prevCollections.filter(collection => collection.text !== collName)
@@ -86,7 +86,7 @@ function CustomList({ navigation }) {
   }
 
   const renderItem = useMemo(() => {
-    return ({ item }) => (
+    return ({ item }: { item: CollectionItem }) => (
       <View style={{ paddingBottom: 30 }}>
         <CustomLabel
           handleLongPress={() =>
@@ -102,11 +102,9 @@ function CustomList({ navigation }) {
     );
   }, [navigation, user.uid]);
 
-
   return (
     <>
       <FlatList
-
         data={collections}
         renderItem={renderItem}
         keyExtractor={(item, index) => index.toString()}
@@ -141,3 +139,4 @@ function CustomList({ navigation }) {
 }
 
 export default React.memo(CustomList);
+

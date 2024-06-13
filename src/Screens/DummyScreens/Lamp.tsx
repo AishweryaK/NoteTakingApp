@@ -1,39 +1,40 @@
-import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet} from "react-native";
-import { APPCOLOR } from "../../Assets/Colors/appColors";
-import { useReduxSelector } from "../Redux/Store/store";
-import { getThemeColors } from "../../Assets/Colors/themeColors";
-import { FONT } from "../../Constants/fontConstants";
+import React from 'react';
+import {View, Text} from 'react-native';
+import { useReduxSelector } from '../../Redux/Store/store';
+import {getThemeColors} from '../../Assets/Colors/themeColors';
+import {styles} from './styles';
 
-function Lamp () {
-  const theme = useReduxSelector((state)=> state.user.theme)
+function Lamp() {
+  const theme = useReduxSelector(state => state.user.theme);
   const colors = getThemeColors(theme);
-    return (
-        <View style={styles.view(colors)}>
-            <Text style={styles.text(colors)}>
-               New features coming soon!!! 
-            </Text>
-        </View>
-    )
+  return (
+    <View style={styles.view(colors)}>
+      <Text style={styles.text(colors)}>New features coming soon!!!</Text>
+    </View>
+  );
 }
 
 export default Lamp;
 
-const styles = StyleSheet.create(
-  {
-    view : (colors) => ({
-      flex:1, 
-      backgroundColor:colors.BACKGROUND,
-      justifyContent:"center", 
-      alignItems:"center",
-    }),
-    text : (colors) => ({
-      color:colors.HEADERTITLE,
-      fontFamily:FONT.REGULAR,
-      fontSize:18
-    }),
-  }
-)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -73,7 +74,6 @@ const styles = StyleSheet.create(
 // } from 'react-native';
 // import RNCalendarEvents from 'react-native-calendar-events';
 
-
 // const Lamp = () => {
 
 //   const [eventTitle, setEventTitle] = useState('Gym Workout');
@@ -82,7 +82,6 @@ const styles = StyleSheet.create(
 //   const [calendars, setCalendars] = useState([]);
 //   const [pickedCal, setPickedCal] = useState(null);
 
-  
 //   useEffect(() => {
 //     async function loadCalendars() {
 //       try {
@@ -115,7 +114,7 @@ const styles = StyleSheet.create(
 //         endDate: new Date().toISOString(),
 //         location: eventLocation,
 //       });
-  
+
 //       setEventId(savedEventId);
 //       alert('Event saved successfully.');
 //     } catch (error) {
@@ -123,7 +122,6 @@ const styles = StyleSheet.create(
 //     }
 //   };
 
-  
 //   const fetchEvent = async () => {
 //   try {
 //     const eventData = await RNCalendarEvents.findEventById(eventId);
@@ -133,9 +131,8 @@ const styles = StyleSheet.create(
 //   }
 // };
 
-
 //   return (
-//     <View 
+//     <View
 //     // style={styles.container}
 //     >
 //     <TextInput
@@ -159,7 +156,6 @@ const styles = StyleSheet.create(
 // };
 
 // export default Lamp;
-
 
 // import React, { useEffect, useState } from 'react';
 // import {
@@ -229,7 +225,7 @@ const styles = StyleSheet.create(
 //   };
 
 //   return (
-//     <View 
+//     <View
 //     // style={styles.container}
 //     >
 //       <TextInput
@@ -254,10 +250,7 @@ const styles = StyleSheet.create(
 
 // export default Lamp;
 
-
 //---------------------------------------------------------------------------------------------------
-
-
 
 // import React, { useEffect, useState } from 'react';
 // import {
@@ -363,9 +356,7 @@ const styles = StyleSheet.create(
 
 // export default Lamp;
 
-
 //----------------------------------------------------------------------------------
-
 
 // import React, { useEffect, useState } from 'react';
 // import { View, Text, Button, Alert } from 'react-native';
@@ -439,5 +430,3 @@ const styles = StyleSheet.create(
 // };
 
 // export default Lamp;
-
-

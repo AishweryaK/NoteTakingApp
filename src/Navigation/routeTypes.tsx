@@ -1,5 +1,6 @@
-import { NativeStackNavigationProp, NativeStackScreenProps } from "@react-navigation/native-stack";
+import { NativeStackNavigationProp} from "@react-navigation/native-stack";
 import { NAVIGATION } from "../Constants/navConstants";
+import { RouteProp } from "@react-navigation/native";
 
   export type RootStackParamsList = {
     WALKTHROUGH: undefined;
@@ -7,8 +8,8 @@ import { NAVIGATION } from "../Constants/navConstants";
     SIGNUP: undefined;
     FORGOTPASS: undefined;
     HOMESCREEN: undefined;
-    ADDNOTE:{uid:string, itemTitle:string, itemDesc:string};
-    NOTESCREEN: undefined;
+    ADDNOTE:{uid:string, itemTitle:string, itemDesc:string, itemID:string, label:string};
+    NOTESCREEN: { uid: string, itemText: string};
     SETTINGS: undefined;
     HOME: undefined;
     CHECKLIST: undefined;
@@ -19,13 +20,17 @@ import { NAVIGATION } from "../Constants/navConstants";
     export interface HomeScreenProps {
       navigation: NativeStackNavigationProp<RootStackParamsList, typeof NAVIGATION.HOMESCREEN>
     }
+
+    export interface HomeProps {
+      navigation: NativeStackNavigationProp<RootStackParamsList, typeof NAVIGATION.HOME>
+    }
    
     export interface LoginScreenProps {
       navigation: NativeStackNavigationProp<RootStackParamsList, typeof NAVIGATION.LOGIN>
     }
-
     export interface AddNoteScreenProps {
-      navigation: NativeStackNavigationProp<RootStackParamsList, typeof NAVIGATION.ADDNOTE>
+      route: RouteProp<RootStackParamsList, typeof NAVIGATION.ADDNOTE>;
+      navigation: NativeStackNavigationProp<RootStackParamsList, typeof NAVIGATION.ADDNOTE>;
     }
 
     export interface WalkthroughScreenProps {

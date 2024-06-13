@@ -5,7 +5,7 @@ import HTML from "react-native-render-html";
 import { showStyles } from './styles';
 import { NAVIGATION } from '../../Constants/navConstants';
 import { dimensions } from '../../Constants/utility';
-import { inputStyles } from '../../Common/styles';
+import { inputStyles } from '../../Components/CustomInput/styles';
 import filter from "lodash.filter";
 import { APPCOLOR } from '../../Assets/Colors/appColors';
 import { FONT } from '../../Constants/fontConstants';

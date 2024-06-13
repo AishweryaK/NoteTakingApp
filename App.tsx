@@ -15,19 +15,13 @@ import StackNavigation from './src/Navigation/rootNav';
 import { getThemeColors } from './src/Assets/Colors/themeColors';
 import NetInfo from '@react-native-community/netinfo';
 import { netConnection } from './src/Redux/Slices/internetSlice';
-import OfflineSign from './src/Components/InternetConn';
+import OfflineSign from './src/Components/InternetConn/InternetConn';
 import { useReduxDispatch, useReduxSelector } from './src/Redux/Store/store';
 
 interface Styles {
  colors: any;
 }
 
-const styles = StyleSheet.create<Styles>({
-  container: (colors) => ({
-    flex:1,
-    backgroundColor:colors.BACKGROUND,
-  }),
-});
 
 
 function App(){
@@ -80,6 +74,13 @@ function App(){
 }
 
 export default App;
+
+const styles = StyleSheet.create<Styles>({
+  container: (colors) => ({
+    flex:1,
+    backgroundColor:colors.BACKGROUND,
+  }),
+});
 
 
 // import React, { useEffect, useState } from 'react';

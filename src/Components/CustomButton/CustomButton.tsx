@@ -1,13 +1,14 @@
 import React from "react";
 import { TouchableOpacity, View, Text} from "react-native";
-import { buttonStyles } from "../Common/styles";
-import { getThemeColors } from "../Assets/Colors/themeColors";
+import { buttonStyles } from "./styles";
+import { getThemeColors } from "../../Assets/Colors/themeColors";
+import { CustomButtonProps } from ".";
 
-interface CustomButtonProps {
-    handleButton: () => void;
-    text:string,
-    disable:boolean,
-}
+// interface CustomButtonProps {
+//     handleButton: () => void;
+//     text:string,
+//     disable:boolean,
+// }
 
 export default function CustomButton ({handleButton, text, disable}:CustomButtonProps) {
     const colors = getThemeColors("LIGHT");

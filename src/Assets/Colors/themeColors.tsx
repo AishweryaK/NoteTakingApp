@@ -18,8 +18,14 @@ export interface ThemeColors {
     ICONFOCUSED: string;
     SHADOW: string;
     BOTTOM: string;
+    RED:string;
 }
 
+export const commonColors ={
+    RED:'#b52424',
+    BGCOLOR:"rgba(0, 0, 0, 0.7)",
+    WHITE:"#FFFFFF",
+}
 
 export const themeColors= {
     LIGHT : {
@@ -39,7 +45,8 @@ export const themeColors= {
     ICON:"#BEB9DD",
     ICONFOCUSED:"#2A2351",
     SHADOW:"#6B4EFF",
-    BOTTOM:"#FFFFFF"
+    BOTTOM:"#FFFFFF",
+    RED:'#b52424',
     },
 
     DARK : {
@@ -59,7 +66,9 @@ export const themeColors= {
         ICON:"#BEB9DD",
         ICONFOCUSED:"#2A2351",
         SHADOW:"#ECECEC",
-        BOTTOM:"#383A41"
+        BOTTOM:"#383A41",
+        RED:'#b52424',
+
         }
     
 }

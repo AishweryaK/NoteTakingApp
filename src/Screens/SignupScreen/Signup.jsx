@@ -15,15 +15,15 @@ import * as Yup from 'yup';
 import auth from '@react-native-firebase/auth';
 import {NAVIGATION} from '../../Constants/navConstants';
 import firestore from '@react-native-firebase/firestore';
-import CustomInput from '../../Components/CustomInput';
-import CustomButton from '../../Components/CustomButton';
+import CustomInput from '../../Components/CustomInput/CustomInput';
+import CustomButton from '../../Components/CustomButton/CustomButton';
 import { addDocumentsForUser } from '../../Common/firebaseUtils';
-import ProfileImage from '../../Components/ProfileImage';
+import ProfileImage from '../../Components/ProfileImage/ProfileImage';
 import { APPCOLOR } from '../../Assets/Colors/appColors';
-import useAuthentication from '../../Components/CustomHook';
+import useAuthentication from '../../Components/CustomHook/CustomHook';
 import { useReduxSelector } from 'react-redux';
 import { getThemeColors } from '../../Assets/Colors/themeColors';
-import OfflineSign from '../../Components/InternetConn';
+import OfflineSign from '../../Components/InternetConn/InternetConn';
 
 export const SignupSchema = Yup.object().shape({
   firstName: Yup.string()

@@ -3,7 +3,7 @@
     "noImplicitAny": true,
     "removeComments": true,
     "preserveConstEnums": true,
-    "moduleResolution": "node",
+    "moduleResolution": "node16",
     "allowSyntheticDefaultImports": true,
   },
   "extends": "@react-native/typescript-config/tsconfig.json"
