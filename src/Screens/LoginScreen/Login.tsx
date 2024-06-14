@@ -21,13 +21,12 @@ import {useReduxSelector} from '../../Redux/Store/store';
 import {getThemeColors, themeColors} from '../../Assets/Colors/themeColors';
 import {LoginScreenProps} from '../../Navigation/routeTypes';
 import { FormValues } from '.';
+import { CONSTANTS, FORGOT_PASSOWRD, TITLE } from '../../Constants/strings';
 
 const LoginSchema = Yup.object().shape({
   email: SignupSchema.fields.email,
   password: SignupSchema.fields.password,
 });
-
-
 
 function Login({navigation}: LoginScreenProps) {
   const {isLoading, signInCall} = useAuthentication();
@@ -67,8 +66,8 @@ function Login({navigation}: LoginScreenProps) {
             <CustomInput
               placeHolder={SIGNING.EMAIL}
               value={values.email}
-              handleChange={() => handleChange('email')}
-              handleBlur={() => setFieldTouched('email')}
+              handleChange={handleChange(CONSTANTS.EMAIL)}
+              handleBlur={() => setFieldTouched(CONSTANTS.EMAIL)}
             />
             {touched.email && errors.email && (
               <Text style={styles.errorTxt}>{errors.email}</Text>
@@ -77,8 +76,8 @@ function Login({navigation}: LoginScreenProps) {
             <CustomInput
               placeHolder={SIGNING.SETPASSWORD}
               value={values.password}
-              handleChange={() => handleChange('password')}
-              handleBlur={() => setFieldTouched('password')}
+              handleChange={handleChange(CONSTANTS.PASSWORD)}
+              handleBlur={() => setFieldTouched(CONSTANTS.PASSWORD)}
             />
             {touched.password && errors.password && (
               <Text style={styles.errorTxt}>{errors.password}</Text>
@@ -86,7 +85,7 @@ function Login({navigation}: LoginScreenProps) {
 
             <View style={loginStyles.button}>
               <TouchableOpacity onPress={handleForgotP}>
-                <Text style={loginStyles.forgotTxt}>Forgot Password?</Text>
+                <Text style={loginStyles.forgotTxt}>{FORGOT_PASSOWRD.FORGOT}</Text>
               </TouchableOpacity>
             </View>
 
@@ -99,7 +98,7 @@ function Login({navigation}: LoginScreenProps) {
               ) : (
                 <CustomButton
                   handleButton={handleSubmit}
-                  text={'Log in'}
+                  text={TITLE.LOGIN}
                   disable={!isValid}
                 />
               )}

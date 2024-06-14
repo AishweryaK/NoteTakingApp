@@ -10,7 +10,7 @@ import {
   ActivityIndicator,
   Platform,
 } from 'react-native';
-import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth'; 
+import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import {styles} from './styles';
 import {useReduxSelector} from '../../Redux/Store/store';
 import {getThemeColors, Theme} from '../../Assets/Colors/themeColors';
@@ -18,6 +18,13 @@ import {SignupSchema} from '../SignupScreen/Signup';
 import * as Yup from 'yup';
 import {Formik, FormikHelpers} from 'formik';
 import {FormValues, PasswordProps} from '.';
+import {
+  CHANGE_PASSWORD,
+  CONSTANTS,
+  ERR_MSG,
+  ERR_TITLE,
+} from '../../Constants/strings';
+import {showAlert} from '../../Common/alert';
 
 const ChangePSchema = Yup.object().shape({
   password: SignupSchema.fields.password,
@@ -39,7 +46,7 @@ const ChangePasswordModal: React.FC<PasswordProps> = ({visible, onClose}) => {
     try {
       await user?.reauthenticateWithCredential(credential);
     } catch (error) {
-      throw new Error('Current password is incorrect');
+      throw new Error(ERR_MSG.PASSWORD_INCORRECT);
     }
   };
 
@@ -48,10 +55,7 @@ const ChangePasswordModal: React.FC<PasswordProps> = ({visible, onClose}) => {
     {resetForm}: FormikHelpers<FormValues>,
   ) => {
     if (currentPassword === values.password) {
-      Alert.alert(
-        'Error',
-        'The new password cannot be the same as the current password.',
-      );
+      showAlert(ERR_TITLE.ERROR, ERR_MSG.PASSWORD_SAME);
       resetForm();
       return;
     }
@@ -60,7 +64,7 @@ const ChangePasswordModal: React.FC<PasswordProps> = ({visible, onClose}) => {
       values.password === '' ||
       values.confirmPassword === ''
     ) {
-      Alert.alert('Error', 'Please fill in all the fields.');
+      showAlert(ERR_TITLE.ERROR, ERR_MSG.FILL_ALL_FIELDS);
       return;
     }
 
@@ -69,18 +73,16 @@ const ChangePasswordModal: React.FC<PasswordProps> = ({visible, onClose}) => {
       await reauthenticate(currentPassword);
       const user = auth().currentUser;
       await user?.updatePassword(values.password);
-      Alert.alert('Success', 'Password changed successfully');
+      showAlert(ERR_TITLE.SUCCESS, ERR_MSG.CHANGED_PASSWORD);
       resetForm();
       onClose();
-    } catch (e :any) {
+    } catch (e: any) {
       const error: FirebaseAuthTypes.NativeFirebaseAuthError = e;
-      Alert.alert('Error', error.message);
+      showAlert(ERR_TITLE.ERROR, error.message);
     } finally {
       setIsLoading(false);
     }
   };
-
-
 
   const handleCancel = (resetForm: () => void) => {
     onClose();
@@ -117,11 +119,13 @@ const ChangePasswordModal: React.FC<PasswordProps> = ({visible, onClose}) => {
             onRequestClose={onClose}>
             <View style={styles.modalContainer}>
               <View style={styles.modalContent(colors)}>
-                <Text style={styles.modalTitle(colors)}>Change Password</Text>
+                <Text style={styles.modalTitle(colors)}>
+                  {CHANGE_PASSWORD.CHANGE}
+                </Text>
 
                 <TextInput
                   style={styles.input(colors)}
-                  placeholder="Current Password"
+                  placeholder={CHANGE_PASSWORD.CURRENT}
                   secureTextEntry={true}
                   value={currentPassword}
                   onChangeText={setCurrentPassword}
@@ -129,12 +133,12 @@ const ChangePasswordModal: React.FC<PasswordProps> = ({visible, onClose}) => {
                 />
                 <TextInput
                   style={styles.input(colors)}
-                  placeholder="New Password"
+                  placeholder={CHANGE_PASSWORD.NEW}
                   secureTextEntry={true}
                   value={values.password}
-                  onChangeText={handleChange('password')}
+                  onChangeText={handleChange(CONSTANTS.PASSWORD)}
                   placeholderTextColor={colors.HEADERTITLE}
-                  onBlur={() => setFieldTouched('password')}
+                  onBlur={() => setFieldTouched(CONSTANTS.PASSWORD)}
                 />
                 {touched.password && errors.password && (
                   <Text style={styles.errorTxt}>{errors.password}</Text>
@@ -142,12 +146,12 @@ const ChangePasswordModal: React.FC<PasswordProps> = ({visible, onClose}) => {
 
                 <TextInput
                   style={styles.input(colors)}
-                  placeholder="Confirm New Password"
+                  placeholder={CHANGE_PASSWORD.CONFIRM_NEW}
                   secureTextEntry={true}
                   value={values.confirmPassword}
-                  onChangeText={handleChange('confirmPassword')}
+                  onChangeText={handleChange(CONSTANTS.CONFIRM_PASSWORD)}
                   placeholderTextColor={colors.HEADERTITLE}
-                  onBlur={() => setFieldTouched('confirmPassword')}
+                  onBlur={() => setFieldTouched(CONSTANTS.CONFIRM_PASSWORD)}
                 />
                 {touched.confirmPassword && errors.confirmPassword && (
                   <Text style={styles.errorTxt}>{errors.confirmPassword}</Text>
@@ -163,7 +167,9 @@ const ChangePasswordModal: React.FC<PasswordProps> = ({visible, onClose}) => {
                       <TouchableOpacity
                         style={styles.button(colors)}
                         onPress={() => handleCancel(resetForm)}>
-                        <Text style={styles.buttonText(colors)}>Cancel</Text>
+                        <Text style={styles.buttonText(colors)}>
+                          {CHANGE_PASSWORD.CANCEL}
+                        </Text>
                       </TouchableOpacity>
 
                       <TouchableOpacity
@@ -171,7 +177,7 @@ const ChangePasswordModal: React.FC<PasswordProps> = ({visible, onClose}) => {
                         onPress={() => handleSubmit()}
                         disabled={!isValid}>
                         <Text style={styles.buttonText(colors)}>
-                          Change Password
+                          {CHANGE_PASSWORD.CHANGE}
                         </Text>
                       </TouchableOpacity>
                     </>

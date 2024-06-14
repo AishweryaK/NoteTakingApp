@@ -17,7 +17,7 @@ import {getThemeColors} from '../../Assets/Colors/themeColors';
 import {SignupSchema} from '../SignupScreen/Signup';
 import * as Yup from 'yup';
 import {Formik, FormikHelpers} from 'formik';
-import {saveName} from '../../Redux/Slices/demoSlice';
+import {saveName} from '../../Redux/Slices/userSlice';
 import {NameChangeFormValues, NameChangeProps} from '.';
 
 const AccountSchema = Yup.object().shape({

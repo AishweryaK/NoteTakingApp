@@ -26,6 +26,7 @@ import StaggerView from '@mindinventory/react-native-stagger-view';
 import {ICONS} from '../../Constants/iconConstants';
 import {NoteScreenProps} from '../../Navigation/routeTypes';
 import { Note } from '.';
+import { COLLECTION, ERR_CONSOLE } from '../../Constants/strings';
 
 
 const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
@@ -40,7 +41,7 @@ const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
 
   useEffect(() => {
     const unsubscribe = firestore()
-      .collection('users')
+      .collection(COLLECTION.USERS)
       .doc(uid)
       .collection(itemText)
       .orderBy('createdAt', 'desc')
@@ -95,7 +96,7 @@ const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
   };
 
   const decLabelCollection = async () => {
-    const collectionRef = firestore().collection('users').doc(uid);
+    const collectionRef = firestore().collection(COLLECTION.USERS).doc(uid);
     const doc = await collectionRef.get();
     if (doc.exists) {
       const userData = doc.data();
@@ -116,7 +117,7 @@ const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
 
   const deleteNote = async () => {
     await firestore()
-      .collection('users')
+      .collection(COLLECTION.USERS)
       .doc(uid)
       .collection(itemText)
       .doc(itemUid as string)
@@ -131,7 +132,7 @@ const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
 
       await decLabelCollection();
     } catch (error) {
-      console.error('Error deleting note: ', error);
+      console.error(ERR_CONSOLE.DELETE_NOTE, error);
     }
   };
 

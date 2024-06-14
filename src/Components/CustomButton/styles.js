@@ -3,7 +3,7 @@ import {FONT} from '../../Constants/fontConstants';
 import {dimensions} from '../../Constants/utility';
 
 export const buttonStyles = StyleSheet.create({
-  googleButton: colors => ({
+  googleButton: (colors) => ({
     backgroundColor: colors.BACKGROUND,
     marginTop: 10,
     borderColor: colors.BORDER,

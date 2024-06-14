@@ -100,5 +100,7 @@ export const homeStyles = StyleSheet.create({
     fontSize: 12,
     color: commonColors.WHITE,
   },
-  view: {alignItems: 'center'},
+  view: {
+    alignItems: 'center'
+  },
 });

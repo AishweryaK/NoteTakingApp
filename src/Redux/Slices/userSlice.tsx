@@ -1,15 +1,7 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {SLICE, THEME} from '../../Constants/strings';
 import { Theme } from '../../Assets/Colors/themeColors';
-
-export interface UserInfoState {
-  displayName: string | null;
-  uid: string;
-  email: string | null;
-  photoURL: string | null;
-  theme: Theme;
-  provider: string;
-}
+import { UserInfoState } from '.';
 
 const initialState: UserInfoState = {
   displayName: '',

@@ -104,8 +104,8 @@ const Signup: React.FC = () => {
               <CustomInput
                 placeHolder={SIGNING.FIRSTNAME}
                 value={values.firstName}
-                handleChange={() => handleChange('firstName')}
-                handleBlur={() => setFieldTouched('firstName')}
+                handleChange={handleChange('firstName')}
+                handleBlur={()=>setFieldTouched('firstName')}
               />
               {touched.firstName && errors.firstName && (
                 <Text style={styles.errorTxt}>{errors.firstName}</Text>
@@ -114,7 +114,7 @@ const Signup: React.FC = () => {
               <CustomInput
                 placeHolder={SIGNING.LASTNAME}
                 value={values.lastName}
-                handleChange={() => handleChange('lastName')}
+                handleChange={handleChange('lastName')}
                 handleBlur={() => setFieldTouched('lastName')}
               />
               {touched.lastName && errors.lastName && (
@@ -124,7 +124,7 @@ const Signup: React.FC = () => {
               <CustomInput
                 placeHolder={SIGNING.EMAIL}
                 value={values.email}
-                handleChange={() => handleChange('email')}
+                handleChange={handleChange('email')}
                 handleBlur={() => setFieldTouched('email')}
               />
               {touched.email && errors.email && (
@@ -134,7 +134,7 @@ const Signup: React.FC = () => {
               <CustomInput
                 placeHolder={SIGNING.SETPASSWORD}
                 value={values.password}
-                handleChange={() => handleChange('password')}
+                handleChange={handleChange('password')}
                 handleBlur={() => setFieldTouched('password')}
               />
               {touched.password && errors.password && (
@@ -144,7 +144,7 @@ const Signup: React.FC = () => {
               <CustomInput
                 placeHolder={SIGNING.CONFIRMPASSWORD}
                 value={values.confirmPassword}
-                handleChange={() => handleChange('confirmPassword')}
+                handleChange={handleChange('confirmPassword')}
                 handleBlur={() => setFieldTouched('confirmPassword')}
               />
               {touched.confirmPassword && errors.confirmPassword && (

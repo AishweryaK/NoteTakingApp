@@ -4,7 +4,8 @@ import {styles} from './styles';
 import {useReduxSelector} from '../../Redux/Store/store';
 import {getThemeColors} from '../../Assets/Colors/themeColors';
 import {ICONS} from '../../Constants/iconConstants';
-import { CustomLabelProps } from '.';
+import {CustomLabelProps} from '.';
+import {CUSTOM_LABEL, IMAGES, THEME} from '../../Constants/strings';
 
 function CustomLabel({
   handlePress,
@@ -21,14 +22,12 @@ function CustomLabel({
       style={styles.container}
       onLongPress={handleLongPress}>
       <ImageBackground
-        source={
-          theme === 'LIGHT'
-            ? require('../../Assets/Images/LabelImg.png')
-            : require('../../Assets/Images/Label_dark.png')
-        }
+        source={theme === THEME.LIGHT ? IMAGES.LABEL_LIGHT : IMAGES.LABEL_DARK}
         style={styles.bg}>
         <View style={styles.icon}>
-          {theme === 'LIGHT' ? ICONS.NOTEBLUE(50, 50) : ICONS.NOTEWHITE(50, 50)}
+          {theme === THEME.LIGHT
+            ? ICONS.NOTEBLUE(50, 50)
+            : ICONS.NOTEWHITE(50, 50)}
         </View>
         <View style={styles.txtView}>
           <Text
@@ -37,7 +36,9 @@ function CustomLabel({
             style={styles.title(colors)}>
             {text}
           </Text>
-          <Text style={styles.txt(colors)}>{number} Files</Text>
+          <Text style={styles.txt(colors)}>
+            {number} {CUSTOM_LABEL.FILES}
+          </Text>
         </View>
       </ImageBackground>
     </TouchableOpacity>

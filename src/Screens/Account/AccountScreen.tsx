@@ -7,8 +7,10 @@ import { useReduxDispatch, useReduxSelector } from '../../Redux/Store/store';
 import ProfileImage from '../../Components/ProfileImage/ProfileImage';
 import { getThemeColors } from '../../Assets/Colors/themeColors';
 import useAuthentication from '../../Components/CustomHook/CustomHook';
-import { saveUser } from '../../Redux/Slices/demoSlice';
+import { saveUser } from '../../Redux/Slices/userSlice';
 import NameChange from './NameChange';
+import { showAlert } from '../../Common/alert';
+import { ERR_CONSOLE, ERR_MSG, ERR_TITLE } from '../../Constants/strings';
 
 const AccountPage: React.FC = () => {
   const dispatch = useReduxDispatch();
@@ -33,13 +35,15 @@ const AccountPage: React.FC = () => {
     if (connection) {
       setModalVisible(true);
     } else {
-      Alert.alert("No Internet Connection", "Please check your internet connection and try again.");
+      showAlert(ERR_TITLE.INTERNET, ERR_MSG.REQUEST_FAILED)
     }
   }
 
   const closeChangeNameModal = () => {
     setModalVisible(false);
   }
+
+  console.log(displayName)
 
   const updateUserProfile = async (uri: string | null) => {
     try {
@@ -51,20 +55,20 @@ const AccountPage: React.FC = () => {
         dispatch(saveUser({ displayName, uid, email, photoURL: newPhotoURL, provider, theme }));
       }
     } catch (error) {
-      console.error("Error updating profile: ", error);
+      console.error(ERR_CONSOLE.PROFILE, error);
     }
   };
 
   return (
     <ScrollView style={styles.container(colors)}>
       <ProfileImage onImageChange={handleImageChange} />
-      <View style={{ paddingTop: 40 }}>
+      <View style={styles.view}>
         <View style={[styles.option(colors), styles.indent]}>
           {ICONS.ACCOUNT(24, 24)}
           <View style={styles.view}>
             <Text style={styles.optionText(colors)}>{displayName}</Text>
           </View>
-          <TouchableOpacity style={{ paddingLeft: 20 }} onPress={openChangeNameModal}>
+          <TouchableOpacity style={styles.button} onPress={openChangeNameModal}>
             {ICONS.EDIT(24, 24)}
           </TouchableOpacity>
         </View>

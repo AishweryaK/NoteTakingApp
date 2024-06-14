@@ -3,13 +3,14 @@ import {View, Text} from 'react-native';
 import { useReduxSelector } from '../../Redux/Store/store';
 import {getThemeColors} from '../../Assets/Colors/themeColors';
 import { styles } from './styles';
+import { FEATURES } from '../../Constants/strings';
 
 function CheckList() {
   const theme = useReduxSelector(state => state.user.theme);
   const colors = getThemeColors(theme);
   return (
     <View style={styles.view(colors)}>
-      <Text style={styles.text(colors)}>New features coming soon!!!</Text>
+      <Text style={styles.text(colors)}>{FEATURES.NEW_FEATURES}</Text>
     </View>
   );
 }
@@ -53,7 +54,6 @@ export default CheckList;
 
 // import React from "react";
 // import { View, Text, TouchableOpacity} from "react-native";
-// import { APPCOLOR } from "../../Assets/Colors/appColors";
 // import notifee, { TimestampTrigger, TriggerType } from '@notifee/react-native';
 
 // function CheckList () {
@@ -112,7 +112,7 @@ export default CheckList;
 //       }
 
 //     return (
-//         <View style={{flex:1, backgroundColor:APPCOLOR.BACKGROUND,
+//         <View style={{flex:1}},
 //             justifyContent:"center", alignItems:"center",}}>
 //             <Text style={{color:"black"}}>
 //                 CheckList

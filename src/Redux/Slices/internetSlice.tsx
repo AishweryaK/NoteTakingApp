@@ -1,9 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { SLICE } from "../../Constants/strings";
-
-export interface NetInfoState {
-  connection: boolean;
-}
+import { NetInfoState } from ".";
 
 const initialState: NetInfoState = {
   connection: false,

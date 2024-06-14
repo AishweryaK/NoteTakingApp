@@ -13,6 +13,7 @@ import {useReduxSelector} from '../Redux/Store/store';
 import {getThemeColors} from '../Assets/Colors/themeColors';
 import {TITLE} from '../Constants/strings';
 import {HomeScreenProps} from './routeTypes';
+import { bottomTabStyles } from '../Common/styles';
 
 function HomeNavigation({navigation}: HomeScreenProps) {
   const Tab = createBottomTabNavigator();
@@ -35,12 +36,7 @@ function HomeNavigation({navigation}: HomeScreenProps) {
 
   return (
     <View
-      style={{
-        flex: 1,
-        backgroundColor: colors.BACKGROUND,
-        height: dimensions.height * 0.073,
-        paddingBottom: 5,
-      }}>
+      style={bottomTabStyles.view(colors)}>
       <Tab.Navigator
         initialRouteName={NAVIGATION.HOME}
         screenOptions={({route}) => ({

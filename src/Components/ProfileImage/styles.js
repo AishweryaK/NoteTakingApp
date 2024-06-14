@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {commonColors} from '../../Assets/Colors/themeColors';
-import { FONT } from '../../Constants/fontConstants';
+import {FONT} from '../../Constants/fontConstants';
 
 export const profileImgStyles = StyleSheet.create({
   container: {

@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { themeColors } from '../../Assets/Colors/themeColors';
+import { commonColors, themeColors } from '../../Assets/Colors/themeColors';
 import { FONT } from '../../Constants/fontConstants';
 
 export const styles = StyleSheet.create({
@@ -38,7 +38,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: commonColors.BGCOLOR,
   },
   modalContent: (colors) => ( {
     width: '80%',
@@ -82,8 +82,7 @@ export const styles = StyleSheet.create({
   }),
   errorTxt: {
     fontSize: 12,
-    color: '#FF0D10',
-    // paddingBottom:10,
+    color: commonColors.ERROR,
     textAlign:"center",
     paddingTop:5,
     marginRight:20,
@@ -92,7 +91,6 @@ loadingContainer:(buttonWidth) => ({
   flex: 1,
   justifyContent: 'center',
   alignItems: 'center',
-  // backgroundColor:"red"
   paddingLeft:(buttonWidth/2),
 }),
 activity :

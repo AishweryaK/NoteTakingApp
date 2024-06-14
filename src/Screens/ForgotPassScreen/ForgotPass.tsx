@@ -14,6 +14,9 @@ import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {ForgotPassScreenProps} from '../../Navigation/routeTypes';
 import { FormValues } from '.';
+import { CONSTANTS, ERR_MSG, ERR_TITLE, FORGOT_PASSOWRD, TITLE } from '../../Constants/strings';
+import { showAlert } from '../../Common/alert';
+import { handleAuthError } from '../../Common/handleAuthErr';
 
 
 const ForgotPassScreen: React.FC<ForgotPassScreenProps> = ({navigation}) => {
@@ -24,30 +27,12 @@ const ForgotPassScreen: React.FC<ForgotPassScreenProps> = ({navigation}) => {
     auth()
       .sendPasswordResetEmail(values.email)
       .then(() => {
-        Alert.alert('Email sent successfully!', 'Please set a new password');
+        showAlert(ERR_TITLE.EMAIL_SENT,ERR_MSG.SET_PASSWORD );
         navigation.navigate(NAVIGATION.LOGIN);
       })
       .catch(error => {
-        if (error.code === 'auth/invalid-credential') {
-          Alert.alert('Error sending email', 'Incorrect email');
-        } else if (error.code === 'auth/too-many-requests') {
-          Alert.alert(
-            'Error sending email',
-            'All requests from this device are blocked due to unusual activity. Please try again later',
-          );
-        } else if (error.code === 'auth/user-not-found') {
-          Alert.alert(
-            'Error sending email',
-            'No user corresponding this email exists. Please Sign up',
-          );
-        } else if (error.code === 'auth/network-request-failed') {
-          Alert.alert(
-            'No Internet Connection',
-            'Please check your internet connection and try again.',
-          );
-        } else {
-          Alert.alert('Error sending email', `${error.message}`);
-        }
+        const context = TITLE.FORGOT;
+        handleAuthError(error, context)
       });
   };
 
@@ -77,8 +62,8 @@ const ForgotPassScreen: React.FC<ForgotPassScreenProps> = ({navigation}) => {
             <CustomInput
               placeHolder={SIGNING.EMAIL}
               value={values.email}
-              handleChange={() => handleChange('email')}
-              handleBlur={() => setFieldTouched('email')}
+              handleChange={handleChange(CONSTANTS.EMAIL)}
+              handleBlur={() => setFieldTouched(CONSTANTS.EMAIL)}
             />
 
             {touched.email && errors.email && (
@@ -88,7 +73,7 @@ const ForgotPassScreen: React.FC<ForgotPassScreenProps> = ({navigation}) => {
             <View style={passStyles.bottom}>
               <CustomButton
                 handleButton={handleSubmit}
-                text={'Verify'}
+                text={FORGOT_PASSOWRD.VERIFY}
                 disable={!isValid}
               />
             </View>

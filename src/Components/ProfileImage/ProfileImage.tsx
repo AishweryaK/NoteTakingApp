@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState} from 'react';
 import {
   View,
   Image,
@@ -9,37 +9,45 @@ import {
   Alert,
   StyleProp,
   ImageStyle,
-} from "react-native";
+} from 'react-native';
 import {
   launchCamera,
   launchImageLibrary,
   ImageLibraryOptions,
   ImagePickerResponse,
-} from "react-native-image-picker";
-import { ICONS } from "../../Constants/iconConstants";
-import { profileImgStyles } from "./styles";
-import { useReduxSelector } from "../../Redux/Store/store";
-import { getThemeColors } from "../../Assets/Colors/themeColors";
-import { PROVIDER } from "../../Constants/signingConstants";
-import useAuthentication from "../CustomHook/CustomHook";
+} from 'react-native-image-picker';
+import {ICONS} from '../../Constants/iconConstants';
+import {profileImgStyles} from './styles';
+import {useReduxSelector} from '../../Redux/Store/store';
+import {getThemeColors} from '../../Assets/Colors/themeColors';
+import {PROVIDER} from '../../Constants/signingConstants';
+import useAuthentication from '../CustomHook/CustomHook';
+import {
+  ERR_CONSOLE,
+  ERR_MSG,
+  ERR_TITLE,
+  UPLOAD_IMAGE,
+} from '../../Constants/strings';
+import {showAlert} from '../../Common/alert';
+import ImageSelector from './Image';
 
 interface ProfileImageProps {
   onImageChange: (imageUri: string) => void;
 }
 
-const ProfileImage: React.FC<ProfileImageProps> = ({ onImageChange }) => {
-  const [imageUri, setImageUri] = useState<string>("");
+const ProfileImage: React.FC<ProfileImageProps> = ({onImageChange}) => {
+  const [imageUri, setImageUri] = useState<string>('');
   const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const { theme, uid, photoURL, provider } = useReduxSelector(
-    (state) => state.user
+  const {theme, uid, photoURL, provider} = useReduxSelector(
+    state => state.user,
   );
-  const { isLoading } = useAuthentication();
+  const {isLoading} = useAuthentication();
   const colors = getThemeColors(theme);
-  const connection = useReduxSelector((state) => state.internet.connection);
+  const connection = useReduxSelector(state => state.internet.connection);
 
   const handleImagePicker = () => {
     const options: ImageLibraryOptions = {
-      mediaType: 'photo', 
+      mediaType: 'photo',
       quality: 0.2,
       maxHeight: 500,
       maxWidth: 500,
@@ -61,11 +69,11 @@ const ProfileImage: React.FC<ProfileImageProps> = ({ onImageChange }) => {
 
   const handleResponse = (response: ImagePickerResponse) => {
     if (response.didCancel) {
-      console.log("User cancelled image picker");
+      console.error(ERR_CONSOLE.DID_CANCEL);
     } else if (response.errorCode) {
-      console.log("ImagePicker Error: ", response.errorCode);
+      console.log(ERR_CONSOLE.IMAGE_PICKER_ERR, response.errorCode);
     } else {
-      let selectedImageUri = (response.assets && response.assets[0].uri);
+      let selectedImageUri = response.assets && response.assets[0].uri;
       if (selectedImageUri) {
         setImageUri(selectedImageUri);
         onImageChange(selectedImageUri);
@@ -74,8 +82,8 @@ const ProfileImage: React.FC<ProfileImageProps> = ({ onImageChange }) => {
   };
 
   const removeImage = () => {
-    setImageUri("");
-    onImageChange("");
+    setImageUri('');
+    onImageChange('');
     setModalVisible(false);
   };
 
@@ -83,29 +91,33 @@ const ProfileImage: React.FC<ProfileImageProps> = ({ onImageChange }) => {
     if (connection) {
       setModalVisible(true);
     } else {
-      Alert.alert(
-        "No Internet Connection",
-        "Please check your internet connection and try again."
-      );
+      showAlert(ERR_TITLE.INTERNET, ERR_MSG.REQUEST_FAILED);
     }
   };
 
   return (
     <View style={profileImgStyles.container}>
-      {imageUri ? (
-        <Image source={{ uri: imageUri }} style={profileImgStyles.img as StyleProp<ImageStyle>} />
-      ) : photoURL ? (
-        <Image source={{ uri: photoURL }} style={profileImgStyles.img as StyleProp<ImageStyle>} />
-      ) : (
+      {/* {imageUri ? (
         <Image
-          source={require("../../Assets/Images/userImg.jpeg")}
+          source={{uri: imageUri}}
           style={profileImgStyles.img as StyleProp<ImageStyle>}
         />
-      )}
+      ) : photoURL ? (
+        <Image
+          source={{uri: photoURL}}
+          style={profileImgStyles.img as StyleProp<ImageStyle>}
+        />
+      ) : (
+        <Image
+          source={require('../../Assets/Images/userImg.jpeg')}
+          style={profileImgStyles.img as StyleProp<ImageStyle>}
+        />
+      )} */}
+      <ImageSelector imageUri={imageUri} photoURL={photoURL}/>
 
       {isLoading ? (
-        <ActivityIndicator size={"large"} color={colors.BLUE} />
-      ) : provider === PROVIDER.EMAIL || provider === "" ? (
+        <ActivityIndicator size={'large'} color={colors.BLUE} />
+      ) : provider === PROVIDER.EMAIL || provider === '' ? (
         <TouchableOpacity onPress={handleIcon}>
           {ICONS.CAMERA(24, 24)}
         </TouchableOpacity>
@@ -115,31 +127,30 @@ const ProfileImage: React.FC<ProfileImageProps> = ({ onImageChange }) => {
         animationType="slide"
         transparent={true}
         visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
-      >
+        onRequestClose={() => setModalVisible(false)}>
         <View style={profileImgStyles.modalBackground}>
           <View style={profileImgStyles.modalContainer(colors)}>
             <TouchableOpacity onPress={handleImagePicker}>
               <Text style={profileImgStyles.modalOption(colors)}>
-                Set Image From Gallery
+                {UPLOAD_IMAGE.GALLERY}
               </Text>
             </TouchableOpacity>
-            {/* {Platform.OS !== "ios" && ( */}
             <TouchableOpacity onPress={handleCameraLaunch}>
               <Text style={profileImgStyles.modalOption(colors)}>
-                Upload From Camera
+                {UPLOAD_IMAGE.CAMERA}
               </Text>
             </TouchableOpacity>
-            {/* )} */}
             {imageUri || photoURL ? (
               <TouchableOpacity onPress={removeImage}>
                 <Text style={profileImgStyles.modalOption(colors)}>
-                  Remove Image
+                  {UPLOAD_IMAGE.GALLERY}
                 </Text>
               </TouchableOpacity>
             ) : null}
             <TouchableOpacity onPress={() => setModalVisible(false)}>
-              <Text style={profileImgStyles.modalOption(colors)}>Cancel</Text>
+              <Text style={profileImgStyles.modalOption(colors)}>
+                {UPLOAD_IMAGE.CANCEL}
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -149,4 +160,3 @@ const ProfileImage: React.FC<ProfileImageProps> = ({ onImageChange }) => {
 };
 
 export default ProfileImage;
-

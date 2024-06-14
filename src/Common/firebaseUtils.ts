@@ -1,46 +1,42 @@
 import firestore from '@react-native-firebase/firestore';
+import { COLLECTION, DEFAULT_NOTE } from '../Constants/strings';
 
 interface CollectionItem {
-    text: string;
-    number: number;
+  text: string;
+  number: number;
 }
 
-// interface Props {
-//     userUid: string;
-// }
+export async function addDocumentsForUser(userUid: string) {
+  const collections = [COLLECTION.PERSONAL, COLLECTION.ACADEMIC, COLLECTION.WORK, COLLECTION.OTHERS];
 
+  const addDocumentPromises = collections.map(collectionName =>
+    addDocumentToCollection(userUid, collectionName),
+  );
 
-export async function addDocumentsForUser(userUid:string) {
-    const collections = ['Personal', 'Academic', 'Work', 'Others'];
-    
-    const addDocumentPromises = collections.map(collectionName =>
-        addDocumentToCollection(userUid, collectionName)
-    );
+  await Promise.all(addDocumentPromises);
 
-    await Promise.all(addDocumentPromises);
-
-    await firestore()
-    .collection('users')
-    .doc(userUid)
-    .set({
-        collections: data
-    });
+  await firestore().collection(COLLECTION.USERS).doc(userUid).set({
+    collections: data,
+  });
 }
-const data :CollectionItem[] = [
-    { text: "Personal", number: 1 },
-    { text: "Academic", number: 1 },
-    { text: "Work", number: 1 },
-    { text: "Others", number: 1 },
+const data: CollectionItem[] = [
+  {text: COLLECTION.PERSONAL, number: 1},
+  {text: COLLECTION.ACADEMIC, number: 1},
+  {text: COLLECTION.WORK, number: 1},
+  {text: COLLECTION.OTHERS, number: 1},
 ];
 
-async function addDocumentToCollection(userUid:string, collectionName:string) {
-    await firestore()
-        .collection('users')
-        .doc(userUid)
-        .collection(collectionName)
-        .add({
-            title: `Welcome to your ${collectionName} collection!`,
-            desc: "This is where you write your description...",
-            createdAt: firestore.FieldValue.serverTimestamp(),
-        });
+async function addDocumentToCollection(
+  userUid: string,
+  collectionName: string,
+) {
+  await firestore()
+    .collection(COLLECTION.USERS)
+    .doc(userUid)
+    .collection(collectionName)
+    .add({
+      title: `Welcome to your ${collectionName} collection!`,
+      desc: DEFAULT_NOTE.DESCRIPTION,
+      createdAt: firestore.FieldValue.serverTimestamp(),
+    });
 }

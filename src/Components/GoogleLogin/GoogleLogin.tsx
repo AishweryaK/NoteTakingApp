@@ -1,13 +1,13 @@
-import React, {useEffect, useState} from 'react';
-import {Alert, Text, TouchableOpacity, View} from 'react-native';
-import {
-  GoogleSignin,
-} from '@react-native-google-signin/google-signin';
+import React, {useEffect} from 'react';
+import {Text, TouchableOpacity, View} from 'react-native';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {buttonStyles} from '../CustomButton/styles';
 import GoogleIcon from '../../Assets/Svgs/GoogleIcon';
 import useAuthentication from '../CustomHook/CustomHook';
 import {useReduxSelector} from '../../Redux/Store/store';
 import {getThemeColors} from '../../Assets/Colors/themeColors';
+import {showAlert} from '../../Common/alert';
+import {CLIENT_ID, ERR_MSG, ERR_TITLE, GOOGLE} from '../../Constants/strings';
 
 function GoogleLogin() {
   const {googleLoginCall} = useAuthentication();
@@ -17,19 +17,14 @@ function GoogleLogin() {
 
   useEffect(() => {
     GoogleSignin.configure({
-      webClientId:
-        '630539047377-kfbbhc2l502b6gh679v5v7el4b618vou.apps.googleusercontent.com',
+      webClientId: CLIENT_ID.WEB,
     });
   }, []);
 
   const signInBTNPress = async () => {
     if (connection) {
       await googleLoginCall();
-    } else
-      Alert.alert(
-        'No Internet Connection',
-        'Please check your internet connection and try again.',
-      );
+    } else showAlert(ERR_TITLE.INTERNET, ERR_MSG.REQUEST_FAILED);
   };
 
   return (
@@ -47,7 +42,7 @@ function GoogleLogin() {
             buttonStyles.googleTxt(colors),
           ]}>
           {' '}
-          Continue with Google{' '}
+          {GOOGLE.CONTINUE}{' '}
         </Text>
       </View>
     </TouchableOpacity>

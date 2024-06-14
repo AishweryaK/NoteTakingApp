@@ -1,18 +1,14 @@
-import React, {useState, useEffect, useRef} from 'react';
+import {useState} from 'react';
 import {useReduxDispatch, useReduxSelector} from '../../Redux/Store/store';
 import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
-import {
-  GoogleSignin,
-  statusCodes,
-} from '@react-native-google-signin/google-signin';
-import {clearUserData, saveUser} from '../../Redux/Slices/demoSlice';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import {clearUserData, saveUser} from '../../Redux/Slices/userSlice';
 import {addDocumentsForUser} from '../../Common/firebaseUtils';
-import {Alert} from 'react-native';
 import {PROVIDER} from '../../Constants/signingConstants';
-import { SignInProps, SignUpProps, UploadImageProps } from '.';
-import { handleGoogleError, handleSignInError } from '../../Common/handleAuthErr';
-import { ERRCONSOLE } from '../../Constants/strings';
+import {SignInProps, SignUpProps, UploadImageProps} from '.';
+import {handleGoogleError, handleAuthError} from '../../Common/handleAuthErr';
+import {ERR_CONSOLE, TITLE} from '../../Constants/strings';
 
 export default function useAuthentication() {
   const dispatch = useReduxDispatch();
@@ -35,12 +31,13 @@ export default function useAuthentication() {
             email: user.email,
             photoURL: user.photoURL,
             provider: PROVIDER.EMAIL,
-            theme
+            theme,
           }),
         );
       }
     } catch (e) {
-      handleSignInError(e);
+      const context = TITLE.LOGIN;
+      handleAuthError(e,context);
     } finally {
       setIsLoading(false);
     }
@@ -61,14 +58,13 @@ export default function useAuthentication() {
       );
       let photoURL = null;
       if (imageUri) {
-        photoURL = await uploadImageToFirebase({ imageUri, userId: user.uid });
+        photoURL = await uploadImageToFirebase({imageUri, userId: user.uid});
       }
 
       await user.updateProfile({
         displayName: `${firstName} ${lastName}`,
         photoURL: photoURL,
       });
-
 
       if (email)
         dispatch(
@@ -78,14 +74,13 @@ export default function useAuthentication() {
             email: user.email,
             photoURL,
             provider: PROVIDER.EMAIL,
-            theme
+            theme,
           }),
         );
 
       await addDocumentsForUser(user.uid);
-
-    } catch (err:any) {
-      handleSignInError(err);
+    } catch (err: any) {
+      handleAuthError(err);
     } finally {
       setIsLoading(false);
     }
@@ -108,7 +103,7 @@ export default function useAuthentication() {
     try {
       const storageRef = storage().ref(`profile_images/${uid}.jpg`);
       await storageRef.delete();
-        await auth().currentUser?.updateProfile({photoURL: null});
+      await auth().currentUser?.updateProfile({photoURL: null});
       dispatch(
         saveUser({
           displayName,
@@ -120,7 +115,7 @@ export default function useAuthentication() {
         }),
       );
     } catch (error) {
-      console.error(ERRCONSOLE.DELETEPHOTOS, error);
+      console.error(ERR_CONSOLE.DELETE_PHOTOS, error);
     } finally {
       setIsLoading(false);
     }
@@ -158,16 +153,15 @@ export default function useAuthentication() {
           email: user.email,
           photoURL: user.photoURL,
           provider: PROVIDER.GOOGLE,
-          theme
+          theme,
         }),
       );
 
       if (additionalUserInfo && additionalUserInfo.isNewUser) {
         await addDocumentsForUser(user.uid);
       }
-
-    } catch (error:any) {
-     handleGoogleError(error);
+    } catch (error: any) {
+      handleGoogleError(error);
     }
   };
 

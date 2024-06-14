@@ -3,9 +3,7 @@ import {TextInput} from 'react-native';
 import {inputStyles} from './styles';
 import {getThemeColors} from '../../Assets/Colors/themeColors';
 import {useReduxSelector} from '../../Redux/Store/store';
-import { CustomInputProps } from '.';
-
-
+import {CustomInputProps} from '.';
 
 export default function CustomInput({
   placeHolder,

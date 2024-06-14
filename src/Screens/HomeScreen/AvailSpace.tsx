@@ -3,6 +3,7 @@ import {View, ImageBackground, Text} from 'react-native';
 import {homeStyles} from './homeStyle';
 import {useReduxSelector} from '../../Redux/Store/store';
 import DeviceInfo from 'react-native-device-info';
+import {ERR_CONSOLE, HOME, IMAGES, THEME} from '../../Constants/strings';
 
 interface StorageState {
   totalStorage: string | null;
@@ -30,7 +31,7 @@ const AvailSpace: React.FC = () => {
           usedStorage: usedGB,
         });
       } catch (error) {
-        console.error('Error fetching storage information:', error);
+        console.error(ERR_CONSOLE.STORAGE_INFO, error);
       }
     };
 
@@ -38,21 +39,18 @@ const AvailSpace: React.FC = () => {
   }, []);
 
   return (
-    <View style={{alignItems: 'center'}}>
+    <View style={homeStyles.view}>
       <View style={homeStyles.imgView}>
         <ImageBackground
-          source={
-            theme === 'LIGHT'
-              ? require('../../Assets/Images/AvailableSpace.png')
-              : require('../../Assets/Images/Home_dark.png')
-          }
+          source={theme === THEME.LIGHT ? IMAGES.HOME_LIGHT : IMAGES.HOME_DARK}
           resizeMode="stretch"
           style={homeStyles.img}>
           <View style={homeStyles.textStyle}>
             <View style={homeStyles.availsp}>
-              <Text style={homeStyles.availText}>Available Space</Text>
+              <Text style={homeStyles.availText}>{HOME.SPACE}</Text>
               <Text style={homeStyles.availTextTwo}>
-                {storage.usedStorage} GB of {storage.totalStorage} GB Used
+                {storage.usedStorage} {HOME.GB_OF} {storage.totalStorage}{' '}
+                {HOME.GB_USED}
               </Text>
             </View>
           </View>

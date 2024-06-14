@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import authReducer from "./demoSlice";
+import authReducer from "./userSlice";
 import netInfoReducer from "./internetSlice";
 
 

@@ -4,6 +4,7 @@ import {useReduxSelector} from '../../Redux/Store/store';
 import {getThemeColors, Theme} from '../../Assets/Colors/themeColors';
 import {FONT} from '../../Constants/fontConstants';
 import { CustomDialogInputProps } from '.';
+import { DIALOG } from '../../Constants/strings';
 
 
 
@@ -19,17 +20,17 @@ const CustomDialogInput: React.FC<CustomDialogInputProps> = ({
   return (
     <Dialog.Container visible={isVisible}>
       <Dialog.Title style={{fontFamily: FONT.BOLD}}>
-        Enter Link URL
+        {DIALOG.LINK_URL}
       </Dialog.Title>
       <Dialog.Input
-        placeholder="Enter URL"
+        placeholder={DIALOG.ENTER_URL}
         placeholderTextColor={colors.PLACEHOLDER}
         onChangeText={setInputValue}
         value={inputValue}
       />
-      <Dialog.Button label="Cancel" onPress={onCancel} color={colors.WHITE} />
+      <Dialog.Button label={DIALOG.CANCEL} onPress={onCancel} color={colors.WHITE} />
       <Dialog.Button
-        label="OK"
+        label={DIALOG.OK}
         onPress={() => onSubmit(inputValue)}
         color={colors.WHITE}
       />

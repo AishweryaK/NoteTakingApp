@@ -37,5 +37,8 @@ export const styles = StyleSheet.create({
     },
     indent:{
       paddingTop:30
+    },
+    button:{
+      paddingLeft:20,
     }
   });
