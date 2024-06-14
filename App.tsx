@@ -8,6 +8,8 @@ import NetInfo from '@react-native-community/netinfo';
 import {netConnection} from './src/Redux/Slices/internetSlice';
 import OfflineSign from './src/Components/InternetConn/InternetConn';
 import {useReduxDispatch, useReduxSelector} from './src/Redux/Store/store';
+import { styles } from './src/Common/styles';
+import { THEME } from './src/Constants/strings';
 
 function App() {
   const theme = useReduxSelector(state => state.user.theme);
@@ -15,11 +17,6 @@ function App() {
   const [internet, setInternet] = useState(false);
   const dispatch = useReduxDispatch();
   const connection = useReduxSelector(state => state.internet.connection);
-
-  // useEffect(()=>{
-  //   if(Platform.OS==="android")
-  //   SplashScreen.hide();
-  // },[])
 
   useEffect(() => {
     const unsubscribe = NetInfo.addEventListener(
@@ -40,7 +37,7 @@ function App() {
     <SafeAreaView style={styles.container(colors)}>
       <StatusBar
         backgroundColor={colors.BACKGROUND}
-        barStyle={theme === 'LIGHT' ? 'dark-content' : 'light-content'}
+        barStyle={theme === THEME.LIGHT ? 'dark-content' : 'light-content'}
       />
       {!connection && <OfflineSign />}
       <NavigationContainer>
@@ -51,10 +48,3 @@ function App() {
 }
 
 export default App;
-
-const styles = StyleSheet.create({
-  container: colors => ({
-    flex: 1,
-    backgroundColor: colors.BACKGROUND,
-  }),
-});
