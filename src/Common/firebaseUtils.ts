@@ -5,12 +5,12 @@ interface CollectionItem {
     number: number;
 }
 
-interface Props {
-    userUid: string;
-}
+// interface Props {
+//     userUid: string;
+// }
 
 
-export async function addDocumentsForUser({userUid}:Props) {
+export async function addDocumentsForUser(userUid:string) {
     const collections = ['Personal', 'Academic', 'Work', 'Others'];
     
     const addDocumentPromises = collections.map(collectionName =>

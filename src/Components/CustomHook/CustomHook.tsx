@@ -11,7 +11,8 @@ import {addDocumentsForUser} from '../../Common/firebaseUtils';
 import {Alert} from 'react-native';
 import {PROVIDER} from '../../Constants/signingConstants';
 import { SignInProps, SignUpProps, UploadImageProps } from '.';
-import { handleAuthError } from '../../Common/handleAuthErr';
+import { handleGoogleError, handleSignInError } from '../../Common/handleAuthErr';
+import { ERRCONSOLE } from '../../Constants/strings';
 
 export default function useAuthentication() {
   const dispatch = useReduxDispatch();
@@ -39,7 +40,7 @@ export default function useAuthentication() {
         );
       }
     } catch (e) {
-      handleAuthError(e);
+      handleSignInError(e);
     } finally {
       setIsLoading(false);
     }
@@ -84,14 +85,7 @@ export default function useAuthentication() {
       await addDocumentsForUser(user.uid);
 
     } catch (err:any) {
-      if (err.code === 'auth/email-already-in-use') {
-        Alert.alert('Error signing up', 'The email address is already in use');
-      } else if (err.code === 'auth/network-request-failed') {
-        Alert.alert(
-          'No Internet Connection',
-          'Please check your internet connection and try again.',
-        );
-      } else Alert.alert('Error signing up', `${err.message}`);
+      handleSignInError(err);
     } finally {
       setIsLoading(false);
     }
@@ -126,7 +120,7 @@ export default function useAuthentication() {
         }),
       );
     } catch (error) {
-      console.error('Error deleting photo: ', error);
+      console.error(ERRCONSOLE.DELETEPHOTOS, error);
     } finally {
       setIsLoading(false);
     }
@@ -173,15 +167,7 @@ export default function useAuthentication() {
       }
 
     } catch (error:any) {
-      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        Alert.alert('Google Sign-In Cancelled');
-      } else if (error.code === statusCodes.IN_PROGRESS) {
-        Alert.alert('Signin in progress');
-      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-        Alert.alert('PLAY_SERVICES_NOT_AVAILABLE');
-      } else {
-        Alert.alert(error);
-      }
+     handleGoogleError(error);
     }
   };
 
