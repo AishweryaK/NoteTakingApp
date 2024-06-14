@@ -11,5 +11,7 @@ export const styles = StyleSheet.create({
       color: colors.HEADERTITLE,
       paddingTop:20,
       paddingLeft:30
-    })
+    }),
+    view:{ paddingTop: 40 },
+    button:{ paddingLeft: 20 }
   });
