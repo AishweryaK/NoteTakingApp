@@ -4,7 +4,7 @@ import { dimensions } from "../../Constants/utility";
 
 export const styles = StyleSheet.create({
     wrapper: (colors) =>({ flex: 1,
-        alignItems: 'center',
+        // alignItems: 'center',
         backgroundColor:colors.BACKGROUND,
         // paddingTop:30
         }),
@@ -31,10 +31,10 @@ export const styles = StyleSheet.create({
         // marginTop:120
     }),
     button:{
-        // marginTop:70,
+        marginTop:dimensions.height*0.08,
         flex: 1,
         justifyContent: 'flex-end',
-        marginBottom: 120,
+        marginBottom: 30,
         
     },
     loginButton: {

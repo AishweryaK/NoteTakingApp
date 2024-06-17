@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import { commonColors } from '../../Assets/Colors/themeColors';
 
 export const styles = StyleSheet.create({
   wrapper: colors => ({
@@ -9,8 +10,9 @@ export const styles = StyleSheet.create({
   }),
   errorTxt: {
     fontSize: 12,
-    color: '#FF0D10',
-    paddingHorizontal: 15,
+    color: commonColors.ERROR,
+    paddingLeft: 5,
+    paddingRight:15,
     paddingBottom: 10,
     textAlign: 'left',
     paddingTop: 5,
@@ -21,6 +23,11 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     marginBottom: 60,
   },
-  margin: {marginBottom: 10},
-  view: {paddingHorizontal: 8, paddingBottom: 20},
+  margin: {
+    marginBottom: 10,
+  },
+  view: {
+    paddingHorizontal: 8,
+    paddingBottom: 20,
+  },
 });
