@@ -1,4 +1,5 @@
 import React from 'react';
+import { TouchableOpacity } from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {NAVIGATION} from '../Constants/navConstants';
 import AddNote from '../Screens/AddNoteScreen/AddNote';
@@ -10,6 +11,7 @@ import AccountPage from '../Screens/Account/AccountScreen';
 import {getThemeColors} from '../Assets/Colors/themeColors';
 import {TITLE} from '../Constants/strings';
 import {useReduxSelector} from '../Redux/Store/store';
+import { ICONS } from '../Constants/iconConstants';
 
 function AppNavigation(): React.JSX.Element {
   const theme = useReduxSelector(state => state.user.theme);
@@ -44,11 +46,16 @@ function AppNavigation(): React.JSX.Element {
       <Stack.Screen
         name={NAVIGATION.NOTESCREEN}
         component={NotesScreen}
-        options={{
+        options={({route}) => ({
+          // title: route.params.itemText,
           headerShown: true,
-          title: TITLE.NOTES,
-          headerBackTitle: TITLE.BACK,
-        }}
+          headerBackTitleVisible: false,
+          // headerRight: () => (
+          //   <TouchableOpacity>
+          //     {ICONS.MENU(25,25,colors.HEADERTITLE)}
+          //   </TouchableOpacity>
+          // ),
+        })}
       />
       <Stack.Screen
         name={NAVIGATION.ACCOUNT}

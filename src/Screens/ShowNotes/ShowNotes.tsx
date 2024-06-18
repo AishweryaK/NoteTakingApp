@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useLayoutEffect} from 'react';
 import {
   View,
   Text,
@@ -42,6 +42,7 @@ const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
   const [fullNotes, setFullNotes] = useState<Note[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [dialogVisible, setDialogVisible] = useState<boolean>(false);
   const [itemUid, setItemUid] = useState<string | null>(null);
   const theme = useReduxSelector(state => state.user.theme);
   const colors = getThemeColors(theme);
@@ -67,6 +68,18 @@ const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
 
     return () => unsubscribe();
   }, [uid]);
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: itemText,
+      headerRight: () => (
+        <TouchableOpacity onPress={()=>setDialogVisible(true)}>
+          {ICONS.MENU(25, 25, colors.HEADERTITLE)}
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation,itemText, colors]);
+
 
   const handleNotePress = (item: Note) => {
     navigation.navigate(NAVIGATION.ADDNOTE, {
