@@ -3,10 +3,8 @@ import Dialog from 'react-native-dialog';
 import {useReduxSelector} from '../../Redux/Store/store';
 import {getThemeColors, Theme} from '../../Assets/Colors/themeColors';
 import {FONT} from '../../Constants/fontConstants';
-import { CustomDialogInputProps } from '.';
-import { DIALOG } from '../../Constants/strings';
-
-
+import {CustomDialogInputProps} from '.';
+import {DIALOG} from '../../Constants/strings';
 
 const CustomDialogInput: React.FC<CustomDialogInputProps> = ({
   isVisible,
@@ -28,7 +26,11 @@ const CustomDialogInput: React.FC<CustomDialogInputProps> = ({
         onChangeText={setInputValue}
         value={inputValue}
       />
-      <Dialog.Button label={DIALOG.CANCEL} onPress={onCancel} color={colors.WHITE} />
+      <Dialog.Button
+        label={DIALOG.CANCEL}
+        onPress={onCancel}
+        color={colors.WHITE}
+      />
       <Dialog.Button
         label={DIALOG.OK}
         onPress={() => onSubmit(inputValue)}

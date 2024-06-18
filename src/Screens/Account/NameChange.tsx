@@ -1,24 +1,23 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
   View,
   Text,
   TextInput,
   TouchableOpacity,
   Modal,
-  Alert,
   KeyboardAvoidingView,
   ActivityIndicator,
   Platform,
 } from 'react-native';
-import auth from '@react-native-firebase/auth';
 import {styles} from '../ChangePassword/styles';
-import {useReduxDispatch, useReduxSelector} from '../../Redux/Store/store';
+import {useReduxSelector} from '../../Redux/Store/store';
 import {getThemeColors} from '../../Assets/Colors/themeColors';
 import {SignupSchema} from '../SignupScreen/Signup';
 import * as Yup from 'yup';
-import {Formik, FormikHelpers} from 'formik';
-import {saveName} from '../../Redux/Slices/userSlice';
-import {NameChangeFormValues, NameChangeProps} from '.';
+import {Formik} from 'formik';
+import {NameChangeProps} from '.';
+import {CONSTANTS, NAME_CHANGE} from '../../Constants/strings';
+import useFirebaseUtils from '../../Components/CustomHook/profileHooks';
 
 const AccountSchema = Yup.object().shape({
   firstName: SignupSchema.fields.firstName,
@@ -26,46 +25,9 @@ const AccountSchema = Yup.object().shape({
 });
 
 const NameChange: React.FC<NameChangeProps> = ({visible, onClose}) => {
-  const [isLoading, setIsLoading] = useState(false);
+  const {isLoading, handleNameChange} = useFirebaseUtils();
   const {theme, displayName} = useReduxSelector(state => state.user);
   const colors = getThemeColors(theme);
-  const dispatch = useReduxDispatch();
-
-  const handleNameChange = async (
-    values: NameChangeFormValues,
-    {resetForm}: FormikHelpers<NameChangeFormValues>,
-  ) => {
-    if (values.firstName.trim() === '' || values.lastName.trim() === '') {
-      Alert.alert('Error', 'Please fill in all the fields.');
-      return;
-    } else if (
-      `${values.firstName.trim()} ${values.lastName.trim()}` === displayName
-    ) {
-      Alert.alert('Error', 'User Name same as before. Please try again.');
-      return;
-    }
-
-    setIsLoading(true);
-    try {
-      const user = auth().currentUser;
-      await user?.updateProfile({
-        displayName: `${values.firstName.trim()} ${values.lastName.trim()}`,
-      });
-
-      dispatch(
-        saveName({
-          displayName: `${values.firstName.trim()} ${values.lastName.trim()}`,
-        }),
-      );
-      Alert.alert('Success', 'User Name changed successfully');
-      resetForm();
-      onClose();
-    } catch (error: any) {
-      Alert.alert('Error', error.message);
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   const handleCancel = (resetForm: () => void) => {
     onClose();
@@ -80,7 +42,9 @@ const NameChange: React.FC<NameChangeProps> = ({visible, onClose}) => {
       <Formik
         initialValues={{firstName: '', lastName: ''}}
         validationSchema={AccountSchema}
-        onSubmit={handleNameChange}>
+        onSubmit={(values, actions) =>
+          handleNameChange(values, actions, displayName, onClose)
+        }>
         {({
           values,
           errors,
@@ -98,15 +62,17 @@ const NameChange: React.FC<NameChangeProps> = ({visible, onClose}) => {
             onRequestClose={onClose}>
             <View style={styles.modalContainer}>
               <View style={styles.modalContent(colors)}>
-                <Text style={styles.modalTitle(colors)}>Change User Name</Text>
+                <Text style={styles.modalTitle(colors)}>
+                  {NAME_CHANGE.USERNAME_CHANGE}
+                </Text>
 
                 <TextInput
                   style={styles.input(colors)}
-                  placeholder="Enter First Name"
+                  placeholder={NAME_CHANGE.FIRST_NAME}
                   value={values.firstName}
-                  onChangeText={handleChange('firstName')}
+                  onChangeText={handleChange(CONSTANTS.FIRST_NAME)}
                   placeholderTextColor={colors.HEADERTITLE}
-                  onBlur={() => setFieldTouched('firstName')}
+                  onBlur={() => setFieldTouched(CONSTANTS.FIRST_NAME)}
                 />
                 {touched.firstName && errors.firstName && (
                   <Text style={styles.errorTxt}>{errors.firstName}</Text>
@@ -114,11 +80,11 @@ const NameChange: React.FC<NameChangeProps> = ({visible, onClose}) => {
 
                 <TextInput
                   style={styles.input(colors)}
-                  placeholder="Enter Last Name"
+                  placeholder={NAME_CHANGE.LAST_NAME}
                   value={values.lastName}
-                  onChangeText={handleChange('lastName')}
+                  onChangeText={handleChange(CONSTANTS.LAST_NAME)}
                   placeholderTextColor={colors.HEADERTITLE}
-                  onBlur={() => setFieldTouched('lastName')}
+                  onBlur={() => setFieldTouched(CONSTANTS.LAST_NAME)}
                 />
                 {touched.lastName && errors.lastName && (
                   <Text style={styles.errorTxt}>{errors.lastName}</Text>
@@ -134,7 +100,9 @@ const NameChange: React.FC<NameChangeProps> = ({visible, onClose}) => {
                       <TouchableOpacity
                         style={styles.button(colors)}
                         onPress={() => handleCancel(resetForm)}>
-                        <Text style={styles.buttonText(colors)}>Cancel</Text>
+                        <Text style={styles.buttonText(colors)}>
+                          {NAME_CHANGE.CANCEL}
+                        </Text>
                       </TouchableOpacity>
 
                       <TouchableOpacity
@@ -142,7 +110,7 @@ const NameChange: React.FC<NameChangeProps> = ({visible, onClose}) => {
                         onPress={() => handleSubmit()}
                         disabled={!isValid}>
                         <Text style={styles.buttonText(colors)}>
-                          Change Username
+                          {NAME_CHANGE.CHANGE}
                         </Text>
                       </TouchableOpacity>
                     </>

@@ -18,37 +18,35 @@ import {getThemeColors} from '../../Assets/Colors/themeColors';
 import {SIGNING} from '../../Constants/signingConstants';
 import {styles} from './styles';
 import {FormValues} from '.';
+import {CONSTANTS, SIGN_UP} from '../../Constants/strings';
 
 export const SignupSchema = Yup.object().shape({
   firstName: Yup.string()
     .transform(value => value.trim())
-    .min(3, 'Too Short!')
-    .max(25, 'Too Long!')
-    .required('Please enter your First Name')
-    .matches(/^[A-Za-z]+$/gi, 'First Name should only contain alphabets'),
+    .min(3, SIGN_UP.TOO_SHORT)
+    .max(25, SIGN_UP.TOO_LONG)
+    .required(SIGN_UP.ENTER_FIRST_NAME)
+    .matches(SIGN_UP.NAME_REGEX, SIGN_UP.ONLY_FN_ALPHABETS),
   lastName: Yup.string()
     .transform(value => value.trim())
-    .min(2, 'Too Short!')
-    .max(25, 'Too Long!')
-    .required('Please enter your Last Name')
-    .matches(/^[A-Za-z]+$/gi, 'Last Name should only contain alphabets'),
+    .min(2, SIGN_UP.TOO_SHORT)
+    .max(25, SIGN_UP.TOO_LONG)
+    .required(SIGN_UP.ENTER_LAST_NAME)
+    .matches(SIGN_UP.NAME_REGEX, SIGN_UP.ONLY_LN_ALPHABET),
   email: Yup.string()
     .transform(value => value.trim())
-    .email('Invalid email')
-    .required('Please enter your Email')
-    .matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g, 'Invalid email'),
+    .email(SIGN_UP.INVALID_EMAIL)
+    .required(SIGN_UP.ENTER_EMAIL)
+    .matches(SIGN_UP.EMAIL_REGEX, SIGN_UP.INVALID_EMAIL),
   password: Yup.string()
     .transform(value => value.trim())
     .min(8)
     .max(25)
-    .required('Please enter a Password')
-    .matches(
-      /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-])(?!.*\s).{8,25}$/,
-      'Password should consist of one or more uppercase, numbers and special characters, but no spaces',
-    ),
+    .required(SIGN_UP.ENTER_PASSWORD)
+    .matches(SIGN_UP.PASSWORD_REGEX, SIGN_UP.PWD_TEXT),
   confirmPassword: Yup.string()
-    .oneOf([Yup.ref('password')], 'Your passwords do not match')
-    .required('Password Confirmation required'),
+    .oneOf([Yup.ref(SIGN_UP.CONFIRM_PWD_REGEX)], SIGN_UP.PWD_DONT_MATCH)
+    .required(SIGN_UP.PWD_REQUIRED),
 });
 
 const Signup: React.FC = () => {
@@ -104,8 +102,8 @@ const Signup: React.FC = () => {
               <CustomInput
                 placeHolder={SIGNING.FIRSTNAME}
                 value={values.firstName}
-                handleChange={handleChange('firstName')}
-                handleBlur={()=>setFieldTouched('firstName')}
+                handleChange={handleChange(CONSTANTS.FIRST_NAME)}
+                handleBlur={() => setFieldTouched(CONSTANTS.FIRST_NAME)}
               />
               {touched.firstName && errors.firstName && (
                 <Text style={styles.errorTxt}>{errors.firstName}</Text>
@@ -114,8 +112,8 @@ const Signup: React.FC = () => {
               <CustomInput
                 placeHolder={SIGNING.LASTNAME}
                 value={values.lastName}
-                handleChange={handleChange('lastName')}
-                handleBlur={() => setFieldTouched('lastName')}
+                handleChange={handleChange(CONSTANTS.LAST_NAME)}
+                handleBlur={() => setFieldTouched(CONSTANTS.LAST_NAME)}
               />
               {touched.lastName && errors.lastName && (
                 <Text style={styles.errorTxt}>{errors.lastName}</Text>
@@ -124,8 +122,8 @@ const Signup: React.FC = () => {
               <CustomInput
                 placeHolder={SIGNING.EMAIL}
                 value={values.email}
-                handleChange={handleChange('email')}
-                handleBlur={() => setFieldTouched('email')}
+                handleChange={handleChange(CONSTANTS.EMAIL)}
+                handleBlur={() => setFieldTouched(CONSTANTS.EMAIL)}
               />
               {touched.email && errors.email && (
                 <Text style={styles.errorTxt}>{errors.email}</Text>
@@ -134,8 +132,8 @@ const Signup: React.FC = () => {
               <CustomInput
                 placeHolder={SIGNING.SETPASSWORD}
                 value={values.password}
-                handleChange={handleChange('password')}
-                handleBlur={() => setFieldTouched('password')}
+                handleChange={handleChange(CONSTANTS.PASSWORD)}
+                handleBlur={() => setFieldTouched(CONSTANTS.PASSWORD)}
               />
               {touched.password && errors.password && (
                 <Text style={styles.errorTxt}>{errors.password}</Text>
@@ -144,8 +142,8 @@ const Signup: React.FC = () => {
               <CustomInput
                 placeHolder={SIGNING.CONFIRMPASSWORD}
                 value={values.confirmPassword}
-                handleChange={handleChange('confirmPassword')}
-                handleBlur={() => setFieldTouched('confirmPassword')}
+                handleChange={handleChange(CONSTANTS.CONFIRM_PASSWORD)}
+                handleBlur={() => setFieldTouched(CONSTANTS.CONFIRM_PASSWORD)}
               />
               {touched.confirmPassword && errors.confirmPassword && (
                 <Text style={styles.errorTxt}>{errors.confirmPassword}</Text>
@@ -159,7 +157,7 @@ const Signup: React.FC = () => {
               <CustomButton
                 handleButton={handleSubmit}
                 disable={!isValid}
-                text="Submit"
+                text={SIGN_UP.SUMBIT}
               />
             )}
           </View>

@@ -7,7 +7,11 @@ import {clearUserData, saveUser} from '../../Redux/Slices/userSlice';
 import {addDocumentsForUser} from '../../Common/firebaseUtils';
 import {PROVIDER} from '../../Constants/signingConstants';
 import {SignInProps, SignUpProps, UploadImageProps} from '.';
-import {handleGoogleError, handleAuthError} from '../../Common/handleAuthErr';
+import {
+  handleGoogleError,
+  handleAuthError,
+  handleSignUpError,
+} from '../../Common/handleAuthErr';
 import {ERR_CONSOLE, TITLE} from '../../Constants/strings';
 
 export default function useAuthentication() {
@@ -37,7 +41,7 @@ export default function useAuthentication() {
       }
     } catch (e) {
       const context = TITLE.LOGIN;
-      handleAuthError(e,context);
+      handleAuthError(e, context);
     } finally {
       setIsLoading(false);
     }
@@ -80,7 +84,7 @@ export default function useAuthentication() {
 
       await addDocumentsForUser(user.uid);
     } catch (err: any) {
-      handleAuthError(err);
+      handleSignUpError(err);
     } finally {
       setIsLoading(false);
     }
@@ -140,7 +144,6 @@ export default function useAuthentication() {
   const googleLoginCall = async () => {
     try {
       await GoogleSignin.hasPlayServices();
-
       const userInfo = await GoogleSignin.signIn();
       const credential = auth.GoogleAuthProvider.credential(userInfo.idToken);
       const {user, additionalUserInfo} = await auth().signInWithCredential(

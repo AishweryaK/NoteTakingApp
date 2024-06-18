@@ -126,4 +126,8 @@ export const styles = StyleSheet.create({
   flex: {
     justifyContent: 'flex-end',
   },
+  center:{
+    alignItems: 'center'
+
+  }
 });

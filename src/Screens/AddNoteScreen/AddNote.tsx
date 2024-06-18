@@ -22,10 +22,12 @@ import {useReduxSelector} from '../../Redux/Store/store';
 import {commonColors, getThemeColors, themeColors} from '../../Assets/Colors/themeColors';
 import CustomDialogInput from './CustomDialogInput';
 import {AddNoteScreenProps} from '../../Navigation/routeTypes';
-import { ADDNOTE, COLLECTION, ERR_CONSOLE, ERR_MSG, ERR_TITLE } from '../../Constants/strings';
+import { ADDNOTE, COLLECTION, CONSTANTS, ERR_CONSOLE, ERR_MSG, ERR_TITLE } from '../../Constants/strings';
 import { showAlert } from '../../Common/alert';
+import {saveNoteLabel, saveNoteNew, updateCollectionCount, updateNote } from '../../Common/firebaseHelpers';
 
 const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
+  const [isSaving, setIsSaving] = useState<boolean>(false);
   const [title, setTitle] = useState<string>('');
   const [desc, setDesc] = useState<string>('');
   const [modalVisible, setModalVisible] = useState<boolean>(false);
@@ -70,6 +72,20 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
     return () => unsubscribe();
   }, [uid]);
 
+  // useEffect(() => {
+  //   const unsubscribe = navigation.addListener('beforeRemove', (e) => {
+  //     e.preventDefault();
+
+  //     if (!isSaving) {
+  //       saveNote();
+  //     }
+
+  //     navigation.dispatch(e.data.action);
+  //   });
+
+  //   return unsubscribe;
+  // }, [navigation, saveNote, isSaving]);
+
   const handleInsertLink = () => {
     setIsDialogVisible(true);
   };
@@ -91,80 +107,8 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
     setDesc(text);
   };
 
-  const updateNote = async () => {
-    await firestore()
-      .collection(COLLECTION.USERS)
-      .doc(uid)
-      .collection(label as string)
-      .doc(itemID)
-      .update({
-        title: title,
-        desc: desc,
-        createdAt: firestore.FieldValue.serverTimestamp(),
-      });
-  };
-
-  const saveNoteLabel = async () => {
-    await firestore().collection(COLLECTION.USERS).doc(uid).collection(label as string).add({
-      title: title,
-      desc: desc,
-      createdAt: firestore.FieldValue.serverTimestamp(),
-    });
-  };
-
-  const incLabelCollection = async () => {
-    const collectionRef = firestore().collection(COLLECTION.USERS).doc(uid);
-    const doc = await collectionRef.get();
-    if (doc.exists) {
-      const userData = doc.data();
-      const updatedCollections = userData?.collections.map(
-        (collection: {text: string; number: number}) => {
-          if (collection.text === label) {
-            return {
-              ...collection,
-              number: collection.number + 1,
-            };
-          }
-          return collection;
-        },
-      );
-      await collectionRef.set({collections: updatedCollections}, {merge: true});
-    }
-  };
-
-  const saveNoteNew = async () => {
-    await firestore()
-      .collection(COLLECTION.USERS)
-      .doc(uid)
-      .collection(selectedCollection.text)
-      .add({
-        title: title,
-        desc: desc,
-        createdAt: firestore.FieldValue.serverTimestamp(),
-      });
-  };
-
-  const incNewCollection = async () => {
-    const collectionRef = firestore().collection(COLLECTION.USERS).doc(uid);
-    const doc = await collectionRef.get();
-    if (doc.exists) {
-      const userData = doc.data();
-      const updatedCollections = userData?.collections.map(
-        (collection: {text: string; number: number}) => {
-          if (collection.text === selectedCollection.text) {
-            return {
-              ...collection,
-              number: collection.number + 1,
-            };
-          }
-          return collection;
-        },
-      );
-      await collectionRef.set({collections: updatedCollections}, {merge: true});
-    }
-  };
-
   const saveNote = async () => {
+    setIsSaving(true);
     if (title === '' && desc === '') {
       showAlert(ERR_TITLE.EMPTY_NOTE, ERR_MSG.NOTE_DISCARDED);
       navigation.goBack();
@@ -172,13 +116,13 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
     }
     try {
       if (itemID && label) {
-        updateNote();
+        updateNote(uid, label, itemID, title, desc);
       } else if (label) {
-        saveNoteLabel();
-        incLabelCollection();
+        saveNoteLabel(uid, label, title, desc);
+        updateCollectionCount(uid, label, CONSTANTS.INCREMENT);
       } else {
-        saveNoteNew();
-        incNewCollection();
+        saveNoteNew(uid, selectedCollection, title, desc);
+        updateCollectionCount(uid, selectedCollection.text, CONSTANTS.INCREMENT);
       }
 
       setTitle('');
@@ -190,9 +134,12 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
       }
     } catch (error) {
       console.error(ERR_CONSOLE.SAVE_NOTE, error);
+    } finally {
+      setIsSaving(false);
     }
   };
 
+  
   const setCollection = async () => {
     const updatedCollections = [
       ...collections,
@@ -212,15 +159,12 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
       setEmptyColl(true);
       return;
     }
-
     setEmptyColl(false);
-
     const trimmedNewCollection = newCollection.trim();
     const existingCollection = collections.find(
       collection =>
         collection.text.toLowerCase() === trimmedNewCollection.toLowerCase(),
     );
-
     if (existingCollection) {
       setSelectedCollection(existingCollection);
     } else {
@@ -228,10 +172,9 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
         setCollection();
         setSelectedCollection({text: trimmedNewCollection, number: 1});
       } catch (error) {
-        console.error('Error adding collection:', error);
+        console.error(ADDNOTE.ERROR, error);
       }
     }
-
     setModalVisible(false);
     setNewCollection('');
   };
@@ -274,7 +217,6 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
               </Text>
             </TouchableOpacity>
           )}
-
           <Modal
             animationType="slide"
             transparent={true}
@@ -311,6 +253,7 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
                   data={collections}
                   renderItem={renderCollectionItem}
                   keyExtractor={(item, index) => index.toString()}
+                  showsVerticalScrollIndicator={false}
                 />
 
                 <TextInput
@@ -366,7 +309,7 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
         style={styles.desc(colors)}
       />
 
-      <View style={{alignItems: 'center'}}>
+      <View style={styles.center}>
         <View style={homeStyles.buttonShadow(colors)}>
           <TouchableOpacity onPress={saveNote}>
             <Text style={styles.buttonTxt(colors)}>{ADDNOTE.SAVE}</Text>
