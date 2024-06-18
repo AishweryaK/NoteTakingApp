@@ -71,7 +71,7 @@ export const styles = StyleSheet.create({
   },
   collectionItem: {
     paddingVertical: 10,
-    width: dimensions.width * 0.35,
+    width: dimensions.width * 0.50,
   },
   collectionText: colors => ({
     fontFamily: FONT.REGULAR,
@@ -85,7 +85,7 @@ export const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 10,
     color: colors.TITLECOLOR,
-    width: dimensions.width * 0.35,
+    width: dimensions.width * 0.50,
   }),
   addButton: colors => ({
     backgroundColor: colors.BLUE,
@@ -105,11 +105,10 @@ export const styles = StyleSheet.create({
   }),
   closeButtonView: {
     flexDirection: 'row',
-    width: dimensions.width * 0.45,
-    alignItems: 'center',
-    justifyContent: 'center',
+    width: dimensions.width * 0.50,
+    justifyContent: 'space-between',
   },
-  inner: {flex: 1, alignItems: 'center'},
+  inner: {flex: 1},
   xButton: colors => ({
     borderColor: colors.BORDER,
     borderWidth: 2,
@@ -127,7 +126,26 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   center:{
-    alignItems: 'center'
-
-  }
+    alignItems: 'center',
+    paddingBottom:25,
+    paddingTop:10
+  },
+  buttonShadow: colors => ({
+    shadowColor: colors.BLUE,
+    shadowOffset: {width: -2, height: 4},
+    shadowOpacity: 0.3,
+    shadowRadius: 10,
+    // bottom: dimensions.width * 0.07,
+    textAlign: 'center',
+    height: dimensions.width * 0.14,
+    width: dimensions.width * 0.14,
+    borderRadius: 11,
+    backgroundColor: colors.BLUE,
+    justifyContent: 'center',
+    elevation: 7,
+    alignItems: 'center',
+  }),
+  text:colors =>({
+    color: colors.HEADERTITLE
+  }),
 });

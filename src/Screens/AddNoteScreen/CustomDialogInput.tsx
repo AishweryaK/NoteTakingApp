@@ -3,7 +3,7 @@ import Dialog from 'react-native-dialog';
 import {useReduxSelector} from '../../Redux/Store/store';
 import {getThemeColors, Theme} from '../../Assets/Colors/themeColors';
 import {FONT} from '../../Constants/fontConstants';
-import {CustomDialogInputProps} from '.';
+import {CustomDialogInputProps} from './add_note';
 import {DIALOG} from '../../Constants/strings';
 
 const CustomDialogInput: React.FC<CustomDialogInputProps> = ({

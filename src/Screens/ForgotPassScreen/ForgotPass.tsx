@@ -13,10 +13,11 @@ import {SignupSchema} from '../SignupScreen/Signup';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {ForgotPassScreenProps} from '../../Navigation/routeTypes';
-import { FormValues } from '.';
+import { FormValues } from './forgot_pass';
 import { CONSTANTS, ERR_MSG, ERR_TITLE, FORGOT_PASSOWRD, TITLE } from '../../Constants/strings';
 import { showAlert } from '../../Common/alert';
 import { handleAuthError } from '../../Common/handleAuthErr';
+
 
 
 const ForgotPassScreen: React.FC<ForgotPassScreenProps> = ({navigation}) => {

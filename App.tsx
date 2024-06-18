@@ -14,7 +14,7 @@ import { THEME } from './src/Constants/strings';
 function App() {
   const theme = useReduxSelector(state => state.user.theme);
   const colors = getThemeColors(theme);
-  const [internet, setInternet] = useState(false);
+  const [internet, setInternet] = useState<boolean>(false);
   const dispatch = useReduxDispatch();
   const connection = useReduxSelector(state => state.internet.connection);
 

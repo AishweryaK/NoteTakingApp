@@ -5,7 +5,6 @@ import {
   TextInput,
   TouchableOpacity,
   Modal,
-  Alert,
   KeyboardAvoidingView,
   ActivityIndicator,
   Platform,
@@ -17,7 +16,7 @@ import {getThemeColors, Theme} from '../../Assets/Colors/themeColors';
 import {SignupSchema} from '../SignupScreen/Signup';
 import * as Yup from 'yup';
 import {Formik, FormikHelpers} from 'formik';
-import {FormValues, PasswordProps} from '.';
+import {FormValues, PasswordProps} from './change_p_screen';
 import {
   CHANGE_PASSWORD,
   CONSTANTS,
@@ -33,7 +32,7 @@ const ChangePSchema = Yup.object().shape({
 
 const ChangePasswordModal: React.FC<PasswordProps> = ({visible, onClose}) => {
   const [currentPassword, setCurrentPassword] = useState<string>('');
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const {theme} = useReduxSelector(state => state.user);
   const colors = getThemeColors(theme as Theme);
 

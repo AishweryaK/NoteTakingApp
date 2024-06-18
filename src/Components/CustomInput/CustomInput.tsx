@@ -3,14 +3,16 @@ import {TextInput} from 'react-native';
 import {inputStyles} from './styles';
 import {getThemeColors} from '../../Assets/Colors/themeColors';
 import {useReduxSelector} from '../../Redux/Store/store';
-import {CustomInputProps} from '.';
+import {CustomInputProps} from './custom_input';
 
-export default function CustomInput({
+function CustomInput({
   placeHolder,
   value,
   handleChange,
   handleBlur,
 }: CustomInputProps) {
+  console.log('CustomInput');
+  
   const theme = useReduxSelector(state => state.user.theme);
   const colors = getThemeColors(theme);
   return (
@@ -24,3 +26,5 @@ export default function CustomInput({
     />
   );
 }
+
+export default React.memo(CustomInput);

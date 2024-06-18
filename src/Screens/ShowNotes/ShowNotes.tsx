@@ -10,7 +10,6 @@ import {
   Platform,
 } from 'react-native';
 import firestore, {
-  FirebaseFirestoreTypes,
 } from '@react-native-firebase/firestore';
 import HTML, {
   HTMLContentModel,
@@ -29,24 +28,24 @@ import {getThemeColors} from '../../Assets/Colors/themeColors';
 import StaggerView from '@mindinventory/react-native-stagger-view';
 import {ICONS} from '../../Constants/iconConstants';
 import {NoteScreenProps} from '../../Navigation/routeTypes';
-import {Note} from '.';
+import {Note} from './show_notes';
 import {
   COLLECTION,
   CONSTANTS,
   ERR_CONSOLE,
   SHOW_NOTES,
 } from '../../Constants/strings';
-import {decLabelCollection, deleteNote, updateCollectionCount} from '../../Common/firebaseHelpers';
+import {deleteNote, updateCollectionCount} from '../../Common/firebaseUtils';
 
 const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
   const [notes, setNotes] = useState<Note[]>([]);
   const [fullNotes, setFullNotes] = useState<Note[]>([]);
-  const [searchQuery, setSearchQuery] = useState('');
-  const {uid, itemText} = route.params;
-  const [modalVisible, setModalVisible] = useState(false);
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [itemUid, setItemUid] = useState<string | null>(null);
   const theme = useReduxSelector(state => state.user.theme);
   const colors = getThemeColors(theme);
+  const {uid, itemText} = route.params;
 
   useEffect(() => {
     const unsubscribe = firestore()

@@ -1,5 +1,4 @@
 import {StyleSheet} from 'react-native';
-import {APPCOL} from '../../Assets/Colors/appColors';
 import {FONT} from '../../Constants/fontConstants';
 import {dimensions} from '../../Constants/utility';
 
@@ -23,12 +22,6 @@ export const showStyles = StyleSheet.create({
     shadowRadius: 10,
     elevation: 7,
     maxHeight: 100,
-    //width: (dimensions.width - 18) / 2,
-    //     maxHeight:100,
-    //     backgroundColor: 'gray',
-    //     margin: 4,
-    //     borderRadius: 18,
-    //     overflow:"hidden",
   }),
   bottomButton: {
     borderRadius: 1000,
@@ -40,13 +33,10 @@ export const showStyles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 22,
     color: colors.HEADERTITLE,
-    // backgroundColor:"blue"
   }),
   list: {
     paddingHorizontal: 4,
     paddingTop: 10,
-
-    // backgroundColor:"red"
   },
   content: colors => ({
     fontFamily: FONT.BOLD,

@@ -17,18 +17,15 @@ import {HomeProps} from '../../Navigation/routeTypes';
 import {COLLECTION, CONSTANTS, CUSTOM_LIST, ERR_CONSOLE, ERR_MSG, ERR_TITLE} from '../../Constants/strings';
 import { showAlert } from '../../Common/alert';
 import { styles } from './styles';
+import { CollectionItem } from '../../Common/common';
 
-interface CollectionItem {
-  text: string;
-  number: number;
-}
 
 const CustomList: FC<HomeProps> = ({navigation}) => {
   const [collections, setCollections] = useState<CollectionItem[]>([]);
   const user = useReduxSelector(state => state.user);
   const colors = getThemeColors(user.theme);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [collName, setCollName] = useState('');
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [collName, setCollName] = useState<string>('');
 
   useEffect(() => {
     const userDocRef = firestore().collection(COLLECTION.USERS).doc(user.uid);

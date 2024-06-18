@@ -2,10 +2,10 @@ import React from 'react';
 import {TouchableOpacity, View, Text} from 'react-native';
 import {buttonStyles} from './styles';
 import {getThemeColors} from '../../Assets/Colors/themeColors';
-import {CustomButtonProps} from '.';
+import {CustomButtonProps} from "./custom_button";
 import {THEME} from '../../Constants/strings';
 
-export default function CustomButton({
+function CustomButton({
   handleButton,
   text,
   disable,
@@ -22,3 +22,5 @@ export default function CustomButton({
     </View>
   );
 }
+
+export default React.memo(CustomButton);

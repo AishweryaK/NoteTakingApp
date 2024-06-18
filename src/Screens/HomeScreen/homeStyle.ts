@@ -9,7 +9,7 @@ export const homeStyles = StyleSheet.create({
     shadowOffset: {width: -2, height: 4},
     shadowOpacity: 0.3,
     shadowRadius: 10,
-    bottom: 30,
+    bottom: dimensions.width * 0.07,
     textAlign: 'center',
     height: dimensions.width * 0.14,
     width: dimensions.width * 0.14,
