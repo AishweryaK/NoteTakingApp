@@ -1,7 +1,6 @@
 import React, {useRef, useState, useEffect} from 'react';
 import {
   KeyboardAvoidingView,
-  Modal,
   Text,
   TextInput,
   View,
@@ -10,9 +9,10 @@ import {
   TouchableOpacity,
   Alert,
   Platform,
+  ScrollView
 } from 'react-native';
 import {RichEditor, RichToolbar, actions} from 'react-native-pell-rich-editor';
-import {homeStyles} from '../HomeScreen/homeStyle';
+import Modal from "react-native-modal";
 import {NAVIGATION} from '../../Constants/navConstants';
 import firestore from '@react-native-firebase/firestore';
 import {styles} from './styles';
@@ -24,8 +24,7 @@ import CustomDialogInput from './CustomDialogInput';
 import {AddNoteScreenProps} from '../../Navigation/routeTypes';
 import { ADDNOTE, COLLECTION, CONSTANTS, ERR_CONSOLE, ERR_MSG, ERR_TITLE } from '../../Constants/strings';
 import { showAlert } from '../../Common/alert';
-import {saveNoteLabel, saveNoteNew, updateCollectionCount, updateNote } from '../../Common/firebaseHelpers';
-
+import {saveNoteLabel, saveNoteNew, subscribeToUserCollections, updateCollectionCount, updateNote } from '../../Common/firebaseUtils';
 const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const [title, setTitle] = useState<string>('');
@@ -43,8 +42,8 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
     number: 1,
     text: COLLECTION.OTHERS,
   });
-  const richText = useRef<RichEditor>(null);
   const [emptyColl, setEmptyColl] = useState<boolean>(false);
+  const richText = useRef<RichEditor>(null);
   const theme = useReduxSelector(state => state.user.theme);
   const colors = getThemeColors(theme);
 
@@ -57,7 +56,13 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
     }
   }, [itemTitle, itemDesc]);
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   const unsubscribe = subscribeToUserCollections(uid, setCollections);
+
+  //   return () => unsubscribe();
+  // }, [uid]);
+
+    useEffect(() => {
     const userDocRef = firestore().collection(COLLECTION.USERS).doc(uid);
 
     const unsubscribe = userDocRef.onSnapshot(snapshot => {
@@ -71,20 +76,6 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
 
     return () => unsubscribe();
   }, [uid]);
-
-  // useEffect(() => {
-  //   const unsubscribe = navigation.addListener('beforeRemove', (e) => {
-  //     e.preventDefault();
-
-  //     if (!isSaving) {
-  //       saveNote();
-  //     }
-
-  //     navigation.dispatch(e.data.action);
-  //   });
-
-  //   return unsubscribe;
-  // }, [navigation, saveNote, isSaving]);
 
   const handleInsertLink = () => {
     setIsDialogVisible(true);
@@ -204,7 +195,8 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       style={styles.container(colors)}
-      keyboardVerticalOffset={97}>
+      keyboardVerticalOffset={97}
+      >
       <View style={styles.view}>
         <View></View>
         <View>
@@ -218,21 +210,18 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
             </TouchableOpacity>
           )}
           <Modal
-            animationType="slide"
-            transparent={true}
-            visible={modalVisible}
-            onRequestClose={() => {
+          style={{alignItems:'center'}}
+            isVisible={modalVisible}
+            avoidKeyboard={true}
+            onBackButtonPress={() => {
               setModalVisible(false);
             }}>
-            <KeyboardAvoidingView
-              behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-              style={profileImgStyles.modalBackground}>
               <View
                 style={[
                   profileImgStyles.modalContainer(colors),
                   {
-                    height: dimensions.height * 0.4,
-                    width: dimensions.width * 0.55,
+                    maxHeight:dimensions.height*0.5,
+                    width: dimensions.width * 0.8,
                   },
                 ]}>
                 <View style={styles.closeButtonView}>
@@ -245,17 +234,17 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
                       setModalVisible(false);
                       setEmptyColl(false);
                     }}>
-                    <Text style={{color: colors.HEADERTITLE}}>{ADDNOTE.CLOSE}</Text>
+                    <Text style={styles.text(colors)}>{ADDNOTE.CLOSE}</Text>
                   </TouchableOpacity>
                 </View>
-
+              
                 <FlatList
                   data={collections}
+                  // style={{maxHeight:dimensions.height*0.5}}
                   renderItem={renderCollectionItem}
                   keyExtractor={(item, index) => index.toString()}
                   showsVerticalScrollIndicator={false}
                 />
-
                 <TextInput
                   style={styles.newCollectionInput(colors)}
                   placeholder={ADDNOTE.ADD_COLLECTION}
@@ -275,8 +264,7 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
                   onPress={addCollection}>
                   <Text style={styles.addTxt(colors)}>{ADDNOTE.ADD}</Text>
                 </TouchableOpacity>
-              </View>
-            </KeyboardAvoidingView>
+            </View>
           </Modal>
         </View>
       </View>
@@ -310,7 +298,7 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
       />
 
       <View style={styles.center}>
-        <View style={homeStyles.buttonShadow(colors)}>
+        <View style={styles.buttonShadow(colors)}>
           <TouchableOpacity onPress={saveNote}>
             <Text style={styles.buttonTxt(colors)}>{ADDNOTE.SAVE}</Text>
           </TouchableOpacity>

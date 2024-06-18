@@ -15,7 +15,7 @@ import {getThemeColors} from '../../Assets/Colors/themeColors';
 import {SignupSchema} from '../SignupScreen/Signup';
 import * as Yup from 'yup';
 import {Formik} from 'formik';
-import {NameChangeProps} from '.';
+import {NameChangeProps} from './account_screen';
 import {CONSTANTS, NAME_CHANGE} from '../../Constants/strings';
 import useFirebaseUtils from '../../Components/CustomHook/profileHooks';
 
@@ -125,4 +125,4 @@ const NameChange: React.FC<NameChangeProps> = ({visible, onClose}) => {
   );
 };
 
-export default NameChange;
+export default React.memo(NameChange);

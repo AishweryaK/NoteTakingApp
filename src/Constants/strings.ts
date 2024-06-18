@@ -133,9 +133,9 @@ export const GOOGLE = {
 };
 
 export const UPLOAD_IMAGE = {
-  GALLERY: 'Set Image From Gallery',
-  CAMERA: 'Upload From Camera',
-  REMOVE: 'Remove Image',
+  GALLERY: 'Gallery',
+  CAMERA: 'Camera',
+  REMOVE: 'Remove',
   CANCEL: 'Cancel',
 };
 
@@ -151,7 +151,7 @@ export const ADDNOTE = {
   COLLECTIONS: 'Collections',
   CLOSE: 'X',
   ADD_COLLECTION: 'Add Collection',
-  ENTER_COLLECTION: '*Enter collection name',
+  ENTER_COLLECTION: '* Enter collection name',
   ERROR:'Error adding collection:',
   ADD: 'Add',
   TITLE: 'Title',

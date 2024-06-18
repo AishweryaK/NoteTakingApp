@@ -7,7 +7,7 @@ import ProfileImage from '../../Components/ProfileImage/ProfileImage';
 import {getThemeColors} from '../../Assets/Colors/themeColors';
 import NameChange from './NameChange';
 import {showAlert} from '../../Common/alert';
-import {ERR_CONSOLE, ERR_MSG, ERR_TITLE} from '../../Constants/strings';
+import {ERR_MSG, ERR_TITLE} from '../../Constants/strings';
 import {PROVIDER} from '../../Constants/signingConstants';
 import useFirebaseUtils from '../../Components/CustomHook/profileHooks';
 

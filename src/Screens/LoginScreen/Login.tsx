@@ -16,11 +16,11 @@ import CustomInput from '../../Components/CustomInput/CustomInput';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {SignupSchema} from '../SignupScreen/Signup';
-import useAuthentication from '../../Components/CustomHook/CustomHook';
+import useAuthentication from '../../Components/CustomHook/authHook';
 import {useReduxSelector} from '../../Redux/Store/store';
 import {getThemeColors, themeColors} from '../../Assets/Colors/themeColors';
 import {LoginScreenProps} from '../../Navigation/routeTypes';
-import { FormValues } from '.';
+import { FormValues } from './login_screen';
 import { CONSTANTS, FORGOT_PASSOWRD, TITLE } from '../../Constants/strings';
 
 const LoginSchema = Yup.object().shape({

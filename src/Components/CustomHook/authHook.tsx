@@ -4,15 +4,15 @@ import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {clearUserData, saveUser} from '../../Redux/Slices/userSlice';
-import {addDocumentsForUser} from '../../Common/firebaseUtils';
 import {PROVIDER} from '../../Constants/signingConstants';
-import {SignInProps, SignUpProps, UploadImageProps} from '.';
+import {SignInProps, SignUpProps, UploadImageProps} from './custom_hook';
 import {
   handleGoogleError,
   handleAuthError,
   handleSignUpError,
 } from '../../Common/handleAuthErr';
 import {ERR_CONSOLE, TITLE} from '../../Constants/strings';
+import { addDocumentsForUser } from '../../Common/firebaseUtils';
 
 export default function useAuthentication() {
   const dispatch = useReduxDispatch();
@@ -20,7 +20,7 @@ export default function useAuthentication() {
   const {displayName, uid, email, theme} = useReduxSelector(
     state => state.user,
   );
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const signInCall = async ({email, password}: SignInProps) => {
     setIsLoading(true);

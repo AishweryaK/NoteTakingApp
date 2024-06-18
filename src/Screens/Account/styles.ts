@@ -12,6 +12,10 @@ export const styles = StyleSheet.create({
       paddingTop:20,
       paddingLeft:30
     }),
-    view:{ paddingTop: 40 },
-    button:{ paddingLeft: 20 }
+    view:{
+      paddingTop: 40
+    },
+    button:{
+      paddingLeft: 20
+    }
   });

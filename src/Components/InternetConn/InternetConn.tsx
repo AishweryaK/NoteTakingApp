@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text} from 'react-native';
 import {styles} from './styles';
-import {ERR_TITLE, INTERNET} from '../../Constants/strings';
+import {ERR_TITLE} from '../../Constants/strings';
 
 function OfflineSign(): React.JSX.Element {
   return (
@@ -11,4 +11,4 @@ function OfflineSign(): React.JSX.Element {
   );
 }
 
-export default OfflineSign;
+export default React.memo(OfflineSign);

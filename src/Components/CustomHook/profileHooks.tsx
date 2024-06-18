@@ -3,9 +3,9 @@ import {useReduxDispatch, useReduxSelector} from '../../Redux/Store/store';
 import auth from '@react-native-firebase/auth';
 import {saveName, saveUser} from '../../Redux/Slices/userSlice';
 import {ERR_CONSOLE, ERR_MSG, ERR_TITLE} from '../../Constants/strings';
-import useAuthentication from './CustomHook';
+import useAuthentication from './authHook';
 import { showAlert } from '../../Common/alert';
-import { NameChangeFormValues } from '../../Screens/Account';
+import { NameChangeFormValues } from '../../Screens/Account/account_screen';
 import { FormikHelpers } from 'formik';
 
 export default function useFirebaseUtils() {
@@ -14,7 +14,7 @@ export default function useFirebaseUtils() {
   const {displayName, uid, email, theme, provider} = useReduxSelector(
     state => state.user,
   );
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const updateUserProfile = async (uri: string | null) => {
     try {

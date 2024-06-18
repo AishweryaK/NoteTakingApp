@@ -12,12 +12,12 @@ import * as Yup from 'yup';
 import CustomInput from '../../Components/CustomInput/CustomInput';
 import CustomButton from '../../Components/CustomButton/CustomButton';
 import ProfileImage from '../../Components/ProfileImage/ProfileImage';
-import useAuthentication from '../../Components/CustomHook/CustomHook';
+import useAuthentication from '../../Components/CustomHook/authHook';
 import {useReduxSelector} from '../../Redux/Store/store';
 import {getThemeColors} from '../../Assets/Colors/themeColors';
 import {SIGNING} from '../../Constants/signingConstants';
 import {styles} from './styles';
-import {FormValues} from '.';
+import {FormValues} from './signup_screen';
 import {CONSTANTS, SIGN_UP} from '../../Constants/strings';
 
 export const SignupSchema = Yup.object().shape({

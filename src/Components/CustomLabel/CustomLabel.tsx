@@ -4,7 +4,7 @@ import {styles} from './styles';
 import {useReduxSelector} from '../../Redux/Store/store';
 import {getThemeColors} from '../../Assets/Colors/themeColors';
 import {ICONS} from '../../Constants/iconConstants';
-import {CustomLabelProps} from '.';
+import {CustomLabelProps} from './custom_label';
 import {CUSTOM_LABEL, IMAGES, THEME} from '../../Constants/strings';
 
 function CustomLabel({
@@ -45,4 +45,4 @@ function CustomLabel({
   );
 }
 
-export default CustomLabel;
+export default React.memo(CustomLabel);

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, StyleProp, ImageStyle, ImageSourcePropType } from 'react-native';
 import { profileImgStyles } from './styles';
-import { ImageProps } from '.';
+import { ImageProps } from './profile_image';
 import { IMAGES } from '../../Constants/strings';
 
 const ImageSelector= ({ imageUri, photoURL }:ImageProps) => {
@@ -14,4 +14,4 @@ const ImageSelector= ({ imageUri, photoURL }:ImageProps) => {
   return <Image source={source} style={profileImgStyles.img as StyleProp<ImageStyle>} />;
 };
 
-export default ImageSelector;
+export default React.memo(ImageSelector);

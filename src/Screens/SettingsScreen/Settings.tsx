@@ -11,7 +11,7 @@ import {ICONS} from '../../Constants/iconConstants';
 import {FONT} from '../../Constants/fontConstants';
 import {styles} from './styles';
 import {NAVIGATION} from '../../Constants/navConstants';
-import useAuthentication from '../../Components/CustomHook/CustomHook';
+import useAuthentication from '../../Components/CustomHook/authHook';
 import {useReduxDispatch, useReduxSelector} from '../../Redux/Store/store';
 import {toggleTheme} from '../../Redux/Slices/userSlice';
 import {getThemeColors, themeColors} from '../../Assets/Colors/themeColors';

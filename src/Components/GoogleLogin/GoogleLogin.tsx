@@ -2,12 +2,12 @@ import React, {useEffect} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {buttonStyles} from '../CustomButton/styles';
-import GoogleIcon from '../../Assets/Svgs/GoogleIcon';
-import useAuthentication from '../CustomHook/CustomHook';
+import useAuthentication from '../CustomHook/authHook';
 import {useReduxSelector} from '../../Redux/Store/store';
 import {getThemeColors} from '../../Assets/Colors/themeColors';
 import {showAlert} from '../../Common/alert';
 import {CLIENT_ID, ERR_MSG, ERR_TITLE, GOOGLE} from '../../Constants/strings';
+import { ICONS } from '../../Constants/iconConstants';
 
 function GoogleLogin() {
   const {googleLoginCall} = useAuthentication();
@@ -34,7 +34,7 @@ function GoogleLogin() {
         buttonStyles.googleButton(colors),
       ]}
       onPress={signInBTNPress}>
-      <GoogleIcon width={25} height={25} />
+      {ICONS.GOOGLE(30,30)}
       <View style={buttonStyles.view}>
         <Text
           style={[
@@ -49,4 +49,4 @@ function GoogleLogin() {
   );
 }
 
-export default GoogleLogin;
+export default React.memo(GoogleLogin);
