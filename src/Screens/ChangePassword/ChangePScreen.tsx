@@ -139,9 +139,12 @@ const ChangePasswordModal: React.FC<PasswordProps> = ({visible, onClose}) => {
                   placeholderTextColor={colors.HEADERTITLE}
                   onBlur={() => setFieldTouched(CONSTANTS.PASSWORD)}
                 />
+
+                <View style={{alignItems:'flex-start'}}>
                 {touched.password && errors.password && (
                   <Text style={styles.errorTxt}>{errors.password}</Text>
                 )}
+                </View>
 
                 <TextInput
                   style={styles.input(colors)}

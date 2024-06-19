@@ -1,5 +1,12 @@
 import React from 'react';
-import {View, Text, Image, StyleProp, ImageStyle, ScrollView} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  StyleProp,
+  ImageStyle,
+  ScrollView,
+} from 'react-native';
 import {styles} from './styles';
 import CustomButton from '../../Components/CustomButton/CustomButton';
 import {NAVIGATION} from '../../Constants/navConstants';
@@ -14,10 +21,9 @@ const Walkthrough = ({navigation}: WalkthroughScreenProps) => {
   const colors = getThemeColors(theme);
 
   return (
-    <ScrollView style={styles.wrapper(colors)}
-    contentContainerStyle={{alignItems:"center"}}
-    >
-      {/* <View style={{alignItems:"center"}}> */}
+    <ScrollView
+      style={styles.wrapper(colors)}
+      contentContainerStyle={{alignItems: 'center'}}>
       <Text style={styles.title(colors)}>{HOME.NOTES_APP}</Text>
 
       <Image

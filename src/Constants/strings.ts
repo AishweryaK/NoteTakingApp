@@ -37,6 +37,7 @@ export const CONSTANTS = {
   NO: 'No',
   INCREMENT:'increment',
   DECREMENT:'decrement',
+  CANCEL:'Cancel'
 };
 
 export const ERR_CONSOLE = {
@@ -201,6 +202,7 @@ export const SETTINGS = {
 export const SHOW_NOTES = {
   CREATED_AT: 'createdAt',
   PLACEHOLDER: 'Search',
+  EDIT_COLLECTION:'Edit Collection',
   ADD_NOTE: 'Add a note to start your collection!',
   NO_NOTES: 'No matching notes',
   NEW_NOTES: 'Add New Notes',

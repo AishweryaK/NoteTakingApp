@@ -29,7 +29,6 @@ const CustomList: FC<HomeProps> = ({navigation}) => {
 
   useEffect(() => {
     const userDocRef = firestore().collection(COLLECTION.USERS).doc(user.uid);
-
     const unsubscribe = userDocRef.onSnapshot(snapshot => {
       if (snapshot.exists) {
         const userData = snapshot.data();

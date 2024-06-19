@@ -9,7 +9,6 @@ import {
   TouchableOpacity,
   Alert,
   Platform,
-  ScrollView
 } from 'react-native';
 import {RichEditor, RichToolbar, actions} from 'react-native-pell-rich-editor';
 import Modal from "react-native-modal";
@@ -204,13 +203,15 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
             <TouchableOpacity
               style={styles.collButton(colors)}
               onPress={() => setModalVisible(true)}>
-              <Text style={styles.collText(colors)}>
+              <Text style={styles.collText(colors)}
+              ellipsizeMode="tail"
+              numberOfLines={1}>
                 {selectedCollection.text}
               </Text>
             </TouchableOpacity>
           )}
           <Modal
-          style={{alignItems:'center'}}
+          style={styles.align}
             isVisible={modalVisible}
             avoidKeyboard={true}
             onBackButtonPress={() => {

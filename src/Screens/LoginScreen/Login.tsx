@@ -13,15 +13,15 @@ import {SIGNING} from '../../Constants/signingConstants';
 import {loginStyles} from './loginStyles';
 import CustomButton from '../../Components/CustomButton/CustomButton';
 import CustomInput from '../../Components/CustomInput/CustomInput';
-import {Formik} from 'formik';
+import {Formik, FormikProps} from 'formik';
 import * as Yup from 'yup';
 import {SignupSchema} from '../SignupScreen/Signup';
 import useAuthentication from '../../Components/CustomHook/authHook';
 import {useReduxSelector} from '../../Redux/Store/store';
 import {getThemeColors, themeColors} from '../../Assets/Colors/themeColors';
 import {LoginScreenProps} from '../../Navigation/routeTypes';
-import { FormValues } from './login_screen';
-import { CONSTANTS, FORGOT_PASSOWRD, TITLE } from '../../Constants/strings';
+import {FormValues} from './login_screen';
+import {CONSTANTS, FORGOT_PASSOWRD, TITLE} from '../../Constants/strings';
 
 const LoginSchema = Yup.object().shape({
   email: SignupSchema.fields.email,
@@ -42,71 +42,70 @@ function Login({navigation}: LoginScreenProps) {
   };
 
   return (
-    <KeyboardAvoidingView
-      keyboardVerticalOffset={65}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      style={styles.wrapper(colors)}>
-      <Formik
-        initialValues={{
-          email: '',
-          password: '',
-        }}
-        validationSchema={LoginSchema}
-        onSubmit={values => handleLogin(values)}>
-        {({
-          values,
-          errors,
-          touched,
-          handleChange,
-          setFieldTouched,
-          isValid,
-          handleSubmit,
-        }) => (
-          <>
-            <CustomInput
-              placeHolder={SIGNING.EMAIL}
-              value={values.email}
-              handleChange={handleChange(CONSTANTS.EMAIL)}
-              handleBlur={() => setFieldTouched(CONSTANTS.EMAIL)}
-            />
-            {touched.email && errors.email && (
-              <Text style={styles.errorTxt}>{errors.email}</Text>
+    <Formik
+      initialValues={{
+        email: '',
+        password: '',
+      }}
+      validationSchema={LoginSchema}
+      onSubmit={values => handleLogin(values)}>
+      {({
+        values,
+        errors,
+        touched,
+        handleChange,
+        setFieldTouched,
+        isValid,
+        handleSubmit,
+      }: FormikProps<FormValues>) => (
+        <KeyboardAvoidingView
+          keyboardVerticalOffset={65}
+          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+          style={styles.wrapper(colors)}>
+          <CustomInput
+            placeHolder={SIGNING.EMAIL}
+            value={values.email}
+            handleChange={handleChange(CONSTANTS.EMAIL)}
+            handleBlur={() => setFieldTouched(CONSTANTS.EMAIL)}
+          />
+          {/* <View style={{backgroundColor:'red'}}> */}
+          {touched.email && errors.email && (
+            <Text style={styles.errorTxt}>{errors.email}</Text>
+          )}
+          {/* </View> */}
+
+          <CustomInput
+            placeHolder={SIGNING.SETPASSWORD}
+            value={values.password}
+            handleChange={handleChange(CONSTANTS.PASSWORD)}
+            handleBlur={() => setFieldTouched(CONSTANTS.PASSWORD)}
+          />
+          {touched.password && errors.password && (
+            <Text style={styles.errorTxt}>{errors.password}</Text>
+          )}
+
+          <View style={loginStyles.button}>
+            <TouchableOpacity onPress={handleForgotP}>
+              <Text style={loginStyles.forgotTxt}>
+                {FORGOT_PASSOWRD.FORGOT}
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={loginStyles.bottom}>
+            {isLoading ? (
+              <ActivityIndicator size="large" color={themeColors.LIGHT.BLUE} />
+            ) : (
+              <CustomButton
+                handleButton={handleSubmit}
+                text={TITLE.LOGIN}
+                disable={!isValid}
+              />
             )}
-
-            <CustomInput
-              placeHolder={SIGNING.SETPASSWORD}
-              value={values.password}
-              handleChange={handleChange(CONSTANTS.PASSWORD)}
-              handleBlur={() => setFieldTouched(CONSTANTS.PASSWORD)}
-            />
-            {touched.password && errors.password && (
-              <Text style={styles.errorTxt}>{errors.password}</Text>
-            )}
-
-            <View style={loginStyles.button}>
-              <TouchableOpacity onPress={handleForgotP}>
-                <Text style={loginStyles.forgotTxt}>{FORGOT_PASSOWRD.FORGOT}</Text>
-              </TouchableOpacity>
-            </View>
-
-            <View style={loginStyles.bottom}>
-              {isLoading ? (
-                <ActivityIndicator
-                  size="large"
-                  color={themeColors.LIGHT.BLUE}
-                />
-              ) : (
-                <CustomButton
-                  handleButton={handleSubmit}
-                  text={TITLE.LOGIN}
-                  disable={!isValid}
-                />
-              )}
-            </View>
-          </>
-        )}
-      </Formik>
-    </KeyboardAvoidingView>
+          </View>
+        </KeyboardAvoidingView>
+      )}
+    </Formik>
   );
 }
 
