@@ -1,4 +1,6 @@
-import firestore from '@react-native-firebase/firestore';
+import firestore, {
+  FirebaseFirestoreTypes,
+} from '@react-native-firebase/firestore';
 import {
   COLLECTION,
   CONSTANTS,
@@ -9,6 +11,7 @@ import {
 } from '../Constants/strings';
 import {CollectionItem} from './common';
 import {showAlert} from './alert';
+import {NAVIGATION} from '../Constants/navConstants';
 
 export const userDocRef = (uid: string) => {
   return firestore().collection(COLLECTION.USERS).doc(uid);
@@ -217,9 +220,7 @@ export const handleDeleteCollection = async (
     const snapshot = await collectionRef.get();
     const deletePromises = snapshot.docs.map(doc => doc.ref.delete());
     await Promise.all(deletePromises);
-    console.log('before');
     removeCollectionFromFirestore(uid, collections, collName);
-    console.log('after');
     setCollections(prevCollections =>
       prevCollections.filter(collection => collection.text !== collName),
     );
@@ -249,4 +250,108 @@ export const setCollection = async (
     {merge: true},
   );
   setCollections(updatedCollections);
+};
+
+//Edit Collection
+
+export const updateCollections = async (
+  uid: string,
+  updatedCollections: Array<{text: string; number: number}>,
+) => {
+  try {
+    await userDocRef(uid).set({collections: updatedCollections}, {merge: true});
+  } catch (error) {
+    throw error;
+  }
+};
+
+const commitBatch = async (batch: FirebaseFirestoreTypes.WriteBatch) => {
+  try {
+    await batch.commit();
+  } catch (error) {
+    throw error;
+  }
+};
+
+const batchDelete = async (deleteBatch: FirebaseFirestoreTypes.WriteBatch) => {
+  try {
+    await deleteBatch.commit();
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const handleEdit = async (
+  collection: string,
+  label: string,
+  allCollections: Array<{text: string; number: number}>,
+  uid: string,
+  navigation: any,
+  setEmptyColl: (value: boolean) => void,
+  setErr: (value: boolean) => void,
+  setExistingErr: (value: boolean) => void,
+  setAllCollections: React.Dispatch<
+    React.SetStateAction<Array<{text: string; number: number}>>
+  >,
+  handleClose: () => void,
+) => {
+  const trimmedColl = collection.trim();
+  if (trimmedColl === '') {
+    setEmptyColl(true);
+    return;
+  }
+  if (trimmedColl === label) {
+    setErr(true);
+    return;
+  }
+  const existingCollection = allCollections.find(
+    collection => collection.text.toLowerCase() === trimmedColl.toLowerCase(),
+  );
+  if (existingCollection) {
+    setExistingErr(true);
+    return;
+  }
+
+  try {
+    const collectionIndex = allCollections.findIndex(
+      coll => coll.text === label,
+    );
+    if (collectionIndex !== -1) {
+      const updatedCollections = [...allCollections];
+      updatedCollections[collectionIndex].text = trimmedColl;
+
+      updateCollections(uid, updatedCollections);
+
+      const oldCollectionRef = userDocRef(uid).collection(label);
+      const newCollectionRef = userDocRef(uid).collection(trimmedColl);
+
+      const snapshot = await oldCollectionRef.get();
+      const batch = userDocRef(uid).firestore.batch();
+
+      snapshot.forEach(doc => {
+        const newDocRef = newCollectionRef.doc(doc.id);
+        batch.set(newDocRef, doc.data());
+      });
+
+      commitBatch(batch);
+
+      const deleteBatch = userDocRef(uid).firestore.batch();
+      snapshot.forEach(doc => {
+        deleteBatch.delete(doc.ref);
+      });
+
+      batchDelete(deleteBatch);
+
+      setAllCollections(updatedCollections);
+      handleClose();
+      navigation.navigate(NAVIGATION.NOTESCREEN, {
+        uid: uid,
+        itemText: trimmedColl,
+      });
+    } else {
+      console.error(ERR_CONSOLE.NOT_FOUND);
+    }
+  } catch (error) {
+    console.error(ERR_TITLE.UPDATING_COLLECTION, error);
+  }
 };
