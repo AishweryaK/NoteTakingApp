@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { rootReducer } from "../Slices/rootReducer";
+import rootReducer, { RootStateType }  from "../Slices/rootReducer";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
     FLUSH,
@@ -11,6 +11,7 @@ import {
     persistReducer,
     persistStore
   } from 'redux-persist';
+import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
   const persistConfig = {
     key:"root",
@@ -26,5 +27,9 @@ export const store = configureStore({
             ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
 }})
 });
+
+export type AppDispatch = typeof store.dispatch;
+export const useReduxDispatch = (): AppDispatch => useDispatch<AppDispatch>();
+export const useReduxSelector: TypedUseSelectorHook<RootStateType> = useSelector;
 
 export const persistor = persistStore(store);
