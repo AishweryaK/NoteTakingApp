@@ -8,7 +8,6 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-import firestore from '@react-native-firebase/firestore';
 import HTML, {
   HTMLContentModel,
   HTMLElementModel,
@@ -35,10 +34,9 @@ import {
   ERR_TITLE,
   SHOW_NOTES,
 } from '../../Constants/strings';
-import {deleteNote, updateCollectionCount} from '../../Common/firebaseUtils';
+import {deleteNote, updateCollectionCount, userDocRef} from '../../Common/firebaseUtils';
 import {showAlert} from '../../Common/alert';
 import EditCollection from './EditCollection';
-import {styles} from '../AddNoteScreen/styles';
 
 const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
   const [notes, setNotes] = useState<Note[]>([]);
@@ -53,10 +51,7 @@ const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
   const {uid, itemText} = route.params;
 
   useEffect(() => {
-    const unsubscribe = firestore()
-      .collection(COLLECTION.USERS)
-      .doc(uid)
-      .collection(itemText)
+    const unsubscribe = userDocRef(uid).collection(itemText)
       .orderBy(SHOW_NOTES.CREATED_AT, 'desc')
       .onSnapshot(snapshot => {
         const notesData: Note[] = [];

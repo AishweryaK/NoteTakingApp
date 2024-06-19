@@ -1,7 +1,6 @@
 import React, {useRef, useState, useEffect} from 'react';
 import {Text, TextInput, View, TouchableOpacity, Modal} from 'react-native';
 import {useReduxSelector} from '../../Redux/Store/store';
-import firestore from '@react-native-firebase/firestore';
 import {
   commonColors,
   getThemeColors,
@@ -14,6 +13,7 @@ import {
 } from '../../Constants/strings';
 import {styles} from '../ChangePassword/styles';
 import { EditCollProps } from './show_notes';
+import { userDocRef } from '../../Common/firebaseUtils';
 
 const EditCollection: React.FC<EditCollProps> = ({visible, onClose, label}) => {
   const {theme, uid} = useReduxSelector(state => state.user);
@@ -27,9 +27,7 @@ const EditCollection: React.FC<EditCollProps> = ({visible, onClose, label}) => {
 >([])
 
   useEffect(() => {
-    const userDocRef = firestore().collection(COLLECTION.USERS).doc(uid);
-
-    const unsubscribe = userDocRef.onSnapshot(snapshot => {
+    const unsubscribe = userDocRef(uid).onSnapshot(snapshot => {
       if (snapshot.exists) {
         const userData = snapshot.data();
         if (userData?.collections) {
