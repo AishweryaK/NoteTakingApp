@@ -18,6 +18,7 @@ import {COLLECTION, CONSTANTS, CUSTOM_LIST, ERR_CONSOLE, ERR_MSG, ERR_TITLE} fro
 import { showAlert } from '../../Common/alert';
 import { styles } from './styles';
 import { CollectionItem } from '../../Common/common';
+import { handleDeleteCollection, removeCollectionFromFirestore, userDocRef } from '../../Common/firebaseUtils';
 
 
 const CustomList: FC<HomeProps> = ({navigation}) => {
@@ -28,9 +29,7 @@ const CustomList: FC<HomeProps> = ({navigation}) => {
   const [collName, setCollName] = useState<string>('');
 
   useEffect(() => {
-    const userDocRef = firestore().collection(COLLECTION.USERS).doc(user.uid);
-
-    const unsubscribe = userDocRef.onSnapshot(snapshot => {
+    const unsubscribe = userDocRef(user.uid).onSnapshot(snapshot => {
       if (snapshot.exists) {
         const userData = snapshot.data();
         if (userData && userData.collections) {
@@ -45,55 +44,6 @@ const CustomList: FC<HomeProps> = ({navigation}) => {
   const handleLongPress = (collName: string) => {
     setCollName(collName);
     setModalVisible(true);
-  };
-
-  const removeCollectionFromFirestore = async (collName: string) => {
-    const collectionItem = collections.find(
-      collection => collection.text === collName,
-    );
-    const number = collectionItem ? collectionItem.number : 1;
-    const userDocRef = firestore().collection(COLLECTION.USERS).doc(user.uid);
-
-    await userDocRef.update({
-      collections: firestore.FieldValue.arrayRemove({
-        text: collName,
-        number: number,
-      }),
-    });
-  };
-
-  const handleDeleteCollection = async () => {
-    if (
-      collName === COLLECTION.PERSONAL ||
-      collName === COLLECTION.ACADEMIC ||
-      collName === COLLECTION.WORK ||
-      collName === COLLECTION.OTHERS
-    ) {
-      showAlert(ERR_TITLE.ACTION_NOT_ALLOWED,ERR_MSG.CANNOT_DELETE);
-      setModalVisible(false);
-      return;
-    }
-    try {
-      const collectionRef = firestore()
-        .collection(COLLECTION.USERS)
-        .doc(user.uid)
-        .collection(collName);
-
-      const snapshot = await collectionRef.get();
-
-      const deletePromises = snapshot.docs.map(doc => doc.ref.delete());
-      await Promise.all(deletePromises);
-
-      await removeCollectionFromFirestore(collName);
-
-      setCollections(prevCollections =>
-        prevCollections.filter(collection => collection.text !== collName),
-      );
-
-      setModalVisible(false);
-    } catch (error) {
-      console.error(ERR_CONSOLE.DELETE_COLLECTION, error);
-    }
   };
 
   const renderItem = useMemo(() => {
@@ -134,7 +84,7 @@ const CustomList: FC<HomeProps> = ({navigation}) => {
               {CUSTOM_LIST.ARE_YOU_SURE} {collName} {CUSTOM_LIST.COLLECTION}
             </Text>
             <View style={showStyles.modalButtons}>
-              <TouchableOpacity onPress={handleDeleteCollection}>
+              <TouchableOpacity onPress={()=>handleDeleteCollection(user.uid, collections, collName, setCollections, setModalVisible)}>
                 <Text style={showStyles.modalText(colors)}>{CONSTANTS.YES}</Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={() => setModalVisible(false)}>

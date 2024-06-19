@@ -9,30 +9,48 @@ import {
   TouchableOpacity,
   Alert,
   Platform,
-  ScrollView
+  Keyboard,
 } from 'react-native';
 import {RichEditor, RichToolbar, actions} from 'react-native-pell-rich-editor';
-import Modal from "react-native-modal";
+import Modal from 'react-native-modal';
 import {NAVIGATION} from '../../Constants/navConstants';
-import firestore from '@react-native-firebase/firestore';
 import {styles} from './styles';
 import {profileImgStyles} from '../../Components/ProfileImage/styles';
 import {dimensions} from '../../Constants/utility';
 import {useReduxSelector} from '../../Redux/Store/store';
-import {commonColors, getThemeColors, themeColors} from '../../Assets/Colors/themeColors';
+import {
+  commonColors,
+  getThemeColors,
+  themeColors,
+} from '../../Assets/Colors/themeColors';
 import CustomDialogInput from './CustomDialogInput';
 import {AddNoteScreenProps} from '../../Navigation/routeTypes';
-import { ADDNOTE, COLLECTION, CONSTANTS, ERR_CONSOLE, ERR_MSG, ERR_TITLE } from '../../Constants/strings';
-import { showAlert } from '../../Common/alert';
-import {saveNoteLabel, saveNoteNew, subscribeToUserCollections, updateCollectionCount, updateNote } from '../../Common/firebaseUtils';
+import {
+  ADDNOTE,
+  COLLECTION,
+  CONSTANTS,
+  ERR_CONSOLE,
+  ERR_MSG,
+  ERR_TITLE,
+} from '../../Constants/strings';
+import {showAlert} from '../../Common/alert';
+import {
+  saveNoteLabel,
+  saveNoteNew,
+  setCollection,
+  subscribeToUserCollections,
+  updateCollectionCount,
+  updateNote,
+  userDocRef,
+} from '../../Common/firebaseUtils';
+import {CollectionItem} from '../../Common/common';
+
 const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const [title, setTitle] = useState<string>('');
   const [desc, setDesc] = useState<string>('');
   const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const [collections, setCollections] = useState<
-    Array<{text: string; number: number}>
-  >([]);
+  const [collections, setCollections] = useState<CollectionItem[]>([]);
   const [newCollection, setNewCollection] = useState<string>('');
   const [isDialogVisible, setIsDialogVisible] = useState<boolean>(false);
   const [selectedCollection, setSelectedCollection] = useState<{
@@ -62,10 +80,8 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
   //   return () => unsubscribe();
   // }, [uid]);
 
-    useEffect(() => {
-    const userDocRef = firestore().collection(COLLECTION.USERS).doc(uid);
-
-    const unsubscribe = userDocRef.onSnapshot(snapshot => {
+  useEffect(() => {
+    const unsubscribe = userDocRef(uid).onSnapshot(snapshot => {
       if (snapshot.exists) {
         const userData = snapshot.data();
         if (userData?.collections) {
@@ -113,7 +129,11 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
         updateCollectionCount(uid, label, CONSTANTS.INCREMENT);
       } else {
         saveNoteNew(uid, selectedCollection, title, desc);
-        updateCollectionCount(uid, selectedCollection.text, CONSTANTS.INCREMENT);
+        updateCollectionCount(
+          uid,
+          selectedCollection.text,
+          CONSTANTS.INCREMENT,
+        );
       }
 
       setTitle('');
@@ -130,22 +150,8 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
     }
   };
 
-  
-  const setCollection = async () => {
-    const updatedCollections = [
-      ...collections,
-      {text: newCollection.trim(), number: 0},
-    ];
-    await firestore().collection(COLLECTION.USERS).doc(uid).set(
-      {
-        collections: updatedCollections,
-      },
-      {merge: true},
-    );
-    setCollections(updatedCollections);
-  };
-
   const addCollection = async () => {
+    Keyboard.dismiss();
     if (newCollection.trim() === '') {
       setEmptyColl(true);
       return;
@@ -160,14 +166,14 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
       setSelectedCollection(existingCollection);
     } else {
       try {
-        setCollection();
+        setCollection(collections, setCollections, newCollection, uid);
         setSelectedCollection({text: trimmedNewCollection, number: 1});
       } catch (error) {
         console.error(ADDNOTE.ERROR, error);
       }
+      setModalVisible(false);
+      setNewCollection('');
     }
-    setModalVisible(false);
-    setNewCollection('');
   };
 
   const renderCollectionItem = ({
@@ -195,8 +201,7 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       style={styles.container(colors)}
-      keyboardVerticalOffset={97}
-      >
+      keyboardVerticalOffset={97}>
       <View style={styles.view}>
         <View></View>
         <View>
@@ -204,66 +209,71 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
             <TouchableOpacity
               style={styles.collButton(colors)}
               onPress={() => setModalVisible(true)}>
-              <Text style={styles.collText(colors)}>
+              <Text
+                style={styles.collText(colors)}
+                ellipsizeMode="tail"
+                numberOfLines={1}>
                 {selectedCollection.text}
               </Text>
             </TouchableOpacity>
           )}
           <Modal
-          style={{alignItems:'center'}}
+            style={styles.align}
+            // animationOut={"slideOutDown"}
+            // animationOutTiming={500}
             isVisible={modalVisible}
             avoidKeyboard={true}
             onBackButtonPress={() => {
               setModalVisible(false);
             }}>
-              <View
-                style={[
-                  profileImgStyles.modalContainer(colors),
-                  {
-                    maxHeight:dimensions.height*0.5,
-                    width: dimensions.width * 0.8,
-                  },
-                ]}>
-                <View style={styles.closeButtonView}>
-                  <View style={styles.inner}>
-                    <Text style={styles.heading(colors)}>{ADDNOTE.COLLECTIONS} </Text>
-                  </View>
-                  <TouchableOpacity
-                    style={styles.xButton(colors)}
-                    onPress={() => {
-                      setModalVisible(false);
-                      setEmptyColl(false);
-                    }}>
-                    <Text style={styles.text(colors)}>{ADDNOTE.CLOSE}</Text>
-                  </TouchableOpacity>
-                </View>
-              
-                <FlatList
-                  data={collections}
-                  // style={{maxHeight:dimensions.height*0.5}}
-                  renderItem={renderCollectionItem}
-                  keyExtractor={(item, index) => index.toString()}
-                  showsVerticalScrollIndicator={false}
-                />
-                <TextInput
-                  style={styles.newCollectionInput(colors)}
-                  placeholder={ADDNOTE.ADD_COLLECTION}
-                  value={newCollection}
-                  onChangeText={setNewCollection}
-                  placeholderTextColor={colors.HEADERTITLE}
-                  maxLength={20}
-                  onBlur={() => setEmptyColl(false)}
-                />
-                {emptyColl && newCollection === '' && (
-                  <Text style={styles.err}>
-                    {ADDNOTE.ENTER_COLLECTION}
+            <View
+              style={[
+                profileImgStyles.modalContainer(colors),
+                {
+                  maxHeight: dimensions.height * 0.5,
+                  width: dimensions.width * 0.8,
+                },
+              ]}>
+              <View style={styles.closeButtonView}>
+                <View style={styles.inner}>
+                  <Text style={styles.heading(colors)}>
+                    {ADDNOTE.COLLECTIONS}{' '}
                   </Text>
-                )}
+                </View>
                 <TouchableOpacity
-                  style={styles.addButton(colors)}
-                  onPress={addCollection}>
-                  <Text style={styles.addTxt(colors)}>{ADDNOTE.ADD}</Text>
+                  style={styles.xButton(colors)}
+                  onPress={() => {
+                    setModalVisible(false);
+                    setEmptyColl(false);
+                  }}>
+                  <Text style={styles.text(colors)}>{ADDNOTE.CLOSE}</Text>
                 </TouchableOpacity>
+              </View>
+
+              <FlatList
+                data={collections}
+                // style={{maxHeight:dimensions.height*0.5}}
+                renderItem={renderCollectionItem}
+                keyExtractor={(item, index) => index.toString()}
+                showsVerticalScrollIndicator={false}
+              />
+              <TextInput
+                style={styles.newCollectionInput(colors)}
+                placeholder={ADDNOTE.ADD_COLLECTION}
+                value={newCollection}
+                onChangeText={setNewCollection}
+                placeholderTextColor={colors.HEADERTITLE}
+                maxLength={20}
+                onBlur={() => setEmptyColl(false)}
+              />
+              {emptyColl && newCollection === '' && (
+                <Text style={styles.err}>{ADDNOTE.ENTER_COLLECTION}</Text>
+              )}
+              <TouchableOpacity
+                style={styles.addButton(colors)}
+                onPress={addCollection}>
+                <Text style={styles.addTxt(colors)}>{ADDNOTE.ADD}</Text>
+              </TouchableOpacity>
             </View>
           </Modal>
         </View>

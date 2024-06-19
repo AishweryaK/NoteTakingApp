@@ -26,6 +26,7 @@ import EDIT from "../Assets/Svgs/create-outline.svg"
 import GOOGLE from "../Assets/Svgs/google-icon.svg"
 import TRASH from "../Assets/Svgs/trash-outline.svg"
 import GALLERY from "../Assets/Svgs/image-outline.svg"
+import MENU from "../Assets/Svgs/ellipsis-vertical.svg"
 
 
 
@@ -69,4 +70,5 @@ export const ICONS = {
   GOOGLE: (...params) =><GOOGLE {...iconStyle(...params)} />,
   TRASH: (...params) =><TRASH {...iconStyle(...params)} />,
   GALLERY: (...params) =><GALLERY {...iconStyle(...params)} />,
+  MENU: (...params) =><MENU {...iconStyle(...params)} />,
 }

@@ -12,11 +12,11 @@ export const styles = StyleSheet.create({
     fontSize: 12,
     color: commonColors.ERROR,
     paddingLeft: 5,
-    paddingRight:15,
+    // paddingRight:15,
     paddingBottom: 10,
     textAlign: 'left',
     paddingTop: 5,
-    marginRight: 20,
+    marginRight: 15,
   },
   bottom: {
     flex: 1,

@@ -1,16 +1,13 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useLayoutEffect} from 'react';
 import {
   View,
   Text,
-  SafeAreaView,
   TouchableOpacity,
   TextInput,
   Modal,
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-import firestore, {
-} from '@react-native-firebase/firestore';
 import HTML, {
   HTMLContentModel,
   HTMLElementModel,
@@ -33,25 +30,28 @@ import {
   COLLECTION,
   CONSTANTS,
   ERR_CONSOLE,
+  ERR_MSG,
+  ERR_TITLE,
   SHOW_NOTES,
 } from '../../Constants/strings';
-import {deleteNote, updateCollectionCount} from '../../Common/firebaseUtils';
+import {deleteNote, updateCollectionCount, userDocRef} from '../../Common/firebaseUtils';
+import {showAlert} from '../../Common/alert';
+import EditCollection from './EditCollection';
 
 const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
   const [notes, setNotes] = useState<Note[]>([]);
   const [fullNotes, setFullNotes] = useState<Note[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [dialogVisible, setDialogVisible] = useState<boolean>(false);
   const [itemUid, setItemUid] = useState<string | null>(null);
+  const connection = useReduxSelector(state => state.internet.connection);
   const theme = useReduxSelector(state => state.user.theme);
   const colors = getThemeColors(theme);
   const {uid, itemText} = route.params;
 
   useEffect(() => {
-    const unsubscribe = firestore()
-      .collection(COLLECTION.USERS)
-      .doc(uid)
-      .collection(itemText)
+    const unsubscribe = userDocRef(uid).collection(itemText)
       .orderBy(SHOW_NOTES.CREATED_AT, 'desc')
       .onSnapshot(snapshot => {
         const notesData: Note[] = [];
@@ -67,6 +67,29 @@ const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
 
     return () => unsubscribe();
   }, [uid]);
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: itemText,
+      headerRight: () => (
+        <TouchableOpacity onPress={handleCollectionEdit}>
+          {ICONS.MENU(25, 25, colors.HEADERTITLE)}
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation, itemText, colors]);
+
+  const handleCollectionEdit = () => {
+    if (connection) {
+      setDialogVisible(true);
+    } else {
+      showAlert(ERR_TITLE.INTERNET, ERR_MSG.REQUEST_FAILED);
+    }
+  };
+
+  const closeCollectionEdit = () => {
+    setDialogVisible(false);
+  };
 
   const handleNotePress = (item: Note) => {
     navigation.navigate(NAVIGATION.ADDNOTE, {
@@ -207,13 +230,19 @@ const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
                   {CONSTANTS.YES}
                 </Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => setModalVisible(false)}>
+              <TouchableOpacity
+                onPress={() => setModalVisible(false)}>
                 <Text style={showStyles.modalText(colors)}>{CONSTANTS.NO}</Text>
               </TouchableOpacity>
             </View>
           </View>
         </View>
       </Modal>
+      <EditCollection
+        visible={dialogVisible}
+        onClose={closeCollectionEdit}
+        label={itemText}
+      />
     </KeyboardAvoidingView>
   );
 };

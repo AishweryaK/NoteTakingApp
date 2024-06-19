@@ -11,8 +11,6 @@ function CustomInput({
   handleChange,
   handleBlur,
 }: CustomInputProps) {
-  console.log('CustomInput');
-  
   const theme = useReduxSelector(state => state.user.theme);
   const colors = getThemeColors(theme);
   return (

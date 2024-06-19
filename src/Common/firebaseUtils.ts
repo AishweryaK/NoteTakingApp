@@ -1,6 +1,18 @@
 import firestore from '@react-native-firebase/firestore';
-import {COLLECTION, CONSTANTS, DEFAULT_NOTE, ERR_CONSOLE} from '../Constants/strings';
-import { CollectionItem } from './common';
+import {
+  COLLECTION,
+  CONSTANTS,
+  DEFAULT_NOTE,
+  ERR_CONSOLE,
+  ERR_MSG,
+  ERR_TITLE,
+} from '../Constants/strings';
+import {CollectionItem} from './common';
+import {showAlert} from './alert';
+
+export const userDocRef = (uid: string) => {
+  return firestore().collection(COLLECTION.USERS).doc(uid);
+};
 
 //Add Notes
 
@@ -12,16 +24,11 @@ export const updateNote = async (
   desc: string,
 ) => {
   try {
-    await firestore()
-      .collection(COLLECTION.USERS)
-      .doc(uid)
-      .collection(label)
-      .doc(itemID)
-      .update({
-        title,
-        desc,
-        createdAt: firestore.FieldValue.serverTimestamp(),
-      });
+    await userDocRef(uid).collection(label).doc(itemID).update({
+      title,
+      desc,
+      createdAt: firestore.FieldValue.serverTimestamp(),
+    });
   } catch (error) {
     console.error(ERR_CONSOLE.SAVE_NOTE, error);
   }
@@ -34,15 +41,11 @@ export const saveNoteLabel = async (
   desc: string,
 ) => {
   try {
-    await firestore()
-      .collection(COLLECTION.USERS)
-      .doc(uid)
-      .collection(label)
-      .add({
-        title,
-        desc,
-        createdAt: firestore.FieldValue.serverTimestamp(),
-      });
+    await userDocRef(uid).collection(label).add({
+      title,
+      desc,
+      createdAt: firestore.FieldValue.serverTimestamp(),
+    });
   } catch (error) {
     console.error(ERR_CONSOLE.SAVE_NOTE, error);
   }
@@ -55,15 +58,11 @@ export const saveNoteNew = async (
   desc: string,
 ) => {
   try {
-    await firestore()
-      .collection(COLLECTION.USERS)
-      .doc(uid)
-      .collection(selectedCollection.text)
-      .add({
-        title,
-        desc,
-        createdAt: firestore.FieldValue.serverTimestamp(),
-      });
+    await userDocRef(uid).collection(selectedCollection.text).add({
+      title,
+      desc,
+      createdAt: firestore.FieldValue.serverTimestamp(),
+    });
   } catch (error) {
     console.error(ERR_CONSOLE.SAVE_NOTE, error);
   }
@@ -75,8 +74,7 @@ export const updateCollectionCount = async (
   action: string,
 ) => {
   try {
-    const collectionRef = firestore().collection(COLLECTION.USERS).doc(uid);
-    const doc = await collectionRef.get();
+    const doc = await userDocRef(uid).get();
     if (doc.exists) {
       const userData = doc.data();
       const updatedCollections = userData?.collections.map(
@@ -94,7 +92,10 @@ export const updateCollectionCount = async (
           return collection;
         },
       );
-      await collectionRef.set({collections: updatedCollections}, {merge: true});
+      await userDocRef(uid).set(
+        {collections: updatedCollections},
+        {merge: true},
+      );
     }
   } catch (error) {
     throw error;
@@ -107,9 +108,7 @@ export const subscribeToUserCollections = (
     React.SetStateAction<Array<{text: string; number: number}>>
   >,
 ) => {
-  const userDocRef = firestore().collection(COLLECTION.USERS).doc(uid);
-
-  const unsubscribe = userDocRef.onSnapshot(snapshot => {
+  const unsubscribe = userDocRef(uid).onSnapshot(snapshot => {
     if (snapshot.exists) {
       const userData = snapshot.data();
       if (userData?.collections) {
@@ -129,12 +128,7 @@ export const deleteNote = async (
   itemUid: string,
 ) => {
   try {
-    await firestore()
-      .collection(COLLECTION.USERS)
-      .doc(uid)
-      .collection(itemText)
-      .doc(itemUid)
-      .delete();
+    await userDocRef(uid).collection(itemText).doc(itemUid).delete();
   } catch (error) {
     console.error(ERR_CONSOLE.DELETE_NOTE, error);
     throw error;
@@ -144,7 +138,12 @@ export const deleteNote = async (
 //Custom Hook
 
 export async function addDocumentsForUser(userUid: string) {
-  const collections = [COLLECTION.PERSONAL, COLLECTION.ACADEMIC, COLLECTION.WORK, COLLECTION.OTHERS];
+  const collections = [
+    COLLECTION.PERSONAL,
+    COLLECTION.ACADEMIC,
+    COLLECTION.WORK,
+    COLLECTION.OTHERS,
+  ];
 
   const addDocumentPromises = collections.map(collectionName =>
     addDocumentToCollection(userUid, collectionName),
@@ -152,7 +151,7 @@ export async function addDocumentsForUser(userUid: string) {
 
   await Promise.all(addDocumentPromises);
 
-  await firestore().collection(COLLECTION.USERS).doc(userUid).set({
+  await userDocRef(userUid).set({
     collections: data,
   });
 }
@@ -167,9 +166,7 @@ async function addDocumentToCollection(
   userUid: string,
   collectionName: string,
 ) {
-  await firestore()
-    .collection(COLLECTION.USERS)
-    .doc(userUid)
+  await userDocRef(userUid)
     .collection(collectionName)
     .add({
       title: `Welcome to your ${collectionName} collection!`,
@@ -177,3 +174,79 @@ async function addDocumentToCollection(
       createdAt: firestore.FieldValue.serverTimestamp(),
     });
 }
+
+//Custom List
+
+export const removeCollectionFromFirestore = async (
+  uid: string,
+  collections: CollectionItem[],
+  collName: string,
+) => {
+  const collectionItem = collections.find(
+    collection => collection.text === collName,
+  );
+  const number = collectionItem ? collectionItem.number : 1;
+
+  await userDocRef(uid).update({
+    collections: firestore.FieldValue.arrayRemove({
+      text: collName,
+      number: number,
+    }),
+  });
+};
+
+export const handleDeleteCollection = async (
+  uid: string,
+  collections: CollectionItem[],
+  collName: string,
+  setCollections: React.Dispatch<React.SetStateAction<CollectionItem[]>>,
+  setModalVisible: React.Dispatch<React.SetStateAction<boolean>>,
+) => {
+  if (
+    collName === COLLECTION.PERSONAL ||
+    collName === COLLECTION.ACADEMIC ||
+    collName === COLLECTION.WORK ||
+    collName === COLLECTION.OTHERS
+  ) {
+    showAlert(ERR_TITLE.ACTION_NOT_ALLOWED, ERR_MSG.CANNOT_DELETE);
+    setModalVisible(false);
+    return;
+  }
+  try {
+    const collectionRef = userDocRef(uid).collection(collName);
+    const snapshot = await collectionRef.get();
+    const deletePromises = snapshot.docs.map(doc => doc.ref.delete());
+    await Promise.all(deletePromises);
+    console.log('before');
+    removeCollectionFromFirestore(uid, collections, collName);
+    console.log('after');
+    setCollections(prevCollections =>
+      prevCollections.filter(collection => collection.text !== collName),
+    );
+
+    setModalVisible(false);
+  } catch (error) {
+    console.error(ERR_CONSOLE.DELETE_COLLECTION, error);
+  }
+};
+
+//Add Note
+
+export const setCollection = async (
+  collections: CollectionItem[],
+  setCollections: React.Dispatch<React.SetStateAction<CollectionItem[]>>,
+  newCollection: string,
+  uid: string,
+) => {
+  const updatedCollections = [
+    ...collections,
+    {text: newCollection.trim(), number: 0},
+  ];
+  await userDocRef(uid).set(
+    {
+      collections: updatedCollections,
+    },
+    {merge: true},
+  );
+  setCollections(updatedCollections);
+};

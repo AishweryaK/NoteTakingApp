@@ -55,6 +55,7 @@ export const showStyles = StyleSheet.create({
     justifyContent: 'space-evenly',
     width: dimensions.width * 0.45,
     paddingHorizontal: 10,
+    alignItems:'center'
   },
   modalBackground: {
     flex: 1,

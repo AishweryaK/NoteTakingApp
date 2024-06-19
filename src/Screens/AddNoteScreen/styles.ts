@@ -24,11 +24,13 @@ export const styles = StyleSheet.create({
     color: colors.HEADERTITLE,
     fontSize: 14,
     fontFamily: FONT.BOLD,
+    maxWidth:dimensions.width*0.4
   }),
   heading: colors => ({
     fontFamily: FONT.EXTRA_BOLD,
     fontSize: 18,
     color: colors.HEADERTITLE,
+    textAlign:'center'
   }),
   title: colors => ({
     fontSize: 35,
@@ -71,7 +73,7 @@ export const styles = StyleSheet.create({
   },
   collectionItem: {
     paddingVertical: 10,
-    width: dimensions.width * 0.50,
+    width: dimensions.width * 0.55,
   },
   collectionText: colors => ({
     fontFamily: FONT.REGULAR,
@@ -85,7 +87,7 @@ export const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 10,
     color: colors.TITLECOLOR,
-    width: dimensions.width * 0.50,
+    width: dimensions.width * 0.55,
   }),
   addButton: colors => ({
     backgroundColor: colors.BLUE,
@@ -105,7 +107,7 @@ export const styles = StyleSheet.create({
   }),
   closeButtonView: {
     flexDirection: 'row',
-    width: dimensions.width * 0.50,
+    width: dimensions.width * 0.65,
     justifyContent: 'space-between',
   },
   inner: {flex: 1},
@@ -121,6 +123,7 @@ export const styles = StyleSheet.create({
   err: {
     color: commonColors.ERROR,
     paddingBottom: 10,
+    textAlign:'left'
   },
   flex: {
     justifyContent: 'flex-end',
@@ -148,4 +151,8 @@ export const styles = StyleSheet.create({
   text:colors =>({
     color: colors.HEADERTITLE
   }),
+  align:
+  {
+    alignItems:'center'
+  }
 });
