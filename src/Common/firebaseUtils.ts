@@ -217,9 +217,7 @@ export const handleDeleteCollection = async (
     const snapshot = await collectionRef.get();
     const deletePromises = snapshot.docs.map(doc => doc.ref.delete());
     await Promise.all(deletePromises);
-    console.log('before');
     removeCollectionFromFirestore(uid, collections, collName);
-    console.log('after');
     setCollections(prevCollections =>
       prevCollections.filter(collection => collection.text !== collName),
     );
