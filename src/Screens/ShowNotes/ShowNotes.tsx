@@ -34,7 +34,11 @@ import {
   ERR_TITLE,
   SHOW_NOTES,
 } from '../../Constants/strings';
-import {deleteNote, updateCollectionCount, userDocRef} from '../../Common/firebaseUtils';
+import {
+  deleteNote,
+  updateCollectionCount,
+  userDocRef,
+} from '../../Common/firebaseUtils';
 import {showAlert} from '../../Common/alert';
 import EditCollection from './EditCollection';
 
@@ -45,13 +49,13 @@ const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [dialogVisible, setDialogVisible] = useState<boolean>(false);
   const [itemUid, setItemUid] = useState<string | null>(null);
-  const connection = useReduxSelector(state => state.internet.connection);
   const theme = useReduxSelector(state => state.user.theme);
   const colors = getThemeColors(theme);
   const {uid, itemText} = route.params;
 
   useEffect(() => {
-    const unsubscribe = userDocRef(uid).collection(itemText)
+    const unsubscribe = userDocRef(uid)
+      .collection(itemText)
       .orderBy(SHOW_NOTES.CREATED_AT, 'desc')
       .onSnapshot(snapshot => {
         const notesData: Note[] = [];
@@ -66,7 +70,7 @@ const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
       });
 
     return () => unsubscribe();
-  }, [uid]);
+  }, [uid, itemText]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -80,11 +84,7 @@ const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
   }, [navigation, itemText, colors]);
 
   const handleCollectionEdit = () => {
-    if (connection) {
       setDialogVisible(true);
-    } else {
-      showAlert(ERR_TITLE.INTERNET, ERR_MSG.REQUEST_FAILED);
-    }
   };
 
   const closeCollectionEdit = () => {
@@ -230,8 +230,7 @@ const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
                   {CONSTANTS.YES}
                 </Text>
               </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => setModalVisible(false)}>
+              <TouchableOpacity onPress={() => setModalVisible(false)}>
                 <Text style={showStyles.modalText(colors)}>{CONSTANTS.NO}</Text>
               </TouchableOpacity>
             </View>
@@ -242,6 +241,7 @@ const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
         visible={dialogVisible}
         onClose={closeCollectionEdit}
         label={itemText}
+        navigation={navigation}
       />
     </KeyboardAvoidingView>
   );

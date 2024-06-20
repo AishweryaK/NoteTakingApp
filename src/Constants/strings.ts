@@ -50,6 +50,8 @@ export const ERR_CONSOLE = {
   OPENING_URL: 'Error occurred while opening URL: ',
   STORAGE_INFO: 'Error fetching storage information: ',
   DELETE_NOTE: 'Error deleting note: ',
+  NOT_FOUND:'Collection not found',
+
 };
 
 export const ERR_CODE = {
@@ -72,6 +74,7 @@ export const ERR_TITLE = {
   SUCCESS: 'Success',
   EMAIL_SENT: 'Email sent successfully!',
   SEND_EMAIL: 'Error sending email',
+  UPDATING_COLLECTION : 'Error updating collection:',
 };
 
 export const ERR_MSG = {
@@ -208,6 +211,8 @@ export const SHOW_NOTES = {
   NEW_NOTES: 'Add New Notes',
   DELETE_NOTES: 'Delete Note',
   ARE_YOU_SURE: 'Are you sure you want to delete this note?',
+  SAME_COLL_ERR: 'New Collection name same as Current',
+  ALREADY_EXISTS:'Collection with same name already exists',
 };
 
 export const SIGN_UP = {
