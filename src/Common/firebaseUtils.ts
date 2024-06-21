@@ -288,7 +288,6 @@ export const handleEdit = async (
   uid: string,
   navigation: any,
   setEmptyColl: (value: boolean) => void,
-  setErr: (value: boolean) => void,
   setExistingErr: (value: boolean) => void,
   setAllCollections: React.Dispatch<
     React.SetStateAction<Array<{text: string; number: number}>>
@@ -298,10 +297,6 @@ export const handleEdit = async (
   const trimmedColl = collection.trim();
   if (trimmedColl === '') {
     setEmptyColl(true);
-    return;
-  }
-  if (trimmedColl === label) {
-    setErr(true);
     return;
   }
   const existingCollection = allCollections.find(

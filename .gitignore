@@ -73,3 +73,12 @@ yarn.lock
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# Ignore the app-release.apk file
+app-release.apk
+
+# Ignore all zip files related to app-release.apk
+app-release.zip
+
+# to ignore all zip files
+*.zip

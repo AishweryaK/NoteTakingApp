@@ -7,6 +7,7 @@ import {
   Modal,
   KeyboardAvoidingView,
   Platform,
+  NativeModules
 } from 'react-native';
 import HTML, {
   HTMLContentModel,
@@ -27,11 +28,8 @@ import {ICONS} from '../../Constants/iconConstants';
 import {NoteScreenProps} from '../../Navigation/routeTypes';
 import {Note} from './show_notes';
 import {
-  COLLECTION,
   CONSTANTS,
   ERR_CONSOLE,
-  ERR_MSG,
-  ERR_TITLE,
   SHOW_NOTES,
 } from '../../Constants/strings';
 import {
@@ -39,9 +37,9 @@ import {
   updateCollectionCount,
   userDocRef,
 } from '../../Common/firebaseUtils';
-import {showAlert} from '../../Common/alert';
 import EditCollection from './EditCollection';
 
+const BannerModule = NativeModules.BannerModule;
 const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
   const [notes, setNotes] = useState<Note[]>([]);
   const [fullNotes, setFullNotes] = useState<Note[]>([]);
@@ -52,6 +50,16 @@ const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
   const theme = useReduxSelector(state => state.user.theme);
   const colors = getThemeColors(theme);
   const {uid, itemText} = route.params;
+
+  useEffect(()=>{
+    // BannerModule.showToast("effect");
+    BannerModule.showBannerAd();
+
+    // return ()=>{
+      // console.log("HIDE")
+      // BannerModule.hideBannerAd();
+    // }
+  },[])
 
   useEffect(() => {
     const unsubscribe = userDocRef(uid)
@@ -187,6 +195,9 @@ const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
           placeholderTextColor={colors.PLACEHOLDER}
         />
       </View>
+      {/* <TouchableOpacity style={{backgroundColor:'red'}} onPress={()=>BannerModule.showToast("HELLO")}>
+        <Text>Hi</Text>
+      </TouchableOpacity> */}
       {notes.length === 0 && searchQuery === '' && (
         <Text style={showStyles.noNotes(colors)}>{SHOW_NOTES.ADD_NOTE}</Text>
       )}

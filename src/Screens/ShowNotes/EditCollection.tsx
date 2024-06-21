@@ -16,7 +16,6 @@ const EditCollection: React.FC<EditCollProps> = ({
   const {theme, uid} = useReduxSelector(state => state.user);
   const colors = getThemeColors(theme);
   const [emptyColl, setEmptyColl] = useState<boolean>(false);
-  const [err, setErr] = useState<boolean>(false);
   const [existingErr, setExistingErr] = useState<boolean>(false);
   const [collection, setCollection] = useState<string>('');
   const [allCollections, setAllCollections] = useState<
@@ -40,9 +39,22 @@ const EditCollection: React.FC<EditCollProps> = ({
     onClose();
     setCollection('');
     setEmptyColl(false);
-    setErr(false);
     setExistingErr(false);
   };
+
+  const handleCollection = (text :string) => {
+    setCollection(text);
+
+      const existingCollection = allCollections.find(
+        collection => collection.text.toLowerCase() === text.toLowerCase(),
+      );
+      if (existingCollection) {
+        setExistingErr(true);
+        return;
+      }
+      else
+      setExistingErr(false);
+  } 
 
   const handleEditWrapper = async () => {
     await handleEdit(
@@ -52,7 +64,6 @@ const EditCollection: React.FC<EditCollProps> = ({
       uid,
       navigation,
       setEmptyColl,
-      setErr,
       setExistingErr,
       setAllCollections,
       handleClose,
@@ -75,16 +86,13 @@ const EditCollection: React.FC<EditCollProps> = ({
             style={styles.input(colors)}
             placeholder={SHOW_NOTES.EDIT_COLLECTION}
             value={collection}
-            onChangeText={setCollection}
+            onChangeText={handleCollection}
             placeholderTextColor={commonColors.GRAY}
             maxLength={20}
             onBlur={() => setEmptyColl(false)}
           />
           {emptyColl && collection === '' && (
             <Text style={styles.errorTxt}>{ADDNOTE.ENTER_COLLECTION}</Text>
-          )}
-          {err && (
-            <Text style={styles.errorTxt}>{SHOW_NOTES.SAME_COLL_ERR}</Text>
           )}
           {existingErr && (
             <Text style={styles.errorTxt}>{SHOW_NOTES.ALREADY_EXISTS}</Text>
