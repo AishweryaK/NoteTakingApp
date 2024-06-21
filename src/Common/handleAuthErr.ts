@@ -22,6 +22,9 @@ export const handleAuthError = (e:any, context:string) => {
       case ERR_CODE.REQUEST_FAILED:
         showAlert(ERR_TITLE.INTERNET,ERR_MSG.REQUEST_FAILED);
         break;
+        case ERR_CODE.INVALID_EMAIL:
+          showAlert(title,ERR_MSG.INVALID_EMAIL);
+          break;
       default:
         showAlert(title,`${err.message}`);
         break;
@@ -46,16 +49,16 @@ export const handleAuthError = (e:any, context:string) => {
   };
 
   export const handleGoogleError = (err:any) => {
-    const message = undefined;
+    const message = '';
     switch (err.code) {
       case statusCodes.SIGN_IN_CANCELLED :
-        showAlert(ERR_MSG.GOOGLE_CANCELLED,message);
+        showAlert(message,ERR_MSG.GOOGLE_CANCELLED);
         break;
         case statusCodes.IN_PROGRESS:
-          showAlert(ERR_MSG.IN_PROGRESS,message);
+          showAlert(message,ERR_MSG.IN_PROGRESS);
           break;
           case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
-            showAlert(ERR_MSG.PLAY_SERVICES,message);
+            showAlert(message,ERR_MSG.PLAY_SERVICES);
             break;
       default:
         showAlert(ERR_TITLE.ERROR,`${err.message}`);

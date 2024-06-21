@@ -20,4 +20,14 @@ buildscript {
     }
 }
 
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        maven {
+            url 'https://cboost.jfrog.io/artifactory/chartboost-ads/'
+        }
+    }
+}
+
 apply plugin: "com.facebook.react.rootproject"

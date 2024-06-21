@@ -23,23 +23,27 @@ import {CONSTANTS, SIGN_UP} from '../../Constants/strings';
 export const SignupSchema = Yup.object().shape({
   firstName: Yup.string()
     .transform(value => value.trim())
+    .test(SIGN_UP.TRIM_TWO, SIGN_UP.BLANK_SPACE, value => (value || "").length > 0)
     .min(3, SIGN_UP.TOO_SHORT)
     .max(25, SIGN_UP.TOO_LONG)
     .required(SIGN_UP.ENTER_FIRST_NAME)
     .matches(SIGN_UP.NAME_REGEX, SIGN_UP.ONLY_FN_ALPHABETS),
   lastName: Yup.string()
     .transform(value => value.trim())
+    .test(SIGN_UP.TRIM_TWO, SIGN_UP.BLANK_SPACE_LAST, value => (value || "").length > 0)
     .min(2, SIGN_UP.TOO_SHORT)
     .max(25, SIGN_UP.TOO_LONG)
     .required(SIGN_UP.ENTER_LAST_NAME)
     .matches(SIGN_UP.NAME_REGEX, SIGN_UP.ONLY_LN_ALPHABET),
   email: Yup.string()
     .transform(value => value.trim())
+    .test(SIGN_UP.TRIM_TWO, SIGN_UP.BLANK_SPACE_EMAIL, value => (value || "").length > 0)
     .email(SIGN_UP.INVALID_EMAIL)
     .required(SIGN_UP.ENTER_EMAIL)
     .matches(SIGN_UP.EMAIL_REGEX, SIGN_UP.INVALID_EMAIL),
   password: Yup.string()
     .transform(value => value.trim())
+    .test(SIGN_UP.TRIM_TWO, SIGN_UP.BLANK_SPACE_PWD, value => (value || "").length > 0)
     .min(8)
     .max(25)
     .required(SIGN_UP.ENTER_PASSWORD)

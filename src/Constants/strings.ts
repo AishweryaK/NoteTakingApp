@@ -61,6 +61,7 @@ export const ERR_CODE = {
   WRONG_PASSWORD: 'auth/wrong-password',
   REQUEST_FAILED: 'auth/network-request-failed',
   ALREADY_IN_USE: 'auth/email-already-in-use',
+  INVALID_EMAIL:'auth/invalid-email'
 };
 
 export const ERR_TITLE = {
@@ -99,6 +100,7 @@ export const ERR_MSG = {
   INCORRECT_EMAIL: 'Incorrect email',
   SAME_USERNAME: 'User Name same as before. Please try again.',
   USERNAME_CHANGED: 'User Name changed successfully',
+  INVALID_EMAIL:'Please check your email address',
 };
 
 export const COLLECTION = {
@@ -221,6 +223,12 @@ export const SIGN_UP = {
   PASSWORD_REGEX:
     /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-])(?!.*\s).{8,25}$/,
   CONFIRM_PWD_REGEX: 'password',
+  TRIM:'trim',
+  TRIM_TWO:'trim',
+  BLANK_SPACE:'First Name cannot consist only of blank spaces',
+  BLANK_SPACE_LAST:'Last Name cannot consist only of blank spaces',
+  BLANK_SPACE_EMAIL:'Email cannot consist only of blank spaces',
+  BLANK_SPACE_PWD:'Password cannot consist only of blank spaces',
   TOO_SHORT: 'Too Short!',
   TOO_LONG: 'Too Long!',
   ENTER_FIRST_NAME: '* Please enter your First Name',
