@@ -959,6 +959,7 @@ PODS:
   - BoringSSL-GRPC/Implementation (0.0.32):
     - BoringSSL-GRPC/Interface (= 0.0.32)
   - BoringSSL-GRPC/Interface (0.0.32)
+  - ChartboostSDK (9.7.0)
   - DoubleConversion (1.1.6)
   - FBLazyVector (0.74.0)
   - Firebase/Auth (10.24.0):
@@ -2489,6 +2490,7 @@ PODS:
 
 DEPENDENCIES:
   - boost (from `../node_modules/react-native/third-party-podspecs/boost.podspec`)
+  - ChartboostSDK
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - fmt (from `../node_modules/react-native/third-party-podspecs/fmt.podspec`)
@@ -2573,6 +2575,7 @@ SPEC REPOS:
     - abseil
     - AppAuth
     - BoringSSL-GRPC
+    - ChartboostSDK
     - Firebase
     - FirebaseAppCheckInterop
     - FirebaseAuth
@@ -2762,6 +2765,7 @@ SPEC CHECKSUMS:
   AppAuth: 501c04eda8a8d11f179dbe8637b7a91bb7e5d2fa
   boost: d3f49c53809116a5d38da093a8aa78bf551aed09
   BoringSSL-GRPC: 1e2348957acdbcad360b80a264a90799984b2ba6
+  ChartboostSDK: 0cd093c90a5a21c89783fe5be486e511fb2dbfc8
   DoubleConversion: 76ab83afb40bddeeee456813d9c04f67f78771b5
   FBLazyVector: 026c8f4ae67b06e088ae01baa2271ef8a26c0e8c
   Firebase: 91fefd38712feb9186ea8996af6cbdef41473442
@@ -2865,6 +2869,6 @@ SPEC CHECKSUMS:
   SocketRocket: abac6f5de4d4d62d24e11868d7a2f427e0ef940d
   Yoga: d97d4830fe26d7abad29a92f2b11012d2e1f58d1
 
-PODFILE CHECKSUM: 694b52fb3880fb29a4683358499b610d8cafc4d7
+PODFILE CHECKSUM: 371cb36c21e2d0e018e1d51113cca28b121081cb
 
 COCOAPODS: 1.14.3

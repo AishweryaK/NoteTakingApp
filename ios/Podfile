@@ -23,6 +23,8 @@ target 'NoteTaking' do
     # An absolute path to your application root.
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
+  
+  pod 'ChartboostSDK'
 
   target 'NoteTakingTests' do
     inherit! :complete
