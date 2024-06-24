@@ -102,7 +102,7 @@ class BannerModule(private val reactContext: ReactApplicationContext) : ReactCon
             chartboostBanner = Banner(context, "banner_ad",  Banner.BannerSize.STANDARD, object : BannerCallback {
                 override fun onAdClicked(event: ClickEvent, error: ClickError?) {
 //                    Toast.makeText(reactContext, "Banner ad clicked", Toast.LENGTH_SHORT).show()
-                    Log.d("clickEvent", "clickEvent")
+                    Log.d("cacheEvent", "clickEvent")
                 }
 
                 override fun onAdLoaded(event: CacheEvent, error: CacheError?) {
@@ -114,12 +114,12 @@ class BannerModule(private val reactContext: ReactApplicationContext) : ReactCon
 
                 override fun onAdRequestedToShow(event: ShowEvent) {
 //                    Toast.makeText(reactContext, "Banner ad Requested", Toast.LENGTH_SHORT).show()
+                    Log.d("cacheEvent", "show Event")
                 }
 
                 override fun onAdShown(event: ShowEvent, error: ShowError?) {
                     Toast.makeText(reactContext, "Banner ad Shown", Toast.LENGTH_SHORT).show()
-//                    chartboostBanner?.show()
-//                    displayBanner()
+                    Log.d("cacheEvent", "Banner ad")
                 }
 
                 override fun onImpressionRecorded(event: ImpressionEvent) {
@@ -132,20 +132,23 @@ class BannerModule(private val reactContext: ReactApplicationContext) : ReactCon
     }
 
 //    @ReactMethod
-//    fun hideBannerAd() {
-//        Toast.makeText(reactContext, "hide", Toast.LENGTH_SHORT).show()
-//        chartboostBanner?.detach()
+//    fun removeBannerAd() {
+//        currentActivity?.runOnUiThread {
+//            chartboostBanner?.let { banner ->
+//                (banner.parent as? ViewGroup)?.removeView(banner)
+//                chartboostBanner = null
+//            }
+//        }
 //    }
 
     @ReactMethod
-    fun hideBannerAd() {
+    fun removeBannerAd() {
         currentActivity?.runOnUiThread {
-            val rootLayout = currentActivity?.findViewById<FrameLayout>(android.R.id.content)
-            if (chartboostBanner?.parent != null) {
-                Log.d("BannerModule", "Removing banner from parent")
-                (chartboostBanner?.parent as? ViewGroup)?.removeView(chartboostBanner)
-            }
-            chartboostBanner = null
+            chartboostBanner?.let { banner ->
+                (banner.parent as? ViewGroup)?.removeView(banner)
+                chartboostBanner = null
+                Log.d("cacheEvent", "Banner ad removed")
+            } ?: Log.d("cacheEvent", "No banner ad to remove")
         }
     }
 

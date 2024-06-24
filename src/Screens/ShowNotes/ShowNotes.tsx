@@ -40,6 +40,7 @@ import {
 import EditCollection from './EditCollection';
 
 const BannerModule = NativeModules.BannerModule;
+const InterstitialModule = NativeModules.InterstitialModule;
 const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
   const [notes, setNotes] = useState<Note[]>([]);
   const [fullNotes, setFullNotes] = useState<Note[]>([]);
@@ -53,12 +54,12 @@ const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
 
   useEffect(()=>{
     // BannerModule.showToast("effect");
-    BannerModule.showBannerAd();
+    // BannerModule.showBannerAd();
+    InterstitialModule.showInterstitialAd();
 
-    // return ()=>{
-      // console.log("HIDE")
-      // BannerModule.hideBannerAd();
-    // }
+    return () => {
+      // BannerModule.removeBannerAd();
+    };
   },[])
 
   useEffect(() => {
