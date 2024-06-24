@@ -7,7 +7,7 @@ import {
   Modal,
   KeyboardAvoidingView,
   Platform,
-  NativeModules
+  NativeModules,
 } from 'react-native';
 import HTML, {
   HTMLContentModel,
@@ -27,20 +27,18 @@ import StaggerView from '@mindinventory/react-native-stagger-view';
 import {ICONS} from '../../Constants/iconConstants';
 import {NoteScreenProps} from '../../Navigation/routeTypes';
 import {Note} from './show_notes';
-import {
-  CONSTANTS,
-  ERR_CONSOLE,
-  SHOW_NOTES,
-} from '../../Constants/strings';
+import {CONSTANTS, ERR_CONSOLE, SHOW_NOTES} from '../../Constants/strings';
 import {
   deleteNote,
   updateCollectionCount,
   userDocRef,
 } from '../../Common/firebaseUtils';
 import EditCollection from './EditCollection';
+import Chartboost from './InterstitialAdIos';
 
 const BannerModule = NativeModules.BannerModule;
-const InterstitialModule = NativeModules.InterstitialModule;
+const InterstitialModule = NativeModules.InterstitialModule; //android
+
 const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
   const [notes, setNotes] = useState<Note[]>([]);
   const [fullNotes, setFullNotes] = useState<Note[]>([]);
@@ -52,15 +50,57 @@ const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
   const colors = getThemeColors(theme);
   const {uid, itemText} = route.params;
 
-  useEffect(()=>{
+  useEffect(() => {
     // BannerModule.showToast("effect");
     // BannerModule.showBannerAd();
-    InterstitialModule.showInterstitialAd();
+    if (Platform.OS === 'android') {
+      InterstitialModule.showInterstitialAd();
+    }
+  }, []);
+
+  useEffect(() => {
+    Chartboost.loadInterstitial('interstitial_ad_ios');
+
+    setTimeout(()=> {
+      Chartboost.showInterstitial('interstitial_ad_ios');
+    }, 1000)
+    
+
+    const onAdLoaded = (event: {location: string}) => {
+      console.log('Ad loaded:', event.location);
+    };
+
+    const onAdFailedToLoad = (event: {location: string; error?: string}) => {
+      console.log('Ad failed to load:', event.location, event.error);
+    };
+
+    const onAdShown = (event: {location: string}) => {
+      console.log('Ad shown:', event.location);
+    };
+
+    const onAdDismissed = (event: {location: string}) => {
+      console.log('Ad dismissed:', event.location);
+    };
+
+    const subscriptions = [
+      Chartboost.addEventListener('onAdLoaded', onAdLoaded),
+      Chartboost.addEventListener('onAdFailedToLoad', onAdFailedToLoad),
+      Chartboost.addEventListener('onAdShown', onAdShown),
+      Chartboost.addEventListener('onAdDismissed', onAdDismissed),
+    ];
 
     return () => {
-      // BannerModule.removeBannerAd();
+      subscriptions.forEach(sub => sub.remove());
     };
-  },[])
+  }, []);
+
+  // const loadAd = () => {
+  //   Chartboost.loadInterstitial('MySpecificScreen');
+  // };
+
+  // const showAd = () => {
+  //   Chartboost.showInterstitial('MySpecificScreen');
+  // };
 
   useEffect(() => {
     const unsubscribe = userDocRef(uid)
@@ -93,7 +133,7 @@ const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
   }, [navigation, itemText, colors]);
 
   const handleCollectionEdit = () => {
-      setDialogVisible(true);
+    setDialogVisible(true);
   };
 
   const closeCollectionEdit = () => {

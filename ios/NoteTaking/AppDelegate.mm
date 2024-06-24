@@ -4,6 +4,7 @@
 #import <React/RCTBundleURLProvider.h>
 #import <ChartboostSDK/Chartboost.h>
 
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -14,17 +15,18 @@
   // They will be passed down to the ViewController used by React Native.
   self.initialProps = @{};
   
-  [Chartboost startWithAppId:@"6673c65803f52ff72e667223"
+  [Chartboost startWithAppID:@"6673c65803f52ff72e667223"
                   appSignature:@"a62698febdee80b09b4ff7d94d5cb302777a76c8"
                     completion:^(CHBStartError * _Nullable error) {
       if (error) {
-        NSLog(@"Chartboost SDK initialization finished with error %@", error.localizedDescription);
+        NSLog(@"Chartboost SDK initialization finished with error %@", error);
       } else {
         NSLog(@"Chartboost SDK initialization finished with success");
       }
     }];
 
   return [super application:application didFinishLaunchingWithOptions:launchOptions];
+//  return YES;
 }
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
