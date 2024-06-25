@@ -18,10 +18,6 @@ const addEventListener = (event: AdEvent, listener: AdEventListener): EmitterSub
   return adEmitter.addListener(event, listener);
 };
 
-// const removeEventListener = (event: AdEvent, listener: AdEventListener): void => {
-//   adEmitter.removeListener(event, listener);
-// };
-
 const removeEventListener = (subscription: EmitterSubscription): void => {
   subscription.remove();
 };

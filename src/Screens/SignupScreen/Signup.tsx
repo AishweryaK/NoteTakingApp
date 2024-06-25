@@ -96,7 +96,7 @@ const Signup: React.FC = () => {
         handleSubmit,
       }: FormikProps<FormValues>) => (
         <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+          behavior={Platform.OS === CONSTANTS.IOS ? 'padding' : undefined}
           style={styles.wrapper(colors)}
           keyboardVerticalOffset={100}>
           <ScrollView style={styles.margin}>

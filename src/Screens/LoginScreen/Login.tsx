@@ -60,7 +60,7 @@ function Login({navigation}: LoginScreenProps) {
       }: FormikProps<FormValues>) => (
         <KeyboardAvoidingView
           keyboardVerticalOffset={65}
-          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+          behavior={Platform.OS === CONSTANTS.IOS ? 'padding' : undefined}
           style={styles.wrapper(colors)}>
           <CustomInput
             placeHolder={SIGNING.EMAIL}

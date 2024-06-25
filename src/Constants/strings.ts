@@ -35,9 +35,11 @@ export const CONSTANTS = {
   EMAIL: 'email',
   YES: 'Yes',
   NO: 'No',
-  INCREMENT:'increment',
-  DECREMENT:'decrement',
-  CANCEL:'Cancel'
+  INCREMENT: 'increment',
+  DECREMENT: 'decrement',
+  CANCEL: 'Cancel',
+  ANDROID:"android",
+  IOS:'ios'
 };
 
 export const ERR_CONSOLE = {
@@ -50,8 +52,7 @@ export const ERR_CONSOLE = {
   OPENING_URL: 'Error occurred while opening URL: ',
   STORAGE_INFO: 'Error fetching storage information: ',
   DELETE_NOTE: 'Error deleting note: ',
-  NOT_FOUND:'Collection not found',
-
+  NOT_FOUND: 'Collection not found',
 };
 
 export const ERR_CODE = {
@@ -61,7 +62,7 @@ export const ERR_CODE = {
   WRONG_PASSWORD: 'auth/wrong-password',
   REQUEST_FAILED: 'auth/network-request-failed',
   ALREADY_IN_USE: 'auth/email-already-in-use',
-  INVALID_EMAIL:'auth/invalid-email'
+  INVALID_EMAIL: 'auth/invalid-email',
 };
 
 export const ERR_TITLE = {
@@ -75,7 +76,7 @@ export const ERR_TITLE = {
   SUCCESS: 'Success',
   EMAIL_SENT: 'Email sent successfully!',
   SEND_EMAIL: 'Error sending email',
-  UPDATING_COLLECTION : 'Error updating collection:',
+  UPDATING_COLLECTION: 'Error updating collection:',
 };
 
 export const ERR_MSG = {
@@ -100,7 +101,7 @@ export const ERR_MSG = {
   INCORRECT_EMAIL: 'Incorrect email',
   SAME_USERNAME: 'User Name same as before. Please try again.',
   USERNAME_CHANGED: 'User Name changed successfully',
-  INVALID_EMAIL:'Please check your email address',
+  INVALID_EMAIL: 'Please check your email address',
 };
 
 export const COLLECTION = {
@@ -158,7 +159,7 @@ export const ADDNOTE = {
   CLOSE: 'X',
   ADD_COLLECTION: 'Add Collection',
   ENTER_COLLECTION: '* Enter collection name',
-  ERROR:'Error adding collection:',
+  ERROR: 'Error adding collection:',
   ADD: 'Add',
   TITLE: 'Title',
   NOTE: 'Note',
@@ -207,14 +208,19 @@ export const SETTINGS = {
 export const SHOW_NOTES = {
   CREATED_AT: 'createdAt',
   PLACEHOLDER: 'Search',
-  EDIT_COLLECTION:'Edit Collection',
+  EDIT_COLLECTION: 'Edit Collection',
   ADD_NOTE: 'Add a note to start your collection!',
   NO_NOTES: 'No matching notes',
   NEW_NOTES: 'Add New Notes',
   DELETE_NOTES: 'Delete Note',
   ARE_YOU_SURE: 'Are you sure you want to delete this note?',
   SAME_COLL_ERR: 'New Collection name same as Current',
-  ALREADY_EXISTS:'Collection with same name already exists',
+  ALREADY_EXISTS: 'Collection with same name already exists',
+  AD_LOCATION: 'interstitial_ad_ios',
+  AD_LOADED: 'Ad loaded:',
+  AD_FAILED: 'Ad failed to load:',
+  AD_SHOWN: 'Ad shown:',
+  AD_DISMISSED: 'Ad dismissed:',
 };
 
 export const SIGN_UP = {
@@ -223,12 +229,12 @@ export const SIGN_UP = {
   PASSWORD_REGEX:
     /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-])(?!.*\s).{8,25}$/,
   CONFIRM_PWD_REGEX: 'password',
-  TRIM:'trim',
-  TRIM_TWO:'trim',
-  BLANK_SPACE:'First Name cannot consist only of blank spaces',
-  BLANK_SPACE_LAST:'Last Name cannot consist only of blank spaces',
-  BLANK_SPACE_EMAIL:'Email cannot consist only of blank spaces',
-  BLANK_SPACE_PWD:'Password cannot consist only of blank spaces',
+  TRIM: 'trim',
+  TRIM_TWO: 'trim',
+  BLANK_SPACE: 'First Name cannot consist only of blank spaces',
+  BLANK_SPACE_LAST: 'Last Name cannot consist only of blank spaces',
+  BLANK_SPACE_EMAIL: 'Email cannot consist only of blank spaces',
+  BLANK_SPACE_PWD: 'Password cannot consist only of blank spaces',
   TOO_SHORT: 'Too Short!',
   TOO_LONG: 'Too Long!',
   ENTER_FIRST_NAME: '* Please enter your First Name',

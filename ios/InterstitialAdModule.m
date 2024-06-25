@@ -35,7 +35,7 @@ RCT_EXPORT_METHOD(showInterstitial:(NSString *)location) {
 }
 
 
-// CHBInterstitialDelegate methods
+// InterstitialDelegate methods
 - (void)didCacheAd:(CHBCacheEvent *)event error:(nullable CHBCacheError *)error {
   if (error) {
       [self sendEventWithName:@"onAdFailedToLoad" body:@{@"location": event.ad.location, @"error": error.localizedDescription}];

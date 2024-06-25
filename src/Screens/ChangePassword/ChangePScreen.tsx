@@ -92,7 +92,7 @@ const ChangePasswordModal: React.FC<PasswordProps> = ({visible, onClose}) => {
   return (
     <KeyboardAvoidingView
       keyboardVerticalOffset={65}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      behavior={Platform.OS === CONSTANTS.IOS ? 'padding' : undefined}
       style={styles.wrapper(colors)}>
       <Formik
         initialValues={{

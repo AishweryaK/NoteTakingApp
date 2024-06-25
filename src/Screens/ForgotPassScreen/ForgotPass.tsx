@@ -40,7 +40,7 @@ const ForgotPassScreen: React.FC<ForgotPassScreenProps> = ({navigation}) => {
   return (
     <KeyboardAvoidingView
       keyboardVerticalOffset={65}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      behavior={Platform.OS === CONSTANTS.IOS ? 'padding' : undefined}
       style={styles.wrapper(colors)}>
       <Formik
         initialValues={{

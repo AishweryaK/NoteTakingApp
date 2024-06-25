@@ -36,7 +36,7 @@ import {
 import EditCollection from './EditCollection';
 import Chartboost from './InterstitialAdIos';
 
-const BannerModule = NativeModules.BannerModule;
+const BannerModule = NativeModules.BannerModule; //android
 const InterstitialModule = NativeModules.InterstitialModule; //android
 
 const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
@@ -51,56 +51,43 @@ const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
   const {uid, itemText} = route.params;
 
   useEffect(() => {
-    // BannerModule.showToast("effect");
-    // BannerModule.showBannerAd();
-    if (Platform.OS === 'android') {
+    if (Platform.OS === CONSTANTS.ANDROID) {
       InterstitialModule.showInterstitialAd();
+    } else if (Platform.OS === CONSTANTS.IOS) {
+      Chartboost.loadInterstitial(SHOW_NOTES.AD_LOCATION);
+  
+      setTimeout(() => {
+        Chartboost.showInterstitial(SHOW_NOTES.AD_LOCATION);
+      }, 1000);
+  
+      const onAdLoaded = (event : {location: string}) => {
+        console.log(SHOW_NOTES.AD_LOADED, event.location);
+      };
+  
+      const onAdFailedToLoad = (event : {location: string; error?: string}) => {
+        console.log(SHOW_NOTES.AD_FAILED, event.location, event.error);
+      };
+  
+      const onAdShown = (event : {location: string}) => {
+        console.log(SHOW_NOTES.AD_SHOWN, event.location);
+      };
+  
+      const onAdDismissed = (event : {location: string}) => {
+        console.log(SHOW_NOTES.AD_DISMISSED, event.location);
+      };
+  
+      const subscriptions = [
+        Chartboost.addEventListener('onAdLoaded', onAdLoaded),
+        Chartboost.addEventListener('onAdFailedToLoad', onAdFailedToLoad),
+        Chartboost.addEventListener('onAdShown', onAdShown),
+        Chartboost.addEventListener('onAdDismissed', onAdDismissed),
+      ];
+  
+      return () => {
+        subscriptions.forEach(sub => sub.remove());
+      };
     }
   }, []);
-
-  useEffect(() => {
-    Chartboost.loadInterstitial('interstitial_ad_ios');
-
-    setTimeout(()=> {
-      Chartboost.showInterstitial('interstitial_ad_ios');
-    }, 1000)
-    
-
-    const onAdLoaded = (event: {location: string}) => {
-      console.log('Ad loaded:', event.location);
-    };
-
-    const onAdFailedToLoad = (event: {location: string; error?: string}) => {
-      console.log('Ad failed to load:', event.location, event.error);
-    };
-
-    const onAdShown = (event: {location: string}) => {
-      console.log('Ad shown:', event.location);
-    };
-
-    const onAdDismissed = (event: {location: string}) => {
-      console.log('Ad dismissed:', event.location);
-    };
-
-    const subscriptions = [
-      Chartboost.addEventListener('onAdLoaded', onAdLoaded),
-      Chartboost.addEventListener('onAdFailedToLoad', onAdFailedToLoad),
-      Chartboost.addEventListener('onAdShown', onAdShown),
-      Chartboost.addEventListener('onAdDismissed', onAdDismissed),
-    ];
-
-    return () => {
-      subscriptions.forEach(sub => sub.remove());
-    };
-  }, []);
-
-  // const loadAd = () => {
-  //   Chartboost.loadInterstitial('MySpecificScreen');
-  // };
-
-  // const showAd = () => {
-  //   Chartboost.showInterstitial('MySpecificScreen');
-  // };
 
   useEffect(() => {
     const unsubscribe = userDocRef(uid)
@@ -221,7 +208,7 @@ const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
 
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      behavior={Platform.OS === CONSTANTS.IOS ? 'padding' : undefined}
       style={showStyles.wrapper(colors)}
       keyboardVerticalOffset={97}>
       <View style={showStyles.input}>

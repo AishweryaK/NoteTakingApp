@@ -199,7 +199,7 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
 
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      behavior={Platform.OS === CONSTANTS.IOS ? 'padding' : undefined}
       style={styles.container(colors)}
       keyboardVerticalOffset={97}>
       <View style={styles.view}>
