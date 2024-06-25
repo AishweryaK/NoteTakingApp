@@ -14,10 +14,33 @@ import {getThemeColors, themeColors} from '../../Assets/Colors/themeColors';
 import {NAVIGATION} from '../../Constants/navConstants';
 import {HomeProps} from '../../Navigation/routeTypes';
 import {HOME, IMAGES} from '../../Constants/strings';
+import { useRealm } from '@realm/react';
+import { Book } from '../../Common/database';
 
 function Home({navigation}: HomeProps) {
   const user = useReduxSelector(state => state.user);
   const colors = getThemeColors(user.theme);
+  const realm = useRealm();
+
+
+
+  // useEffect(() => {
+  //   const addProfile = async () => {
+  //     try {
+  //       if (realm && !realm.isClosed) {
+  //         realm.write(() => {
+  //           realm.deleteAll();
+  //         });
+  //       }
+  //     } catch (error) {
+  //       console.error('Error adding profile:', error);
+  //     }
+  //   };
+
+  //   addProfile();
+  // }, [realm]);
+
+  // console.log(realm.objects('Book'),"DHEWDEFH");
 
   return (
     <SafeAreaView style={homeStyles.safeArea(colors)}>

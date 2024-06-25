@@ -8,8 +8,10 @@ import NetInfo from '@react-native-community/netinfo';
 import {netConnection} from './src/Redux/Slices/internetSlice';
 import OfflineSign from './src/Components/InternetConn/InternetConn';
 import {useReduxDispatch, useReduxSelector} from './src/Redux/Store/store';
-import { styles } from './src/Common/styles';
-import { THEME } from './src/Constants/strings';
+import {styles} from './src/Common/styles';
+import {THEME} from './src/Constants/strings';
+import {RealmProvider, useRealm} from '@realm/react';
+import {Book} from './src/Common/database';
 
 function App() {
   const theme = useReduxSelector(state => state.user.theme);
@@ -34,16 +36,18 @@ function App() {
   }, [dispatch, internet]);
 
   return (
-    <SafeAreaView style={styles.container(colors)}>
-      <StatusBar
-        backgroundColor={colors.BACKGROUND}
-        barStyle={theme === THEME.LIGHT ? 'dark-content' : 'light-content'}
-      />
-      {!connection && <OfflineSign />}
-      <NavigationContainer>
-        <StackNavigation />
-      </NavigationContainer>
-    </SafeAreaView>
+    <RealmProvider schema={[Book]}>
+      <SafeAreaView style={styles.container(colors)}>
+        <StatusBar
+          backgroundColor={colors.BACKGROUND}
+          barStyle={theme === THEME.LIGHT ? 'dark-content' : 'light-content'}
+        />
+        {!connection && <OfflineSign />}
+        <NavigationContainer>
+          <StackNavigation />
+        </NavigationContainer>
+      </SafeAreaView>
+    </RealmProvider>
   );
 }
 

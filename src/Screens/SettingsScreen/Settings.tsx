@@ -87,6 +87,7 @@ const SettingsPage = ({navigation}: SettingsScreenProps) => {
           {ICONS.ARROW(24, 24)}
         </View>
       </TouchableOpacity>
+
       <TouchableOpacity
         style={styles.option(colors)}
         onPress={openChangePasswordModal}>
@@ -104,7 +105,7 @@ const SettingsPage = ({navigation}: SettingsScreenProps) => {
         <View style={styles.view}>
           <Text style={styles.optionText(colors)}>{SETTINGS.THEME}</Text>
           <Switch
-            style={{paddingRight: 0}}
+            // style={{paddingRight: 0}}
             trackColor={{
               false: themeColors.LIGHT.ICON,
               true: themeColors.LIGHT.BLUE,
@@ -121,7 +122,7 @@ const SettingsPage = ({navigation}: SettingsScreenProps) => {
       </View>
 
       <TouchableOpacity
-        style={[styles.option(colors)]}
+        style={styles.option(colors)}
         onPress={handleLogoutModal}>
         {ICONS.LOGOUT(24, 24)}
         <View style={styles.view}>
