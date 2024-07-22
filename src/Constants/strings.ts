@@ -38,8 +38,8 @@ export const CONSTANTS = {
   INCREMENT: 'increment',
   DECREMENT: 'decrement',
   CANCEL: 'Cancel',
-  ANDROID:"android",
-  IOS:'ios'
+  ANDROID: 'android',
+  IOS: 'ios',
 };
 
 export const ERR_CONSOLE = {
@@ -203,6 +203,8 @@ export const SETTINGS = {
   THEME: 'Theme',
   ACCOUNT: 'Account',
   SETTINGS: 'Settings',
+  LOGOUT: 'Logout',
+  CANCEL: 'Cancel',
 };
 
 export const SHOW_NOTES = {

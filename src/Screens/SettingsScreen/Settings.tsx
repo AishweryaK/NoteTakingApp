@@ -14,7 +14,7 @@ import {NAVIGATION} from '../../Constants/navConstants';
 import useAuthentication from '../../Components/CustomHook/authHook';
 import {useReduxDispatch, useReduxSelector} from '../../Redux/Store/store';
 import {toggleTheme} from '../../Redux/Slices/userSlice';
-import {getThemeColors, themeColors} from '../../Assets/Colors/themeColors';
+import {commonColors, getThemeColors, themeColors} from '../../Assets/Colors/themeColors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import ChangePasswordModal from '../ChangePassword/ChangePScreen';
@@ -144,13 +144,23 @@ const SettingsPage = ({navigation}: SettingsScreenProps) => {
               {SETTINGS.ARE_YOU_SURE}
             </Text>
             <View style={showStyles.modalButtons}>
-              <TouchableOpacity onPress={handleLogout}>
-                <Text style={showStyles.modalText(colors)}>
-                  {CONSTANTS.YES}
+              <TouchableOpacity onPress={() => setLogoutModal(false)}>
+                <Text
+                  style={[
+                    showStyles.modalText(colors),
+                    {backgroundColor: commonColors.CANCEL, borderRadius: 10},
+                  ]}>
+                  {SETTINGS.CANCEL}
                 </Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => setLogoutModal(false)}>
-                <Text style={showStyles.modalText(colors)}>{CONSTANTS.NO}</Text>
+              <TouchableOpacity onPress={handleLogout}>
+                <Text
+                  style={[
+                    showStyles.modalText(colors),
+                    {backgroundColor: 'red', borderRadius: 10},
+                  ]}>
+                  {SETTINGS.LOGOUT}
+                </Text>
               </TouchableOpacity>
             </View>
           </View>

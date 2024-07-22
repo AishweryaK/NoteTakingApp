@@ -167,7 +167,7 @@ const ChangePasswordModal: React.FC<PasswordProps> = ({visible, onClose}) => {
                   ) : (
                     <>
                       <TouchableOpacity
-                        style={styles.button(colors)}
+                        style={[styles.button(colors),  {backgroundColor:'red'}]}
                         onPress={() => handleCancel(resetForm)}>
                         <Text style={styles.buttonText(colors)}>
                           {CHANGE_PASSWORD.CANCEL}

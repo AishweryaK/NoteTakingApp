@@ -27,6 +27,7 @@ export const commonColors = {
   WHITE: '#FFFFFF',
   ERROR : "red",
   GRAY:"gray",
+  CANCEL:'#4B5563'
 };
 
 export const themeColors = {

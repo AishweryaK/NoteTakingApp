@@ -14,6 +14,8 @@ import {
   ImagePickerResponse,
 } from 'react-native-image-picker';
 import {ICONS} from '../../Constants/iconConstants';
+import auth from '@react-native-firebase/auth';
+import storage from '@react-native-firebase/storage';
 import {profileImgStyles} from './styles';
 import {useReduxSelector} from '../../Redux/Store/store';
 import {commonColors, getThemeColors} from '../../Assets/Colors/themeColors';
@@ -28,6 +30,7 @@ import {
 import {showAlert} from '../../Common/alert';
 import ImageSelector from './Image';
 import { ProfileImageProps } from './profile_image';
+import { IMAGES } from '../../Constants/strings';
 
 
 
@@ -77,9 +80,19 @@ const ProfileImage: React.FC<ProfileImageProps> = ({onImageChange}) => {
     }
   };
 
-  const removeImage = () => {
+  
+
+  const removeImage = async() => {
+    const reference = storage().ref('profile_images/userImg.jpeg');
+  const downloadURL = await reference.getDownloadURL();
+  // console.log(downloadURL,"DCFVE")
     setImageUri('');
     onImageChange('');
+    const user = auth().currentUser;
+    // const localImage = Image.resolveAssetSource(IMAGES.USER_IMG).uri;
+    await user?.updateProfile({
+      photoURL: downloadURL,
+    });
     setModalVisible(false);
   };
 
@@ -123,14 +136,14 @@ const ProfileImage: React.FC<ProfileImageProps> = ({onImageChange}) => {
                 {UPLOAD_IMAGE.CAMERA}
               </Text>
             </TouchableOpacity>
-            {imageUri || photoURL ? (
+            {/* {imageUri || photoURL ? (
               <TouchableOpacity onPress={removeImage} style={profileImgStyles.buttonThree}>
                 {ICONS.TRASH(25,25)}
                 <Text style={profileImgStyles.modalOption(colors)}>
                   {UPLOAD_IMAGE.REMOVE}
                 </Text>
               </TouchableOpacity>
-            ) : null}
+            ) : null} */}
             </View>
             <TouchableOpacity onPress={() => setModalVisible(false)}>
               <Text style={profileImgStyles.modalOption(colors)}>

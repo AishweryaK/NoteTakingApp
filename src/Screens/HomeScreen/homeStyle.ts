@@ -38,8 +38,8 @@ export const homeStyles = StyleSheet.create({
   userImg: colors => ({
     width: dimensions.width * 0.14,
     height: dimensions.width * 0.14,
-    borderRadius: 11,
-    borderWidth: 1,
+    borderRadius: 80,
+    borderWidth: 0.5,
     borderColor: colors.BORDER,
     backgroundColor: colors.BACKGROUND,
   }),
