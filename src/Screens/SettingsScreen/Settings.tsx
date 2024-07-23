@@ -23,7 +23,6 @@ import {SettingsScreenProps} from '../../Navigation/routeTypes';
 import {
   CHANGE_PASSWORD,
   CLIENT_ID,
-  CONSTANTS,
   ERR_MSG,
   ERR_TITLE,
   SETTINGS,
@@ -148,7 +147,7 @@ const SettingsPage = ({navigation}: SettingsScreenProps) => {
                 <Text
                   style={[
                     showStyles.modalText(colors),
-                    {backgroundColor: commonColors.CANCEL, borderRadius: 10},
+                    {backgroundColor: colors.CANCEL, borderRadius: 10},
                   ]}>
                   {SETTINGS.CANCEL}
                 </Text>
@@ -157,7 +156,7 @@ const SettingsPage = ({navigation}: SettingsScreenProps) => {
                 <Text
                   style={[
                     showStyles.modalText(colors),
-                    {backgroundColor: 'red', borderRadius: 10},
+                    {backgroundColor: 'red', borderRadius: 10, color:themeColors.DARK.HEADERTITLE},
                   ]}>
                   {SETTINGS.LOGOUT}
                 </Text>

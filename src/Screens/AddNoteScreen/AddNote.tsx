@@ -114,9 +114,17 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
     setDesc(text);
   };
 
+  const stripHtmlTags = (str:string) => {
+    const noTags = str.replace(/<[^>]*>/g, '');
+    const noEntities = noTags.replace(/&[^;]+;/g, '');
+    return noEntities.trim()
+  };  
+
   const saveNote = async () => {
     setIsSaving(true);
-    if (title === '' && desc === '') {
+    const strippedDesc = stripHtmlTags(desc);
+
+    if (title.trim() === '' && strippedDesc === '') {
       showAlert(ERR_TITLE.EMPTY_NOTE, ERR_MSG.NOTE_DISCARDED);
       navigation.goBack();
       return;

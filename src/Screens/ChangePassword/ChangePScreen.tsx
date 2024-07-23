@@ -22,16 +22,25 @@ import {
   CONSTANTS,
   ERR_MSG,
   ERR_TITLE,
+  SIGN_UP,
 } from '../../Constants/strings';
 import {showAlert} from '../../Common/alert';
 
 const ChangePSchema = Yup.object().shape({
+  currentPassword:Yup.string()
+  .transform((value: string) => value.trim())
+  .test(
+    SIGN_UP.TRIM_TWO,
+    SIGN_UP.BLANK_SPACE,
+    (value) => (value || '').length > 0
+  )
+  .required(SIGN_UP.ENTER_CURR_PWD),
   password: SignupSchema.fields.password,
   confirmPassword: SignupSchema.fields.confirmPassword,
 });
 
 const ChangePasswordModal: React.FC<PasswordProps> = ({visible, onClose}) => {
-  const [currentPassword, setCurrentPassword] = useState<string>('');
+  // const [currentPassword, setCurrentPassword] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const {theme} = useReduxSelector(state => state.user);
   const colors = getThemeColors(theme as Theme);
@@ -53,23 +62,23 @@ const ChangePasswordModal: React.FC<PasswordProps> = ({visible, onClose}) => {
     values: FormValues,
     {resetForm}: FormikHelpers<FormValues>,
   ) => {
-    if (currentPassword === values.password) {
+    if (values.currentPassword === values.password) {
       showAlert(ERR_TITLE.ERROR, ERR_MSG.PASSWORD_SAME);
       resetForm();
       return;
     }
-    if (
-      currentPassword === '' ||
-      values.password === '' ||
-      values.confirmPassword === ''
-    ) {
-      showAlert(ERR_TITLE.ERROR, ERR_MSG.FILL_ALL_FIELDS);
-      return;
-    }
+    // if (
+    //   currentPassword === '' ||
+    //   values.password === '' ||
+    //   values.confirmPassword === ''
+    // ) {
+    //   showAlert(ERR_TITLE.ERROR, ERR_MSG.FILL_ALL_FIELDS);
+    //   return;
+    // }
 
     setIsLoading(true);
     try {
-      await reauthenticate(currentPassword);
+      await reauthenticate(values.currentPassword);
       const user = auth().currentUser;
       await user?.updatePassword(values.password);
       showAlert(ERR_TITLE.SUCCESS, ERR_MSG.CHANGED_PASSWORD);
@@ -85,7 +94,7 @@ const ChangePasswordModal: React.FC<PasswordProps> = ({visible, onClose}) => {
 
   const handleCancel = (resetForm: () => void) => {
     onClose();
-    setCurrentPassword('');
+    // setCurrentPassword('');
     resetForm();
   };
 
@@ -96,6 +105,7 @@ const ChangePasswordModal: React.FC<PasswordProps> = ({visible, onClose}) => {
       style={styles.wrapper(colors)}>
       <Formik
         initialValues={{
+          currentPassword:'',
           password: '',
           confirmPassword: '',
         }}
@@ -126,10 +136,17 @@ const ChangePasswordModal: React.FC<PasswordProps> = ({visible, onClose}) => {
                   style={styles.input(colors)}
                   placeholder={CHANGE_PASSWORD.CURRENT}
                   secureTextEntry={true}
-                  value={currentPassword}
-                  onChangeText={setCurrentPassword}
+                  value={values.currentPassword}
+                  onChangeText={handleChange(CONSTANTS.CURRENT_PASSWORD)}
                   placeholderTextColor={colors.HEADERTITLE}
+                  onBlur={() => setFieldTouched(CONSTANTS.PASSWORD)}
                 />
+                <View style={{alignItems:'flex-start'}}>
+                {touched.currentPassword && errors.currentPassword && (
+                  <Text style={styles.errorTxt}>{errors.currentPassword}</Text>
+                )}
+                </View>
+
                 <TextInput
                   style={styles.input(colors)}
                   placeholder={CHANGE_PASSWORD.NEW}
@@ -167,7 +184,7 @@ const ChangePasswordModal: React.FC<PasswordProps> = ({visible, onClose}) => {
                   ) : (
                     <>
                       <TouchableOpacity
-                        style={[styles.button(colors),  {backgroundColor:'red'}]}
+                        style={[styles.button(colors), {backgroundColor:'red'}]}
                         onPress={() => handleCancel(resetForm)}>
                         <Text style={styles.buttonText(colors)}>
                           {CHANGE_PASSWORD.CANCEL}

@@ -7,6 +7,7 @@ import useAuthentication from './authHook';
 import { showAlert } from '../../Common/alert';
 import { NameChangeFormValues } from '../../Screens/Account/account_screen';
 import { FormikHelpers } from 'formik';
+import { userDocRef } from '../../Common/firebaseUtils';
 
 export default function useFirebaseUtils() {
   const dispatch = useReduxDispatch();
@@ -25,7 +26,10 @@ export default function useFirebaseUtils() {
           imageUri: uri,
           userId: uid,
         });
-        await auth().currentUser?.updateProfile({photoURL: newPhotoURL});
+        // await auth().currentUser?.updateProfile({photoURL: newPhotoURL});
+        await userDocRef(uid).set({
+          photoURL:newPhotoURL,
+        },{merge: true});
         dispatch(
           saveUser({
             displayName,
@@ -58,9 +62,13 @@ export default function useFirebaseUtils() {
     setIsLoading(true);
     try {
       const user = auth().currentUser;
-      await user?.updateProfile({
-        displayName: `${values.firstName.trim()} ${values.lastName.trim()}`,
-      });
+      // await user?.updateProfile({
+      //   displayName: `${values.firstName.trim()} ${values.lastName.trim()}`,
+      // });
+      await userDocRef(uid).set({
+        firstName:values.firstName.trim(),
+        lastName:values.lastName.trim(),
+      },{merge: true});
 
       dispatch(
         saveName({

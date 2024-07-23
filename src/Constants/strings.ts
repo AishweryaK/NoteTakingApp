@@ -32,12 +32,14 @@ export const CONSTANTS = {
   LAST_NAME: 'lastName',
   PASSWORD: 'password',
   CONFIRM_PASSWORD: 'confirmPassword',
+  CURRENT_PASSWORD:'currentPassword',
   EMAIL: 'email',
   YES: 'Yes',
   NO: 'No',
   INCREMENT: 'increment',
   DECREMENT: 'decrement',
   CANCEL: 'Cancel',
+  DELETE:'Delete',
   ANDROID: 'android',
   IOS: 'ios',
 };
@@ -130,9 +132,9 @@ export const CUSTOM_LABEL = {
 };
 
 export const CUSTOM_LIST = {
-  DELETE_COLLETION: 'Delete Collection',
+  DELETE_COLLETION: 'Delete Label',
   ARE_YOU_SURE: 'Are you sure you want to delete the',
-  COLLECTION: 'collection?',
+  COLLECTION: 'label?',
 };
 
 export const GOOGLE = {
@@ -215,7 +217,7 @@ export const SHOW_NOTES = {
   NO_NOTES: 'No matching notes',
   NEW_NOTES: 'Add New Notes',
   DELETE_NOTES: 'Delete Note',
-  ARE_YOU_SURE: 'Are you sure you want to delete this note?',
+  ARE_YOU_SURE: 'Are you sure you want to delete this Note?',
   SAME_COLL_ERR: 'New Collection name same as Current',
   ALREADY_EXISTS: 'Collection with same name already exists',
   AD_LOCATION: 'interstitial_ad_ios',
@@ -246,6 +248,7 @@ export const SIGN_UP = {
   INVALID_EMAIL: 'Invalid email',
   ENTER_EMAIL: '* Please enter your Email',
   ENTER_PASSWORD: '* Please enter a Password',
+  ENTER_CURR_PWD: '* Please enter your Current Password',
   PWD_TEXT:
     'Password should consist of one or more uppercase, numbers and special characters, but no spaces',
   PWD_DONT_MATCH: 'Your passwords do not match',

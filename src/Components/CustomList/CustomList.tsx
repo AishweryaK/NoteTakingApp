@@ -12,7 +12,7 @@ import {NAVIGATION} from '../../Constants/navConstants';
 import {useReduxSelector} from '../../Redux/Store/store';
 import AvailSpace from '../../Screens/HomeScreen/AvailSpace';
 import {showStyles} from '../../Screens/ShowNotes/styles';
-import {getThemeColors} from '../../Assets/Colors/themeColors';
+import {getThemeColors, themeColors} from '../../Assets/Colors/themeColors';
 import {HomeProps} from '../../Navigation/routeTypes';
 import {COLLECTION, CONSTANTS, CUSTOM_LIST, ERR_CONSOLE, ERR_MSG, ERR_TITLE} from '../../Constants/strings';
 import { showAlert } from '../../Common/alert';
@@ -84,11 +84,17 @@ const CustomList: FC<HomeProps> = ({navigation}) => {
               {CUSTOM_LIST.ARE_YOU_SURE} {collName} {CUSTOM_LIST.COLLECTION}
             </Text>
             <View style={showStyles.modalButtons}>
-              <TouchableOpacity onPress={()=>handleDeleteCollection(user.uid, collections, collName, setCollections, setModalVisible)}>
-                <Text style={showStyles.modalText(colors)}>{CONSTANTS.YES}</Text>
+            <TouchableOpacity onPress={() => setModalVisible(false)}>
+                <Text style={[
+                    showStyles.modalText(colors),
+                    {backgroundColor: colors.CANCEL, borderRadius: 10},
+                  ]}>{CONSTANTS.CANCEL}</Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => setModalVisible(false)}>
-                <Text style={showStyles.modalText(colors)}>{CONSTANTS.NO}</Text>
+              <TouchableOpacity onPress={()=>handleDeleteCollection(user.uid, collections, collName, setCollections, setModalVisible)}>
+                <Text style={[
+                    showStyles.modalText(colors),
+                    {backgroundColor: 'red', borderRadius: 10, color:themeColors.DARK.HEADERTITLE},
+                  ]}>{CONSTANTS.DELETE}</Text>
               </TouchableOpacity>
             </View>
           </View>

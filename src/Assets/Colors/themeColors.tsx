@@ -27,7 +27,7 @@ export const commonColors = {
   WHITE: '#FFFFFF',
   ERROR : "red",
   GRAY:"gray",
-  CANCEL:'#4B5563'
+  CANCEL:'#4B5563',
 };
 
 export const themeColors = {
@@ -50,6 +50,7 @@ export const themeColors = {
     SHADOW: '#6B4EFF',
     BOTTOM: '#FFFFFF',
     RED: '#b52424',
+    CANCEL:'#D1D5DB',
   },
 
   DARK: {
@@ -71,6 +72,7 @@ export const themeColors = {
     SHADOW: '#ECECEC',
     BOTTOM: '#383A41',
     RED: '#b52424',
+    CANCEL:'#4B5563'
   },
 };
 

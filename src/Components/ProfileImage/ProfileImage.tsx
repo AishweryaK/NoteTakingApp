@@ -31,6 +31,7 @@ import {showAlert} from '../../Common/alert';
 import ImageSelector from './Image';
 import { ProfileImageProps } from './profile_image';
 import { IMAGES } from '../../Constants/strings';
+import { userDocRef } from '../../Common/firebaseUtils';
 
 
 
@@ -90,9 +91,12 @@ const ProfileImage: React.FC<ProfileImageProps> = ({onImageChange}) => {
     onImageChange('');
     const user = auth().currentUser;
     // const localImage = Image.resolveAssetSource(IMAGES.USER_IMG).uri;
-    await user?.updateProfile({
-      photoURL: downloadURL,
-    });
+    // await user?.updateProfile({
+    //   photoURL: downloadURL,
+    // });
+    await userDocRef(uid).set({
+      photoURL:downloadURL,
+    },{merge: true});
     setModalVisible(false);
   };
 

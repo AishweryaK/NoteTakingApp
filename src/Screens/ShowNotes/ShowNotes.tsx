@@ -22,7 +22,7 @@ import filter from 'lodash.filter';
 import {FONT} from '../../Constants/fontConstants';
 import {homeStyles} from '../HomeScreen/homeStyle';
 import {useReduxSelector} from '../../Redux/Store/store';
-import {getThemeColors} from '../../Assets/Colors/themeColors';
+import {getThemeColors, themeColors} from '../../Assets/Colors/themeColors';
 import StaggerView from '@mindinventory/react-native-stagger-view';
 import {ICONS} from '../../Constants/iconConstants';
 import {NoteScreenProps} from '../../Navigation/routeTypes';
@@ -264,13 +264,19 @@ const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
               {SHOW_NOTES.ARE_YOU_SURE}
             </Text>
             <View style={showStyles.modalButtons}>
-              <TouchableOpacity onPress={handleDeleteNote}>
-                <Text style={showStyles.modalText(colors)}>
-                  {CONSTANTS.YES}
-                </Text>
+            <TouchableOpacity onPress={() => setModalVisible(false)}>
+                <Text style={[
+                    showStyles.modalText(colors),
+                    {backgroundColor: colors.CANCEL, borderRadius: 10},
+                  ]}>{CONSTANTS.CANCEL}</Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => setModalVisible(false)}>
-                <Text style={showStyles.modalText(colors)}>{CONSTANTS.NO}</Text>
+              <TouchableOpacity onPress={handleDeleteNote}>
+                <Text style={[
+                    showStyles.modalText(colors),
+                    {backgroundColor: 'red', borderRadius: 10, color:themeColors.DARK.HEADERTITLE},
+                  ]}>
+                  {CONSTANTS.DELETE}
+                </Text>
               </TouchableOpacity>
             </View>
           </View>

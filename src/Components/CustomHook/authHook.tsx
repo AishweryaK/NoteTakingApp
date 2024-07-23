@@ -12,7 +12,7 @@ import {
   handleSignUpError,
 } from '../../Common/handleAuthErr';
 import {ERR_CONSOLE, TITLE} from '../../Constants/strings';
-import { addDocumentsForUser } from '../../Common/firebaseUtils';
+import { addDocumentsForUser, userDocRef } from '../../Common/firebaseUtils';
 
 export default function useAuthentication() {
   const dispatch = useReduxDispatch();
@@ -65,10 +65,10 @@ export default function useAuthentication() {
         photoURL = await uploadImageToFirebase({imageUri, userId: user.uid});
       }
 
-      await user.updateProfile({
-        displayName: `${firstName} ${lastName}`,
-        photoURL: photoURL,
-      });
+      // await user.updateProfile({
+      //   displayName: `${firstName} ${lastName}`,
+      //   photoURL: photoURL,
+      // });
 
       if (email)
         dispatch(
@@ -83,6 +83,12 @@ export default function useAuthentication() {
         );
 
       await addDocumentsForUser(user.uid);
+      await userDocRef(user.uid).set({
+        firstName,
+        lastName,
+        photoURL,
+      },{merge: true});
+
     } catch (err: any) {
       handleSignUpError(err);
     } finally {
@@ -107,7 +113,11 @@ export default function useAuthentication() {
     try {
       const storageRef = storage().ref(`profile_images/${uid}.jpg`);
       await storageRef.delete();
-      await auth().currentUser?.updateProfile({photoURL: null});
+      // await auth().currentUser?.updateProfile({photoURL: null});
+      await userDocRef(uid).set({
+        photoURL:null,
+      },{merge: true});
+      
       dispatch(
         saveUser({
           displayName,
