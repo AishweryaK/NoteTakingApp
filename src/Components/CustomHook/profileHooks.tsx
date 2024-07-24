@@ -26,10 +26,10 @@ export default function useFirebaseUtils() {
           imageUri: uri,
           userId: uid,
         });
-        // await auth().currentUser?.updateProfile({photoURL: newPhotoURL});
-        await userDocRef(uid).set({
-          photoURL:newPhotoURL,
-        },{merge: true});
+        await auth().currentUser?.updateProfile({photoURL: newPhotoURL});
+        // await userDocRef(uid).set({
+        //   photoURL:newPhotoURL,
+        // },{merge: true});
         dispatch(
           saveUser({
             displayName,
@@ -62,13 +62,13 @@ export default function useFirebaseUtils() {
     setIsLoading(true);
     try {
       const user = auth().currentUser;
-      // await user?.updateProfile({
-      //   displayName: `${values.firstName.trim()} ${values.lastName.trim()}`,
-      // });
-      await userDocRef(uid).set({
-        firstName:values.firstName.trim(),
-        lastName:values.lastName.trim(),
-      },{merge: true});
+      await user?.updateProfile({
+        displayName: `${values.firstName.trim()} ${values.lastName.trim()}`,
+      });
+      // await userDocRef(uid).set({
+      //   firstName:values.firstName.trim(),
+      //   lastName:values.lastName.trim(),
+      // },{merge: true});
 
       dispatch(
         saveName({

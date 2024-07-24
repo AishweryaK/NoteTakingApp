@@ -65,10 +65,10 @@ export default function useAuthentication() {
         photoURL = await uploadImageToFirebase({imageUri, userId: user.uid});
       }
 
-      // await user.updateProfile({
-      //   displayName: `${firstName} ${lastName}`,
-      //   photoURL: photoURL,
-      // });
+      await user.updateProfile({
+        displayName: `${firstName} ${lastName}`,
+        photoURL: photoURL,
+      });
 
       if (email)
         dispatch(
@@ -83,11 +83,11 @@ export default function useAuthentication() {
         );
 
       await addDocumentsForUser(user.uid);
-      await userDocRef(user.uid).set({
-        firstName,
-        lastName,
-        photoURL,
-      },{merge: true});
+      // await userDocRef(user.uid).set({
+      //   firstName,
+      //   lastName,
+      //   photoURL,
+      // },{merge: true});
 
     } catch (err: any) {
       handleSignUpError(err);
@@ -113,10 +113,10 @@ export default function useAuthentication() {
     try {
       const storageRef = storage().ref(`profile_images/${uid}.jpg`);
       await storageRef.delete();
-      // await auth().currentUser?.updateProfile({photoURL: null});
-      await userDocRef(uid).set({
-        photoURL:null,
-      },{merge: true});
+      await auth().currentUser?.updateProfile({photoURL: null});
+      // await userDocRef(uid).set({
+      //   photoURL:null,
+      // },{merge: true});
       
       dispatch(
         saveUser({

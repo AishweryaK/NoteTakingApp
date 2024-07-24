@@ -29,6 +29,7 @@ export const profileImgStyles = StyleSheet.create({
     padding: 20,
     borderRadius: 10,
     alignItems: 'center',
+    width: 250,
   }),
   modalOption: colors => ({
     fontSize: 16,
@@ -38,26 +39,27 @@ export const profileImgStyles = StyleSheet.create({
     // paddingLeft:10
   }),
   modalBox: colors => ({
+    paddingHorizontal:30,
     backgroundColor: colors.BACKGROUND,
     paddingVertical: 20,
     borderRadius: 10,
     alignItems: 'center',
-    flexDirection:'row'
+    flexDirection:'row',
   }),
   button:
   {
   alignItems:'center', 
-  justifyContent:"center",
-  paddingRight:15, 
-  borderRightColor:commonColors.GRAY, 
-  borderRightWidth:1
+  justifyContent:'center',
+  // paddingRight:15, 
 },
 buttonTwo:
   {
+  // borderLeftColor:commonColors.GRAY, 
+  // borderLeftWidth:1,
   alignItems:'center', 
   justifyContent:"center",
   paddingRight:10,
-  paddingLeft:10
+  paddingLeft:35
 },
 buttonThree:
   {

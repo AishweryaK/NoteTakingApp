@@ -229,6 +229,7 @@ export const SHOW_NOTES = {
 
 export const SIGN_UP = {
   NAME_REGEX: /^[A-Za-z]+$/gi,
+  LAST_NAME_REGEX: /^[A-Za-z]+( [A-Za-z]+)?$/gi,
   EMAIL_REGEX: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g,
   PASSWORD_REGEX:
     /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-])(?!.*\s).{8,25}$/,

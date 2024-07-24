@@ -6,6 +6,7 @@ import {
   Text,
   Modal,
   ActivityIndicator,
+  Platform,
 } from 'react-native';
 import {
   launchCamera,
@@ -22,6 +23,7 @@ import {commonColors, getThemeColors} from '../../Assets/Colors/themeColors';
 import {PROVIDER} from '../../Constants/signingConstants';
 import useAuthentication from '../CustomHook/authHook';
 import {
+  CONSTANTS,
   ERR_CONSOLE,
   ERR_MSG,
   ERR_TITLE,
@@ -29,11 +31,9 @@ import {
 } from '../../Constants/strings';
 import {showAlert} from '../../Common/alert';
 import ImageSelector from './Image';
-import { ProfileImageProps } from './profile_image';
-import { IMAGES } from '../../Constants/strings';
-import { userDocRef } from '../../Common/firebaseUtils';
-
-
+import {ProfileImageProps} from './profile_image';
+import {IMAGES} from '../../Constants/strings';
+import {userDocRef} from '../../Common/firebaseUtils';
 
 const ProfileImage: React.FC<ProfileImageProps> = ({onImageChange}) => {
   const [imageUri, setImageUri] = useState<string>('');
@@ -81,12 +81,10 @@ const ProfileImage: React.FC<ProfileImageProps> = ({onImageChange}) => {
     }
   };
 
-  
-
-  const removeImage = async() => {
+  const removeImage = async () => {
     const reference = storage().ref('profile_images/userImg.jpeg');
-  const downloadURL = await reference.getDownloadURL();
-  // console.log(downloadURL,"DCFVE")
+    const downloadURL = await reference.getDownloadURL();
+    // console.log(downloadURL,"DCFVE")
     setImageUri('');
     onImageChange('');
     const user = auth().currentUser;
@@ -94,9 +92,9 @@ const ProfileImage: React.FC<ProfileImageProps> = ({onImageChange}) => {
     // await user?.updateProfile({
     //   photoURL: downloadURL,
     // });
-    await userDocRef(uid).set({
-      photoURL:downloadURL,
-    },{merge: true});
+    // await userDocRef(uid).set({
+    //   photoURL:downloadURL,
+    // },{merge: true});
     setModalVisible(false);
   };
 
@@ -127,20 +125,26 @@ const ProfileImage: React.FC<ProfileImageProps> = ({onImageChange}) => {
         onRequestClose={() => setModalVisible(false)}>
         <View style={profileImgStyles.modalBackground}>
           <View style={profileImgStyles.modalContainer(colors)}>
-          <View style={profileImgStyles.modalBox(colors)}>
-            <TouchableOpacity onPress={handleImagePicker} style={profileImgStyles.button}>
-              {ICONS.GALLERY(25,25)}
-              <Text style={profileImgStyles.modalOption(colors)}>
-                {UPLOAD_IMAGE.GALLERY}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={handleCameraLaunch} style={profileImgStyles.buttonTwo}>
-              {ICONS.CAMERA(25,25)}
-              <Text style={profileImgStyles.modalOption(colors)}>
-                {UPLOAD_IMAGE.CAMERA}
-              </Text>
-            </TouchableOpacity>
-            {/* {imageUri || photoURL ? (
+            <View style={profileImgStyles.modalBox(colors)}>
+              <TouchableOpacity
+                onPress={handleImagePicker}
+                style={profileImgStyles.button}>
+                {ICONS.GALLERY(25, 25)}
+                <Text style={profileImgStyles.modalOption(colors)}>
+                  {UPLOAD_IMAGE.GALLERY}
+                </Text>
+              </TouchableOpacity>
+              {Platform.OS === CONSTANTS.ANDROID && (
+                <TouchableOpacity
+                  onPress={handleCameraLaunch}
+                  style={profileImgStyles.buttonTwo}>
+                  {ICONS.CAMERA(25, 25)}
+                  <Text style={profileImgStyles.modalOption(colors)}>
+                    {UPLOAD_IMAGE.CAMERA}
+                  </Text>
+                </TouchableOpacity>
+              )}
+              {/* {imageUri || photoURL ? (
               <TouchableOpacity onPress={removeImage} style={profileImgStyles.buttonThree}>
                 {ICONS.TRASH(25,25)}
                 <Text style={profileImgStyles.modalOption(colors)}>

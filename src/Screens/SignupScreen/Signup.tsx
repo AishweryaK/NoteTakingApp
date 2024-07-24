@@ -34,7 +34,7 @@ export const SignupSchema = Yup.object().shape({
     .min(2, SIGN_UP.TOO_SHORT)
     .max(25, SIGN_UP.TOO_LONG)
     .required(SIGN_UP.ENTER_LAST_NAME)
-    .matches(SIGN_UP.NAME_REGEX, SIGN_UP.ONLY_LN_ALPHABET),
+    .matches(SIGN_UP.LAST_NAME_REGEX, SIGN_UP.ONLY_LN_ALPHABET),
   email: Yup.string()
     .transform((value : string) => value.trim())
     .test(SIGN_UP.TRIM_TWO, SIGN_UP.BLANK_SPACE_EMAIL, value => (value || "").length > 0)

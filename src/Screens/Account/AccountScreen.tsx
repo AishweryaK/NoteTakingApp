@@ -76,7 +76,7 @@
 
 
 
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {View, Text, TouchableOpacity, ScrollView, Alert} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
@@ -91,7 +91,7 @@ import {ERR_MSG, ERR_TITLE} from '../../Constants/strings';
 import {PROVIDER} from '../../Constants/signingConstants';
 import useFirebaseUtils from '../../Components/CustomHook/profileHooks';
 import { saveUser } from '../../Redux/Slices/userSlice';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { NAVIGATION } from '../../Constants/navConstants';
 import { AccountScreenProps } from '../../Navigation/routeTypes';
 import { userDocRef } from '../../Common/firebaseUtils';
@@ -107,27 +107,26 @@ const AccountPage = ({navigation}: AccountScreenProps) => {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const connection = useReduxSelector(state => state.internet.connection);
 
-  useEffect(() => {
-    const unsubscribe = userDocRef(uid)
-      .onSnapshot(docSnapshot => {
-        const data = docSnapshot.data();
-        if (data) {
-          const { firstName, lastName } = data;
-          dispatch(saveUser({
-            displayName: `${firstName} ${lastName}`,
-            photoURL,
-            uid,
-            email,
-            provider,
-            theme,
-          }));
-        }
-      }, err => {
-        console.log(`Encountered error: ${err}`);
-      });
 
-    return () => unsubscribe();
-  }, [uid, dispatch, email, provider, theme]);
+   useFocusEffect(useCallback(() => {
+    const user = auth().currentUser;
+    user?.reload();
+    auth().onUserChanged((user)=>{
+      // console.log(user,"USER","FRRR")
+      dispatch(
+        saveUser({
+          displayName: user?.displayName as string,
+          photoURL: user?.photoURL as string,
+          uid,
+          provider,
+          email,
+          theme,
+        })
+      );
+    });
+    return
+  }, [dispatch, uid, provider]))
+
 
   useEffect(() => {
     if (imageUri !== photoURL) {
@@ -175,3 +174,6 @@ const AccountPage = ({navigation}: AccountScreenProps) => {
 };
 
 export default AccountPage;
+
+
+
