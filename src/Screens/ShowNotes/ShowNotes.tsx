@@ -61,19 +61,19 @@ const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
       }, 1000);
   
       const onAdLoaded = (event : {location: string}) => {
-        console.log(SHOW_NOTES.AD_LOADED, event.location);
+        // console.log(SHOW_NOTES.AD_LOADED, event.location);
       };
   
       const onAdFailedToLoad = (event : {location: string; error?: string}) => {
-        console.log(SHOW_NOTES.AD_FAILED, event.location, event.error);
+        // console.log(SHOW_NOTES.AD_FAILED, event.location, event.error);
       };
   
       const onAdShown = (event : {location: string}) => {
-        console.log(SHOW_NOTES.AD_SHOWN, event.location);
+        // console.log(SHOW_NOTES.AD_SHOWN, event.location);
       };
   
       const onAdDismissed = (event : {location: string}) => {
-        console.log(SHOW_NOTES.AD_DISMISSED, event.location);
+        // console.log(SHOW_NOTES.AD_DISMISSED, event.location);
       };
   
       const subscriptions = [

@@ -18,7 +18,6 @@ export const userInfo = createSlice({
   reducers: {
     saveUser: (state, action: PayloadAction<UserInfoState>) => {
       const {displayName, uid, email, photoURL, provider} = action.payload;
-      console.log(action.payload,"ACTION")
       state.displayName = displayName;
       state.uid = uid;
       state.email = email;

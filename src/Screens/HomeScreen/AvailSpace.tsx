@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {View, ImageBackground, Text} from 'react-native';
+import {View, ImageBackground, Text, NativeModules} from 'react-native';
 import {homeStyles} from './homeStyle';
 import {useReduxSelector} from '../../Redux/Store/store';
 import DeviceInfo from 'react-native-device-info';
 import {ERR_CONSOLE, HOME, IMAGES, THEME} from '../../Constants/strings';
+// const { StorageModule } = NativeModules;
 
 interface StorageState {
   totalStorage: string | null;
@@ -20,6 +21,8 @@ const AvailSpace: React.FC = () => {
   useEffect(() => {
     const getStorageInfo = async () => {
       try {
+        // const totalBytes = await StorageModule.getTotalDiskCapacity();
+        // const freeBytes = await StorageModule.getFreeDiskStorage();
         const totalBytes = await DeviceInfo.getTotalDiskCapacity();
         const freeBytes = await DeviceInfo.getFreeDiskStorage();
 
@@ -37,6 +40,8 @@ const AvailSpace: React.FC = () => {
 
     getStorageInfo();
   }, []);
+
+  console.log(storage, 'GTRGGRGR');
 
   return (
     <View style={homeStyles.view}>

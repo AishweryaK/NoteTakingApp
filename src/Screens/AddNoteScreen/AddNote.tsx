@@ -1,4 +1,4 @@
-import React, {useRef, useState, useEffect} from 'react';
+import React, {useRef, useState, useEffect, useCallback} from 'react';
 import {
   KeyboardAvoidingView,
   Text,
@@ -10,6 +10,7 @@ import {
   Alert,
   Platform,
   Keyboard,
+  Dimensions,
 } from 'react-native';
 import {RichEditor, RichToolbar, actions} from 'react-native-pell-rich-editor';
 import Modal from 'react-native-modal';
@@ -114,11 +115,11 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
     setDesc(text);
   };
 
-  const stripHtmlTags = (str:string) => {
+  const stripHtmlTags = (str: string) => {
     const noTags = str.replace(/<[^>]*>/g, '');
     const noEntities = noTags.replace(/&[^;]+;/g, '');
-    return noEntities.trim()
-  };  
+    return noEntities.trim();
+  };
 
   const saveNote = async () => {
     setIsSaving(true);
@@ -297,13 +298,20 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
         placeholderTextColor={commonColors.GRAY}
       />
 
-      <RichEditor
+      {/* <RichEditor
         ref={richText}
+        onCursorPosition={handleCursorPosition}
         placeholder={ADDNOTE.NOTE}
         initialContentHTML={desc}
-        onChange={handleDesc}
+        onChange={(commentText) => {
+          // commentText === '<div><br></div>' &&
+          richText.current?.setContentHTML('');
+            // setDesc(commentText);
+            handleDesc(commentText);
+        }}        
+        keyboardDisplayRequiresUserAction={false}
         initialHeight={80}
-        scrollEnabled={true}
+        scrollEnabled
         onLink={async url => {
           try {
             const result = await Linking.openURL(url);
@@ -311,9 +319,43 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
             console.error(ERR_CONSOLE.OPENING_URL, error);
           }
         }}
-        editorStyle={styles.editor(colors)}
+        editorStyle={{
+          ...styles.editor(colors),
+          contentCSSText:
+            Platform.OS === 'android' && `max-height:${6000}px;`
+        }}        
         style={styles.desc(colors)}
-      />
+      /> */}
+
+      <RichEditor
+            scrollEnabled
+            ref={richText}
+            initialHeight={80}
+            keyboardDisplayRequiresUserAction={false}
+            placeholder={ADDNOTE.NOTE}
+            initialContentHTML={desc}
+            style={styles.desc(colors)}
+            editorStyle={{
+              ...styles.editor(colors),
+              contentCSSText:
+                Platform.OS === 'android' && `max-height:${Dimensions.get('window').height*0.7}px;`
+            }}
+            onChange={(commentText) => {
+              // commentText === '<div><br></div>' &&
+              // richText.current?.setContentHTML('');
+                // setDesc(commentText);
+                handleDesc(commentText);
+            }}
+            onLink={async url => {
+              try {
+                const result = await Linking.openURL(url);
+              } catch (error) {
+                console.error(ERR_CONSOLE.OPENING_URL, error);
+              }
+            }}
+            // onFocus={() => setFocusOnComment(true)}
+            // onBlur={() => setFocusOnComment(false)}
+          />
 
       <View style={styles.center}>
         <View style={styles.buttonShadow(colors)}>

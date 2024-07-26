@@ -30,8 +30,8 @@ const CustomList: FC<HomeProps> = ({navigation}) => {
 
   useEffect(() => {
     const unsubscribe = userDocRef(user.uid).onSnapshot(snapshot => {
-      if (snapshot.exists) {
-        const userData = snapshot.data();
+      if (snapshot?.exists) {
+        const userData = snapshot?.data();
         if (userData && userData.collections) {
           setCollections(userData.collections);
         }

@@ -62,8 +62,14 @@ const ProfileImage: React.FC<ProfileImageProps> = ({onImageChange}) => {
       quality: 0.2,
       maxHeight: 500,
       maxWidth: 500,
+      includeBase64: false,
+      includeExtra: false,
+      presentationStyle: 'currentContext' ,
+      assetRepresentationMode: 'auto' ,
     };
-    launchCamera(options, handleResponse);
+    setTimeout(() => {
+      launchCamera(options, handleResponse);
+    }, 100);
     setModalVisible(false);
   };
 
@@ -134,7 +140,7 @@ const ProfileImage: React.FC<ProfileImageProps> = ({onImageChange}) => {
                   {UPLOAD_IMAGE.GALLERY}
                 </Text>
               </TouchableOpacity>
-              {Platform.OS === CONSTANTS.ANDROID && (
+              {/* {Platform.OS === CONSTANTS.ANDROID && ( */}
                 <TouchableOpacity
                   onPress={handleCameraLaunch}
                   style={profileImgStyles.buttonTwo}>
@@ -143,7 +149,7 @@ const ProfileImage: React.FC<ProfileImageProps> = ({onImageChange}) => {
                     {UPLOAD_IMAGE.CAMERA}
                   </Text>
                 </TouchableOpacity>
-              )}
+              {/* )} */}
               {/* {imageUri || photoURL ? (
               <TouchableOpacity onPress={removeImage} style={profileImgStyles.buttonThree}>
                 {ICONS.TRASH(25,25)}

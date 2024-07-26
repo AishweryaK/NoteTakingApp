@@ -34,7 +34,7 @@ function Login({navigation}: LoginScreenProps) {
   const colors = getThemeColors(theme);
 
   const handleLogin = async (values: FormValues) => {
-    await signInCall({email: values.email, password: values.password});
+    await signInCall({email: values.email.trim(), password: values.password.trim()});
   };
 
   const handleForgotP = () => {

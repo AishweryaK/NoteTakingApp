@@ -21,6 +21,7 @@ class MainApplication : Application(), ReactApplication {
               // add(MyReactNativePackage())
                 add(MyPackage())
                 add(MyInterstitialPackage())
+                add(StoragePackage())
             }
 
         override fun getJSMainModuleName(): String = "index"
