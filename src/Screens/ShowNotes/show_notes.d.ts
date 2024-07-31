@@ -8,6 +8,7 @@ export interface Note {
     title: string;
     desc: string;
     createdAt: FirebaseFirestoreTypes.Timestamp;
+    imageUrls: string[];
   }
 
   export interface EditCollProps {

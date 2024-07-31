@@ -12,7 +12,7 @@ import {
   handleSignUpError,
 } from '../../Common/handleAuthErr';
 import {ERR_CONSOLE, TITLE} from '../../Constants/strings';
-import { addDocumentsForUser, userDocRef } from '../../Common/firebaseUtils';
+import {addDocumentsForUser } from '../../Common/firebaseUtils';
 
 export default function useAuthentication() {
   const dispatch = useReduxDispatch();
@@ -88,7 +88,6 @@ export default function useAuthentication() {
       //   lastName,
       //   photoURL,
       // },{merge: true});
-
     } catch (err: any) {
       handleSignUpError(err);
     } finally {
@@ -108,6 +107,28 @@ export default function useAuthentication() {
     return downloadURL;
   };
 
+  const uploadImageToFirebaseNote = async ({
+    imageUri,
+    userId,
+  }: UploadImageProps) => {
+    // dispatch(setLoading(true));
+    try {
+      const dateID = new Date().toISOString().replace(/[-:.]/g, '');
+      const storageRef = storage().ref( `profile_images/${userId}/${dateID}.jpg`);
+      const response = await fetch(imageUri);
+      const blob = await response.blob();
+      await storageRef.put(blob);
+      const downloadURL = await storageRef.getDownloadURL();
+      return downloadURL;
+    } catch (error) {
+      // dispatch(setLoading(false));
+      console.error('Error uploading image:', error);
+      throw error;
+    } finally {
+      // dispatch(setLoading(false));
+    }
+  };
+
   const deletePhoto = async () => {
     setIsLoading(true);
     try {
@@ -117,7 +138,7 @@ export default function useAuthentication() {
       // await userDocRef(uid).set({
       //   photoURL:null,
       // },{merge: true});
-      
+
       dispatch(
         saveUser({
           displayName,
@@ -145,7 +166,7 @@ export default function useAuthentication() {
       }
       dispatch(clearUserData());
     } catch (err) {
-      console.log(err);
+      console.error(err);
     } finally {
       setIsLoading(false);
     }
@@ -185,6 +206,7 @@ export default function useAuthentication() {
     signOutCall,
     googleLoginCall,
     uploadImageToFirebase,
+    uploadImageToFirebaseNote,
     deletePhoto,
   };
 }

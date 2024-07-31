@@ -41,8 +41,6 @@ const AvailSpace: React.FC = () => {
     getStorageInfo();
   }, []);
 
-  console.log(storage, 'GTRGGRGR');
-
   return (
     <View style={homeStyles.view}>
       <View style={homeStyles.imgView}>

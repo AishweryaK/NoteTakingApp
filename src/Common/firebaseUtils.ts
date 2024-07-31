@@ -25,12 +25,14 @@ export const updateNote = async (
   itemID: string,
   title: string,
   desc: string,
+  imageUrls?:string[],
 ) => {
   try {
     await userDocRef(uid).collection(label).doc(itemID).update({
       title,
       desc,
       createdAt: firestore.FieldValue.serverTimestamp(),
+      imageUrls,
     });
   } catch (error) {
     console.error(ERR_CONSOLE.SAVE_NOTE, error);
@@ -42,12 +44,14 @@ export const saveNoteLabel = async (
   label: string,
   title: string,
   desc: string,
+  imageUrls?:string[],
 ) => {
   try {
     await userDocRef(uid).collection(label).add({
       title,
       desc,
       createdAt: firestore.FieldValue.serverTimestamp(),
+      imageUrls,
     });
   } catch (error) {
     console.error(ERR_CONSOLE.SAVE_NOTE, error);
@@ -59,12 +63,14 @@ export const saveNoteNew = async (
   selectedCollection: {text: string},
   title: string,
   desc: string,
+  imageUrls?:string[],
 ) => {
   try {
     await userDocRef(uid).collection(selectedCollection.text).add({
       title,
       desc,
       createdAt: firestore.FieldValue.serverTimestamp(),
+      imageUrls,
     });
   } catch (error) {
     console.error(ERR_CONSOLE.SAVE_NOTE, error);

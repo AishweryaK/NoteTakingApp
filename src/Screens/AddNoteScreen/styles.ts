@@ -154,5 +154,9 @@ export const styles = StyleSheet.create({
   align:
   {
     alignItems:'center'
-  }
+  },
+  tib: {
+    textAlign: "center",
+    color: "#515156",
+  },
 });

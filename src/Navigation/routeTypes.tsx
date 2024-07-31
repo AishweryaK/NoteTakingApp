@@ -8,7 +8,7 @@ import { RouteProp } from "@react-navigation/native";
     SIGNUP: undefined;
     FORGOTPASS: undefined;
     HOMESCREEN: undefined;
-    ADDNOTE:{uid:string, itemTitle?:string, itemDesc?:string, itemID?:string, label?:string};
+    ADDNOTE:{uid:string, itemTitle?:string, itemDesc?:string, itemID?:string, label?:string, imageUrls?:string[]};
     NOTESCREEN: { uid: string, itemText: string};
     SETTINGS: undefined;
     HOME: undefined;

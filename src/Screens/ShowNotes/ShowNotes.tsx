@@ -55,34 +55,28 @@ const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
       InterstitialModule.showInterstitialAd();
     } else if (Platform.OS === CONSTANTS.IOS) {
       Chartboost.loadInterstitial(SHOW_NOTES.AD_LOCATION);
-  
+
       setTimeout(() => {
         Chartboost.showInterstitial(SHOW_NOTES.AD_LOCATION);
       }, 1000);
-  
-      const onAdLoaded = (event : {location: string}) => {
+      const onAdLoaded = (event: {location: string}) => {
         // console.log(SHOW_NOTES.AD_LOADED, event.location);
       };
-  
-      const onAdFailedToLoad = (event : {location: string; error?: string}) => {
+      const onAdFailedToLoad = (event: {location: string; error?: string}) => {
         // console.log(SHOW_NOTES.AD_FAILED, event.location, event.error);
       };
-  
-      const onAdShown = (event : {location: string}) => {
+      const onAdShown = (event: {location: string}) => {
         // console.log(SHOW_NOTES.AD_SHOWN, event.location);
       };
-  
-      const onAdDismissed = (event : {location: string}) => {
+      const onAdDismissed = (event: {location: string}) => {
         // console.log(SHOW_NOTES.AD_DISMISSED, event.location);
       };
-  
       const subscriptions = [
         Chartboost.addEventListener('onAdLoaded', onAdLoaded),
         Chartboost.addEventListener('onAdFailedToLoad', onAdFailedToLoad),
         Chartboost.addEventListener('onAdShown', onAdShown),
         Chartboost.addEventListener('onAdDismissed', onAdDismissed),
       ];
-  
       return () => {
         subscriptions.forEach(sub => sub.remove());
       };
@@ -134,6 +128,7 @@ const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
       itemDesc: item.desc,
       itemID: item.id,
       label: itemText,
+      imageUrls: item.imageUrls,
     });
   };
 
@@ -232,7 +227,7 @@ const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
       {notes.length === 0 && searchQuery !== '' && (
         <Text style={showStyles.noNotes(colors)}>{SHOW_NOTES.NO_NOTES}</Text>
       )}
-      <StaggerView<Note>
+      <StaggerView
         style={showStyles.list}
         data={notes}
         renderItem={renderItem}
@@ -264,16 +259,24 @@ const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
               {SHOW_NOTES.ARE_YOU_SURE}
             </Text>
             <View style={showStyles.modalButtons}>
-            <TouchableOpacity onPress={() => setModalVisible(false)}>
-                <Text style={[
+              <TouchableOpacity onPress={() => setModalVisible(false)}>
+                <Text
+                  style={[
                     showStyles.modalText(colors),
                     {backgroundColor: colors.CANCEL, borderRadius: 10},
-                  ]}>{CONSTANTS.CANCEL}</Text>
+                  ]}>
+                  {CONSTANTS.CANCEL}
+                </Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={handleDeleteNote}>
-                <Text style={[
+                <Text
+                  style={[
                     showStyles.modalText(colors),
-                    {backgroundColor: 'red', borderRadius: 10, color:themeColors.DARK.HEADERTITLE},
+                    {
+                      backgroundColor: 'red',
+                      borderRadius: 10,
+                      color: themeColors.DARK.HEADERTITLE,
+                    },
                   ]}>
                   {CONSTANTS.DELETE}
                 </Text>

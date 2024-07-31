@@ -11,12 +11,14 @@ import {
   Platform,
   Keyboard,
   Dimensions,
+  Image,
 } from 'react-native';
 import {RichEditor, RichToolbar, actions} from 'react-native-pell-rich-editor';
 import Modal from 'react-native-modal';
 import {NAVIGATION} from '../../Constants/navConstants';
 import {styles} from './styles';
 import {profileImgStyles} from '../../Components/ProfileImage/styles';
+import StaggerView from '@mindinventory/react-native-stagger-view';
 import {dimensions} from '../../Constants/utility';
 import {useReduxSelector} from '../../Redux/Store/store';
 import {
@@ -39,12 +41,13 @@ import {
   saveNoteLabel,
   saveNoteNew,
   setCollection,
-  subscribeToUserCollections,
   updateCollectionCount,
   updateNote,
   userDocRef,
 } from '../../Common/firebaseUtils';
 import {CollectionItem} from '../../Common/common';
+import ImageHandling from './ImageHandling';
+import { showStyles } from '../ShowNotes/styles';
 
 const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
   const [isSaving, setIsSaving] = useState<boolean>(false);
@@ -53,6 +56,8 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [collections, setCollections] = useState<CollectionItem[]>([]);
   const [newCollection, setNewCollection] = useState<string>('');
+  // const [imageUri, setImageUri] = useState<string>('');
+  const [imageArray, setImageArray] = useState<string[]>([]);
   const [isDialogVisible, setIsDialogVisible] = useState<boolean>(false);
   const [selectedCollection, setSelectedCollection] = useState<{
     number: number;
@@ -66,14 +71,19 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
   const theme = useReduxSelector(state => state.user.theme);
   const colors = getThemeColors(theme);
 
-  const {uid, itemTitle, itemDesc, itemID, label} = route.params;
+  const {uid, itemTitle, itemDesc, itemID, label, imageUrls} = route.params;
 
   useEffect(() => {
-    if (itemTitle || itemDesc) {
+    if (itemTitle || itemDesc || imageUrls) {
       setTitle(itemTitle as string);
       setDesc(itemDesc as string);
+      // setImageArray(imageUrls as string[]);
     }
-  }, [itemTitle, itemDesc]);
+    if(imageUrls)
+      {
+        setImageArray(imageUrls);
+      }
+  }, [itemTitle, itemDesc, imageUrls]);
 
   // useEffect(() => {
   //   const unsubscribe = subscribeToUserCollections(uid, setCollections);
@@ -98,6 +108,14 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
     setIsDialogVisible(true);
   };
 
+  // console.log(imageUri,"IMAGGD")
+  // console.log(imageArray,"IMAGGDgregegeeth")
+
+  const handleImageChange = (uri: string) => {
+    // setImageUri(uri);
+    setImageArray(prevUrls => [...prevUrls, uri]);
+  };
+
   const handleCancel = () => {
     setIsDialogVisible(false);
   };
@@ -116,8 +134,8 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
   };
 
   const stripHtmlTags = (str: string) => {
-    const noTags = str.replace(/<[^>]*>/g, '');
-    const noEntities = noTags.replace(/&[^;]+;/g, '');
+    const noTags = str.replace(ADDNOTE.TAGS_REGEX, '');
+    const noEntities = noTags.replace(ADDNOTE.ENTITY_REGEX, '');
     return noEntities.trim();
   };
 
@@ -132,12 +150,12 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
     }
     try {
       if (itemID && label) {
-        updateNote(uid, label, itemID, title, desc);
+        updateNote(uid, label, itemID, title, desc, imageArray);
       } else if (label) {
-        saveNoteLabel(uid, label, title, desc);
+        saveNoteLabel(uid, label, title, desc, imageArray);
         updateCollectionCount(uid, label, CONSTANTS.INCREMENT);
       } else {
-        saveNoteNew(uid, selectedCollection, title, desc);
+        saveNoteNew(uid, selectedCollection, title, desc, imageArray);
         updateCollectionCount(
           uid,
           selectedCollection.text,
@@ -206,6 +224,12 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
     setEmptyColl(false);
   };
 
+  const renderItem = ({item}:{item:string}) => (
+    <Image source={{
+      uri: item,
+    }} />
+  );
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === CONSTANTS.IOS ? 'padding' : undefined}
@@ -228,8 +252,6 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
           )}
           <Modal
             style={styles.align}
-            // animationOut={"slideOutDown"}
-            // animationOutTiming={500}
             isVisible={modalVisible}
             avoidKeyboard={true}
             onBackButtonPress={() => {
@@ -297,21 +319,36 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
         onChangeText={text => setTitle(text)}
         placeholderTextColor={commonColors.GRAY}
       />
-
-      {/* <RichEditor
+      {/* <View
+        style={{
+          backgroundColor: 'black',
+          minHeight: 300,
+          overflow: 'scroll',
+        }}></View> */}
+         <StaggerView
+        style={showStyles.list}
+        data={imageArray}
+        renderItem={renderItem}
+        numColumns={2}
+        animationType="NONE"
+      />
+      <RichEditor
+        scrollEnabled
         ref={richText}
-        onCursorPosition={handleCursorPosition}
+        initialHeight={80}
+        keyboardDisplayRequiresUserAction={false}
         placeholder={ADDNOTE.NOTE}
         initialContentHTML={desc}
-        onChange={(commentText) => {
-          // commentText === '<div><br></div>' &&
-          richText.current?.setContentHTML('');
-            // setDesc(commentText);
-            handleDesc(commentText);
-        }}        
-        keyboardDisplayRequiresUserAction={false}
-        initialHeight={80}
-        scrollEnabled
+        style={styles.desc(colors)}
+        editorStyle={{
+          ...styles.editor(colors),
+          contentCSSText:
+            Platform.OS === 'android' &&
+            `max-height:${Dimensions.get('window').height * 0.7}px;`,
+        }}
+        onChange={commentText => {
+          handleDesc(commentText);
+        }}
         onLink={async url => {
           try {
             const result = await Linking.openURL(url);
@@ -319,43 +356,7 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
             console.error(ERR_CONSOLE.OPENING_URL, error);
           }
         }}
-        editorStyle={{
-          ...styles.editor(colors),
-          contentCSSText:
-            Platform.OS === 'android' && `max-height:${6000}px;`
-        }}        
-        style={styles.desc(colors)}
-      /> */}
-
-      <RichEditor
-            scrollEnabled
-            ref={richText}
-            initialHeight={80}
-            keyboardDisplayRequiresUserAction={false}
-            placeholder={ADDNOTE.NOTE}
-            initialContentHTML={desc}
-            style={styles.desc(colors)}
-            editorStyle={{
-              ...styles.editor(colors),
-              contentCSSText:
-                Platform.OS === 'android' && `max-height:${Dimensions.get('window').height*0.7}px;`
-            }}
-            onChange={(commentText) => {
-              // commentText === '<div><br></div>' &&
-              // richText.current?.setContentHTML('');
-                // setDesc(commentText);
-                handleDesc(commentText);
-            }}
-            onLink={async url => {
-              try {
-                const result = await Linking.openURL(url);
-              } catch (error) {
-                console.error(ERR_CONSOLE.OPENING_URL, error);
-              }
-            }}
-            // onFocus={() => setFocusOnComment(true)}
-            // onBlur={() => setFocusOnComment(false)}
-          />
+      />
 
       <View style={styles.center}>
         <View style={styles.buttonShadow(colors)}>
@@ -381,7 +382,19 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
             actions.insertOrderedList,
             actions.insertLink,
             actions.checkboxList,
+            actions.insertImage,
+            actions.heading1,
           ]}
+          iconMap={{
+            [actions.insertImage]: () => (
+              // <UserImage photo={photo} setPhoto={setPhoto} />
+              <ImageHandling onImageChange={handleImageChange} />
+              // <ProfileImage onImageChange={handleImageChange} />
+            ),
+            // [actions.heading1]: ({ tintColor }) => (
+            //   <Text style={[styles.tib, { color: tintColor }]}>hihih</Text>
+            // ),
+          }}
         />
         <CustomDialogInput
           isVisible={isDialogVisible}

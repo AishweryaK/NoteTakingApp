@@ -157,6 +157,8 @@ export const NAME_CHANGE = {
 };
 
 export const ADDNOTE = {
+  TAGS_REGEX:/<[^>]*>/g,
+  ENTITY_REGEX:/&[^;]+;/g,
   COLLECTIONS: 'Collections',
   CLOSE: 'X',
   ADD_COLLECTION: 'Add Collection',
