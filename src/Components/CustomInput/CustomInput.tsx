@@ -1,27 +1,90 @@
-import React from 'react';
-import {TextInput} from 'react-native';
-import {inputStyles} from './styles';
-import {getThemeColors} from '../../Assets/Colors/themeColors';
-import {useReduxSelector} from '../../Redux/Store/store';
-import {CustomInputProps} from './custom_input';
+// import React, { useState } from 'react';
+// import {TextInput, View, TouchableOpacity} from 'react-native';
+// import {inputStyles} from './styles';
+// import {getThemeColors} from '../../Assets/Colors/themeColors';
+// import {useReduxSelector} from '../../Redux/Store/store';
+// import {CustomInputProps} from './custom_input';
+// import { ICONS } from '../../Constants/iconConstants';
+
+// function CustomInput({
+//   placeHolder,
+//   value,
+//   handleChange,
+//   handleBlur,
+//   isPassword,
+// }: CustomInputProps) {
+//   const theme = useReduxSelector(state => state.user.theme);
+//   const colors = getThemeColors(theme);
+//   const [secure, setSecure] = useState<boolean>(true);
+
+//   const handleClick = () =>{
+//     setSecure(!secure)
+//   }
+
+//   return (
+//     <View style={{position:'relative'}}>
+//     <TextInput
+//       style={inputStyles.customInput(colors)}
+//       placeholder={placeHolder}
+//       value={value}
+//       secureTextEntry={isPassword? secure : false}
+//       onChangeText={handleChange}
+//       onBlur={handleBlur}
+//       placeholderTextColor={colors.PLACEHOLDER}
+//     />
+//     {isPassword && <TouchableOpacity style={{position:'absolute', right:0, padding:8, top:23}} onPress={handleClick}>
+//       {secure?  ICONS.EYEON(28,28) : ICONS.EYEOFF(28,28)}
+//     </TouchableOpacity>}
+//     </View>
+//   );
+// }
+
+// export default React.memo(CustomInput);
+
+
+import React, { useState } from 'react';
+import { TextInput, View, TouchableOpacity } from 'react-native';
+import { inputStyles } from './styles';
+import { commonColors, getThemeColors, themeColors } from '../../Assets/Colors/themeColors';
+import { useReduxSelector } from '../../Redux/Store/store';
+import { CustomInputProps } from './custom_input';
+import { ICONS } from '../../Constants/iconConstants';
 
 function CustomInput({
   placeHolder,
   value,
   handleChange,
   handleBlur,
+  isPassword,
 }: CustomInputProps) {
   const theme = useReduxSelector(state => state.user.theme);
   const colors = getThemeColors(theme);
+  const [secure, setSecure] = useState<boolean>(true);
+
+  const handleClick = () => {
+    setSecure(!secure);
+  }
+
   return (
-    <TextInput
-      style={inputStyles.customInput(colors)}
-      placeholder={placeHolder}
-      value={value}
-      onChangeText={handleChange}
-      onBlur={handleBlur}
-      placeholderTextColor={colors.PLACEHOLDER}
-    />
+    <View style={inputStyles.parent}>
+      <TextInput
+        style={inputStyles.customInput(colors)}
+        placeholder={placeHolder}
+        value={value}
+        secureTextEntry={isPassword ? secure : false}
+        onChangeText={handleChange}
+        onBlur={handleBlur}
+        placeholderTextColor={colors.PLACEHOLDER}
+      />
+      {isPassword && (
+        <TouchableOpacity 
+          style={inputStyles.button} 
+          onPress={handleClick}
+        >
+          {secure ? ICONS.EYEON(28, 28) : ICONS.EYEOFF(28, 28, themeColors.LIGHT.BLUE)}
+        </TouchableOpacity>
+      )}
+    </View>
   );
 }
 

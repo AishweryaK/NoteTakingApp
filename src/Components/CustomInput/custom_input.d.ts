@@ -10,4 +10,5 @@ export interface CustomInputProps {
   value: string;
   handleChange: (text: string) => void;
   handleBlur: () => void;
+  isPassword?:boolean;
 }

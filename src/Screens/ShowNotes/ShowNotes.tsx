@@ -8,6 +8,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   NativeModules,
+  Image,
 } from 'react-native';
 import HTML, {
   HTMLContentModel,
@@ -27,7 +28,7 @@ import StaggerView from '@mindinventory/react-native-stagger-view';
 import {ICONS} from '../../Constants/iconConstants';
 import {NoteScreenProps} from '../../Navigation/routeTypes';
 import {Note} from './show_notes';
-import {CONSTANTS, ERR_CONSOLE, SHOW_NOTES} from '../../Constants/strings';
+import {COLLECTION, CONSTANTS, ERR_CONSOLE, SHOW_NOTES} from '../../Constants/strings';
 import {
   deleteNote,
   updateCollectionCount,
@@ -106,9 +107,9 @@ const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
     navigation.setOptions({
       title: itemText,
       headerRight: () => (
-        <TouchableOpacity onPress={handleCollectionEdit}>
+        itemText!==COLLECTION.OTHERS ? (<TouchableOpacity onPress={handleCollectionEdit}>
           {ICONS.MENU(25, 25, colors.HEADERTITLE)}
-        </TouchableOpacity>
+        </TouchableOpacity>) : null
       ),
     });
   }, [navigation, itemText, colors]);
@@ -176,6 +177,12 @@ const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
       onPress={() => handleNotePress(item)}
       onLongPress={() => handleLongPress(item.id)}>
       {item.title && <Text style={showStyles.txt(colors)}>{item.title}</Text>}
+
+      {item.imageUrls && item.imageUrls?.length != 0 && (
+        <View style={showStyles.imgParent}>
+          <Image source={{uri: item.imageUrls[0]}} style={showStyles.img} />
+        </View>
+      )}
       <MemoizedHTML
         baseStyle={{
           fontFamily: FONT.BOLD,
@@ -185,6 +192,7 @@ const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
           color: colors.HEADERTITLE,
           maxHeight: dimensions.height * 0.16,
           overflow: 'hidden',
+          paddingTop: 3,
         }}
         source={{html: item.desc}}
         contentWidth={dimensions.width}

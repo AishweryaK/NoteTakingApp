@@ -52,7 +52,7 @@ export const styles = StyleSheet.create({
     fontSize: 20,
     marginBottom: 20,
     color: colors.HEADERTITLE,
-    textAlign:'center',
+    textAlign: 'center',
   }),
   input: colors => ({
     width: '100%',
@@ -62,6 +62,7 @@ export const styles = StyleSheet.create({
     borderColor: colors.BORDER,
     borderRadius: 20,
     paddingLeft: 20,
+    paddingRight: 40,
     color: colors.HEADERTITLE,
   }),
   buttonContainer: {
@@ -86,7 +87,7 @@ export const styles = StyleSheet.create({
     fontSize: 12,
     color: commonColors.ERROR,
     textAlign: 'left',
-    paddingLeft:10,
+    paddingLeft: 10,
     paddingTop: 5,
     marginRight: 20,
   },
@@ -101,4 +102,16 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  eyeButton: {
+    position: 'absolute',
+    right: 0,
+    padding: 8,
+    top: '35%',
+  },
+  position: {
+    position: 'relative' 
+  },
+  align : {
+    alignItems: 'flex-start'
+  }
 });

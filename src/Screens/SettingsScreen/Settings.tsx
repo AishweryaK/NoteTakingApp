@@ -30,10 +30,11 @@ import {
   TITLE,
 } from '../../Constants/strings';
 import {showAlert} from '../../Common/alert';
+import { PROVIDER } from '../../Constants/signingConstants';
 
 const SettingsPage = ({navigation}: SettingsScreenProps) => {
   const {isLoading, signOutCall} = useAuthentication();
-  const theme = useReduxSelector(state => state.user.theme);
+  const {theme, provider} = useReduxSelector(state => state.user);
   const colors = getThemeColors(theme);
   const dispatch = useReduxDispatch();
   const [isModalVisible, setModalVisible] = useState<boolean>(false);
@@ -73,6 +74,8 @@ const SettingsPage = ({navigation}: SettingsScreenProps) => {
     setModalVisible(false);
   };
 
+  console.log(provider)
+
   return (
     <ScrollView style={styles.container(colors)}>
       <Text style={styles.heading(colors)}>{SETTINGS.SETTINGS}</Text>
@@ -87,7 +90,7 @@ const SettingsPage = ({navigation}: SettingsScreenProps) => {
         </View>
       </TouchableOpacity>
 
-      <TouchableOpacity
+      {provider !== PROVIDER.GOOGLE && <TouchableOpacity
         style={styles.option(colors)}
         onPress={openChangePasswordModal}>
         {ICONS.CHANGEP(24, 24)}
@@ -97,7 +100,7 @@ const SettingsPage = ({navigation}: SettingsScreenProps) => {
           </Text>
           {ICONS.ARROW(24, 24)}
         </View>
-      </TouchableOpacity>
+      </TouchableOpacity>}
 
       <View style={styles.option(colors)}>
         {ICONS.THEME(24, 24)}

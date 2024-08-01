@@ -24,13 +24,13 @@ export const styles = StyleSheet.create({
     color: colors.HEADERTITLE,
     fontSize: 14,
     fontFamily: FONT.BOLD,
-    maxWidth:dimensions.width*0.4
+    maxWidth: dimensions.width * 0.4,
   }),
   heading: colors => ({
     fontFamily: FONT.EXTRA_BOLD,
     fontSize: 18,
     color: colors.HEADERTITLE,
-    textAlign:'center'
+    textAlign: 'center',
   }),
   title: colors => ({
     fontSize: 35,
@@ -123,15 +123,15 @@ export const styles = StyleSheet.create({
   err: {
     color: commonColors.ERROR,
     paddingBottom: 10,
-    textAlign:'left'
+    textAlign: 'left',
   },
   flex: {
     justifyContent: 'flex-end',
   },
-  center:{
+  center: {
     alignItems: 'center',
-    paddingBottom:25,
-    paddingTop:10
+    paddingBottom: 25,
+    paddingTop: 10,
   },
   buttonShadow: colors => ({
     shadowColor: colors.BLUE,
@@ -148,15 +148,30 @@ export const styles = StyleSheet.create({
     elevation: 7,
     alignItems: 'center',
   }),
-  text:colors =>({
-    color: colors.HEADERTITLE
+  text: colors => ({
+    color: colors.HEADERTITLE,
   }),
-  align:
-  {
-    alignItems:'center'
+  align: {
+    alignItems: 'center',
   },
-  tib: {
-    textAlign: "center",
-    color: "#515156",
+  imgParent: {
+    position: 'relative',
+    margin: 5,
   },
+  imgBg: {
+    minWidth: '100%',
+    minHeight: dimensions.height / 4,
+  },
+  imgButton: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    padding: 5,
+    borderRadius: 50,
+    height: 30,
+    width: 30,
+    alignItems: 'center',
+  },
+  imgX: {color: 'white', fontWeight: 'bold'},
 });

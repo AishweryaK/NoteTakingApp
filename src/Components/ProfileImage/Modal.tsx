@@ -1,12 +1,9 @@
-// ImageModal.tsx
 import React from 'react';
 import { View, Text, TouchableOpacity, Modal } from 'react-native';
 import { launchCamera, launchImageLibrary, ImageLibraryOptions, ImagePickerResponse } from 'react-native-image-picker';
 import { ICONS } from '../../Constants/iconConstants';
 import { UPLOAD_IMAGE } from '../../Constants/strings';
 import { profileImgStyles } from './styles';
-import auth from '@react-native-firebase/auth';
-import storage from '@react-native-firebase/storage';
 import { useReduxSelector } from '../../Redux/Store/store';
 import { getThemeColors } from '../../Assets/Colors/themeColors';
 

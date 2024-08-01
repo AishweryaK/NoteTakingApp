@@ -79,9 +79,10 @@ function Login({navigation}: LoginScreenProps) {
             value={values.password}
             handleChange={handleChange(CONSTANTS.PASSWORD)}
             handleBlur={() => setFieldTouched(CONSTANTS.PASSWORD)}
+            isPassword={true}
           />
           {touched.password && errors.password && (
-            <Text style={styles.errorTxt}>{errors.password}</Text>
+            <Text style={[styles.errorTxt, {paddingRight:15}]}>{errors.password}</Text>
           )}
 
           <View style={loginStyles.button}>

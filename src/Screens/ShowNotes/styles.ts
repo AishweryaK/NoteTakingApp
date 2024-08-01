@@ -55,7 +55,7 @@ export const showStyles = StyleSheet.create({
     justifyContent: 'space-evenly',
     width: dimensions.width * 0.45,
     paddingHorizontal: 10,
-    alignItems:'center'
+    alignItems: 'center',
   },
   modalBackground: {
     flex: 1,
@@ -105,6 +105,16 @@ export const showStyles = StyleSheet.create({
     opacity: 0.5,
     paddingHorizontal: 16,
   }),
+  imgParent: {
+    maxHeight: 150,
+    overflow: 'scroll',
+    width: '100%',
+  },
+  img: {
+    height: '100%',
+    width: '100%',
+    resizeMode: 'cover',
+  },
 });
 
 export const getChildrenStyle = colors => {

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -9,14 +9,14 @@ import {
   ActivityIndicator,
   Platform,
 } from 'react-native';
-import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
-import {styles} from './styles';
-import {useReduxSelector} from '../../Redux/Store/store';
-import {getThemeColors, Theme} from '../../Assets/Colors/themeColors';
-import {SignupSchema} from '../SignupScreen/Signup';
+import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import { styles } from './styles';
+import { useReduxSelector } from '../../Redux/Store/store';
+import { getThemeColors, Theme, themeColors } from '../../Assets/Colors/themeColors';
+import { SignupSchema } from '../SignupScreen/Signup';
 import * as Yup from 'yup';
-import {Formik, FormikHelpers} from 'formik';
-import {FormValues, PasswordProps} from './change_p_screen';
+import { Formik, FormikHelpers } from 'formik';
+import { FormValues, PasswordProps } from './change_p_screen';
 import {
   CHANGE_PASSWORD,
   CONSTANTS,
@@ -24,25 +24,29 @@ import {
   ERR_TITLE,
   SIGN_UP,
 } from '../../Constants/strings';
-import {showAlert} from '../../Common/alert';
+import { showAlert } from '../../Common/alert';
+import { ICONS } from '../../Constants/iconConstants';
 
 const ChangePSchema = Yup.object().shape({
-  currentPassword:Yup.string()
-  .transform((value: string) => value.trim())
-  .test(
-    SIGN_UP.TRIM_TWO,
-    SIGN_UP.BLANK_SPACE,
-    (value) => (value || '').length > 0
-  )
-  .required(SIGN_UP.ENTER_CURR_PWD),
+  currentPassword: Yup.string()
+    .transform((value: string) => value.trim())
+    .test(
+      SIGN_UP.TRIM_TWO,
+      SIGN_UP.BLANK_SPACE,
+      (value) => (value || '').length > 0
+    )
+    .required(SIGN_UP.ENTER_CURR_PWD),
   password: SignupSchema.fields.password,
   confirmPassword: SignupSchema.fields.confirmPassword,
 });
 
-const ChangePasswordModal: React.FC<PasswordProps> = ({visible, onClose}) => {
-  // const [currentPassword, setCurrentPassword] = useState<string>('');
+const ChangePasswordModal: React.FC<PasswordProps> = ({ visible, onClose }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const {theme} = useReduxSelector(state => state.user);
+  const [showCurrentPassword, setShowCurrentPassword] = useState<boolean>(false);
+  const [showNewPassword, setShowNewPassword] = useState<boolean>(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
+
+  const { theme } = useReduxSelector(state => state.user);
   const colors = getThemeColors(theme as Theme);
 
   const reauthenticate = async (currentPassword: string) => {
@@ -60,21 +64,13 @@ const ChangePasswordModal: React.FC<PasswordProps> = ({visible, onClose}) => {
 
   const handleChangePassword = async (
     values: FormValues,
-    {resetForm}: FormikHelpers<FormValues>,
+    { resetForm }: FormikHelpers<FormValues>,
   ) => {
     if (values.currentPassword === values.password) {
       showAlert(ERR_TITLE.ERROR, ERR_MSG.PASSWORD_SAME);
       resetForm();
       return;
     }
-    // if (
-    //   currentPassword === '' ||
-    //   values.password === '' ||
-    //   values.confirmPassword === ''
-    // ) {
-    //   showAlert(ERR_TITLE.ERROR, ERR_MSG.FILL_ALL_FIELDS);
-    //   return;
-    // }
 
     setIsLoading(true);
     try {
@@ -94,7 +90,6 @@ const ChangePasswordModal: React.FC<PasswordProps> = ({visible, onClose}) => {
 
   const handleCancel = (resetForm: () => void) => {
     onClose();
-    // setCurrentPassword('');
     resetForm();
   };
 
@@ -105,7 +100,7 @@ const ChangePasswordModal: React.FC<PasswordProps> = ({visible, onClose}) => {
       style={styles.wrapper(colors)}>
       <Formik
         initialValues={{
-          currentPassword:'',
+          currentPassword: '',
           password: '',
           confirmPassword: '',
         }}
@@ -132,46 +127,69 @@ const ChangePasswordModal: React.FC<PasswordProps> = ({visible, onClose}) => {
                   {CHANGE_PASSWORD.CHANGE}
                 </Text>
 
-                <TextInput
-                  style={styles.input(colors)}
-                  placeholder={CHANGE_PASSWORD.CURRENT}
-                  secureTextEntry={true}
-                  value={values.currentPassword}
-                  onChangeText={handleChange(CONSTANTS.CURRENT_PASSWORD)}
-                  placeholderTextColor={colors.HEADERTITLE}
-                  onBlur={() => setFieldTouched(CONSTANTS.PASSWORD)}
-                />
-                <View style={{alignItems:'flex-start'}}>
-                {touched.currentPassword && errors.currentPassword && (
-                  <Text style={styles.errorTxt}>{errors.currentPassword}</Text>
-                )}
+                <View style={styles.position}>
+                  <TextInput
+                    style={styles.input(colors)}
+                    placeholder={CHANGE_PASSWORD.CURRENT}
+                    secureTextEntry={!showCurrentPassword}
+                    value={values.currentPassword}
+                    onChangeText={handleChange(CONSTANTS.CURRENT_PASSWORD)}
+                    placeholderTextColor={colors.HEADERTITLE}
+                    onBlur={() => setFieldTouched(CONSTANTS.CURRENT_PASSWORD)}
+                  />
+                  <TouchableOpacity
+                    style={styles.eyeButton}
+                    onPress={() => setShowCurrentPassword(!showCurrentPassword)}
+                  >
+                    {showCurrentPassword ? ICONS.EYEON(28, 28) : ICONS.EYEOFF(28, 28, themeColors.LIGHT.BLUE)}
+                  </TouchableOpacity>
+                </View>
+                <View style={styles.align}>
+                  {touched.currentPassword && errors.currentPassword && (
+                    <Text style={styles.errorTxt}>{errors.currentPassword}</Text>
+                  )}
                 </View>
 
-                <TextInput
-                  style={styles.input(colors)}
-                  placeholder={CHANGE_PASSWORD.NEW}
-                  secureTextEntry={true}
-                  value={values.password}
-                  onChangeText={handleChange(CONSTANTS.PASSWORD)}
-                  placeholderTextColor={colors.HEADERTITLE}
-                  onBlur={() => setFieldTouched(CONSTANTS.PASSWORD)}
-                />
-
-                <View style={{alignItems:'flex-start'}}>
-                {touched.password && errors.password && (
-                  <Text style={styles.errorTxt}>{errors.password}</Text>
-                )}
+                <View style={styles.position}>
+                  <TextInput
+                    style={styles.input(colors)}
+                    placeholder={CHANGE_PASSWORD.NEW}
+                    secureTextEntry={!showNewPassword}
+                    value={values.password}
+                    onChangeText={handleChange(CONSTANTS.PASSWORD)}
+                    placeholderTextColor={colors.HEADERTITLE}
+                    onBlur={() => setFieldTouched(CONSTANTS.PASSWORD)}
+                  />
+                  <TouchableOpacity
+                    style={styles.eyeButton}
+                    onPress={() => setShowNewPassword(!showNewPassword)}
+                  >
+                    {showNewPassword ? ICONS.EYEON(28, 28) : ICONS.EYEOFF(28, 28, themeColors.LIGHT.BLUE)}
+                  </TouchableOpacity>
+                </View>
+                <View style={styles.align}>
+                  {touched.password && errors.password && (
+                    <Text style={[styles.errorTxt, { paddingRight: 15 }]}>{errors.password}</Text>
+                  )}
                 </View>
 
-                <TextInput
-                  style={styles.input(colors)}
-                  placeholder={CHANGE_PASSWORD.CONFIRM_NEW}
-                  secureTextEntry={true}
-                  value={values.confirmPassword}
-                  onChangeText={handleChange(CONSTANTS.CONFIRM_PASSWORD)}
-                  placeholderTextColor={colors.HEADERTITLE}
-                  onBlur={() => setFieldTouched(CONSTANTS.CONFIRM_PASSWORD)}
-                />
+                <View style={styles.position}>
+                  <TextInput
+                    style={styles.input(colors)}
+                    placeholder={CHANGE_PASSWORD.CONFIRM_NEW}
+                    secureTextEntry={!showConfirmPassword}
+                    value={values.confirmPassword}
+                    onChangeText={handleChange(CONSTANTS.CONFIRM_PASSWORD)}
+                    placeholderTextColor={colors.HEADERTITLE}
+                    onBlur={() => setFieldTouched(CONSTANTS.CONFIRM_PASSWORD)}
+                  />
+                  <TouchableOpacity
+                    style={styles.eyeButton}
+                    onPress={() => setShowConfirmPassword(!showConfirmPassword)}
+                  >
+                    {showConfirmPassword ? ICONS.EYEON(28, 28) : ICONS.EYEOFF(28, 28, themeColors.LIGHT.BLUE)}
+                  </TouchableOpacity>
+                </View>
                 {touched.confirmPassword && errors.confirmPassword && (
                   <Text style={styles.errorTxt}>{errors.confirmPassword}</Text>
                 )}
@@ -184,7 +202,7 @@ const ChangePasswordModal: React.FC<PasswordProps> = ({visible, onClose}) => {
                   ) : (
                     <>
                       <TouchableOpacity
-                        style={[styles.button(colors), {backgroundColor:'red'}]}
+                        style={[styles.button(colors), { backgroundColor: 'red' }]}
                         onPress={() => handleCancel(resetForm)}>
                         <Text style={styles.buttonText(colors)}>
                           {CHANGE_PASSWORD.CANCEL}

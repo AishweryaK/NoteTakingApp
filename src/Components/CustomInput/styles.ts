@@ -19,5 +19,15 @@ export const inputStyles = StyleSheet.create({
     shadowRadius: 10,
     elevation: 7,
     color: themeColors.LIGHT.HEADERTITLE,
+    paddingRight: 45,
   }),
+  parent: {
+    position: 'relative',
+  },
+  button: {
+    position: 'absolute',
+    right: 0,
+    padding: 8,
+    top: '35%',
+  },
 });

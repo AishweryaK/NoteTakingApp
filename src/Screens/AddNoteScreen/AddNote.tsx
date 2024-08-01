@@ -1,4 +1,4 @@
-import React, {useRef, useState, useEffect, useCallback} from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import {
   KeyboardAvoidingView,
   Text,
@@ -11,7 +11,8 @@ import {
   Platform,
   Keyboard,
   Dimensions,
-  Image,
+  ImageBackground,
+  ActivityIndicator,
 } from 'react-native';
 import {RichEditor, RichToolbar, actions} from 'react-native-pell-rich-editor';
 import Modal from 'react-native-modal';
@@ -47,16 +48,17 @@ import {
 } from '../../Common/firebaseUtils';
 import {CollectionItem} from '../../Common/common';
 import ImageHandling from './ImageHandling';
-import { showStyles } from '../ShowNotes/styles';
+import {showStyles} from '../ShowNotes/styles';
+import useAuthentication from '../../Components/CustomHook/authHook';
 
 const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
-  const [isSaving, setIsSaving] = useState<boolean>(false);
+  // const [isSaving, setIsSaving] = useState<boolean>(false);
+  const {isLoading} = useReduxSelector((state) => state.loader);
   const [title, setTitle] = useState<string>('');
   const [desc, setDesc] = useState<string>('');
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [collections, setCollections] = useState<CollectionItem[]>([]);
   const [newCollection, setNewCollection] = useState<string>('');
-  // const [imageUri, setImageUri] = useState<string>('');
   const [imageArray, setImageArray] = useState<string[]>([]);
   const [isDialogVisible, setIsDialogVisible] = useState<boolean>(false);
   const [selectedCollection, setSelectedCollection] = useState<{
@@ -66,6 +68,7 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
     number: 1,
     text: COLLECTION.OTHERS,
   });
+  const {deleteImageFromFirebase, deleteImageFromFirestore} = useAuthentication();
   const [emptyColl, setEmptyColl] = useState<boolean>(false);
   const richText = useRef<RichEditor>(null);
   const theme = useReduxSelector(state => state.user.theme);
@@ -77,19 +80,11 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
     if (itemTitle || itemDesc || imageUrls) {
       setTitle(itemTitle as string);
       setDesc(itemDesc as string);
-      // setImageArray(imageUrls as string[]);
     }
-    if(imageUrls)
-      {
-        setImageArray(imageUrls);
-      }
+    if (imageUrls) {
+      setImageArray(imageUrls);
+    }
   }, [itemTitle, itemDesc, imageUrls]);
-
-  // useEffect(() => {
-  //   const unsubscribe = subscribeToUserCollections(uid, setCollections);
-
-  //   return () => unsubscribe();
-  // }, [uid]);
 
   useEffect(() => {
     const unsubscribe = userDocRef(uid).onSnapshot(snapshot => {
@@ -108,11 +103,7 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
     setIsDialogVisible(true);
   };
 
-  // console.log(imageUri,"IMAGGD")
-  // console.log(imageArray,"IMAGGDgregegeeth")
-
   const handleImageChange = (uri: string) => {
-    // setImageUri(uri);
     setImageArray(prevUrls => [...prevUrls, uri]);
   };
 
@@ -140,10 +131,10 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
   };
 
   const saveNote = async () => {
-    setIsSaving(true);
+    // setIsSaving(true);
     const strippedDesc = stripHtmlTags(desc);
 
-    if (title.trim() === '' && strippedDesc === '') {
+    if (title.trim() === '' && strippedDesc === '' && imageArray?.length===0) {
       showAlert(ERR_TITLE.EMPTY_NOTE, ERR_MSG.NOTE_DISCARDED);
       navigation.goBack();
       return;
@@ -173,7 +164,7 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
     } catch (error) {
       console.error(ERR_CONSOLE.SAVE_NOTE, error);
     } finally {
-      setIsSaving(false);
+      // setIsSaving(false);
     }
   };
 
@@ -224,11 +215,35 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
     setEmptyColl(false);
   };
 
-  const renderItem = ({item}:{item:string}) => (
-    <Image source={{
-      uri: item,
-    }} />
+  const renderItem = ({item}: {item: string}) => (
+    <View style={styles.imgParent}>
+      <ImageBackground
+        source={{uri: item}}
+        style={styles.imgBg}
+        resizeMode="cover">
+        <TouchableOpacity
+          style={styles.imgButton}
+          onPress={() => handleImageButtonPress(item)}>
+          <Text style={styles.imgX}>{ADDNOTE.CLOSE}</Text>
+        </TouchableOpacity>
+      </ImageBackground>
+    </View>
   );
+
+  const handleImageButtonPress = async(uri: string) => {
+    try {
+      await deleteImageFromFirebase(uri);
+
+      if (itemID && label) {
+        await deleteImageFromFirestore(uid, label, uri, itemID);
+      }
+    const updatedImages = imageArray.filter(imageUri => imageUri !== uri);
+    setImageArray(updatedImages);
+    }
+    catch(error) {
+      console.error('Error deleting image:', error);
+    }
+  };
 
   return (
     <KeyboardAvoidingView
@@ -283,7 +298,6 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
 
               <FlatList
                 data={collections}
-                // style={{maxHeight:dimensions.height*0.5}}
                 renderItem={renderCollectionItem}
                 keyExtractor={(item, index) => index.toString()}
                 showsVerticalScrollIndicator={false}
@@ -319,19 +333,17 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
         onChangeText={text => setTitle(text)}
         placeholderTextColor={commonColors.GRAY}
       />
-      {/* <View
-        style={{
-          backgroundColor: 'black',
-          minHeight: 300,
-          overflow: 'scroll',
-        }}></View> */}
-         <StaggerView
-        style={showStyles.list}
-        data={imageArray}
-        renderItem={renderItem}
-        numColumns={2}
-        animationType="NONE"
-      />
+
+      {imageArray && imageArray.length != 0 && (
+        <StaggerView
+          style={showStyles.list}
+          data={imageArray}
+          renderItem={renderItem}
+          numColumns={2}
+          animationType="NONE"
+        />
+      )}
+
       <RichEditor
         scrollEnabled
         ref={richText}
@@ -359,11 +371,16 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
       />
 
       <View style={styles.center}>
-        <View style={styles.buttonShadow(colors)}>
+          {isLoading ? 
+          <ActivityIndicator size="large" color={themeColors.LIGHT.BLUE} />
+          : 
+            <View style={styles.buttonShadow(colors)}>
           <TouchableOpacity onPress={saveNote}>
             <Text style={styles.buttonTxt(colors)}>{ADDNOTE.SAVE}</Text>
+          
           </TouchableOpacity>
         </View>
+          }
       </View>
 
       <View style={styles.flex}>
@@ -387,13 +404,8 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
           ]}
           iconMap={{
             [actions.insertImage]: () => (
-              // <UserImage photo={photo} setPhoto={setPhoto} />
               <ImageHandling onImageChange={handleImageChange} />
-              // <ProfileImage onImageChange={handleImageChange} />
             ),
-            // [actions.heading1]: ({ tintColor }) => (
-            //   <Text style={[styles.tib, { color: tintColor }]}>hihih</Text>
-            // ),
           }}
         />
         <CustomDialogInput

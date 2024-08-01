@@ -12,11 +12,15 @@ import {
   handleSignUpError,
 } from '../../Common/handleAuthErr';
 import {ERR_CONSOLE, TITLE} from '../../Constants/strings';
-import {addDocumentsForUser } from '../../Common/firebaseUtils';
+import {addDocumentsForUser} from '../../Common/firebaseUtils';
+import {setLoading} from '../../Redux/Slices/loader';
+import {userDocRef} from '../../Common/firebaseUtils';
+import firestore, { FieldValue } from '@react-native-firebase/firestore';
 
 export default function useAuthentication() {
   const dispatch = useReduxDispatch();
   const myProvider = useReduxSelector(state => state.user.provider);
+  // const loading = useReduxSelector(state => state.loader.isLoading);
   const {displayName, uid, email, theme} = useReduxSelector(
     state => state.user,
   );
@@ -111,21 +115,48 @@ export default function useAuthentication() {
     imageUri,
     userId,
   }: UploadImageProps) => {
-    // dispatch(setLoading(true));
+    dispatch(setLoading(true));
+    // setIsLoading(true);
     try {
       const dateID = new Date().toISOString().replace(/[-:.]/g, '');
-      const storageRef = storage().ref( `profile_images/${userId}/${dateID}.jpg`);
+      const storageRef = storage().ref(
+        `profile_images/${userId}/${dateID}.jpg`,
+      );
       const response = await fetch(imageUri);
       const blob = await response.blob();
       await storageRef.put(blob);
       const downloadURL = await storageRef.getDownloadURL();
       return downloadURL;
     } catch (error) {
-      // dispatch(setLoading(false));
+      dispatch(setLoading(false));
       console.error('Error uploading image:', error);
       throw error;
     } finally {
-      // dispatch(setLoading(false));
+      dispatch(setLoading(false));
+    }
+  };
+
+  const deleteImageFromFirestore = async (
+    userId: string,
+    label: string,
+    url: string,
+    itemID?: string,
+  ) => {
+    try {
+      const collRef = userDocRef(userId).collection(label);
+      const docRef = collRef.doc(itemID);
+      await docRef.update({imageUrls:firestore.FieldValue.arrayRemove(url)})
+    } catch (error) {
+      console.error('firestore', error);
+    }
+  };
+
+  const deleteImageFromFirebase = async (url: string) => {
+    try {
+      const imageRef = storage().refFromURL(url);
+      await imageRef.delete();
+    } catch (error) {
+      console.error('storage', error);
     }
   };
 
@@ -207,6 +238,8 @@ export default function useAuthentication() {
     googleLoginCall,
     uploadImageToFirebase,
     uploadImageToFirebaseNote,
+    deleteImageFromFirestore,
+    deleteImageFromFirebase,
     deletePhoto,
   };
 }

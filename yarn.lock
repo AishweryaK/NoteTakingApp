@@ -2195,15 +2195,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@notifee/react-native@npm:^7.8.2":
-  version: 7.8.2
-  resolution: "@notifee/react-native@npm:7.8.2"
-  peerDependencies:
-    react-native: "*"
-  checksum: f3b3ea116653d4dc7b50f8124898f9e22567ae30306225841d2057bc9ce40d451b15436dff3e60e0e042ffd7f34338054b202cd2dc61c5dc5eab7676b625b9f9
-  languageName: node
-  linkType: hard
-
 "@npmcli/agent@npm:^2.0.0":
   version: 2.2.2
   resolution: "@npmcli/agent@npm:2.2.2"
@@ -2647,34 +2638,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native-firebase/database@npm:^19.2.2":
-  version: 19.3.0
-  resolution: "@react-native-firebase/database@npm:19.3.0"
-  peerDependencies:
-    "@react-native-firebase/app": 19.3.0
-  checksum: 9115754ee3863f7d60d3d3cffeb728a1d8bffca9f645751ac9d8629821d448727f7e7a95a67288015fae57dc77d920a5f22c4e4359035c6977cbe03a0e010b2e
-  languageName: node
-  linkType: hard
-
 "@react-native-firebase/firestore@npm:^19.2.2":
   version: 19.3.0
   resolution: "@react-native-firebase/firestore@npm:19.3.0"
   peerDependencies:
     "@react-native-firebase/app": 19.3.0
   checksum: e31e13a2cb01324536aca0399cf48ec84f50b0f89e45d6d9638f0bd3489563fae9d1a260ad5ef3c4e8885713351b9110cbb82a9d652a0cc47425772a5ccf6154
-  languageName: node
-  linkType: hard
-
-"@react-native-firebase/messaging@npm:^19.2.2":
-  version: 19.3.0
-  resolution: "@react-native-firebase/messaging@npm:19.3.0"
-  peerDependencies:
-    "@react-native-firebase/app": 19.3.0
-    expo: ">=47.0.0"
-  peerDependenciesMeta:
-    expo:
-      optional: true
-  checksum: 326b80ed16be040802b8fe48f9d9c43801f2cb48e6171fbb9467fb3e81e0b2ed6d7823069c44bcb96c07ba7c5d7440634e274addfd048a9a44cb862ab156b74d
   languageName: node
   linkType: hard
 
@@ -8844,14 +8813,11 @@ __metadata:
     "@babel/preset-env": ^7.20.0
     "@babel/runtime": ^7.20.0
     "@mindinventory/react-native-stagger-view": ^1.2.1
-    "@notifee/react-native": ^7.8.2
     "@react-native-async-storage/async-storage": ^1.23.1
     "@react-native-community/netinfo": ^11.3.2
     "@react-native-firebase/app": ^19.2.2
     "@react-native-firebase/auth": ^19.2.2
-    "@react-native-firebase/database": ^19.2.2
     "@react-native-firebase/firestore": ^19.2.2
-    "@react-native-firebase/messaging": ^19.2.2
     "@react-native-firebase/storage": 19.3.0
     "@react-native-google-signin/google-signin": ^11.0.1
     "@react-native/babel-preset": 0.74.81

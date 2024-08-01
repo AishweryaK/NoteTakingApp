@@ -212,9 +212,6 @@ export const handleDeleteCollection = async (
   setModalVisible: React.Dispatch<React.SetStateAction<boolean>>,
 ) => {
   if (
-    collName === COLLECTION.PERSONAL ||
-    collName === COLLECTION.ACADEMIC ||
-    collName === COLLECTION.WORK ||
     collName === COLLECTION.OTHERS
   ) {
     showAlert(ERR_TITLE.ACTION_NOT_ALLOWED, ERR_MSG.CANNOT_DELETE);
