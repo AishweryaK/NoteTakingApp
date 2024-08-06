@@ -13,12 +13,16 @@ import {SignupSchema} from '../SignupScreen/Signup';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {ForgotPassScreenProps} from '../../Navigation/routeTypes';
-import { FormValues } from './forgot_pass';
-import { CONSTANTS, ERR_MSG, ERR_TITLE, FORGOT_PASSOWRD, TITLE } from '../../Constants/strings';
-import { showAlert } from '../../Common/alert';
-import { handleAuthError } from '../../Common/handleAuthErr';
-
-
+import {FormValues} from './forgot_pass';
+import {
+  CONSTANTS,
+  ERR_MSG,
+  ERR_TITLE,
+  FORGOT_PASSOWRD,
+  TITLE,
+} from '../../Constants/strings';
+import {showAlert} from '../../Common/alert';
+import {handleAuthError} from '../../Common/handleAuthErr';
 
 const ForgotPassScreen: React.FC<ForgotPassScreenProps> = ({navigation}) => {
   const theme = useReduxSelector(state => state.user.theme);
@@ -28,12 +32,12 @@ const ForgotPassScreen: React.FC<ForgotPassScreenProps> = ({navigation}) => {
     auth()
       .sendPasswordResetEmail(values.email)
       .then(() => {
-        showAlert(ERR_TITLE.EMAIL_SENT,ERR_MSG.SET_PASSWORD );
+        showAlert(ERR_TITLE.EMAIL_SENT, ERR_MSG.SET_PASSWORD);
         navigation.navigate(NAVIGATION.LOGIN);
       })
       .catch(error => {
         const context = TITLE.FORGOT;
-        handleAuthError(error, context)
+        handleAuthError(error, context);
       });
   };
 
@@ -69,6 +73,10 @@ const ForgotPassScreen: React.FC<ForgotPassScreenProps> = ({navigation}) => {
 
             {touched.email && errors.email && (
               <Text style={styles.errorTxt}>{errors.email}</Text>
+            )}
+
+            {!isValid && (
+              <Text style={styles.errorTxt}>{FORGOT_PASSOWRD.VALID_EMAIL}</Text>
             )}
 
             <View style={passStyles.bottom}>

@@ -192,6 +192,7 @@ export const FEATURES = {
 export const FORGOT_PASSOWRD = {
   VERIFY: 'Verify',
   FORGOT: 'Forgot Password?',
+  VALID_EMAIL: 'Please enter a valid email',
 };
 
 export const HOME = {
@@ -238,24 +239,24 @@ export const SIGN_UP = {
   CONFIRM_PWD_REGEX: 'password',
   TRIM: 'trim',
   TRIM_TWO: 'trim',
-  BLANK_SPACE: 'First Name cannot consist only of blank spaces',
-  BLANK_SPACE_LAST: 'Last Name cannot consist only of blank spaces',
+  BLANK_SPACE: 'First name cannot consist only of blank spaces',
+  BLANK_SPACE_LAST: 'Last name cannot consist only of blank spaces',
   BLANK_SPACE_EMAIL: 'Email cannot consist only of blank spaces',
   BLANK_SPACE_PWD: 'Password cannot consist only of blank spaces',
-  TOO_SHORT: 'Too Short!',
-  TOO_LONG: 'Too Long!',
-  ENTER_FIRST_NAME: '* Please enter your First Name',
-  ENTER_LAST_NAME: '* Please enter your Last Name',
-  ONLY_FN_ALPHABETS: 'First Name should only contain alphabets',
-  ONLY_LN_ALPHABET: 'Last Name should only contain alphabets',
+  TOO_SHORT: 'Too short!',
+  TOO_LONG: 'Too long!',
+  ENTER_FIRST_NAME: '* Please enter your First name',
+  ENTER_LAST_NAME: '* Please enter your Last name',
+  ONLY_FN_ALPHABETS: `First name should only contain alphabetical characters\nand no spaces`,
+  ONLY_LN_ALPHABET: 'Last name should only contain alphabetical characters',
   INVALID_EMAIL: 'Invalid email',
-  ENTER_EMAIL: '* Please enter your Email',
-  ENTER_PASSWORD: '* Please enter a Password',
-  ENTER_CURR_PWD: '* Please enter your Current Password',
+  ENTER_EMAIL: '* Please enter your email',
+  ENTER_PASSWORD: '* Please enter a password',
+  ENTER_CURR_PWD: '* Please enter your current password',
   PWD_TEXT:
     'Password should consist of one or more uppercase, numbers and special characters, but no spaces',
   PWD_DONT_MATCH: 'Your passwords do not match',
-  PWD_REQUIRED: '* Password Confirmation required',
+  PWD_REQUIRED: '* Password confirmation required',
   SUMBIT: 'Submit',
 };
 

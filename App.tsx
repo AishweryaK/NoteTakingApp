@@ -19,7 +19,7 @@ function App() {
   const [internet, setInternet] = useState<boolean>(false);
   const dispatch = useReduxDispatch();
   const connection = useReduxSelector(state => state.internet.connection);
-
+  
   useEffect(() => {
     const unsubscribe = NetInfo.addEventListener(
       ({isConnected, isInternetReachable}) => {
@@ -37,7 +37,7 @@ function App() {
 
   return (
     <RealmProvider schema={[Book]}>
-      <SafeAreaView style={styles.container(colors)}>
+      <SafeAreaView style={styles(colors).container}>
         <StatusBar
           backgroundColor={colors.BACKGROUND}
           barStyle={theme === THEME.LIGHT ? 'dark-content' : 'light-content'}

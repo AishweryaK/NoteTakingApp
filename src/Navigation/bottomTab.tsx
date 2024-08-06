@@ -36,7 +36,7 @@ function HomeNavigation({navigation}: HomeScreenProps) {
 
   return (
     <View
-      style={bottomTabStyles.view(colors)}>
+      style={bottomTabStyles(colors).view}>
       <Tab.Navigator
         initialRouteName={NAVIGATION.HOME}
         screenOptions={({route}) => ({

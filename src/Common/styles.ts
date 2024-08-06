@@ -1,19 +1,21 @@
-import { StyleSheet } from "react-native";
-import { dimensions } from "../Constants/utility";
+import {StyleSheet} from 'react-native';
+import {dimensions} from '../Constants/utility';
+import {ThemeColors} from '../Assets/Colors/themeColors';
 
-export const styles = StyleSheet.create({
-  container: colors => ({
-    flex: 1,
-    backgroundColor: colors.BACKGROUND,
-  }),
-});
+export const styles = (colors: ThemeColors) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.BACKGROUND,
+    },
+  });
 
-export const bottomTabStyles= StyleSheet.create({
-        view:(colors)=>({
-        flex: 1,
-        backgroundColor: colors.BACKGROUND,
-        height: dimensions.height * 0.073,
-        paddingBottom: 5,
-      } )  
-    }
-)
+export const bottomTabStyles = (colors: ThemeColors) =>
+  StyleSheet.create({
+    view: {
+      flex: 1,
+      backgroundColor: colors.BACKGROUND,
+      height: dimensions.height * 0.073,
+      paddingBottom: 5,
+    },
+  });

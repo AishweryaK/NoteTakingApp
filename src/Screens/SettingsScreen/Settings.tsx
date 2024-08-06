@@ -74,8 +74,6 @@ const SettingsPage = ({navigation}: SettingsScreenProps) => {
     setModalVisible(false);
   };
 
-  console.log(provider)
-
   return (
     <ScrollView style={styles.container(colors)}>
       <Text style={styles.heading(colors)}>{SETTINGS.SETTINGS}</Text>

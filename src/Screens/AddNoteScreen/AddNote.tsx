@@ -60,6 +60,7 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
   const [collections, setCollections] = useState<CollectionItem[]>([]);
   const [newCollection, setNewCollection] = useState<string>('');
   const [imageArray, setImageArray] = useState<string[]>([]);
+  const [inputValue, setInputValue] = useState<string>('');
   const [isDialogVisible, setIsDialogVisible] = useState<boolean>(false);
   const [selectedCollection, setSelectedCollection] = useState<{
     number: number;
@@ -109,14 +110,16 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
 
   const handleCancel = () => {
     setIsDialogVisible(false);
+    setInputValue('');
   };
 
-  const handleSubmit = (link: string) => {
-    if (link === '') {
+  const handleSubmit = () => {
+    if (inputValue === '') {
       Alert.alert(ERR_TITLE.NO_URL, ERR_MSG.ENTER_URL);
       return;
     }
-    richText.current?.insertLink(link, link);
+    richText.current?.insertLink(inputValue, inputValue);
+    setInputValue('');
     setIsDialogVisible(false);
   };
 
@@ -412,6 +415,8 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
           isVisible={isDialogVisible}
           onCancel={handleCancel}
           onSubmit={handleSubmit}
+          handleInput = {setInputValue}
+          input = {inputValue}
         />
       </View>
     </KeyboardAvoidingView>
