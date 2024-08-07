@@ -4,6 +4,7 @@ import {homeStyles} from './homeStyle';
 import {useReduxSelector} from '../../Redux/Store/store';
 import DeviceInfo from 'react-native-device-info';
 import {ERR_CONSOLE, HOME, IMAGES, THEME} from '../../Constants/strings';
+import { getThemeColors } from '../../Assets/Colors/themeColors';
 // const { StorageModule } = NativeModules;
 
 interface StorageState {
@@ -13,6 +14,7 @@ interface StorageState {
 
 const AvailSpace: React.FC = () => {
   const theme = useReduxSelector(state => state.user.theme);
+  const colors = getThemeColors(theme);
   const [storage, setStorage] = useState<StorageState>({
     totalStorage: null,
     usedStorage: null,
@@ -42,16 +44,16 @@ const AvailSpace: React.FC = () => {
   }, []);
 
   return (
-    <View style={homeStyles.view}>
-      <View style={homeStyles.imgView}>
+    <View style={homeStyles(colors).view}>
+      <View style={homeStyles(colors).imgView}>
         <ImageBackground
           source={theme === THEME.LIGHT ? IMAGES.HOME_LIGHT : IMAGES.HOME_DARK}
           resizeMode="stretch"
-          style={homeStyles.img}>
-          <View style={homeStyles.textStyle}>
-            <View style={homeStyles.availsp}>
-              <Text style={homeStyles.availText}>{HOME.SPACE}</Text>
-              <Text style={homeStyles.availTextTwo}>
+          style={homeStyles(colors).img}>
+          <View style={homeStyles(colors).textStyle}>
+            <View style={homeStyles(colors).availsp}>
+              <Text style={homeStyles(colors).availText}>{HOME.SPACE}</Text>
+              <Text style={homeStyles(colors).availTextTwo}>
                 {storage.usedStorage} {HOME.GB_OF} {storage.totalStorage}{' '}
                 {HOME.GB_USED}
               </Text>

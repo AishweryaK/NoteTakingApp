@@ -19,24 +19,24 @@ function CustomLabel({
   return (
     <TouchableOpacity
       onPress={handlePress}
-      style={styles.container}
+      style={styles(colors).container}
       onLongPress={handleLongPress}>
       <ImageBackground
         source={theme === THEME.LIGHT ? IMAGES.LABEL_LIGHT : IMAGES.LABEL_DARK}
-        style={styles.bg}>
-        <View style={styles.icon}>
+        style={styles(colors).bg}>
+        <View style={styles(colors).icon}>
           {theme === THEME.LIGHT
             ? ICONS.NOTEBLUE(50, 50)
             : ICONS.NOTEWHITE(50, 50)}
         </View>
-        <View style={styles.txtView}>
+        <View style={styles(colors).txtView}>
           <Text
             numberOfLines={2}
             ellipsizeMode="tail"
-            style={styles.title(colors)}>
+            style={styles(colors).title}>
             {text}
           </Text>
-          <Text style={styles.txt(colors)}>
+          <Text style={styles(colors).txt}>
             {number} {CUSTOM_LABEL.FILES}
           </Text>
         </View>

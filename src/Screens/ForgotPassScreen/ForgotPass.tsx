@@ -45,7 +45,7 @@ const ForgotPassScreen: React.FC<ForgotPassScreenProps> = ({navigation}) => {
     <KeyboardAvoidingView
       keyboardVerticalOffset={65}
       behavior={Platform.OS === CONSTANTS.IOS ? 'padding' : undefined}
-      style={styles.wrapper(colors)}>
+      style={styles(colors).wrapper}>
       <Formik
         initialValues={{
           email: '',
@@ -71,12 +71,8 @@ const ForgotPassScreen: React.FC<ForgotPassScreenProps> = ({navigation}) => {
               handleBlur={() => setFieldTouched(CONSTANTS.EMAIL)}
             />
 
-            {touched.email && errors.email && (
-              <Text style={styles.errorTxt}>{errors.email}</Text>
-            )}
-
-            {!isValid && (
-              <Text style={styles.errorTxt}>{FORGOT_PASSOWRD.VALID_EMAIL}</Text>
+            {errors.email && (
+              <Text style={styles(colors).errorTxt}>{errors.email}</Text>
             )}
 
             <View style={passStyles.bottom}>

@@ -80,7 +80,7 @@ function HomeNavigation({navigation}: HomeScreenProps) {
             tabBarButton: () => (
               <TouchableOpacity
                 onPress={handleAddNote}
-                style={homeStyles.buttonShadow(colors)}>
+                style={homeStyles(colors).buttonShadow}>
                 {ICONS.ADD(30, 30)}
               </TouchableOpacity>
             ),

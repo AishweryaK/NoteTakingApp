@@ -22,18 +22,18 @@ const Walkthrough = ({navigation}: WalkthroughScreenProps) => {
 
   return (
     <ScrollView
-      style={styles.wrapper(colors)}
-      contentContainerStyle={{alignItems: 'center'}}>
-      <Text style={styles.title(colors)}>{HOME.NOTES_APP}</Text>
+      style={styles(colors).wrapper}
+      contentContainerStyle={styles(colors).align}>
+      <Text style={styles(colors).title}>{HOME.NOTES_APP}</Text>
 
       <Image
         source={IMAGES.DIARY}
-        style={styles.img as StyleProp<ImageStyle>}
+        style={styles(colors).img as StyleProp<ImageStyle>}
       />
 
-      <Text style={styles.txt(colors)}>{WLKTHROUGH.SAVE_NOTES}</Text>
+      <Text style={styles(colors).txt}>{WLKTHROUGH.SAVE_NOTES}</Text>
 
-      <View style={styles.button}>
+      <View style={styles(colors).button}>
         <CustomButton
           handleButton={() => navigation.navigate(NAVIGATION.SIGNUP)}
           text={WLKTHROUGH.CREATE_ACCOUNT}
@@ -42,12 +42,12 @@ const Walkthrough = ({navigation}: WalkthroughScreenProps) => {
 
         <GoogleLogin />
 
-        <View style={styles.loginButton}>
-          <Text style={styles.loginTxt(colors)}>
+        <View style={styles(colors).loginButton}>
+          <Text style={styles(colors).loginTxt}>
             {WLKTHROUGH.HAVE_ACCOUNT}{' '}
             <Text
               onPress={() => navigation.navigate(NAVIGATION.LOGIN)}
-              style={styles.login(colors)}>
+              style={styles(colors).login}>
               {TITLE.LOGIN}
             </Text>
           </Text>

@@ -66,9 +66,9 @@ function CustomInput({
   }
 
   return (
-    <View style={inputStyles.parent}>
+    <View style={inputStyles(colors).parent}>
       <TextInput
-        style={inputStyles.customInput(colors)}
+        style={inputStyles(colors).customInput}
         placeholder={placeHolder}
         value={value}
         secureTextEntry={isPassword ? secure : false}
@@ -78,7 +78,7 @@ function CustomInput({
       />
       {isPassword && (
         <TouchableOpacity 
-          style={inputStyles.button} 
+          style={inputStyles(colors).button} 
           onPress={handleClick}
         >
           {secure ? ICONS.EYEON(28, 28) : ICONS.EYEOFF(28, 28, themeColors.LIGHT.BLUE)}

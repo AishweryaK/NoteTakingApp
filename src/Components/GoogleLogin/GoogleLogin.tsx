@@ -30,16 +30,16 @@ function GoogleLogin() {
   return (
     <TouchableOpacity
       style={[
-        buttonStyles.customButton(colors),
-        buttonStyles.googleButton(colors),
+        buttonStyles(colors).customButton,
+        buttonStyles(colors).googleButton,
       ]}
       onPress={signInBTNPress}>
       {ICONS.GOOGLE(30,30)}
-      <View style={buttonStyles.view}>
+      <View style={buttonStyles(colors).view}>
         <Text
           style={[
-            buttonStyles.buttonText(colors),
-            buttonStyles.googleTxt(colors),
+            buttonStyles(colors).buttonText,
+            buttonStyles(colors).googleTxt,
           ]}>
           {' '}
           {GOOGLE.CONTINUE}{' '}

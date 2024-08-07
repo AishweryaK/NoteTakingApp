@@ -14,10 +14,10 @@ function CustomButton({
   return (
     <View>
       <TouchableOpacity
-        style={[buttonStyles.customButton(colors, disable)]}
+        style={[buttonStyles(colors).customButton, {backgroundColor: disable ? colors.LIGHT_BLUE : colors.BLUE,}]}
         onPress={handleButton}
         disabled={disable}>
-        <Text style={buttonStyles.buttonText(colors)}>{text}</Text>
+        <Text style={buttonStyles(colors).buttonText}>{text}</Text>
       </TouchableOpacity>
     </View>
   );

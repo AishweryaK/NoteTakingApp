@@ -1,13 +1,14 @@
 import {StyleSheet} from 'react-native';
-import { commonColors } from '../../Assets/Colors/themeColors';
+import { ThemeColors, commonColors } from '../../Assets/Colors/themeColors';
 
-export const styles = StyleSheet.create({
-  wrapper: colors => ({
+export const styles = (colors: ThemeColors) => 
+  StyleSheet.create({
+  wrapper: {
     flex: 1,
     alignItems: 'center',
     backgroundColor: colors.BACKGROUND,
     paddingTop: 30,
-  }),
+  },
   errorTxt: {
     fontSize: 12,
     color: commonColors.ERROR,

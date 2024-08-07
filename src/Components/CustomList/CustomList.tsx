@@ -77,22 +77,22 @@ const CustomList: FC<HomeProps> = ({navigation}) => {
         contentContainerStyle={styles.flatList}
       />
       <Modal visible={modalVisible} transparent={true} animationType="slide">
-        <View style={showStyles.modalBackground}>
-          <View style={showStyles.modalContainer(colors)}>
-            <Text style={showStyles.modalTitle(colors)}>{CUSTOM_LIST.DELETE_COLLETION}</Text>
-            <Text style={showStyles.modalMessage(colors)}>
+        <View style={showStyles(colors).modalBackground}>
+          <View style={showStyles(colors).modalContainer}>
+            <Text style={showStyles(colors).modalTitle}>{CUSTOM_LIST.DELETE_COLLETION}</Text>
+            <Text style={showStyles(colors).modalMessage}>
               {CUSTOM_LIST.ARE_YOU_SURE} {collName} {CUSTOM_LIST.COLLECTION}
             </Text>
-            <View style={showStyles.modalButtons}>
+            <View style={showStyles(colors).modalButtons}>
             <TouchableOpacity onPress={() => setModalVisible(false)}>
                 <Text style={[
-                    showStyles.modalText(colors),
+                    showStyles(colors).modalText,
                     {backgroundColor: colors.CANCEL, borderRadius: 10},
                   ]}>{CONSTANTS.CANCEL}</Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={()=>handleDeleteCollection(user.uid, collections, collName, setCollections, setModalVisible)}>
                 <Text style={[
-                    showStyles.modalText(colors),
+                    showStyles(colors).modalText,
                     {backgroundColor: 'red', borderRadius: 10, color:themeColors.DARK.HEADERTITLE},
                   ]}>{CONSTANTS.DELETE}</Text>
               </TouchableOpacity>

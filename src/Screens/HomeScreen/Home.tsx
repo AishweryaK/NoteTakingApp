@@ -43,18 +43,18 @@ function Home({navigation}: HomeProps) {
   // console.log(realm.objects('Book'),"DHEWDEFH");
 
   return (
-    <SafeAreaView style={homeStyles.safeArea(colors)}>
-      <View style={homeStyles.outer}>
-        <View style={homeStyles.inner}>
-          <Text style={homeStyles.welcome(colors)}>
+    <SafeAreaView style={homeStyles(colors).safeArea}>
+      <View style={homeStyles(colors).outer}>
+        <View style={homeStyles(colors).inner}>
+          <Text style={homeStyles(colors).welcome}>
             {HOME.WELCOME} {user.displayName} !
           </Text>
-          <Text style={homeStyles.title(colors)}>{HOME.NOTES_APP}</Text>
+          <Text style={homeStyles(colors).title}>{HOME.NOTES_APP}</Text>
         </View>
         <TouchableOpacity
           onPress={() => navigation.navigate(NAVIGATION.ACCOUNT)}>
           <Image
-            style={homeStyles.userImg(colors)}
+            style={homeStyles(colors).userImg}
             source={
               user.photoURL ? {uri: user.photoURL} : IMAGES.USER_IMG
             }
@@ -63,7 +63,7 @@ function Home({navigation}: HomeProps) {
       </View>
 
       {user.uid ? (
-        <View style={homeStyles.view}>
+        <View style={homeStyles(colors).view}>
           <CustomList navigation={navigation} />
         </View>
       ) : (

@@ -97,10 +97,10 @@ const Signup: React.FC = () => {
       }: FormikProps<FormValues>) => (
         <KeyboardAvoidingView
           behavior={Platform.OS === CONSTANTS.IOS ? 'padding' : undefined}
-          style={styles.wrapper(colors)}
+          style={styles(colors).wrapper}
           keyboardVerticalOffset={100}>
-          <ScrollView style={styles.margin}>
-            <View style={styles.view}>
+          <ScrollView style={styles(colors).margin}>
+            <View style={styles(colors).view}>
               <ProfileImage onImageChange={handleImageChange} />
 
               <CustomInput
@@ -110,7 +110,7 @@ const Signup: React.FC = () => {
                 handleBlur={() => setFieldTouched(CONSTANTS.FIRST_NAME)}
               />
               {touched.firstName && errors.firstName && (
-                <Text style={styles.errorTxt}>{errors.firstName}</Text>
+                <Text style={styles(colors).errorTxt}>{errors.firstName}</Text>
               )}
 
               <CustomInput
@@ -120,7 +120,7 @@ const Signup: React.FC = () => {
                 handleBlur={() => setFieldTouched(CONSTANTS.LAST_NAME)}
               />
               {touched.lastName && errors.lastName && (
-                <Text style={styles.errorTxt}>{errors.lastName}</Text>
+                <Text style={styles(colors).errorTxt}>{errors.lastName}</Text>
               )}
 
               <CustomInput
@@ -130,7 +130,7 @@ const Signup: React.FC = () => {
                 handleBlur={() => setFieldTouched(CONSTANTS.EMAIL)}
               />
               {touched.email && errors.email && (
-                <Text style={styles.errorTxt}>{errors.email}</Text>
+                <Text style={styles(colors).errorTxt}>{errors.email}</Text>
               )}
 
               <CustomInput
@@ -141,7 +141,7 @@ const Signup: React.FC = () => {
                 isPassword={true}
               />
               {touched.password && errors.password && (
-                <Text style={[styles.errorTxt, {paddingRight:15}]}>{errors.password}</Text>
+                <Text style={[styles(colors).errorTxt, {paddingRight:15}]}>{errors.password}</Text>
               )}
 
               <CustomInput
@@ -152,11 +152,11 @@ const Signup: React.FC = () => {
                 isPassword={true}
               />
               {touched.confirmPassword && errors.confirmPassword && (
-                <Text style={styles.errorTxt}>{errors.confirmPassword}</Text>
+                <Text style={styles(colors).errorTxt}>{errors.confirmPassword}</Text>
               )}
             </View>
           </ScrollView>
-          <View style={styles.bottom}>
+          <View style={styles(colors).bottom}>
             {isLoading ? (
               <ActivityIndicator size="large" color={colors.BLUE} />
             ) : (

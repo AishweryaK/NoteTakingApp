@@ -61,7 +61,7 @@ function Login({navigation}: LoginScreenProps) {
         <KeyboardAvoidingView
           keyboardVerticalOffset={65}
           behavior={Platform.OS === CONSTANTS.IOS ? 'padding' : undefined}
-          style={styles.wrapper(colors)}>
+          style={styles(colors).wrapper}>
           <CustomInput
             placeHolder={SIGNING.EMAIL}
             value={values.email}
@@ -70,7 +70,7 @@ function Login({navigation}: LoginScreenProps) {
           />
           {/* <View style={{backgroundColor:'red'}}> */}
           {touched.email && errors.email && (
-            <Text style={styles.errorTxt}>{errors.email}</Text>
+            <Text style={styles(colors).errorTxt}>{errors.email}</Text>
           )}
           {/* </View> */}
 
@@ -82,7 +82,7 @@ function Login({navigation}: LoginScreenProps) {
             isPassword={true}
           />
           {touched.password && errors.password && (
-            <Text style={[styles.errorTxt, {paddingRight:15}]}>{errors.password}</Text>
+            <Text style={[styles(colors).errorTxt, {paddingRight:15, paddingLeft:17}]}>{errors.password}</Text>
           )}
 
           <View style={loginStyles.button}>

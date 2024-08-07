@@ -1,10 +1,11 @@
 import {StyleSheet} from 'react-native';
 import {FONT} from '../../Constants/fontConstants';
 import {dimensions} from '../../Constants/utility';
-import {commonColors} from '../../Assets/Colors/themeColors';
+import {ThemeColors, commonColors} from '../../Assets/Colors/themeColors';
 
-export const homeStyles = StyleSheet.create({
-  buttonShadow: colors => ({
+export const homeStyles = (colors: ThemeColors) => 
+StyleSheet.create({
+  buttonShadow: {
     shadowColor: colors.BLUE,
     shadowOffset: {width: -2, height: 4},
     shadowOpacity: 0.3,
@@ -18,31 +19,31 @@ export const homeStyles = StyleSheet.create({
     justifyContent: 'center',
     elevation: 7,
     alignItems: 'center',
-  }),
-  buttonText: colors => ({
+  },
+  buttonText: {
     color: colors.WHITE,
     fontFamily: FONT.BOLD,
-  }),
-  welcome: colors => ({
+  },
+  welcome: {
     color: colors.WELCOME,
     fontFamily: FONT.REGULAR,
     fontSize: 14,
     lineHeight: 19.1,
-  }),
-  title: colors => ({
+  },
+  title: {
     fontFamily: FONT.EXTRA_BOLD,
     fontSize: 22,
     lineHeight: 30,
     color: colors.DARK_BLUE,
-  }),
-  userImg: colors => ({
+  },
+  userImg: {
     width: dimensions.width * 0.14,
     height: dimensions.width * 0.14,
     borderRadius: 80,
     borderWidth: 0.5,
     borderColor: colors.BORDER,
     backgroundColor: colors.BACKGROUND,
-  }),
+  },
   img: {
     justifyContent: 'center',
     marginBottom: 20,
@@ -50,11 +51,11 @@ export const homeStyles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
   },
-  safeArea: colors => ({
+  safeArea: {
     flex: 1,
     paddingTop: 30,
     backgroundColor: colors.BACKGROUND,
-  }),
+  },
   outer: {
     paddingHorizontal: 16,
     flexDirection: 'row',
@@ -78,7 +79,7 @@ export const homeStyles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-evenly',
-    paddingTop: 20,
+    // paddingTop: 20,
     width: '100%',
     paddingTop: '13%',
     paddingLeft: 30,
