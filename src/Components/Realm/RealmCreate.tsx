@@ -1,11 +1,11 @@
-import {Text, View} from 'react-native';
+import {Text, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
 import {useRealm} from '@realm/react';
-import {Book} from '../../Common/database';
+import { Book } from '../../Common/database';
 
 function RealmCreate() {
   const realm = useRealm();
-
+  console.log(realm,"REALM")
   const addProfile = () => {
     realm.write(() => {
       realm.create(Book, {
@@ -17,7 +17,9 @@ function RealmCreate() {
 
   return (
     <View>
-      <Text></Text>
+      <TouchableOpacity onPress={()=>addProfile()}>
+        <Text></Text>
+      </TouchableOpacity>
     </View>
   );
 }

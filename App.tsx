@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React, {useEffect, useState} from 'react';
-import {Platform, SafeAreaView, StatusBar, StyleSheet} from 'react-native';
+import {SafeAreaView, StatusBar} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import StackNavigation from './src/Navigation/rootNav';
 import {getThemeColors} from './src/Assets/Colors/themeColors';
@@ -10,8 +10,8 @@ import OfflineSign from './src/Components/InternetConn/InternetConn';
 import {useReduxDispatch, useReduxSelector} from './src/Redux/Store/store';
 import {styles} from './src/Common/styles';
 import {THEME} from './src/Constants/strings';
-import {RealmProvider, useRealm} from '@realm/react';
-import {Book} from './src/Common/database';
+import {RealmProvider} from '@realm/react';
+import {Book, Collections, Notes} from './src/Common/database';
 
 function App() {
   const theme = useReduxSelector(state => state.user.theme);
@@ -19,7 +19,7 @@ function App() {
   const [internet, setInternet] = useState<boolean>(false);
   const dispatch = useReduxDispatch();
   const connection = useReduxSelector(state => state.internet.connection);
-  
+
   useEffect(() => {
     const unsubscribe = NetInfo.addEventListener(
       ({isConnected, isInternetReachable}) => {
@@ -36,7 +36,7 @@ function App() {
   }, [dispatch, internet]);
 
   return (
-    <RealmProvider schema={[Book]}>
+    <RealmProvider schema={[Book,Collections,Notes]}>
       <SafeAreaView style={styles(colors).container}>
         <StatusBar
           backgroundColor={colors.BACKGROUND}

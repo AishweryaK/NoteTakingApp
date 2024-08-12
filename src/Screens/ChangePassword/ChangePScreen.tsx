@@ -17,8 +17,6 @@ import {
   Theme,
   themeColors,
 } from '../../Assets/Colors/themeColors';
-import {SignupSchema} from '../SignupScreen/Signup';
-import * as Yup from 'yup';
 import {Formik, FormikHelpers} from 'formik';
 import {FormValues, PasswordProps} from './change_p_screen';
 import {
@@ -30,19 +28,7 @@ import {
 } from '../../Constants/strings';
 import {showAlert} from '../../Common/alert';
 import {ICONS} from '../../Constants/iconConstants';
-
-const ChangePSchema = Yup.object().shape({
-  currentPassword: Yup.string()
-    .transform((value: string) => value.trim())
-    .test(
-      SIGN_UP.TRIM_TWO,
-      SIGN_UP.BLANK_SPACE,
-      value => (value || '').length > 0,
-    )
-    .required(SIGN_UP.ENTER_CURR_PWD),
-  password: SignupSchema.fields.password,
-  confirmPassword: SignupSchema.fields.confirmPassword,
-});
+import { ChangePSchema } from '../../Common/validationSchema';
 
 const ChangePasswordModal: React.FC<PasswordProps> = ({visible, onClose}) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);

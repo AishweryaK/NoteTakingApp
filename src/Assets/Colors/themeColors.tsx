@@ -26,7 +26,8 @@ export interface ThemeColors {
 
 export const commonColors = {
   RED: '#b52424',
-  BGCOLOR: 'rgba(0, 0, 0, 0.7)',
+  BGCOLOR70: 'rgba(0, 0, 0, 0.7)',
+  BGCOLOR50:'rgba(0, 0, 0, 0.5)',
   WHITE: '#FFFFFF',
   ERROR: 'red',
   GRAY: 'gray',

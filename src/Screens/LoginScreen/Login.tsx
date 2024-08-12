@@ -14,19 +14,13 @@ import {loginStyles} from './loginStyles';
 import CustomButton from '../../Components/CustomButton/CustomButton';
 import CustomInput from '../../Components/CustomInput/CustomInput';
 import {Formik, FormikProps} from 'formik';
-import * as Yup from 'yup';
-import {SignupSchema} from '../SignupScreen/Signup';
 import useAuthentication from '../../Components/CustomHook/authHook';
 import {useReduxSelector} from '../../Redux/Store/store';
 import {getThemeColors, themeColors} from '../../Assets/Colors/themeColors';
 import {LoginScreenProps} from '../../Navigation/routeTypes';
 import {FormValues} from './login_screen';
 import {CONSTANTS, FORGOT_PASSOWRD, TITLE} from '../../Constants/strings';
-
-const LoginSchema = Yup.object().shape({
-  email: SignupSchema.fields.email,
-  password: SignupSchema.fields.password,
-});
+import { LoginSchema } from '../../Common/validationSchema';
 
 function Login({navigation}: LoginScreenProps) {
   const {isLoading, signInCall} = useAuthentication();

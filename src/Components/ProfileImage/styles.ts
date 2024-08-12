@@ -21,7 +21,7 @@ StyleSheet.create({
   },
   modalBackground: {
     flex: 1,
-    backgroundColor: commonColors.BGCOLOR,
+    backgroundColor: commonColors.BGCOLOR70,
     justifyContent: 'center',
     alignItems: 'center',
   },

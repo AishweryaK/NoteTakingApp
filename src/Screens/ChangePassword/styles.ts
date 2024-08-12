@@ -35,7 +35,7 @@ StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: commonColors.BGCOLOR,
+    backgroundColor: commonColors.BGCOLOR70,
   },
   modalContent: {
     width: '80%',

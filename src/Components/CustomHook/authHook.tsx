@@ -16,9 +16,12 @@ import {addDocumentsForUser} from '../../Common/firebaseUtils';
 import {setLoading} from '../../Redux/Slices/loader';
 import {userDocRef} from '../../Common/firebaseUtils';
 import firestore, { FieldValue } from '@react-native-firebase/firestore';
+import { useRealm } from '@realm/react';
+import { Book } from '../../Common/database';
 
 export default function useAuthentication() {
   const dispatch = useReduxDispatch();
+  const realm = useRealm();
   const myProvider = useReduxSelector(state => state.user.provider);
   // const loading = useReduxSelector(state => state.loader.isLoading);
   const {displayName, uid, email, theme} = useReduxSelector(
@@ -74,6 +77,8 @@ export default function useAuthentication() {
         photoURL: photoURL,
       });
 
+      // addProfile();
+
       if (email)
         dispatch(
           saveUser({
@@ -96,6 +101,21 @@ export default function useAuthentication() {
       handleSignUpError(err);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const addProfile = async () => {
+    try {
+      if (realm && !realm.isClosed) {
+        realm.write(() => {
+          realm.create(Book, {
+            author: 'fvervef',
+            pages : 2000,
+          });
+        });
+      }
+    } catch (error) {
+      console.error('Error adding profile:', error);
     }
   };
 
@@ -225,7 +245,7 @@ export default function useAuthentication() {
       if (additionalUserInfo && additionalUserInfo.isNewUser) {
         await addDocumentsForUser(user.uid);
       }
-    } catch (error: any) {
+    } catch (error) {
       handleGoogleError(error);
     }
   };

@@ -12,17 +12,11 @@ import {
 import {styles} from '../ChangePassword/styles';
 import {useReduxSelector} from '../../Redux/Store/store';
 import {getThemeColors} from '../../Assets/Colors/themeColors';
-import {SignupSchema} from '../SignupScreen/Signup';
-import * as Yup from 'yup';
 import {Formik} from 'formik';
 import {NameChangeProps} from './account_screen';
 import {CONSTANTS, NAME_CHANGE} from '../../Constants/strings';
 import useFirebaseUtils from '../../Components/CustomHook/profileHooks';
-
-const AccountSchema = Yup.object().shape({
-  firstName: SignupSchema.fields.firstName,
-  lastName: SignupSchema.fields.lastName,
-});
+import { AccountSchema } from '../../Common/validationSchema';
 
 const NameChange: React.FC<NameChangeProps> = ({visible, onClose}) => {
   const {isLoading, handleNameChange} = useFirebaseUtils();

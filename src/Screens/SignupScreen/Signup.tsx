@@ -8,7 +8,6 @@ import {
   Platform,
 } from 'react-native';
 import {Formik, FormikProps} from 'formik';
-import * as Yup from 'yup';
 import CustomInput from '../../Components/CustomInput/CustomInput';
 import CustomButton from '../../Components/CustomButton/CustomButton';
 import ProfileImage from '../../Components/ProfileImage/ProfileImage';
@@ -19,39 +18,7 @@ import {SIGNING} from '../../Constants/signingConstants';
 import {styles} from './styles';
 import {FormValues} from './signup_screen';
 import {CONSTANTS, SIGN_UP} from '../../Constants/strings';
-
-export const SignupSchema = Yup.object().shape({
-  firstName: Yup.string()
-    .transform((value : string)  => value.trim())
-    .test(SIGN_UP.TRIM_TWO, SIGN_UP.BLANK_SPACE, value => (value || "").length > 0)
-    .min(3, SIGN_UP.TOO_SHORT)
-    .max(25, SIGN_UP.TOO_LONG)
-    .required(SIGN_UP.ENTER_FIRST_NAME)
-    .matches(SIGN_UP.NAME_REGEX, SIGN_UP.ONLY_FN_ALPHABETS),
-  lastName: Yup.string()
-    .transform((value: string)  => value.trim())
-    .test(SIGN_UP.TRIM_TWO, SIGN_UP.BLANK_SPACE_LAST, value => (value || "").length > 0)
-    .min(2, SIGN_UP.TOO_SHORT)
-    .max(25, SIGN_UP.TOO_LONG)
-    .required(SIGN_UP.ENTER_LAST_NAME)
-    .matches(SIGN_UP.LAST_NAME_REGEX, SIGN_UP.ONLY_LN_ALPHABET),
-  email: Yup.string()
-    .transform((value : string) => value.trim())
-    .test(SIGN_UP.TRIM_TWO, SIGN_UP.BLANK_SPACE_EMAIL, value => (value || "").length > 0)
-    .email(SIGN_UP.INVALID_EMAIL)
-    .required(SIGN_UP.ENTER_EMAIL)
-    .matches(SIGN_UP.EMAIL_REGEX, SIGN_UP.INVALID_EMAIL),
-  password: Yup.string()
-    .transform((value : string) => value.trim())
-    .test(SIGN_UP.TRIM_TWO, SIGN_UP.BLANK_SPACE_PWD, value => (value || "").length > 0)
-    .min(8)
-    .max(25)
-    .required(SIGN_UP.ENTER_PASSWORD)
-    .matches(SIGN_UP.PASSWORD_REGEX, SIGN_UP.PWD_TEXT),
-  confirmPassword: Yup.string()
-    .oneOf([Yup.ref(SIGN_UP.CONFIRM_PWD_REGEX)], SIGN_UP.PWD_DONT_MATCH)
-    .required(SIGN_UP.PWD_REQUIRED),
-});
+import {SignupSchema} from '../../Common/validationSchema';
 
 const Signup: React.FC = () => {
   const [imageUri, setImageUri] = useState<string>('');
@@ -141,7 +108,9 @@ const Signup: React.FC = () => {
                 isPassword={true}
               />
               {touched.password && errors.password && (
-                <Text style={[styles(colors).errorTxt, {paddingRight:15}]}>{errors.password}</Text>
+                <Text style={[styles(colors).errorTxt, {paddingRight: 15}]}>
+                  {errors.password}
+                </Text>
               )}
 
               <CustomInput
@@ -152,7 +121,9 @@ const Signup: React.FC = () => {
                 isPassword={true}
               />
               {touched.confirmPassword && errors.confirmPassword && (
-                <Text style={styles(colors).errorTxt}>{errors.confirmPassword}</Text>
+                <Text style={styles(colors).errorTxt}>
+                  {errors.confirmPassword}
+                </Text>
               )}
             </View>
           </ScrollView>

@@ -9,9 +9,7 @@ import {SIGNING} from '../../Constants/signingConstants';
 import {NAVIGATION} from '../../Constants/navConstants';
 import {useReduxSelector} from '../../Redux/Store/store';
 import {getThemeColors} from '../../Assets/Colors/themeColors';
-import {SignupSchema} from '../SignupScreen/Signup';
 import {Formik} from 'formik';
-import * as Yup from 'yup';
 import {ForgotPassScreenProps} from '../../Navigation/routeTypes';
 import {FormValues} from './forgot_pass';
 import {
@@ -23,6 +21,7 @@ import {
 } from '../../Constants/strings';
 import {showAlert} from '../../Common/alert';
 import {handleAuthError} from '../../Common/handleAuthErr';
+import { ForgotPassSchema, SignupSchema } from '../../Common/validationSchema';
 
 const ForgotPassScreen: React.FC<ForgotPassScreenProps> = ({navigation}) => {
   const theme = useReduxSelector(state => state.user.theme);
@@ -50,9 +49,7 @@ const ForgotPassScreen: React.FC<ForgotPassScreenProps> = ({navigation}) => {
         initialValues={{
           email: '',
         }}
-        validationSchema={Yup.object().shape({
-          email: SignupSchema.fields.email,
-        })}
+        validationSchema={ForgotPassSchema}
         onSubmit={values => handleEmail(values)}>
         {({
           values,

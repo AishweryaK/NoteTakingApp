@@ -19,7 +19,6 @@ import Modal from 'react-native-modal';
 import {NAVIGATION} from '../../Constants/navConstants';
 import {styles} from './styles';
 import StaggerView from '@mindinventory/react-native-stagger-view';
-import {dimensions} from '../../Constants/utility';
 import {useReduxSelector} from '../../Redux/Store/store';
 import {
   commonColors,
@@ -48,12 +47,12 @@ import {
 import {CollectionItem} from '../../Common/common';
 import ImageHandling from './ImageHandling';
 import useAuthentication from '../../Components/CustomHook/authHook';
-import { profileImgStyles } from '../../Components/ProfileImage/styles';
-import { showStyles } from '../ShowNotes/styles';
+import {profileImgStyles} from '../../Components/ProfileImage/styles';
+import {showStyles} from '../ShowNotes/styles';
 
 const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
   // const [isSaving, setIsSaving] = useState<boolean>(false);
-  const {isLoading} = useReduxSelector((state) => state.loader);
+  const {isLoading} = useReduxSelector(state => state.loader);
   const [title, setTitle] = useState<string>('');
   const [desc, setDesc] = useState<string>('');
   const [modalVisible, setModalVisible] = useState<boolean>(false);
@@ -69,7 +68,8 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
     number: 1,
     text: COLLECTION.OTHERS,
   });
-  const {deleteImageFromFirebase, deleteImageFromFirestore} = useAuthentication();
+  const {deleteImageFromFirebase, deleteImageFromFirestore} =
+    useAuthentication();
   const [emptyColl, setEmptyColl] = useState<boolean>(false);
   const richText = useRef<RichEditor>(null);
   const theme = useReduxSelector(state => state.user.theme);
@@ -137,7 +137,11 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
     // setIsSaving(true);
     const strippedDesc = stripHtmlTags(desc);
 
-    if (title.trim() === '' && strippedDesc === '' && imageArray?.length===0) {
+    if (
+      title.trim() === '' &&
+      strippedDesc === '' &&
+      imageArray?.length === 0
+    ) {
       showAlert(ERR_TITLE.EMPTY_NOTE, ERR_MSG.NOTE_DISCARDED);
       navigation.goBack();
       return;
@@ -233,17 +237,16 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
     </View>
   );
 
-  const handleImageButtonPress = async(uri: string) => {
+  const handleImageButtonPress = async (uri: string) => {
     try {
       await deleteImageFromFirebase(uri);
 
       if (itemID && label) {
         await deleteImageFromFirestore(uid, label, uri, itemID);
       }
-    const updatedImages = imageArray.filter(imageUri => imageUri !== uri);
-    setImageArray(updatedImages);
-    }
-    catch(error) {
+      const updatedImages = imageArray.filter(imageUri => imageUri !== uri);
+      setImageArray(updatedImages);
+    } catch (error) {
       console.error('Error deleting image:', error);
     }
   };
@@ -278,10 +281,7 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
             <View
               style={[
                 profileImgStyles(colors).modalContainer,
-                {
-                  maxHeight: dimensions.height * 0.5,
-                  width: dimensions.width * 0.8,
-                },
+                styles(colors).area,
               ]}>
               <View style={styles(colors).closeButtonView}>
                 <View style={styles(colors).inner}>
@@ -315,7 +315,9 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
                 onBlur={() => setEmptyColl(false)}
               />
               {emptyColl && newCollection === '' && (
-                <Text style={styles(colors).err}>{ADDNOTE.ENTER_COLLECTION}</Text>
+                <Text style={styles(colors).err}>
+                  {ADDNOTE.ENTER_COLLECTION}
+                </Text>
               )}
               <TouchableOpacity
                 style={styles(colors).addButton}
@@ -358,9 +360,9 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
         editorStyle={{
           ...styles(colors).editor,
           contentCSSText:
-            Platform.OS === 'android' ?
-            `max-height:${Dimensions.get('window').height * 0.7}px;` :
-            undefined
+            Platform.OS === 'android'
+              ? `max-height:${Dimensions.get('window').height * 0.7}px;`
+              : undefined,
         }}
         onChange={commentText => {
           handleDesc(commentText);
@@ -375,16 +377,15 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
       />
 
       <View style={styles(colors).center}>
-          {isLoading ? 
+        {isLoading ? (
           <ActivityIndicator size="large" color={themeColors.LIGHT.BLUE} />
-          : 
-            <View style={styles(colors).buttonShadow}>
-          <TouchableOpacity onPress={saveNote}>
-            <Text style={styles(colors).buttonTxt}>{ADDNOTE.SAVE}</Text>
-          
-          </TouchableOpacity>
-        </View>
-          }
+        ) : (
+          <View style={styles(colors).buttonShadow}>
+            <TouchableOpacity onPress={saveNote}>
+              <Text style={styles(colors).buttonTxt}>{ADDNOTE.SAVE}</Text>
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
 
       <View style={styles(colors).flex}>
@@ -416,8 +417,8 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
           isVisible={isDialogVisible}
           onCancel={handleCancel}
           onSubmit={handleSubmit}
-          handleInput = {setInputValue}
-          input = {inputValue}
+          handleInput={setInputValue}
+          input={inputValue}
         />
       </View>
     </KeyboardAvoidingView>

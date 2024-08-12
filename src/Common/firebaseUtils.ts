@@ -25,7 +25,7 @@ export const updateNote = async (
   itemID: string,
   title: string,
   desc: string,
-  imageUrls?:string[],
+  imageUrls?: string[],
 ) => {
   try {
     await userDocRef(uid).collection(label).doc(itemID).update({
@@ -44,7 +44,7 @@ export const saveNoteLabel = async (
   label: string,
   title: string,
   desc: string,
-  imageUrls?:string[],
+  imageUrls?: string[],
 ) => {
   try {
     await userDocRef(uid).collection(label).add({
@@ -63,7 +63,7 @@ export const saveNoteNew = async (
   selectedCollection: {text: string},
   title: string,
   desc: string,
-  imageUrls?:string[],
+  imageUrls?: string[],
 ) => {
   try {
     await userDocRef(uid).collection(selectedCollection.text).add({
@@ -211,9 +211,7 @@ export const handleDeleteCollection = async (
   setCollections: React.Dispatch<React.SetStateAction<CollectionItem[]>>,
   setModalVisible: React.Dispatch<React.SetStateAction<boolean>>,
 ) => {
-  if (
-    collName === COLLECTION.OTHERS
-  ) {
+  if (collName === COLLECTION.OTHERS) {
     showAlert(ERR_TITLE.ACTION_NOT_ALLOWED, ERR_MSG.CANNOT_DELETE);
     setModalVisible(false);
     return;

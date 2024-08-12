@@ -62,7 +62,7 @@ export const styles = (colors: ThemeColors) =>
     modalContainer: {
       flex: 1,
       justifyContent: 'flex-end',
-      backgroundColor: commonColors.BGCOLOR,
+      backgroundColor: commonColors.BGCOLOR70,
     },
     modalContent: {
       backgroundColor: commonColors.WHITE,
@@ -167,12 +167,19 @@ export const styles = (colors: ThemeColors) =>
       position: 'absolute',
       top: 10,
       right: 10,
-      backgroundColor: 'rgba(0,0,0,0.5)',
+      backgroundColor: commonColors.BGCOLOR50,
       padding: 5,
       borderRadius: 50,
       height: 30,
       width: 30,
       alignItems: 'center',
     },
-    imgX: {color: 'white', fontWeight: 'bold'},
+    imgX: {
+      color: 'white', 
+    fontWeight: 'bold'
+  },
+  area: {
+    maxHeight: dimensions.height * 0.5,
+    width: dimensions.width * 0.8,
+  },
   });
