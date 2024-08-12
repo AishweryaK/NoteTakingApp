@@ -1,8 +1,9 @@
 import {StyleSheet} from 'react-native';
-import {commonColors} from '../../Assets/Colors/themeColors';
+import {ThemeColors, commonColors} from '../../Assets/Colors/themeColors';
 import {FONT} from '../../Constants/fontConstants';
 
-export const profileImgStyles = StyleSheet.create({
+export const profileImgStyles = (colors:ThemeColors) => 
+StyleSheet.create({
   container: {
     alignItems: 'center',
   },
@@ -24,28 +25,28 @@ export const profileImgStyles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  modalContainer: colors => ({
+  modalContainer: {
     backgroundColor: colors.BACKGROUND,
     padding: 20,
     borderRadius: 10,
     alignItems: 'center',
     width: 250,
-  }),
-  modalOption: colors => ({
+  },
+  modalOption: {
     fontSize: 16,
     paddingVertical: 10,
     fontFamily: FONT.REGULAR,
     color: colors.HEADERTITLE,
     // paddingLeft:10
-  }),
-  modalBox: colors => ({
+  },
+  modalBox: {
     paddingHorizontal:30,
     backgroundColor: colors.BACKGROUND,
     paddingVertical: 20,
     borderRadius: 10,
     alignItems: 'center',
     flexDirection:'row',
-  }),
+  },
   button:
   {
   alignItems:'center', 

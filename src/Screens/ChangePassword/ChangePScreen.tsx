@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -9,14 +9,18 @@ import {
   ActivityIndicator,
   Platform,
 } from 'react-native';
-import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
-import { styles } from './styles';
-import { useReduxSelector } from '../../Redux/Store/store';
-import { getThemeColors, Theme, themeColors } from '../../Assets/Colors/themeColors';
-import { SignupSchema } from '../SignupScreen/Signup';
+import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
+import {styles} from './styles';
+import {useReduxSelector} from '../../Redux/Store/store';
+import {
+  getThemeColors,
+  Theme,
+  themeColors,
+} from '../../Assets/Colors/themeColors';
+import {SignupSchema} from '../SignupScreen/Signup';
 import * as Yup from 'yup';
-import { Formik, FormikHelpers } from 'formik';
-import { FormValues, PasswordProps } from './change_p_screen';
+import {Formik, FormikHelpers} from 'formik';
+import {FormValues, PasswordProps} from './change_p_screen';
 import {
   CHANGE_PASSWORD,
   CONSTANTS,
@@ -24,8 +28,8 @@ import {
   ERR_TITLE,
   SIGN_UP,
 } from '../../Constants/strings';
-import { showAlert } from '../../Common/alert';
-import { ICONS } from '../../Constants/iconConstants';
+import {showAlert} from '../../Common/alert';
+import {ICONS} from '../../Constants/iconConstants';
 
 const ChangePSchema = Yup.object().shape({
   currentPassword: Yup.string()
@@ -33,20 +37,22 @@ const ChangePSchema = Yup.object().shape({
     .test(
       SIGN_UP.TRIM_TWO,
       SIGN_UP.BLANK_SPACE,
-      (value) => (value || '').length > 0
+      value => (value || '').length > 0,
     )
     .required(SIGN_UP.ENTER_CURR_PWD),
   password: SignupSchema.fields.password,
   confirmPassword: SignupSchema.fields.confirmPassword,
 });
 
-const ChangePasswordModal: React.FC<PasswordProps> = ({ visible, onClose }) => {
+const ChangePasswordModal: React.FC<PasswordProps> = ({visible, onClose}) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [showCurrentPassword, setShowCurrentPassword] = useState<boolean>(false);
+  const [showCurrentPassword, setShowCurrentPassword] =
+    useState<boolean>(false);
   const [showNewPassword, setShowNewPassword] = useState<boolean>(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
+  const [showConfirmPassword, setShowConfirmPassword] =
+    useState<boolean>(false);
 
-  const { theme } = useReduxSelector(state => state.user);
+  const {theme} = useReduxSelector(state => state.user);
   const colors = getThemeColors(theme as Theme);
 
   const reauthenticate = async (currentPassword: string) => {
@@ -64,7 +70,7 @@ const ChangePasswordModal: React.FC<PasswordProps> = ({ visible, onClose }) => {
 
   const handleChangePassword = async (
     values: FormValues,
-    { resetForm }: FormikHelpers<FormValues>,
+    {resetForm}: FormikHelpers<FormValues>,
   ) => {
     if (values.currentPassword === values.password) {
       showAlert(ERR_TITLE.ERROR, ERR_MSG.PASSWORD_SAME);
@@ -97,7 +103,7 @@ const ChangePasswordModal: React.FC<PasswordProps> = ({ visible, onClose }) => {
     <KeyboardAvoidingView
       keyboardVerticalOffset={65}
       behavior={Platform.OS === CONSTANTS.IOS ? 'padding' : undefined}
-      style={styles.wrapper(colors)}>
+      style={styles(colors).wrapper}>
       <Formik
         initialValues={{
           currentPassword: '',
@@ -121,15 +127,15 @@ const ChangePasswordModal: React.FC<PasswordProps> = ({ visible, onClose }) => {
             animationType="slide"
             transparent={true}
             onRequestClose={onClose}>
-            <View style={styles.modalContainer}>
-              <View style={styles.modalContent(colors)}>
-                <Text style={styles.modalTitle(colors)}>
+            <View style={styles(colors).modalContainer}>
+              <View style={styles(colors).modalContent}>
+                <Text style={styles(colors).modalTitle}>
                   {CHANGE_PASSWORD.CHANGE}
                 </Text>
 
-                <View style={styles.position}>
+                <View style={styles(colors).position}>
                   <TextInput
-                    style={styles.input(colors)}
+                    style={styles(colors).input}
                     placeholder={CHANGE_PASSWORD.CURRENT}
                     secureTextEntry={!showCurrentPassword}
                     value={values.currentPassword}
@@ -138,21 +144,26 @@ const ChangePasswordModal: React.FC<PasswordProps> = ({ visible, onClose }) => {
                     onBlur={() => setFieldTouched(CONSTANTS.CURRENT_PASSWORD)}
                   />
                   <TouchableOpacity
-                    style={styles.eyeButton}
-                    onPress={() => setShowCurrentPassword(!showCurrentPassword)}
-                  >
-                    {showCurrentPassword ? ICONS.EYEON(28, 28) : ICONS.EYEOFF(28, 28, themeColors.LIGHT.BLUE)}
+                    style={styles(colors).eyeButton}
+                    onPress={() =>
+                      setShowCurrentPassword(!showCurrentPassword)
+                    }>
+                    {showCurrentPassword
+                      ? ICONS.EYEON(28, 28)
+                      : ICONS.EYEOFF(28, 28, themeColors.LIGHT.BLUE)}
                   </TouchableOpacity>
                 </View>
-                <View style={styles.align}>
+                <View style={styles(colors).align}>
                   {touched.currentPassword && errors.currentPassword && (
-                    <Text style={styles.errorTxt}>{errors.currentPassword}</Text>
+                    <Text style={styles(colors).errorTxt}>
+                      {errors.currentPassword}
+                    </Text>
                   )}
                 </View>
 
-                <View style={styles.position}>
+                <View style={styles(colors).position}>
                   <TextInput
-                    style={styles.input(colors)}
+                    style={styles(colors).input}
                     placeholder={CHANGE_PASSWORD.NEW}
                     secureTextEntry={!showNewPassword}
                     value={values.password}
@@ -161,21 +172,24 @@ const ChangePasswordModal: React.FC<PasswordProps> = ({ visible, onClose }) => {
                     onBlur={() => setFieldTouched(CONSTANTS.PASSWORD)}
                   />
                   <TouchableOpacity
-                    style={styles.eyeButton}
-                    onPress={() => setShowNewPassword(!showNewPassword)}
-                  >
-                    {showNewPassword ? ICONS.EYEON(28, 28) : ICONS.EYEOFF(28, 28, themeColors.LIGHT.BLUE)}
+                    style={styles(colors).eyeButton}
+                    onPress={() => setShowNewPassword(!showNewPassword)}>
+                    {showNewPassword
+                      ? ICONS.EYEON(28, 28)
+                      : ICONS.EYEOFF(28, 28, themeColors.LIGHT.BLUE)}
                   </TouchableOpacity>
                 </View>
-                <View style={styles.align}>
+                <View style={styles(colors).align}>
                   {touched.password && errors.password && (
-                    <Text style={[styles.errorTxt, { paddingRight: 15 }]}>{errors.password}</Text>
+                    <Text style={[styles(colors).errorTxt, {paddingRight: 15}]}>
+                      {errors.password}
+                    </Text>
                   )}
                 </View>
 
-                <View style={styles.position}>
+                <View style={styles(colors).position}>
                   <TextInput
-                    style={styles.input(colors)}
+                    style={styles(colors).input}
                     placeholder={CHANGE_PASSWORD.CONFIRM_NEW}
                     secureTextEntry={!showConfirmPassword}
                     value={values.confirmPassword}
@@ -184,36 +198,44 @@ const ChangePasswordModal: React.FC<PasswordProps> = ({ visible, onClose }) => {
                     onBlur={() => setFieldTouched(CONSTANTS.CONFIRM_PASSWORD)}
                   />
                   <TouchableOpacity
-                    style={styles.eyeButton}
-                    onPress={() => setShowConfirmPassword(!showConfirmPassword)}
-                  >
-                    {showConfirmPassword ? ICONS.EYEON(28, 28) : ICONS.EYEOFF(28, 28, themeColors.LIGHT.BLUE)}
+                    style={styles(colors).eyeButton}
+                    onPress={() =>
+                      setShowConfirmPassword(!showConfirmPassword)
+                    }>
+                    {showConfirmPassword
+                      ? ICONS.EYEON(28, 28)
+                      : ICONS.EYEOFF(28, 28, themeColors.LIGHT.BLUE)}
                   </TouchableOpacity>
                 </View>
                 {touched.confirmPassword && errors.confirmPassword && (
-                  <Text style={styles.errorTxt}>{errors.confirmPassword}</Text>
+                  <Text style={styles(colors).errorTxt}>
+                    {errors.confirmPassword}
+                  </Text>
                 )}
 
-                <View style={styles.buttonContainer}>
+                <View style={styles(colors).buttonContainer}>
                   {isLoading ? (
-                    <View style={styles.activity}>
+                    <View style={styles(colors).activity}>
                       <ActivityIndicator size={'large'} color={colors.BLUE} />
                     </View>
                   ) : (
                     <>
                       <TouchableOpacity
-                        style={[styles.button(colors), { backgroundColor: 'red' }]}
+                        style={[
+                          styles(colors).button,
+                          {backgroundColor: 'red'},
+                        ]}
                         onPress={() => handleCancel(resetForm)}>
-                        <Text style={styles.buttonText(colors)}>
+                        <Text style={styles(colors).buttonText}>
                           {CHANGE_PASSWORD.CANCEL}
                         </Text>
                       </TouchableOpacity>
 
                       <TouchableOpacity
-                        style={styles.button(colors)}
+                        style={styles(colors).button}
                         onPress={() => handleSubmit()}
                         disabled={!isValid}>
-                        <Text style={styles.buttonText(colors)}>
+                        <Text style={styles(colors).buttonText}>
                           {CHANGE_PASSWORD.CHANGE}
                         </Text>
                       </TouchableOpacity>

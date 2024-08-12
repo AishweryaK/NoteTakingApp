@@ -6,3 +6,9 @@ export interface ImageProps {
   imageUri?: string;
   photoURL?: string | null;
 }
+
+interface ImageModalProps {
+  modalVisible: boolean;
+  setModalVisible: (visible: boolean) => void;
+  onImageChange: (uri: string) => void;
+}

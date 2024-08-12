@@ -29,7 +29,7 @@ const ProfileImage: React.FC<ProfileImageProps> = ({onImageChange}) => {
   };
 
   return (
-    <View style={profileImgStyles.container}>
+    <View style={profileImgStyles(colors).container}>
       <ImageSelector imageUri={imageUri} photoURL={photoURL} />
 
       {isLoading ? (

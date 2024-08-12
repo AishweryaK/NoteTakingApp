@@ -1,25 +1,16 @@
 import React, {useMemo, useState, useEffect, FC} from 'react';
-import {
-  View,
-  TouchableOpacity,
-  Text,
-  FlatList,
-  Modal,
-} from 'react-native';
-import firestore from '@react-native-firebase/firestore';
+import {View, TouchableOpacity, Text, FlatList, Modal} from 'react-native';
 import CustomLabel from '../CustomLabel/CustomLabel';
 import {NAVIGATION} from '../../Constants/navConstants';
 import {useReduxSelector} from '../../Redux/Store/store';
 import AvailSpace from '../../Screens/HomeScreen/AvailSpace';
 import {showStyles} from '../../Screens/ShowNotes/styles';
-import {getThemeColors, themeColors} from '../../Assets/Colors/themeColors';
+import {getThemeColors} from '../../Assets/Colors/themeColors';
 import {HomeProps} from '../../Navigation/routeTypes';
-import {COLLECTION, CONSTANTS, CUSTOM_LIST, ERR_CONSOLE, ERR_MSG, ERR_TITLE} from '../../Constants/strings';
-import { showAlert } from '../../Common/alert';
-import { styles } from './styles';
-import { CollectionItem } from '../../Common/common';
-import { handleDeleteCollection, removeCollectionFromFirestore, userDocRef } from '../../Common/firebaseUtils';
-
+import {CONSTANTS, CUSTOM_LIST} from '../../Constants/strings';
+import {styles} from './styles';
+import {CollectionItem} from '../../Common/common';
+import {handleDeleteCollection, userDocRef} from '../../Common/firebaseUtils';
 
 const CustomList: FC<HomeProps> = ({navigation}) => {
   const [collections, setCollections] = useState<CollectionItem[]>([]);
@@ -79,22 +70,39 @@ const CustomList: FC<HomeProps> = ({navigation}) => {
       <Modal visible={modalVisible} transparent={true} animationType="slide">
         <View style={showStyles(colors).modalBackground}>
           <View style={showStyles(colors).modalContainer}>
-            <Text style={showStyles(colors).modalTitle}>{CUSTOM_LIST.DELETE_COLLETION}</Text>
+            <Text style={showStyles(colors).modalTitle}>
+              {CUSTOM_LIST.DELETE_COLLETION}
+            </Text>
             <Text style={showStyles(colors).modalMessage}>
               {CUSTOM_LIST.ARE_YOU_SURE} {collName} {CUSTOM_LIST.COLLECTION}
             </Text>
             <View style={showStyles(colors).modalButtons}>
-            <TouchableOpacity onPress={() => setModalVisible(false)}>
-                <Text style={[
+              <TouchableOpacity onPress={() => setModalVisible(false)}>
+                <Text
+                  style={[
                     showStyles(colors).modalText,
-                    {backgroundColor: colors.CANCEL, borderRadius: 10},
-                  ]}>{CONSTANTS.CANCEL}</Text>
+                    showStyles(colors).cancelButton,
+                  ]}>
+                  {CONSTANTS.CANCEL}
+                </Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={()=>handleDeleteCollection(user.uid, collections, collName, setCollections, setModalVisible)}>
-                <Text style={[
+              <TouchableOpacity
+                onPress={() =>
+                  handleDeleteCollection(
+                    user.uid,
+                    collections,
+                    collName,
+                    setCollections,
+                    setModalVisible,
+                  )
+                }>
+                <Text
+                  style={[
                     showStyles(colors).modalText,
-                    {backgroundColor: 'red', borderRadius: 10, color:themeColors.DARK.HEADERTITLE},
-                  ]}>{CONSTANTS.DELETE}</Text>
+                    showStyles(colors).deleteButton,
+                  ]}>
+                  {CONSTANTS.DELETE}
+                </Text>
               </TouchableOpacity>
             </View>
           </View>

@@ -1,21 +1,25 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Modal } from 'react-native';
-import { launchCamera, launchImageLibrary, ImageLibraryOptions, ImagePickerResponse } from 'react-native-image-picker';
-import { ICONS } from '../../Constants/iconConstants';
-import { UPLOAD_IMAGE } from '../../Constants/strings';
-import { profileImgStyles } from './styles';
-import { useReduxSelector } from '../../Redux/Store/store';
-import { getThemeColors } from '../../Assets/Colors/themeColors';
+import {View, Text, TouchableOpacity, Modal} from 'react-native';
+import {
+  launchCamera,
+  launchImageLibrary,
+  ImageLibraryOptions,
+  ImagePickerResponse,
+} from 'react-native-image-picker';
+import {ICONS} from '../../Constants/iconConstants';
+import {UPLOAD_IMAGE} from '../../Constants/strings';
+import {profileImgStyles} from './styles';
+import {useReduxSelector} from '../../Redux/Store/store';
+import {getThemeColors} from '../../Assets/Colors/themeColors';
+import {ImageModalProps} from './profile_image';
 
-interface ImageModalProps {
-  modalVisible: boolean;
-  setModalVisible: (visible: boolean) => void;
-  onImageChange: (uri: string) => void;
-}
-
-const ImageModal: React.FC<ImageModalProps> = ({ modalVisible, setModalVisible, onImageChange }) => {
-    const {theme} = useReduxSelector(state => state.user);
-    const colors = getThemeColors(theme);
+const ImageModal: React.FC<ImageModalProps> = ({
+  modalVisible,
+  setModalVisible,
+  onImageChange,
+}) => {
+  const {theme} = useReduxSelector(state => state.user);
+  const colors = getThemeColors(theme);
   const handleImagePicker = () => {
     const options: ImageLibraryOptions = {
       mediaType: 'photo',
@@ -57,14 +61,14 @@ const ImageModal: React.FC<ImageModalProps> = ({ modalVisible, setModalVisible, 
     }
   };
 
-//   const removeImage = async () => {
-//     const reference = storage().ref('profile_images/userImg.jpeg');
-//     const downloadURL = await reference.getDownloadURL();
-//     setImageUri('');
-//     onImageChange('');
-//     const user = auth().currentUser;
-//     setModalVisible(false);
-//   };
+  //   const removeImage = async () => {
+  //     const reference = storage().ref('profile_images/userImg.jpeg');
+  //     const downloadURL = await reference.getDownloadURL();
+  //     setImageUri('');
+  //     onImageChange('');
+  //     const user = auth().currentUser;
+  //     setModalVisible(false);
+  //   };
 
   return (
     <Modal
@@ -72,28 +76,28 @@ const ImageModal: React.FC<ImageModalProps> = ({ modalVisible, setModalVisible, 
       transparent={true}
       visible={modalVisible}
       onRequestClose={() => setModalVisible(false)}>
-      <View style={profileImgStyles.modalBackground}>
-        <View style={profileImgStyles.modalContainer(colors)}>
-          <View style={profileImgStyles.modalBox(colors)}>
+      <View style={profileImgStyles(colors).modalBackground}>
+        <View style={profileImgStyles(colors).modalContainer}>
+          <View style={profileImgStyles(colors).modalBox}>
             <TouchableOpacity
               onPress={handleImagePicker}
-              style={profileImgStyles.button}>
+              style={profileImgStyles(colors).button}>
               {ICONS.GALLERY(25, 25)}
-              <Text style={profileImgStyles.modalOption(colors)}>
+              <Text style={profileImgStyles(colors).modalOption}>
                 {UPLOAD_IMAGE.GALLERY}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={handleCameraLaunch}
-              style={profileImgStyles.buttonTwo}>
+              style={profileImgStyles(colors).buttonTwo}>
               {ICONS.CAMERA(25, 25)}
-              <Text style={profileImgStyles.modalOption(colors)}>
+              <Text style={profileImgStyles(colors).modalOption}>
                 {UPLOAD_IMAGE.CAMERA}
               </Text>
             </TouchableOpacity>
           </View>
           <TouchableOpacity onPress={() => setModalVisible(false)}>
-            <Text style={profileImgStyles.modalOption(colors)}>
+            <Text style={profileImgStyles(colors).modalOption}>
               {UPLOAD_IMAGE.CANCEL}
             </Text>
           </TouchableOpacity>

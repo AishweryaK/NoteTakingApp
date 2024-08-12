@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 import {ICONS} from '../../Constants/iconConstants';
 import {FONT} from '../../Constants/fontConstants';
-import {styles} from './styles';
 import {NAVIGATION} from '../../Constants/navConstants';
 import useAuthentication from '../../Components/CustomHook/authHook';
 import {useReduxDispatch, useReduxSelector} from '../../Redux/Store/store';
@@ -18,7 +17,6 @@ import {commonColors, getThemeColors, themeColors} from '../../Assets/Colors/the
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import ChangePasswordModal from '../ChangePassword/ChangePScreen';
-import {showStyles} from '../ShowNotes/styles';
 import {SettingsScreenProps} from '../../Navigation/routeTypes';
 import {
   CHANGE_PASSWORD,
@@ -31,6 +29,8 @@ import {
 } from '../../Constants/strings';
 import {showAlert} from '../../Common/alert';
 import { PROVIDER } from '../../Constants/signingConstants';
+import { styles } from './styles';
+import { showStyles } from '../ShowNotes/styles';
 
 const SettingsPage = ({navigation}: SettingsScreenProps) => {
   const {isLoading, signOutCall} = useAuthentication();
@@ -75,35 +75,35 @@ const SettingsPage = ({navigation}: SettingsScreenProps) => {
   };
 
   return (
-    <ScrollView style={styles.container(colors)}>
-      <Text style={styles.heading(colors)}>{SETTINGS.SETTINGS}</Text>
+    <ScrollView style={styles(colors).container}>
+      <Text style={styles(colors).heading}>{SETTINGS.SETTINGS}</Text>
 
       <TouchableOpacity
-        style={styles.option(colors)}
+        style={styles(colors).option}
         onPress={() => navigation.navigate(NAVIGATION.ACCOUNT)}>
         {ICONS.ACCOUNT(24, 24)}
-        <View style={styles.view}>
-          <Text style={styles.optionText(colors)}>{SETTINGS.ACCOUNT}</Text>
+        <View style={styles(colors).view}>
+          <Text style={styles(colors).optionText}>{SETTINGS.ACCOUNT}</Text>
           {ICONS.ARROW(24, 24)}
         </View>
       </TouchableOpacity>
 
       {provider !== PROVIDER.GOOGLE && <TouchableOpacity
-        style={styles.option(colors)}
+        style={styles(colors).option}
         onPress={openChangePasswordModal}>
         {ICONS.CHANGEP(24, 24)}
-        <View style={styles.view}>
-          <Text style={styles.optionText(colors)}>
+        <View style={styles(colors).view}>
+          <Text style={styles(colors).optionText}>
             {CHANGE_PASSWORD.CHANGE}
           </Text>
           {ICONS.ARROW(24, 24)}
         </View>
       </TouchableOpacity>}
 
-      <View style={styles.option(colors)}>
+      <View style={styles(colors).option}>
         {ICONS.THEME(24, 24)}
-        <View style={styles.view}>
-          <Text style={styles.optionText(colors)}>{SETTINGS.THEME}</Text>
+        <View style={styles(colors).view}>
+          <Text style={styles(colors).optionText}>{SETTINGS.THEME}</Text>
           <Switch
             // style={{paddingRight: 0}}
             trackColor={{
@@ -122,11 +122,11 @@ const SettingsPage = ({navigation}: SettingsScreenProps) => {
       </View>
 
       <TouchableOpacity
-        style={styles.option(colors)}
+        style={styles(colors).option}
         onPress={handleLogoutModal}>
         {ICONS.LOGOUT(24, 24)}
-        <View style={styles.view}>
-          <Text style={[styles.optionText(colors), {fontFamily: FONT.BOLD}]}>
+        <View style={styles(colors).view}>
+          <Text style={[styles(colors).optionText, {fontFamily: FONT.BOLD}]}>
             {TITLE.LOGOUT}
           </Text>
           {ICONS.ARROW(24, 24)}
@@ -137,18 +137,18 @@ const SettingsPage = ({navigation}: SettingsScreenProps) => {
         onClose={closeChangePasswordModal}
       />
       <Modal visible={logoutModal} transparent={true} animationType="slide">
-        <View style={showStyles.modalBackground}>
-          <View style={showStyles.modalContainer(colors)}>
-            <Text style={showStyles.modalTitle(colors)}>{TITLE.LOGOUT}</Text>
-            <Text style={showStyles.modalMessage(colors)}>
+        <View style={showStyles(colors).modalBackground}>
+          <View style={showStyles(colors).modalContainer}>
+            <Text style={showStyles(colors).modalTitle}>{TITLE.LOGOUT}</Text>
+            <Text style={showStyles(colors).modalMessage}>
               {SETTINGS.ARE_YOU_SURE}
             </Text>
-            <View style={showStyles.modalButtons}>
+            <View style={showStyles(colors).modalButtons}>
               <TouchableOpacity onPress={() => setLogoutModal(false)}>
                 <Text
                   style={[
-                    showStyles.modalText(colors),
-                    {backgroundColor: colors.CANCEL, borderRadius: 10},
+                    showStyles(colors).modalText,
+                    showStyles(colors).cancelButton,
                   ]}>
                   {SETTINGS.CANCEL}
                 </Text>
@@ -156,8 +156,8 @@ const SettingsPage = ({navigation}: SettingsScreenProps) => {
               <TouchableOpacity onPress={handleLogout}>
                 <Text
                   style={[
-                    showStyles.modalText(colors),
-                    {backgroundColor: 'red', borderRadius: 10, color:themeColors.DARK.HEADERTITLE},
+                    showStyles(colors).modalText,
+                    showStyles(colors).deleteButton,
                   ]}>
                   {SETTINGS.LOGOUT}
                 </Text>

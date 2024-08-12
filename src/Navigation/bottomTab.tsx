@@ -62,13 +62,7 @@ function HomeNavigation({navigation}: HomeScreenProps) {
           },
           headerShown: false,
           tabBarShowLabel: false,
-          tabBarStyle: {
-            backgroundColor: colors.BOTTOM,
-            borderRadius: 20,
-            justifyContent: 'center',
-            marginHorizontal: 16,
-            height: dimensions.height * 0.073,
-          },
+          tabBarStyle: bottomTabStyles(colors).tabBarStyle,
         })}>
         <Tab.Screen name={NAVIGATION.HOME} component={Home} />
         <Tab.Screen name={NAVIGATION.CHECKLIST} component={CheckList} />

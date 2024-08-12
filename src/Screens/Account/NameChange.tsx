@@ -38,7 +38,7 @@ const NameChange: React.FC<NameChangeProps> = ({visible, onClose}) => {
     <KeyboardAvoidingView
       keyboardVerticalOffset={65}
       behavior={Platform.OS === CONSTANTS.IOS ? 'padding' : undefined}
-      style={styles.wrapper(colors)}>
+      style={styles(colors).wrapper}>
       <Formik
         initialValues={{firstName: '', lastName: ''}}
         validationSchema={AccountSchema}
@@ -60,14 +60,14 @@ const NameChange: React.FC<NameChangeProps> = ({visible, onClose}) => {
             animationType="slide"
             transparent={true}
             onRequestClose={onClose}>
-            <View style={styles.modalContainer}>
-              <View style={styles.modalContent(colors)}>
-                <Text style={styles.modalTitle(colors)}>
+            <View style={styles(colors).modalContainer}>
+              <View style={styles(colors).modalContent}>
+                <Text style={styles(colors).modalTitle}>
                   {NAME_CHANGE.USERNAME_CHANGE}
                 </Text>
 
                 <TextInput
-                  style={styles.input(colors)}
+                  style={styles(colors).input}
                   placeholder={NAME_CHANGE.FIRST_NAME}
                   value={values.firstName}
                   onChangeText={handleChange(CONSTANTS.FIRST_NAME)}
@@ -75,11 +75,13 @@ const NameChange: React.FC<NameChangeProps> = ({visible, onClose}) => {
                   onBlur={() => setFieldTouched(CONSTANTS.FIRST_NAME)}
                 />
                 {touched.firstName && errors.firstName && (
-                  <Text style={styles.errorTxt}>{errors.firstName}</Text>
+                  <Text style={styles(colors).errorTxt}>
+                    {errors.firstName}
+                  </Text>
                 )}
 
                 <TextInput
-                  style={styles.input(colors)}
+                  style={styles(colors).input}
                   placeholder={NAME_CHANGE.LAST_NAME}
                   value={values.lastName}
                   onChangeText={handleChange(CONSTANTS.LAST_NAME)}
@@ -87,29 +89,29 @@ const NameChange: React.FC<NameChangeProps> = ({visible, onClose}) => {
                   onBlur={() => setFieldTouched(CONSTANTS.LAST_NAME)}
                 />
                 {touched.lastName && errors.lastName && (
-                  <Text style={styles.errorTxt}>{errors.lastName}</Text>
+                  <Text style={styles(colors).errorTxt}>{errors.lastName}</Text>
                 )}
 
-                <View style={styles.buttonContainer}>
+                <View style={styles(colors).buttonContainer}>
                   {isLoading ? (
-                    <View style={styles.activity}>
+                    <View style={styles(colors).activity}>
                       <ActivityIndicator size={'large'} color={colors.BLUE} />
                     </View>
                   ) : (
                     <>
                       <TouchableOpacity
-                        style={styles.button(colors)}
+                        style={styles(colors).button}
                         onPress={() => handleCancel(resetForm)}>
-                        <Text style={styles.buttonText(colors)}>
+                        <Text style={styles(colors).buttonText}>
                           {NAME_CHANGE.CANCEL}
                         </Text>
                       </TouchableOpacity>
 
                       <TouchableOpacity
-                        style={styles.button(colors)}
+                        style={styles(colors).button}
                         onPress={() => handleSubmit()}
                         disabled={!isValid}>
-                        <Text style={styles.buttonText(colors)}>
+                        <Text style={styles(colors).buttonText}>
                           {NAME_CHANGE.CHANGE}
                         </Text>
                       </TouchableOpacity>

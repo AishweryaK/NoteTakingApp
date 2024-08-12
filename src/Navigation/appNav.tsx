@@ -1,5 +1,4 @@
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {NAVIGATION} from '../Constants/navConstants';
 import AddNote from '../Screens/AddNoteScreen/AddNote';
@@ -11,7 +10,6 @@ import AccountPage from '../Screens/Account/AccountScreen';
 import {getThemeColors} from '../Assets/Colors/themeColors';
 import {TITLE} from '../Constants/strings';
 import {useReduxSelector} from '../Redux/Store/store';
-import { ICONS } from '../Constants/iconConstants';
 
 function AppNavigation(): React.JSX.Element {
   const theme = useReduxSelector(state => state.user.theme);

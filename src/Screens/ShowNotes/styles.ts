@@ -1,7 +1,7 @@
 import {StyleSheet} from 'react-native';
 import {FONT} from '../../Constants/fontConstants';
 import {dimensions} from '../../Constants/utility';
-import { ThemeColors } from '../../Assets/Colors/themeColors';
+import { ThemeColors, commonColors, themeColors } from '../../Assets/Colors/themeColors';
 
 export const showStyles = (colors: ThemeColors) =>
 StyleSheet.create({
@@ -95,6 +95,7 @@ StyleSheet.create({
     width: 100,
     textAlign: 'center',
     paddingVertical: 10,
+    // backgroundColor:'transparent'
   },
   noNotes: {
     flex: 1,
@@ -117,6 +118,15 @@ StyleSheet.create({
     width: '100%',
     resizeMode: 'cover',
   },
+  deleteButton: {
+    backgroundColor: 'red', 
+    borderRadius: 10, 
+    color:themeColors.DARK.HEADERTITLE 
+  },
+  cancelButton:{
+    backgroundColor: colors.CANCEL, 
+    borderRadius: 10 
+  }
 });
 
 export const getChildrenStyle = (colors: ThemeColors) => {

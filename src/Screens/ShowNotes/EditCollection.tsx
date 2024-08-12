@@ -42,19 +42,17 @@ const EditCollection: React.FC<EditCollProps> = ({
     setExistingErr(false);
   };
 
-  const handleCollection = (text :string) => {
+  const handleCollection = (text: string) => {
     setCollection(text);
 
-      const existingCollection = allCollections.find(
-        collection => collection.text.toLowerCase() === text.toLowerCase(),
-      );
-      if (existingCollection) {
-        setExistingErr(true);
-        return;
-      }
-      else
-      setExistingErr(false);
-  } 
+    const existingCollection = allCollections.find(
+      collection => collection.text.toLowerCase() === text.toLowerCase(),
+    );
+    if (existingCollection) {
+      setExistingErr(true);
+      return;
+    } else setExistingErr(false);
+  };
 
   const handleEditWrapper = async () => {
     await handleEdit(
@@ -76,14 +74,14 @@ const EditCollection: React.FC<EditCollProps> = ({
       animationType="slide"
       transparent={true}
       onRequestClose={onClose}>
-      <View style={styles.modalContainer}>
-        <View style={styles.modalContent(colors)}>
-          <Text style={styles.modalTitle(colors)}>
+      <View style={styles(colors).modalContainer}>
+        <View style={styles(colors).modalContent}>
+          <Text style={styles(colors).modalTitle}>
             {SHOW_NOTES.EDIT_COLLECTION}
           </Text>
 
           <TextInput
-            style={styles.input(colors)}
+            style={styles(colors).input}
             placeholder={SHOW_NOTES.EDIT_COLLECTION}
             value={collection}
             onChangeText={handleCollection}
@@ -92,22 +90,26 @@ const EditCollection: React.FC<EditCollProps> = ({
             onBlur={() => setEmptyColl(false)}
           />
           {emptyColl && collection === '' && (
-            <Text style={styles.errorTxt}>{ADDNOTE.ENTER_COLLECTION}</Text>
+            <Text style={styles(colors).errorTxt}>
+              {ADDNOTE.ENTER_COLLECTION}
+            </Text>
           )}
           {existingErr && (
-            <Text style={styles.errorTxt}>{SHOW_NOTES.ALREADY_EXISTS}</Text>
+            <Text style={styles(colors).errorTxt}>
+              {SHOW_NOTES.ALREADY_EXISTS}
+            </Text>
           )}
-          <View style={styles.buttonContainer}>
+          <View style={styles(colors).buttonContainer}>
             <TouchableOpacity
-              style={styles.button(colors)}
+              style={styles(colors).button}
               onPress={handleClose}>
-              <Text style={styles.buttonText(colors)}>{CONSTANTS.CANCEL}</Text>
+              <Text style={styles(colors).buttonText}>{CONSTANTS.CANCEL}</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={styles.button(colors)}
+              style={styles(colors).button}
               onPress={handleEditWrapper}>
-              <Text style={styles.buttonText(colors)}>
+              <Text style={styles(colors).buttonText}>
                 {SHOW_NOTES.EDIT_COLLECTION}
               </Text>
             </TouchableOpacity>

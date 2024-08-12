@@ -15,20 +15,22 @@ import HTML, {
   HTMLElementModel,
   defaultHTMLElementModels,
 } from 'react-native-render-html';
-import {getChildrenStyle, showStyles} from './styles';
 import {NAVIGATION} from '../../Constants/navConstants';
 import {dimensions} from '../../Constants/utility';
-import {inputStyles} from '../../Components/CustomInput/styles';
 import filter from 'lodash.filter';
 import {FONT} from '../../Constants/fontConstants';
-import {homeStyles} from '../HomeScreen/homeStyle';
 import {useReduxSelector} from '../../Redux/Store/store';
 import {getThemeColors, themeColors} from '../../Assets/Colors/themeColors';
 import StaggerView from '@mindinventory/react-native-stagger-view';
 import {ICONS} from '../../Constants/iconConstants';
 import {NoteScreenProps} from '../../Navigation/routeTypes';
 import {Note} from './show_notes';
-import {COLLECTION, CONSTANTS, ERR_CONSOLE, SHOW_NOTES} from '../../Constants/strings';
+import {
+  COLLECTION,
+  CONSTANTS,
+  ERR_CONSOLE,
+  SHOW_NOTES,
+} from '../../Constants/strings';
 import {
   deleteNote,
   updateCollectionCount,
@@ -36,6 +38,9 @@ import {
 } from '../../Common/firebaseUtils';
 import EditCollection from './EditCollection';
 import Chartboost from './InterstitialAdIos';
+import {getChildrenStyle, showStyles} from './styles';
+import {inputStyles} from '../../Components/CustomInput/styles';
+import {homeStyles} from '../HomeScreen/homeStyle';
 
 const BannerModule = NativeModules.BannerModule; //android
 const InterstitialModule = NativeModules.InterstitialModule; //android
@@ -106,11 +111,12 @@ const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       title: itemText,
-      headerRight: () => (
-        itemText!==COLLECTION.OTHERS ? (<TouchableOpacity onPress={handleCollectionEdit}>
-          {ICONS.MENU(25, 25, colors.HEADERTITLE)}
-        </TouchableOpacity>) : null
-      ),
+      headerRight: () =>
+        itemText !== COLLECTION.OTHERS ? (
+          <TouchableOpacity onPress={handleCollectionEdit}>
+            {ICONS.MENU(25, 25, colors.HEADERTITLE)}
+          </TouchableOpacity>
+        ) : null,
     });
   }, [navigation, itemText, colors]);
 
@@ -176,11 +182,14 @@ const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
       style={getChildrenStyle(colors)}
       onPress={() => handleNotePress(item)}
       onLongPress={() => handleLongPress(item.id)}>
-      {item.title && <Text style={showStyles.txt(colors)}>{item.title}</Text>}
+      {item.title && <Text style={showStyles(colors).txt}>{item.title}</Text>}
 
       {item.imageUrls && item.imageUrls?.length != 0 && (
-        <View style={showStyles.imgParent}>
-          <Image source={{uri: item.imageUrls[0]}} style={showStyles.img} />
+        <View style={showStyles(colors).imgParent}>
+          <Image
+            source={{uri: item.imageUrls[0]}}
+            style={showStyles(colors).img}
+          />
         </View>
       )}
       <MemoizedHTML
@@ -212,11 +221,11 @@ const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === CONSTANTS.IOS ? 'padding' : undefined}
-      style={showStyles.wrapper(colors)}
+      style={showStyles(colors).wrapper}
       keyboardVerticalOffset={97}>
-      <View style={showStyles.input}>
+      <View style={showStyles(colors).input}>
         <TextInput
-          style={inputStyles.customInput(colors)}
+          style={inputStyles(colors).customInput}
           placeholder={SHOW_NOTES.PLACEHOLDER}
           value={searchQuery}
           onChangeText={handleSearch}
@@ -230,13 +239,13 @@ const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
         <Text>Hi</Text>
       </TouchableOpacity> */}
       {notes.length === 0 && searchQuery === '' && (
-        <Text style={showStyles.noNotes(colors)}>{SHOW_NOTES.ADD_NOTE}</Text>
+        <Text style={showStyles(colors).noNotes}>{SHOW_NOTES.ADD_NOTE}</Text>
       )}
       {notes.length === 0 && searchQuery !== '' && (
-        <Text style={showStyles.noNotes(colors)}>{SHOW_NOTES.NO_NOTES}</Text>
+        <Text style={showStyles(colors).noNotes}>{SHOW_NOTES.NO_NOTES}</Text>
       )}
       <StaggerView
-        style={showStyles.list}
+        style={showStyles(colors).list}
         data={notes}
         renderItem={renderItem}
         numColumns={2}
@@ -244,12 +253,17 @@ const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
       />
       <View style={{alignItems: 'center'}}>
         <View
-          style={[homeStyles.buttonShadow(colors), showStyles.bottomButton]}>
-          <TouchableOpacity style={showStyles.button} onPress={handleAddNote}>
+          style={[
+            homeStyles(colors).buttonShadow,
+            showStyles(colors).bottomButton,
+          ]}>
+          <TouchableOpacity
+            style={showStyles(colors).button}
+            onPress={handleAddNote}>
             <View style={{justifyContent: 'center'}}>{ICONS.ADD(30, 30)}</View>
             <Text
               style={[
-                homeStyles.buttonText(colors),
+                homeStyles(colors).buttonText,
                 {textAlignVertical: 'center'},
               ]}>
               {SHOW_NOTES.NEW_NOTES}
@@ -258,20 +272,20 @@ const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
         </View>
       </View>
       <Modal visible={modalVisible} transparent={true} animationType="slide">
-        <View style={showStyles.modalBackground}>
-          <View style={showStyles.modalContainer(colors)}>
-            <Text style={showStyles.modalTitle(colors)}>
+        <View style={showStyles(colors).modalBackground}>
+          <View style={showStyles(colors).modalContainer}>
+            <Text style={showStyles(colors).modalTitle}>
               {SHOW_NOTES.DELETE_NOTES}
             </Text>
-            <Text style={showStyles.modalMessage(colors)}>
+            <Text style={showStyles(colors).modalMessage}>
               {SHOW_NOTES.ARE_YOU_SURE}
             </Text>
-            <View style={showStyles.modalButtons}>
+            <View style={showStyles(colors).modalButtons}>
               <TouchableOpacity onPress={() => setModalVisible(false)}>
                 <Text
                   style={[
-                    showStyles.modalText(colors),
-                    {backgroundColor: colors.CANCEL, borderRadius: 10},
+                    showStyles(colors).modalText,
+                    showStyles(colors).cancelButton,
                   ]}>
                   {CONSTANTS.CANCEL}
                 </Text>
@@ -279,12 +293,8 @@ const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
               <TouchableOpacity onPress={handleDeleteNote}>
                 <Text
                   style={[
-                    showStyles.modalText(colors),
-                    {
-                      backgroundColor: 'red',
-                      borderRadius: 10,
-                      color: themeColors.DARK.HEADERTITLE,
-                    },
+                    showStyles(colors).modalText,
+                    showStyles(colors).deleteButton,
                   ]}>
                   {CONSTANTS.DELETE}
                 </Text>

@@ -6,7 +6,7 @@ import {dimensions} from '../../Constants/utility';
 export const inputStyles = (colors: ThemeColors) =>
   StyleSheet.create({
     customInput: {
-      backgroundColor: colors.WHITE,
+      backgroundColor: colors.INPUTBG,
       width: dimensions.width * 0.9,
       height: 48,
       borderRadius: 8,
@@ -14,12 +14,12 @@ export const inputStyles = (colors: ThemeColors) =>
       paddingVertical: 8,
       fontFamily: FONT.BOLD,
       marginTop: 20,
-      shadowColor: colors.BLUE,
+      shadowColor: colors.INPUTSHADOW,
       shadowOffset: {width: -2, height: 4},
       shadowOpacity: 0.07,
       shadowRadius: 10,
       elevation: 7,
-      color: themeColors.LIGHT.HEADERTITLE,
+      color: colors.HEADERTITLE,
       paddingRight: 45,
     },
     parent: {

@@ -8,7 +8,11 @@ export const loginStyles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 15,
   },
-  imgStyle: {width: 100, height: 100, borderRadius: 50},
+  imgStyle: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+  },
   forgotTxt: {
     fontFamily: FONT.BOLD,
     fontSize: 16,

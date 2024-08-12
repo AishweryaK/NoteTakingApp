@@ -18,7 +18,6 @@ import {RichEditor, RichToolbar, actions} from 'react-native-pell-rich-editor';
 import Modal from 'react-native-modal';
 import {NAVIGATION} from '../../Constants/navConstants';
 import {styles} from './styles';
-import {profileImgStyles} from '../../Components/ProfileImage/styles';
 import StaggerView from '@mindinventory/react-native-stagger-view';
 import {dimensions} from '../../Constants/utility';
 import {useReduxSelector} from '../../Redux/Store/store';
@@ -48,8 +47,9 @@ import {
 } from '../../Common/firebaseUtils';
 import {CollectionItem} from '../../Common/common';
 import ImageHandling from './ImageHandling';
-import {showStyles} from '../ShowNotes/styles';
 import useAuthentication from '../../Components/CustomHook/authHook';
+import { profileImgStyles } from '../../Components/ProfileImage/styles';
+import { showStyles } from '../ShowNotes/styles';
 
 const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
   // const [isSaving, setIsSaving] = useState<boolean>(false);
@@ -203,9 +203,9 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
     item: {text: string; number: number};
   }) => (
     <TouchableOpacity
-      style={styles.collectionItem}
+      style={styles(colors).collectionItem}
       onPress={() => handleCollectionSelection(item)}>
-      <Text style={styles.collectionText(colors)}>{item.text}</Text>
+      <Text style={styles(colors).collectionText}>{item.text}</Text>
     </TouchableOpacity>
   );
 
@@ -219,15 +219,15 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
   };
 
   const renderItem = ({item}: {item: string}) => (
-    <View style={styles.imgParent}>
+    <View style={styles(colors).imgParent}>
       <ImageBackground
         source={{uri: item}}
-        style={styles.imgBg}
+        style={styles(colors).imgBg}
         resizeMode="cover">
         <TouchableOpacity
-          style={styles.imgButton}
+          style={styles(colors).imgButton}
           onPress={() => handleImageButtonPress(item)}>
-          <Text style={styles.imgX}>{ADDNOTE.CLOSE}</Text>
+          <Text style={styles(colors).imgX}>{ADDNOTE.CLOSE}</Text>
         </TouchableOpacity>
       </ImageBackground>
     </View>
@@ -251,17 +251,17 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === CONSTANTS.IOS ? 'padding' : undefined}
-      style={styles.container(colors)}
+      style={styles(colors).container}
       keyboardVerticalOffset={97}>
-      <View style={styles.view}>
+      <View style={styles(colors).view}>
         <View></View>
         <View>
           {itemID || label ? null : (
             <TouchableOpacity
-              style={styles.collButton(colors)}
+              style={styles(colors).collButton}
               onPress={() => setModalVisible(true)}>
               <Text
-                style={styles.collText(colors)}
+                style={styles(colors).collText}
                 ellipsizeMode="tail"
                 numberOfLines={1}>
                 {selectedCollection.text}
@@ -269,7 +269,7 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
             </TouchableOpacity>
           )}
           <Modal
-            style={styles.align}
+            style={styles(colors).align}
             isVisible={modalVisible}
             avoidKeyboard={true}
             onBackButtonPress={() => {
@@ -277,25 +277,25 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
             }}>
             <View
               style={[
-                profileImgStyles.modalContainer(colors),
+                profileImgStyles(colors).modalContainer,
                 {
                   maxHeight: dimensions.height * 0.5,
                   width: dimensions.width * 0.8,
                 },
               ]}>
-              <View style={styles.closeButtonView}>
-                <View style={styles.inner}>
-                  <Text style={styles.heading(colors)}>
+              <View style={styles(colors).closeButtonView}>
+                <View style={styles(colors).inner}>
+                  <Text style={styles(colors).heading}>
                     {ADDNOTE.COLLECTIONS}{' '}
                   </Text>
                 </View>
                 <TouchableOpacity
-                  style={styles.xButton(colors)}
+                  style={styles(colors).xButton}
                   onPress={() => {
                     setModalVisible(false);
                     setEmptyColl(false);
                   }}>
-                  <Text style={styles.text(colors)}>{ADDNOTE.CLOSE}</Text>
+                  <Text style={styles(colors).text}>{ADDNOTE.CLOSE}</Text>
                 </TouchableOpacity>
               </View>
 
@@ -306,7 +306,7 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
                 showsVerticalScrollIndicator={false}
               />
               <TextInput
-                style={styles.newCollectionInput(colors)}
+                style={styles(colors).newCollectionInput}
                 placeholder={ADDNOTE.ADD_COLLECTION}
                 value={newCollection}
                 onChangeText={setNewCollection}
@@ -315,12 +315,12 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
                 onBlur={() => setEmptyColl(false)}
               />
               {emptyColl && newCollection === '' && (
-                <Text style={styles.err}>{ADDNOTE.ENTER_COLLECTION}</Text>
+                <Text style={styles(colors).err}>{ADDNOTE.ENTER_COLLECTION}</Text>
               )}
               <TouchableOpacity
-                style={styles.addButton(colors)}
+                style={styles(colors).addButton}
                 onPress={addCollection}>
-                <Text style={styles.addTxt(colors)}>{ADDNOTE.ADD}</Text>
+                <Text style={styles(colors).addTxt}>{ADDNOTE.ADD}</Text>
               </TouchableOpacity>
             </View>
           </Modal>
@@ -329,7 +329,7 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
 
       <TextInput
         value={title}
-        style={styles.title(colors)}
+        style={styles(colors).title}
         placeholder={ADDNOTE.TITLE}
         multiline={true}
         maxLength={60}
@@ -339,7 +339,7 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
 
       {imageArray && imageArray.length != 0 && (
         <StaggerView
-          style={showStyles.list}
+          style={showStyles(colors).list}
           data={imageArray}
           renderItem={renderItem}
           numColumns={2}
@@ -354,12 +354,13 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
         keyboardDisplayRequiresUserAction={false}
         placeholder={ADDNOTE.NOTE}
         initialContentHTML={desc}
-        style={styles.desc(colors)}
+        style={styles(colors).desc}
         editorStyle={{
-          ...styles.editor(colors),
+          ...styles(colors).editor,
           contentCSSText:
-            Platform.OS === 'android' &&
-            `max-height:${Dimensions.get('window').height * 0.7}px;`,
+            Platform.OS === 'android' ?
+            `max-height:${Dimensions.get('window').height * 0.7}px;` :
+            undefined
         }}
         onChange={commentText => {
           handleDesc(commentText);
@@ -373,22 +374,22 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
         }}
       />
 
-      <View style={styles.center}>
+      <View style={styles(colors).center}>
           {isLoading ? 
           <ActivityIndicator size="large" color={themeColors.LIGHT.BLUE} />
           : 
-            <View style={styles.buttonShadow(colors)}>
+            <View style={styles(colors).buttonShadow}>
           <TouchableOpacity onPress={saveNote}>
-            <Text style={styles.buttonTxt(colors)}>{ADDNOTE.SAVE}</Text>
+            <Text style={styles(colors).buttonTxt}>{ADDNOTE.SAVE}</Text>
           
           </TouchableOpacity>
         </View>
           }
       </View>
 
-      <View style={styles.flex}>
+      <View style={styles(colors).flex}>
         <RichToolbar
-          style={styles.toolbar(colors)}
+          style={styles(colors).toolbar}
           editor={richText}
           iconTint={themeColors.LIGHT.GRAY}
           selectedIconTint={themeColors.LIGHT.DARK_BLUE}

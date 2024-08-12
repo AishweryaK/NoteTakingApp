@@ -18,4 +18,11 @@ export const bottomTabStyles = (colors: ThemeColors) =>
       height: dimensions.height * 0.073,
       paddingBottom: 5,
     },
+    tabBarStyle: {
+      backgroundColor: colors.BOTTOM,
+      borderRadius: 20,
+      justifyContent: 'center',
+      marginHorizontal: 16,
+      height: dimensions.height * 0.073,
+    },
   });

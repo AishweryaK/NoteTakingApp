@@ -19,15 +19,18 @@ export interface ThemeColors {
   SHADOW: string;
   BOTTOM: string;
   RED: string;
+  CANCEL: string;
+  INPUTBG: string;
+  INPUTSHADOW: string;
 }
 
 export const commonColors = {
   RED: '#b52424',
   BGCOLOR: 'rgba(0, 0, 0, 0.7)',
   WHITE: '#FFFFFF',
-  ERROR : "red",
-  GRAY:"gray",
-  CANCEL:'#4B5563',
+  ERROR: 'red',
+  GRAY: 'gray',
+  CANCEL: '#4B5563',
 };
 
 export const themeColors = {
@@ -50,7 +53,9 @@ export const themeColors = {
     SHADOW: '#6B4EFF',
     BOTTOM: '#FFFFFF',
     RED: '#b52424',
-    CANCEL:'#D1D5DB',
+    CANCEL: '#D1D5DB',
+    INPUTBG: '#FFFFFF',
+    INPUTSHADOW: '#6B4EFF',
   },
 
   DARK: {
@@ -72,7 +77,9 @@ export const themeColors = {
     SHADOW: '#ECECEC',
     BOTTOM: '#383A41',
     RED: '#b52424',
-    CANCEL:'#4B5563'
+    CANCEL: '#4B5563',
+    INPUTBG: '#535559',
+    INPUTSHADOW: 'none',
   },
 };
 
