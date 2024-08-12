@@ -100,7 +100,7 @@ const NameChange: React.FC<NameChangeProps> = ({visible, onClose}) => {
                   ) : (
                     <>
                       <TouchableOpacity
-                        style={styles(colors).button}
+                        style={[styles(colors).button,{backgroundColor:'red'}]}
                         onPress={() => handleCancel(resetForm)}>
                         <Text style={styles(colors).buttonText}>
                           {NAME_CHANGE.CANCEL}
