@@ -1,27 +1,27 @@
-import {Text, TouchableOpacity, View} from 'react-native';
-import React, {useState} from 'react';
-import {useRealm} from '@realm/react';
-import { Book } from '../../Common/database';
+// import {Text, TouchableOpacity, View} from 'react-native';
+// import React, {useState} from 'react';
+// import {useRealm} from '@realm/react';
+// import { Book } from '../../Common/database';
 
-function RealmCreate() {
-  const realm = useRealm();
-  console.log(realm,"REALM")
-  const addProfile = () => {
-    realm.write(() => {
-      realm.create(Book, {
-        author: 'aish',
-        pages: 200,
-      });
-    });
-  };
+// function RealmCreate() {
+//   const realm = useRealm();
+//   console.log(realm,"REALM")
+//   const addProfile = () => {
+//     realm.write(() => {
+//       realm.create(Book, {
+//         author: 'aish',
+//         pages: 200,
+//       });
+//     });
+//   };
 
-  return (
-    <View>
-      <TouchableOpacity onPress={()=>addProfile()}>
-        <Text></Text>
-      </TouchableOpacity>
-    </View>
-  );
-}
+//   return (
+//     <View>
+//       <TouchableOpacity onPress={()=>addProfile()}>
+//         <Text></Text>
+//       </TouchableOpacity>
+//     </View>
+//   );
+// }
 
-export default RealmCreate;
+// export default RealmCreate;
