@@ -35,5 +35,14 @@ const NotesSchema = {
 
 }
 
+const schema = {
+  name: 'collectionArray',
+  primaryKey: 'id',
+  properties:{
+    notesArray: 'Notes[]',
+    collection:''
+  }
+}
+
 // let realm = new Realm({schema: [CollectionSchema, DocumentSchema]});
 // export default realm;

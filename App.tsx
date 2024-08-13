@@ -11,7 +11,7 @@ import {useReduxDispatch, useReduxSelector} from './src/Redux/Store/store';
 import {styles} from './src/Common/styles';
 import {THEME} from './src/Constants/strings';
 import {RealmProvider} from '@realm/react';
-import {Book, Collections, Notes} from './src/Common/database';
+import { schemaArray } from './src/Common/database';
 
 function App() {
   const theme = useReduxSelector(state => state.user.theme);
@@ -36,7 +36,7 @@ function App() {
   }, [dispatch, internet]);
 
   return (
-    <RealmProvider schema={[Book,Collections,Notes]}>
+    <RealmProvider>
       <SafeAreaView style={styles(colors).container}>
         <StatusBar
           backgroundColor={colors.BACKGROUND}
@@ -47,7 +47,7 @@ function App() {
           <StackNavigation />
         </NavigationContainer>
       </SafeAreaView>
-    </RealmProvider>
+     </RealmProvider>
   );
 }
 

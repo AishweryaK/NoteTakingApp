@@ -7,6 +7,7 @@ import AuthNavigation from './authNav';
 import {useReduxSelector} from '../Redux/Store/store';
 import {getThemeColors} from '../Assets/Colors/themeColors';
 import {TITLE} from '../Constants/strings';
+import { openRealm } from '../Common/database';
 
 function StackNavigation() {
   const Stack = createNativeStackNavigator();

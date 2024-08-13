@@ -15,13 +15,14 @@ import {ERR_CONSOLE, TITLE} from '../../Constants/strings';
 import {addDocumentsForUser} from '../../Common/firebaseUtils';
 import {setLoading} from '../../Redux/Slices/loader';
 import {userDocRef} from '../../Common/firebaseUtils';
-import firestore, { FieldValue } from '@react-native-firebase/firestore';
+import firestore, {FieldValue} from '@react-native-firebase/firestore';
 import { useRealm } from '@realm/react';
-import { Book } from '../../Common/database';
+
 
 export default function useAuthentication() {
+// const realm = useRealm();
   const dispatch = useReduxDispatch();
-  const realm = useRealm();
+
   const myProvider = useReduxSelector(state => state.user.provider);
   // const loading = useReduxSelector(state => state.loader.isLoading);
   const {displayName, uid, email, theme} = useReduxSelector(
@@ -74,10 +75,8 @@ export default function useAuthentication() {
 
       await user.updateProfile({
         displayName: `${firstName} ${lastName}`,
-        photoURL: photoURL,
+        photoURL: photoURL,  //downloadURL from firebase storage
       });
-
-      // addProfile();
 
       if (email)
         dispatch(
@@ -101,21 +100,6 @@ export default function useAuthentication() {
       handleSignUpError(err);
     } finally {
       setIsLoading(false);
-    }
-  };
-
-  const addProfile = async () => {
-    try {
-      if (realm && !realm.isClosed) {
-        realm.write(() => {
-          realm.create(Book, {
-            author: 'fvervef',
-            pages : 2000,
-          });
-        });
-      }
-    } catch (error) {
-      console.error('Error adding profile:', error);
     }
   };
 
@@ -165,7 +149,7 @@ export default function useAuthentication() {
     try {
       const collRef = userDocRef(userId).collection(label);
       const docRef = collRef.doc(itemID);
-      await docRef.update({imageUrls:firestore.FieldValue.arrayRemove(url)})
+      await docRef.update({imageUrls: firestore.FieldValue.arrayRemove(url)});
     } catch (error) {
       console.error('firestore', error);
     }

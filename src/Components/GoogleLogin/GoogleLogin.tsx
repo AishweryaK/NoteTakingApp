@@ -41,8 +41,7 @@ function GoogleLogin() {
             buttonStyles(colors).buttonText,
             buttonStyles(colors).googleTxt,
           ]}>
-          {' '}
-          {GOOGLE.CONTINUE}{' '}
+          {GOOGLE.CONTINUE}
         </Text>
       </View>
     </TouchableOpacity>

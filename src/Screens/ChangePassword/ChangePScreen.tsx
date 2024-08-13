@@ -39,7 +39,7 @@ const ChangePasswordModal: React.FC<PasswordProps> = ({visible, onClose}) => {
     useState<boolean>(false);
 
   const {theme} = useReduxSelector(state => state.user);
-  const colors = getThemeColors(theme as Theme);
+  const colors = getThemeColors(theme);
 
   const reauthenticate = async (currentPassword: string) => {
     const user = auth().currentUser;

@@ -53,55 +53,76 @@
 
 // export default realm;
 
-import {FirebaseFirestoreTypes} from '@react-native-firebase/firestore';
-import Realm, {ObjectSchema} from 'realm';
+// import {FirebaseFirestoreTypes} from '@react-native-firebase/firestore';
+// import Realm, {ObjectSchema} from 'realm';
 
-export class Book extends Realm.Object<Book> {
-  author!: string;
-  pages!: number;
+// export class Book extends Realm.Object<Book> {
+//   author!: string;
+//   pages!: number;
 
-  static schema: ObjectSchema = {
-    name: 'Book',
-    properties: {
-      author: 'string',
-      pages: 'int',
-    },
-  };
-}
+//   static schema: ObjectSchema = {
+//     name: 'Book',
+//     properties: {
+//       author: 'string',
+//       pages: 'int',
+//     },
+//   };
+// }
 
-export class Collections extends Realm.Object<Collections> {
-  text!: string;
-  number!: number;
+// export class Collections extends Realm.Object<Collections> {
+//   text!: string;
+//   number!: number;
 
-  static schema: ObjectSchema = {
-    name: 'Collections',
-    properties: {
-      text: 'string',
-      number: 'int',
-    },
-  };
-}
+//   static schema: ObjectSchema = {
+//     name: 'Collections',
+//     properties: {
+//       text: 'string',
+//       number: 'int',
+//     },
+//   };
+// }
 
-export class Notes extends Realm.Object<Notes> {
-    _id!: string;
-    createdAt!: string;
-    desc!: string;
-    imageUrls!: string;
-    title!: string;
+// export class Notes extends Realm.Object<Notes> {
+//     _id!: string;
+//     createdAt!: string;
+//     desc!: string;
+//     imageUrls!: string;
+//     title!: string;
   
-    static schema: ObjectSchema = {
-      name: 'Notes',
-      primaryKey: '_id',
-      properties: {
-        _id: 'string',
-        createdAt: 'date',
-        desc: 'string',
-        imageUrls: 'string[]',
-        title: 'string',
-        // collections: 'Collection[]',
-      },
-    };
-  }
+//     static schema: ObjectSchema = {
+//       name: 'Notes',
+//       primaryKey: '_id',
+//       properties: {
+//         _id: 'string',
+//         createdAt: 'date',
+//         desc: 'string',
+//         imageUrls: 'string[]',
+//         title: 'string',
+//         // collections: 'Collection[]',
+//       },
+//     };
+//   }
+
+
+
+
+
+
+
+
+  // export class Collec extends Realm.Object<Collec> {
+  //   _id!:string;
+  //   collection!:string;
+  //   note!:Notes;
+
+  //   static schema: ObjectSchema = {
+  //     name:'Collec',
+  //     properties:{
+  //       note:'Notes',
+  //       collection:'string',
+  //     }
+  //   }
+  // }
 
   // export class Notes extends Realm.Object<Notes> {
 //   _id!: string;
@@ -124,7 +145,7 @@ export class Notes extends Realm.Object<Notes> {
 //   };
 // }
 
-// Realm.deleteFile({ path: '/data/data/com.chicmic.notetaking/files/default.realm' });
+
 
 // export class Notes extends Realm.Object <Book> {
 //     text!:string;
@@ -142,3 +163,52 @@ export class Notes extends Realm.Object<Notes> {
 // let realm = new Realm({schema: [Book], schemaVersion: 1});
 
 // export default realm;
+
+
+
+
+
+// Realm.deleteFile({ path: '/data/data/com.chicmic.notetaking/files/default.realm' });
+
+import Realm from "realm";
+
+export const CollectionItemSchema: Realm.ObjectSchema = {
+  name: "CollectionItem",
+  properties: {
+    text: "string",
+    number: "int",
+  },
+};
+
+export const NoteSchema: Realm.ObjectSchema = {
+  name: "Note",
+  properties: {
+    title: "string",
+    desc: "string",
+    createdAt: "date",
+    collectionName: "string",
+  },
+};
+
+export const schemaArray = [CollectionItemSchema, NoteSchema];
+
+// const realm = new Realm({
+//   schema: schemaArray,
+//   schemaVersion: 2,
+// });
+
+// export default realm;
+
+let realm: Realm | null = null; // Keep track of the realm instance
+
+// Function to initialize or reopen Realm
+export function openRealm() {
+  if (!realm || realm.isClosed) {
+    realm = new Realm({
+      schema: schemaArray,
+      schemaVersion: 2,
+    });
+    console.log("Realm is now open");
+  }
+}
+export default realm ;

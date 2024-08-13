@@ -12,6 +12,8 @@ import {
 import {CollectionItem} from './common';
 import {showAlert} from './alert';
 import {NAVIGATION} from '../Constants/navConstants';
+import realm from './database';
+// import realm from './database';
 
 export const userDocRef = (uid: string) => {
   return firestore().collection(COLLECTION.USERS).doc(uid);
@@ -146,30 +148,40 @@ export const deleteNote = async (
 
 //Custom Hook
 
-export async function addDocumentsForUser(userUid: string) {
-  const collections = [
-    COLLECTION.PERSONAL,
-    COLLECTION.ACADEMIC,
-    COLLECTION.WORK,
-    COLLECTION.OTHERS,
-  ];
-
-  const addDocumentPromises = collections.map(collectionName =>
-    addDocumentToCollection(userUid, collectionName),
-  );
-
-  await Promise.all(addDocumentPromises);
-
-  await userDocRef(userUid).set({
-    collections: data,
-  });
-}
-const data: CollectionItem[] = [
+const collections: CollectionItem[] = [
   {text: COLLECTION.PERSONAL, number: 1},
   {text: COLLECTION.ACADEMIC, number: 1},
   {text: COLLECTION.WORK, number: 1},
   {text: COLLECTION.OTHERS, number: 1},
 ];
+export async function addDocumentsForUser(userUid: string) {
+  // openRealm();
+  const addDocumentPromises = collections.map(collectionName =>
+    addDocumentToCollection(userUid, collectionName.text),
+  );
+
+  await Promise.all(addDocumentPromises);
+
+  await userDocRef(userUid).set({
+    collections: collections,
+  });
+
+  realm?.write(() => {
+    collections.forEach(collection => {
+      realm?.create('CollectionItem', {
+        text: collection.text,
+        number: collection.number,
+      });
+
+      realm?.create('Note', {
+        title: `Welcome to your ${collection.text} collection!`,
+        desc: DEFAULT_NOTE.DESCRIPTION,
+        createdAt: firestore.FieldValue.serverTimestamp(),
+        collectionName: collection.text,
+      });
+    });
+  });
+}
 
 async function addDocumentToCollection(
   userUid: string,

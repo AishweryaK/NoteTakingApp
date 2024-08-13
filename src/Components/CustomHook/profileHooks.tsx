@@ -7,7 +7,6 @@ import useAuthentication from './authHook';
 import { showAlert } from '../../Common/alert';
 import { NameChangeFormValues } from '../../Screens/Account/account_screen';
 import { FormikHelpers } from 'formik';
-import { userDocRef } from '../../Common/firebaseUtils';
 
 export default function useFirebaseUtils() {
   const dispatch = useReduxDispatch();
