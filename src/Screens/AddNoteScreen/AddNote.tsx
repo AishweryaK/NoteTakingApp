@@ -49,6 +49,8 @@ import ImageHandling from './ImageHandling';
 import useAuthentication from '../../Components/CustomHook/authHook';
 import {profileImgStyles} from '../../Components/ProfileImage/styles';
 import {showStyles} from '../ShowNotes/styles';
+import { useQuery, useRealm } from '@realm/react';
+import { CollectionModel } from '../../Common/database';
 
 const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
   // const [isSaving, setIsSaving] = useState<boolean>(false);
@@ -74,6 +76,9 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
   const richText = useRef<RichEditor>(null);
   const theme = useReduxSelector(state => state.user.theme);
   const colors = getThemeColors(theme);
+  const realm = useRealm();
+  const collectionsModel = useQuery(CollectionModel);
+  const connection = useReduxSelector(state => state.internet.connection);
 
   const {uid, itemTitle, itemDesc, itemID, label, imageUrls} = route.params;
 
@@ -87,18 +92,60 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
     }
   }, [itemTitle, itemDesc, imageUrls]);
 
-  useEffect(() => {
-    const unsubscribe = userDocRef(uid).onSnapshot(snapshot => {
-      if (snapshot.exists) {
-        const userData = snapshot.data();
-        if (userData?.collections) {
-          setCollections(userData.collections);
+  // useEffect(() => {
+  //   const unsubscribe = userDocRef(uid).onSnapshot(snapshot => {
+  //     if (snapshot.exists) {
+  //       const userData = snapshot.data();
+  //       if (userData?.collections) {
+  //         setCollections(userData.collections);
+  //       }
+  //     }
+  //   });
+
+  //   return () => unsubscribe();
+  // }, [uid]);
+
+  useEffect(() => {  
+    const fetchCollections = () => {
+      if (connection) {
+        const unsubscribe = userDocRef(uid).onSnapshot(snapshot => {
+          if (snapshot?.exists) {
+            const userData = snapshot?.data();
+            if (userData && userData.collections) {
+              setCollections(userData.collections);
+            }
+          }
+        });
+        return () => unsubscribe();
+      } else {
+        if (realm && !realm.isClosed) {
+          const validCollections = collectionsModel.filter(item => item.isValid());
+          const localCollections = validCollections.map(item => ({
+            text: item.text,
+            number: item.number,
+          }));
+          setCollections(localCollections);
+  
+          const listener = () => {
+              const updatedCollections = validCollections.map(item => ({
+                text: item.text,
+                number: item.number,
+              }));
+              setCollections(updatedCollections);
+          };
+  
+          collectionsModel.addListener(listener);
+  
+          return () => {
+            collectionsModel.removeListener(listener);
+          };
         }
       }
-    });
+    };
+  
+    fetchCollections();
 
-    return () => unsubscribe();
-  }, [uid]);
+  }, [connection, uid, collectionsModel, realm]);
 
   const handleInsertLink = () => {
     setIsDialogVisible(true);
@@ -191,7 +238,7 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
       setSelectedCollection(existingCollection);
     } else {
       try {
-        setCollection(collections, setCollections, newCollection, uid);
+        setCollection(collections, setCollections, newCollection, uid, connection, realm);
         setSelectedCollection({text: trimmedNewCollection, number: 1});
       } catch (error) {
         console.error(ADDNOTE.ERROR, error);

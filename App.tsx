@@ -10,8 +10,6 @@ import OfflineSign from './src/Components/InternetConn/InternetConn';
 import {useReduxDispatch, useReduxSelector} from './src/Redux/Store/store';
 import {styles} from './src/Common/styles';
 import {THEME} from './src/Constants/strings';
-import {RealmProvider} from '@realm/react';
-import { schemaArray } from './src/Common/database';
 
 function App() {
   const theme = useReduxSelector(state => state.user.theme);
@@ -19,7 +17,7 @@ function App() {
   const [internet, setInternet] = useState<boolean>(false);
   const dispatch = useReduxDispatch();
   const connection = useReduxSelector(state => state.internet.connection);
-
+  console.log("INAPP")
   useEffect(() => {
     const unsubscribe = NetInfo.addEventListener(
       ({isConnected, isInternetReachable}) => {
@@ -33,10 +31,9 @@ function App() {
     );
 
     return unsubscribe;
-  }, [dispatch, internet]);
+  }, [internet]);
 
   return (
-    <RealmProvider>
       <SafeAreaView style={styles(colors).container}>
         <StatusBar
           backgroundColor={colors.BACKGROUND}
@@ -47,7 +44,6 @@ function App() {
           <StackNavigation />
         </NavigationContainer>
       </SafeAreaView>
-     </RealmProvider>
   );
 }
 

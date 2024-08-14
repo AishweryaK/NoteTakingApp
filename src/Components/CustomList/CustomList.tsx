@@ -11,26 +11,130 @@ import {CONSTANTS, CUSTOM_LIST} from '../../Constants/strings';
 import {styles} from './styles';
 import {CollectionItem} from '../../Common/common';
 import {handleDeleteCollection, userDocRef} from '../../Common/firebaseUtils';
+import { useQuery, useRealm } from '@realm/react';
+import { CollectionModel } from '../../Common/database';
 
 const CustomList: FC<HomeProps> = ({navigation}) => {
   const [collections, setCollections] = useState<CollectionItem[]>([]);
+  const connection = useReduxSelector(state => state.internet.connection);
   const user = useReduxSelector(state => state.user);
   const colors = getThemeColors(user.theme);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [collName, setCollName] = useState<string>('');
+  const realm = useRealm();
+  const collectionsModel = useQuery(CollectionModel);
 
-  useEffect(() => {
-    const unsubscribe = userDocRef(user.uid).onSnapshot(snapshot => {
-      if (snapshot?.exists) {
-        const userData = snapshot?.data();
-        if (userData && userData.collections) {
-          setCollections(userData.collections);
+  // useEffect(() => {
+  //   const unsubscribe = userDocRef(user.uid).onSnapshot(snapshot => {
+  //     if (snapshot?.exists) {
+  //       const userData = snapshot?.data();
+  //       if (userData && userData.collections) {
+  //         setCollections(userData.collections);
+  //       }
+  //     }
+  //   });
+  //   return () => unsubscribe();
+  // }, [user.uid]);
+
+  // useEffect(() => {
+  //   if (connection) {
+  //     console.log("CONNECTION")
+  //     const unsubscribe = userDocRef(user.uid).onSnapshot(snapshot => {
+  //       if (snapshot?.exists) {
+  //         const userData = snapshot?.data();
+  //         if (userData && userData.collections) {
+  //           setCollections(userData.collections);
+  //         }
+  //       }
+  //     });
+  //     return () => unsubscribe();
+  //   } else {
+  //     console.log("DISCONNECTION")
+  //     const validCollections = collectionsModel.filter(item => item.isValid());
+  //     const localCollections = validCollections.map(item => ({
+  //       text: item.text,
+  //       number: item.number,
+  //     }));
+  //     setCollections(localCollections);
+  //   }
+  // }, [connection, user.uid, collectionsModel]);
+
+  // useEffect(() => {
+  //   let isMounted = true;
+
+  //   const fetchCollections = () => {
+  //     if (connection) {
+  //       const unsubscribe = userDocRef(user.uid).onSnapshot(snapshot => {
+  //         if (snapshot?.exists && isMounted) {
+  //           const userData = snapshot?.data();
+  //           if (userData && userData.collections) {
+  //             setCollections(userData.collections);
+  //           }
+  //         }
+  //       });
+  //       return () => unsubscribe();
+  //     } else {
+  //       if (realm && !realm.isClosed && isMounted) {
+  //         const validCollections = collectionsModel.filter(item => item.isValid());
+  //         const localCollections = validCollections.map(item => ({
+  //           text: item.text,
+  //           number: item.number,
+  //         }));
+  //         setCollections(localCollections);
+  //       }
+  //     }
+  //   };
+
+  //   fetchCollections();
+
+  //   return () => {
+  //     isMounted = false;
+  //   };
+  // }, [connection, user.uid, collectionsModel, realm]);
+
+
+  useEffect(() => {  
+    const fetchCollections = () => {
+      if (connection) {
+        const unsubscribe = userDocRef(user.uid).onSnapshot(snapshot => {
+          if (snapshot?.exists) {
+            const userData = snapshot?.data();
+            if (userData && userData.collections) {
+              setCollections(userData.collections);
+            }
+          }
+        });
+        return () => unsubscribe();
+      } else {
+        if (realm && !realm.isClosed) {
+          const validCollections = collectionsModel.filter(item => item.isValid());
+          const localCollections = validCollections.map(item => ({
+            text: item.text,
+            number: item.number,
+          }));
+          setCollections(localCollections);
+  
+          const listener = () => {
+              const updatedCollections = validCollections.map(item => ({
+                text: item.text,
+                number: item.number,
+              }));
+              setCollections(updatedCollections);
+          };
+  
+          collectionsModel.addListener(listener);
+  
+          return () => {
+            collectionsModel.removeListener(listener);
+          };
         }
       }
-    });
+    };
+  
+    fetchCollections();
 
-    return () => unsubscribe();
-  }, [user.uid]);
+  }, [connection, user.uid, collectionsModel, realm]);
+  
 
   const handleLongPress = (collName: string) => {
     setCollName(collName);

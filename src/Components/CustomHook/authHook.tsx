@@ -16,15 +16,15 @@ import {addDocumentsForUser} from '../../Common/firebaseUtils';
 import {setLoading} from '../../Redux/Slices/loader';
 import {userDocRef} from '../../Common/firebaseUtils';
 import firestore, {FieldValue} from '@react-native-firebase/firestore';
-import { useRealm } from '@realm/react';
-
+import {useQuery, useRealm} from '@realm/react';
+import {ExampleModel} from '../../Common/database';
 
 export default function useAuthentication() {
-// const realm = useRealm();
+  const realm = useRealm();
+  const hello = useQuery(ExampleModel);
   const dispatch = useReduxDispatch();
 
   const myProvider = useReduxSelector(state => state.user.provider);
-  // const loading = useReduxSelector(state => state.loader.isLoading);
   const {displayName, uid, email, theme} = useReduxSelector(
     state => state.user,
   );
@@ -75,7 +75,7 @@ export default function useAuthentication() {
 
       await user.updateProfile({
         displayName: `${firstName} ${lastName}`,
-        photoURL: photoURL,  //downloadURL from firebase storage
+        photoURL: photoURL, //downloadURL from firebase storage
       });
 
       if (email)
@@ -90,7 +90,17 @@ export default function useAuthentication() {
           }),
         );
 
-      await addDocumentsForUser(user.uid);
+      // realm.write(() => {
+      // realm.create('exampleModel', {
+      //   name: 'qwer',
+      //   type: 'text',
+      // });
+      // realm.deleteAll();
+      // });
+
+      // console.log(hello,"HELLOO")
+
+      await addDocumentsForUser(user.uid, realm);
       // await userDocRef(user.uid).set({
       //   firstName,
       //   lastName,
@@ -200,6 +210,9 @@ export default function useAuthentication() {
         await auth().signOut();
       }
       dispatch(clearUserData());
+      realm.write(() => {
+      realm.deleteAll();
+      });
     } catch (err) {
       console.error(err);
     } finally {
@@ -227,7 +240,7 @@ export default function useAuthentication() {
       );
 
       if (additionalUserInfo && additionalUserInfo.isNewUser) {
-        await addDocumentsForUser(user.uid);
+        await addDocumentsForUser(user.uid, realm);
       }
     } catch (error) {
       handleGoogleError(error);

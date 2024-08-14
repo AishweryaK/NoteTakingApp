@@ -12,7 +12,8 @@ import {
 import {CollectionItem} from './common';
 import {showAlert} from './alert';
 import {NAVIGATION} from '../Constants/navConstants';
-import realm from './database';
+import { UpdateMode } from 'realm';
+// import realm from './database';
 // import realm from './database';
 
 export const userDocRef = (uid: string) => {
@@ -154,8 +155,7 @@ const collections: CollectionItem[] = [
   {text: COLLECTION.WORK, number: 1},
   {text: COLLECTION.OTHERS, number: 1},
 ];
-export async function addDocumentsForUser(userUid: string) {
-  // openRealm();
+export async function addDocumentsForUser(userUid: string, realm: Realm) {
   const addDocumentPromises = collections.map(collectionName =>
     addDocumentToCollection(userUid, collectionName.text),
   );
@@ -166,34 +166,36 @@ export async function addDocumentsForUser(userUid: string) {
     collections: collections,
   });
 
+  async function addDocumentToCollection(
+    userUid: string,
+    collectionName: string,
+  ) {
+    await userDocRef(userUid)
+      .collection(collectionName)
+      .add({
+        title: `Welcome to your ${collectionName} collection!`,
+        desc: DEFAULT_NOTE.DESCRIPTION,
+        createdAt: firestore.FieldValue.serverTimestamp(),
+      });
+  }
+
   realm?.write(() => {
     collections.forEach(collection => {
-      realm?.create('CollectionItem', {
+      realm.create('collections', {
         text: collection.text,
         number: collection.number,
       });
 
-      realm?.create('Note', {
+      realm.create('notes', {
+        _id: (Math.random() * 10).toString(),
         title: `Welcome to your ${collection.text} collection!`,
         desc: DEFAULT_NOTE.DESCRIPTION,
-        createdAt: firestore.FieldValue.serverTimestamp(),
-        collectionName: collection.text,
+        createdAt: new Date(),
+        collection: collection.text,
+        deleted: false,
       });
     });
   });
-}
-
-async function addDocumentToCollection(
-  userUid: string,
-  collectionName: string,
-) {
-  await userDocRef(userUid)
-    .collection(collectionName)
-    .add({
-      title: `Welcome to your ${collectionName} collection!`,
-      desc: DEFAULT_NOTE.DESCRIPTION,
-      createdAt: firestore.FieldValue.serverTimestamp(),
-    });
 }
 
 //Custom List
@@ -251,17 +253,36 @@ export const setCollection = async (
   setCollections: React.Dispatch<React.SetStateAction<CollectionItem[]>>,
   newCollection: string,
   uid: string,
+  connection: boolean,
+  realm: Realm,
 ) => {
   const updatedCollections = [
     ...collections,
     {text: newCollection.trim(), number: 0},
   ];
-  await userDocRef(uid).set(
-    {
-      collections: updatedCollections,
-    },
-    {merge: true},
-  );
+  if(connection) {
+    await userDocRef(uid).set(
+      {
+        collections: updatedCollections,
+      },
+      {merge: true},
+    );
+  }
+  else 
+  {
+    realm.write(() => {
+      realm.create(
+        'collections',
+        {
+          ...collections,
+          text: newCollection.trim(), 
+          number: 0,
+        },
+        UpdateMode.Modified,
+      );
+    });
+  }
+
   setCollections(updatedCollections);
 };
 
