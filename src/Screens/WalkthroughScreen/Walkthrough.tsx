@@ -28,7 +28,7 @@ const Walkthrough = ({navigation}: WalkthroughScreenProps) => {
 
       <Image
         source={IMAGES.DIARY}
-        style={styles(colors).img as StyleProp<ImageStyle>}
+        style={styles(colors).img}
       />
 
       <Text style={styles(colors).txt}>{WLKTHROUGH.SAVE_NOTES}</Text>

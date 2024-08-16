@@ -15,24 +15,22 @@ import {NAVIGATION} from '../../Constants/navConstants';
 import {HomeProps} from '../../Navigation/routeTypes';
 import {HOME, IMAGES} from '../../Constants/strings';
 import { useQuery } from '@realm/react';
-import { CollectionModel, ExampleModel, NotesModel } from '../../Common/database';
-// import realm from '../../Common/database';
-// import realm from '../../Common/database';
+import { CollectionModel, NotesModel } from '../../Common/database';
 
 function Home({navigation}: HomeProps) {
   const user = useReduxSelector(state => state.user);
   const colors = getThemeColors(user.theme);
-  const hello = useQuery(ExampleModel);
   const notes = useQuery(NotesModel);
   const collections = useQuery(CollectionModel)
-  const data = useMemo(
-    () => [
-      ...hello.filter(item => item.type === 'text'),
-    ],
-    [hello],
-  );
-  console.log(data,"THSISDATA")
-  console.log(hello,"HELLO")
+  // const hello = useQuery(NotesModel)
+  // const data = useMemo(
+  //   () => [
+  //     ...hello.filter(item => item.collection === 'Academic'),
+  //   ],
+  //   [hello],
+  // );
+
+  // console.log(data,"notesDATAAA")
   console.log(notes,"notes")
   console.log(collections,"collections")
 

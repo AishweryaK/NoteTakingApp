@@ -149,15 +149,70 @@ export const deleteNote = async (
 
 //Custom Hook
 
+// const collections: CollectionItem[] = [
+//   {text: COLLECTION.PERSONAL, number: 1},
+//   {text: COLLECTION.ACADEMIC, number: 1},
+//   {text: COLLECTION.WORK, number: 1},
+//   {text: COLLECTION.OTHERS, number: 1},
+// ];
+// export async function addDocumentsForUser(userUid: string, realm: Realm) {
+//   const addDocumentPromises = collections.map(collectionName =>
+//     addDocumentToCollection(userUid, collectionName.text),
+//   );
+
+//   await Promise.all(addDocumentPromises);
+
+//   await userDocRef(userUid).set({
+//     collections: collections,
+//   });
+
+//   async function addDocumentToCollection(
+//     userUid: string,
+//     collectionName: string,
+//   ) {
+//     await userDocRef(userUid)
+//       .collection(collectionName)
+//       .add({
+//         title: `Welcome to your ${collectionName} collection!`,
+//         desc: DEFAULT_NOTE.DESCRIPTION,
+//         createdAt: firestore.FieldValue.serverTimestamp(),
+//       });
+//   }
+
+//   realm?.write(() => {
+//     collections.forEach(collection => {
+//       realm.create('collections', {
+//         text: collection.text,
+//         number: collection.number,
+//       });
+
+//       realm.create('notes', {
+//         _id: (Math.random() * 10).toString(),
+//         title: `Welcome to your ${collection.text} collection!`,
+//         desc: DEFAULT_NOTE.DESCRIPTION,
+//         createdAt: new Date(),
+//         collection: collection.text,
+//         deleted: false,
+//       });
+//     });
+//   });
+// }
+
 const collections: CollectionItem[] = [
-  {text: COLLECTION.PERSONAL, number: 1},
-  {text: COLLECTION.ACADEMIC, number: 1},
-  {text: COLLECTION.WORK, number: 1},
-  {text: COLLECTION.OTHERS, number: 1},
+  { text: COLLECTION.PERSONAL, number: 1 },
+  { text: COLLECTION.ACADEMIC, number: 1 },
+  { text: COLLECTION.WORK, number: 1 },
+  { text: COLLECTION.OTHERS, number: 1 },
 ];
+
+const generateFirestoreId = (userUid: string, collectionName: string) => {
+  const newDocRef = userDocRef(userUid).collection(collectionName).doc();
+  return newDocRef.id;
+};
+
 export async function addDocumentsForUser(userUid: string, realm: Realm) {
-  const addDocumentPromises = collections.map(collectionName =>
-    addDocumentToCollection(userUid, collectionName.text),
+  const addDocumentPromises = collections.map(collection =>
+    addDocumentToCollection(userUid, collection.text, collection.number),
   );
 
   await Promise.all(addDocumentPromises);
@@ -169,33 +224,35 @@ export async function addDocumentsForUser(userUid: string, realm: Realm) {
   async function addDocumentToCollection(
     userUid: string,
     collectionName: string,
+    collectionNumber: number,
   ) {
+    const noteId = generateFirestoreId(userUid, collectionName); 
+
     await userDocRef(userUid)
       .collection(collectionName)
-      .add({
+      .doc(noteId)
+      .set({
         title: `Welcome to your ${collectionName} collection!`,
         desc: DEFAULT_NOTE.DESCRIPTION,
         createdAt: firestore.FieldValue.serverTimestamp(),
       });
-  }
 
-  realm?.write(() => {
-    collections.forEach(collection => {
+    realm?.write(() => {
       realm.create('collections', {
-        text: collection.text,
-        number: collection.number,
+        text: collectionName,
+        number: collectionNumber,
       });
 
       realm.create('notes', {
-        _id: (Math.random() * 10).toString(),
-        title: `Welcome to your ${collection.text} collection!`,
+        _id: noteId,
+        title: `Welcome to your ${collectionName} collection!`,
         desc: DEFAULT_NOTE.DESCRIPTION,
         createdAt: new Date(),
-        collection: collection.text,
+        collection: collectionName,
         deleted: false,
       });
     });
-  });
+  }
 }
 
 //Custom List

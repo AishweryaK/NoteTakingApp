@@ -157,8 +157,6 @@
 
 // Realm.deleteFile({ path: '/data/data/com.chicmic.notetaking/files/default.realm' });
 
-
-
 import Realm, {ObjectSchema} from 'realm';
 
 export class CollectionModel extends Realm.Object {
@@ -167,6 +165,7 @@ export class CollectionModel extends Realm.Object {
 
   static schema: ObjectSchema = {
     name: 'collections',
+    primaryKey: 'text',
     properties: {
       text: 'string',
       number: 'int',
@@ -198,17 +197,17 @@ export class NotesModel extends Realm.Object {
   };
 }
 
-export class ExampleModel extends Realm.Object {
-  name!: string;
-  type!: string;
-  static readonly schema: ObjectSchema = {
-    name: 'exampleModel',
-    properties: {
-      name: 'string',
-      type: 'string',
-    },
-  };
-}
+// export class ExampleModel extends Realm.Object {
+//   name!: string;
+//   type!: string;
+//   static readonly schema: ObjectSchema = {
+//     name: 'exampleModel',
+//     properties: {
+//       name: 'string',
+//       type: 'string',
+//     },
+//   };
+// }
 
 // export const schemaArray = [CollectionItemSchema, NoteSchema];
 

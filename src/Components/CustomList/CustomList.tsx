@@ -101,6 +101,7 @@ const CustomList: FC<HomeProps> = ({navigation}) => {
             const userData = snapshot?.data();
             if (userData && userData.collections) {
               setCollections(userData.collections);
+
             }
           }
         });
@@ -134,6 +135,24 @@ const CustomList: FC<HomeProps> = ({navigation}) => {
     fetchCollections();
 
   }, [connection, user.uid, collectionsModel, realm]);
+
+  useEffect(() => {
+    if (realm && !realm.isClosed && collections.length > 0) {
+      realm?.write(() => {
+        collections.forEach(collection => {
+          const existingCollection = realm.objectForPrimaryKey('collections', collection.text);
+          if (!existingCollection) {
+            realm.create('collections', {
+              text: collection.text,
+              number: collection.number,
+            });
+          } else if(existingCollection.number !== collection.number) {
+            existingCollection.number = collection.number;
+          }
+        });
+      });
+    }
+  }, [collections]);  
   
 
   const handleLongPress = (collName: string) => {

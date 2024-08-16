@@ -41,11 +41,14 @@ import Chartboost from './InterstitialAdIos';
 import {getChildrenStyle, showStyles} from './styles';
 import {inputStyles} from '../../Components/CustomInput/styles';
 import {homeStyles} from '../HomeScreen/homeStyle';
+import {useQuery, useRealm} from '@realm/react';
+import {NotesModel} from '../../Common/database';
 
 const BannerModule = NativeModules.BannerModule; //android
 const InterstitialModule = NativeModules.InterstitialModule; //android
 
 const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
+  const {uid, itemText} = route.params;
   const [notes, setNotes] = useState<Note[]>([]);
   const [fullNotes, setFullNotes] = useState<Note[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -53,9 +56,15 @@ const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
   const [dialogVisible, setDialogVisible] = useState<boolean>(false);
   const [itemUid, setItemUid] = useState<string | null>(null);
   const theme = useReduxSelector(state => state.user.theme);
+  const connection = useReduxSelector(state => state.internet.connection);
   const colors = getThemeColors(theme);
-  const {uid, itemText} = route.params;
+  const realm = useRealm();
+  const realmNotes = useQuery(NotesModel, dbNotes =>
+    dbNotes.filtered('collection == $0', itemText),
+  );
 
+  console.log(realmNotes,"REALMNOTES");
+  
   useEffect(() => {
     if (Platform.OS === CONSTANTS.ANDROID) {
       InterstitialModule.showInterstitialAd();
@@ -89,24 +98,75 @@ const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
     }
   }, []);
 
-  useEffect(() => {
-    const unsubscribe = userDocRef(uid)
-      .collection(itemText)
-      .orderBy(SHOW_NOTES.CREATED_AT, 'desc')
-      .onSnapshot(snapshot => {
-        const notesData: Note[] = [];
-        snapshot.forEach(docSnapshot => {
-          notesData.push({
-            ...docSnapshot.data(),
-            id: docSnapshot.id,
-          } as Note);
-        });
-        setNotes(notesData);
-        setFullNotes(notesData);
-      });
+  // useEffect(() => {
+  //   const unsubscribe = userDocRef(uid)
+  //     .collection(itemText)
+  //     .orderBy(SHOW_NOTES.CREATED_AT, 'desc')
+  //     .onSnapshot(snapshot => {
+  //       const notesData: Note[] = [];
+  //       snapshot.forEach(docSnapshot => {
+  //         notesData.push({
+  //           ...docSnapshot.data(),
+  //           id: docSnapshot.id,
+  //         } as Note);
+  //       });
+  //       setNotes(notesData);
+  //       setFullNotes(notesData);
+  //     });
 
-    return () => unsubscribe();
-  }, [uid, itemText]);
+  //   return () => unsubscribe();
+  // }, [uid, itemText]);
+
+  useEffect(() => {
+    const fetchNotes = () => {
+      if (connection) {
+        const unsubscribe = userDocRef(uid)
+          .collection(itemText)
+          .orderBy(SHOW_NOTES.CREATED_AT, 'desc')
+          .onSnapshot(snapshot => {
+            const notesData: Note[] = [];
+            snapshot.forEach(docSnapshot => {
+              notesData.push({
+                ...docSnapshot.data(),
+                id: docSnapshot.id,
+              } as Note);
+            });
+            setNotes(notesData);
+            setFullNotes(notesData);
+          });
+
+        return () => unsubscribe();
+      } else {
+        if (realm && !realm.isClosed) {
+          const validNotes = realmNotes.filter(item => item.isValid());
+          const localNotes = validNotes.map(item => ({
+            id: item._id,
+            title: item.title,
+            desc: item.desc,
+            imageUrls: item.imageUrls,
+          }));
+          setNotes(localNotes as Note[]);
+
+          const listener = () => {
+            const updatedNotes = validNotes.map(item => ({
+              id: item._id,
+              title: item.title,
+              desc: item.desc,
+              imageUrls: item.imageUrls,
+            }));
+            setNotes(updatedNotes as Note[]);
+          };
+
+          realmNotes.addListener(listener);
+
+          return () => {
+            realmNotes.removeListener(listener);
+          };
+        }
+      }
+    };
+    fetchNotes();
+  }, [uid, itemText, connection, realm, realmNotes]);
 
   useLayoutEffect(() => {
     navigation.setOptions({

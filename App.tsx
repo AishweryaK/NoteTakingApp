@@ -17,7 +17,7 @@ function App() {
   const [internet, setInternet] = useState<boolean>(false);
   const dispatch = useReduxDispatch();
   const connection = useReduxSelector(state => state.internet.connection);
-  console.log("INAPP")
+
   useEffect(() => {
     const unsubscribe = NetInfo.addEventListener(
       ({isConnected, isInternetReachable}) => {

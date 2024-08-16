@@ -17,11 +17,10 @@ import {setLoading} from '../../Redux/Slices/loader';
 import {userDocRef} from '../../Common/firebaseUtils';
 import firestore, {FieldValue} from '@react-native-firebase/firestore';
 import {useQuery, useRealm} from '@realm/react';
-import {ExampleModel} from '../../Common/database';
+import { CollectionItem } from '../../Common/common';
 
 export default function useAuthentication() {
   const realm = useRealm();
-  const hello = useQuery(ExampleModel);
   const dispatch = useReduxDispatch();
 
   const myProvider = useReduxSelector(state => state.user.provider);
@@ -30,11 +29,11 @@ export default function useAuthentication() {
   );
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const signInCall = async ({email, password}: SignInProps) => {
+  const signInCall = async ({ email, password }: SignInProps) => {
     setIsLoading(true);
     try {
-      const {user}: {user: FirebaseAuthTypes.User} =
-        await auth().signInWithEmailAndPassword(email, password);
+      const { user } = await auth().signInWithEmailAndPassword(email, password);
+  
       if (user) {
         dispatch(
           saveUser({
@@ -46,6 +45,52 @@ export default function useAuthentication() {
             theme,
           }),
         );
+  
+        const userDoc = await userDocRef(user.uid).get();
+        if (userDoc.exists) {
+          const userData = userDoc.data();
+          const collections = userData?.collections || [];
+
+          const notesData = await Promise.all(
+            collections.map(async (collection : CollectionItem) => {
+              const label = collection.text;
+  
+              try {
+                const notesSnapshot = await userDocRef(user.uid).collection(label).get();
+  
+                if (!notesSnapshot.empty) {
+                  const notes = notesSnapshot.docs.map(doc => ({
+                    ...doc.data(),
+                    _id: doc.id,
+                    collection: label,
+                  }));
+                  return notes;
+                } else {
+                  return [];
+                }
+              } catch (error) {
+                console.error(`Error fetching notes for ${label}:`, error);
+                return []; 
+              }
+            })
+          );
+ 
+          const allNotes = notesData.flat();
+  
+          realm.write(() => {
+            allNotes.forEach(note => {
+              realm.create('notes', {
+                _id: note._id,
+                title: note.title || '',
+                desc: note.desc || '',
+                createdAt: note.createdAt.toDate(),
+                collection: note.collection,
+                deleted: false,
+                imageUrls: note.imageUrls || [],
+              });
+            });
+          });
+        } 
       }
     } catch (e) {
       const context = TITLE.LOGIN;
@@ -54,7 +99,14 @@ export default function useAuthentication() {
       setIsLoading(false);
     }
   };
+  
+  
+  
 
+
+
+
+  
   const signUpCall = async ({
     email,
     password,
@@ -75,7 +127,7 @@ export default function useAuthentication() {
 
       await user.updateProfile({
         displayName: `${firstName} ${lastName}`,
-        photoURL: photoURL, //downloadURL from firebase storage
+        photoURL: photoURL,
       });
 
       if (email)
@@ -89,16 +141,6 @@ export default function useAuthentication() {
             theme,
           }),
         );
-
-      // realm.write(() => {
-      // realm.create('exampleModel', {
-      //   name: 'qwer',
-      //   type: 'text',
-      // });
-      // realm.deleteAll();
-      // });
-
-      // console.log(hello,"HELLOO")
 
       await addDocumentsForUser(user.uid, realm);
       // await userDocRef(user.uid).set({
@@ -211,7 +253,7 @@ export default function useAuthentication() {
       }
       dispatch(clearUserData());
       realm.write(() => {
-      realm.deleteAll();
+        realm.deleteAll();
       });
     } catch (err) {
       console.error(err);
