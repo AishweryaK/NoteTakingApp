@@ -126,6 +126,12 @@ StyleSheet.create({
   cancelButton:{
     backgroundColor: colors.CANCEL, 
     borderRadius: 10 
+  },
+  align:{
+    alignItems:'center'
+  },
+  justify:{
+    justifyContent:'center'
   }
 });
 

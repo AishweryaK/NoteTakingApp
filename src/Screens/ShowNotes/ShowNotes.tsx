@@ -43,6 +43,7 @@ import {inputStyles} from '../../Components/CustomInput/styles';
 import {homeStyles} from '../HomeScreen/homeStyle';
 import {useQuery, useRealm} from '@realm/react';
 import {NotesModel} from '../../Common/database';
+import {UpdateMode} from 'realm';
 
 const BannerModule = NativeModules.BannerModule; //android
 const InterstitialModule = NativeModules.InterstitialModule; //android
@@ -59,12 +60,13 @@ const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
   const connection = useReduxSelector(state => state.internet.connection);
   const colors = getThemeColors(theme);
   const realm = useRealm();
-  const realmNotes = useQuery(NotesModel, dbNotes =>
-    dbNotes.filtered('collection == $0', itemText),
-  );
+  // const realmNotes = useQuery(NotesModel, dbNotes =>
+  //   dbNotes.filtered('collection == $0', itemText),
+  // );
+  const realmNotes = useQuery(NotesModel).filtered(`collection=="${itemText}"`);
 
-  console.log(realmNotes,"REALMNOTES");
-  
+  console.log(realmNotes, 'REALMNOTES');
+
   useEffect(() => {
     if (Platform.OS === CONSTANTS.ANDROID) {
       InterstitialModule.showInterstitialAd();
@@ -135,6 +137,16 @@ const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
             setFullNotes(notesData);
           });
 
+        // realm.write(() => {
+        //   realm.create(
+        //     'notes',
+        //     {
+        //       ...notes,
+        //     },
+        //     UpdateMode.Modified,
+        //   );
+        // });
+
         return () => unsubscribe();
       } else {
         if (realm && !realm.isClosed) {
@@ -166,7 +178,7 @@ const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
       }
     };
     fetchNotes();
-  }, [uid, itemText, connection, realm, realmNotes]);
+  }, [uid, itemText, connection]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -311,7 +323,7 @@ const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
         numColumns={2}
         animationType="NONE"
       />
-      <View style={{alignItems: 'center'}}>
+      <View style={showStyles(colors).align}>
         <View
           style={[
             homeStyles(colors).buttonShadow,
@@ -320,7 +332,7 @@ const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
           <TouchableOpacity
             style={showStyles(colors).button}
             onPress={handleAddNote}>
-            <View style={{justifyContent: 'center'}}>{ICONS.ADD(30, 30)}</View>
+            <View style={showStyles(colors).justify}>{ICONS.ADD(30, 30)}</View>
             <Text
               style={[
                 homeStyles(colors).buttonText,
@@ -329,7 +341,7 @@ const NotesScreen: React.FC<NoteScreenProps> = ({route, navigation}) => {
               {SHOW_NOTES.NEW_NOTES}
             </Text>
           </TouchableOpacity>
-        </View>
+        </View> 
       </View>
       <Modal visible={modalVisible} transparent={true} animationType="slide">
         <View style={showStyles(colors).modalBackground}>

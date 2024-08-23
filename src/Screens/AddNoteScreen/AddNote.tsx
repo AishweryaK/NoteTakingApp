@@ -53,7 +53,6 @@ import { useQuery, useRealm } from '@realm/react';
 import { CollectionModel } from '../../Common/database';
 
 const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
-  // const [isSaving, setIsSaving] = useState<boolean>(false);
   const {isLoading} = useReduxSelector(state => state.loader);
   const [title, setTitle] = useState<string>('');
   const [desc, setDesc] = useState<string>('');
@@ -181,7 +180,6 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
   };
 
   const saveNote = async () => {
-    // setIsSaving(true);
     const strippedDesc = stripHtmlTags(desc);
 
     if (
@@ -194,19 +192,25 @@ const AddNote: React.FC<AddNoteScreenProps> = ({route, navigation}) => {
       return;
     }
     try {
+      if(connection){
       if (itemID && label) {
         updateNote(uid, label, itemID, title, desc, imageArray);
-      } else if (label) {
+      } 
+      else if (label) {
         saveNoteLabel(uid, label, title, desc, imageArray);
         updateCollectionCount(uid, label, CONSTANTS.INCREMENT);
       } else {
-        saveNoteNew(uid, selectedCollection, title, desc, imageArray);
+        // saveNoteNew(uid, selectedCollection, title, desc, imageArray);
+        saveNoteLabel(uid, selectedCollection.text, title, desc, imageArray)
         updateCollectionCount(
           uid,
           selectedCollection.text,
           CONSTANTS.INCREMENT,
         );
       }
+    }
+
+    
 
       setTitle('');
       setDesc('');
